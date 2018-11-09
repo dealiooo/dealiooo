@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+// Modify Bulma's global variables
+$family-sans-serif: 'Georgia';
+
+// Import only what you need from Bulma,
+// for convenience, import everything
+@import '~bulma/bulma.sass';
