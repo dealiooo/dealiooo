@@ -1,0 +1,20 @@
+.chatPlaceholder {
+  height: 60%;
+  width: 100%;
+}
+
+.buttons {
+  height: 20%;
+}
+
+.buttons .startButton {
+  float: left;
+}
+
+.buttons .readyButton {
+  margin: 0 auto;
+}
+
+.buttons .exitButton {
+  float: right;
+}
