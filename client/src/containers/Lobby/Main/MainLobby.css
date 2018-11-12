@@ -1,0 +1,19 @@
+.gameLobby {
+  float: left;
+  height: 100%;
+  width: 60%;
+}
+
+.gameLobby .gameLobbyList {
+  height: 80%;
+}
+
+.gameLobby .createButton {
+  height: 20%;
+}
+
+.chatPlaceholder {
+  float: right;
+  height: 100%;
+  width: 40%;
+}
