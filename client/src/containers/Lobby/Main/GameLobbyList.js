@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
 import GameLobbyListItem from './GameLobbyListItem';
 
+import Box from 'react-bulma-components/lib/components/box';
+
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
-import './GameLobbyList.css';
 
 class GameLobbyList extends Component {
   componentDidMount() {
-    const ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
+    this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
+  }
+
+  componentDidUpdate(prevProps) {
+    this.ps.update();
   }
 
   render() {
@@ -18,7 +23,7 @@ class GameLobbyList extends Component {
         return <GameLobbyListItem key={gameLobby.id} gameLobby={gameLobby} />;
       });
     }
-    return <div className="gameLobbyList">{gameLobbyListItems}</div>;
+    return <Box>{gameLobbyListItems}</Box>;
   }
 }
 
