@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/sfsu-csc-667-fall-2018/term-project-team-h#readme",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "debug": "^4.1.0",
     "dotenv": "^6.1.0",
