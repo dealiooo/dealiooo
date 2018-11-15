@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/www",
-    "start:dev": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
+    "start:dev": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server\"",
+    "start:dev:client": "cd client && npm run start",
+    "start:dev:server": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
     "db:create:migration": "sequelize migration:generate --name",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo",
@@ -32,6 +34,7 @@
   "homepage": "https://github.com/sfsu-csc-667-fall-2018/term-project-team-h#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "concurrently": "^4.0.1",
     "debug": "^4.1.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
