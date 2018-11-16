@@ -1,10 +1,15 @@
 const db = require('./models');
+const sessions = require('./models/sessions');
 const th_cards_model = require('./models/th_cards');
 const th_users_model = require('./models/th_users');
 const th_games_model = require('./models/th_games');
 const th_game_users_model = require('./models/th_game_users');
 const th_game_user_cards_model = require('./models/th_game_user_cards');
 
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 10;
+
+const Sessions = sessions(db.sequelize, db.Sequelize);
 const Cards = th_cards_model(db.sequelize, db.Sequelize);
 const Users = th_users_model(db.sequelize, db.Sequelize);
 const Games = th_games_model(db.sequelize, db.Sequelize);
@@ -13,6 +18,7 @@ const GameUserCards = th_game_user_cards_model(db.sequelize, db.Sequelize);
 
 const _db = {};
 
+_db.Sessions = Sessions;
 _db.Cards = Cards;
 _db.Users = Users;
 _db.Games = Games;
@@ -25,11 +31,15 @@ _db.insert_user = function(_username, _email, _password) {
       logging: false
     })
     .then(() => {
-      return _db.Users.create({
-        name: _username,
-        email: _email,
-        password: _password
-      })
+      return bcrypt
+        .hash(_password, SALT_ROUNDS)
+        .then(hash =>
+          _db.Users.create({
+            name: _username,
+            email: _email,
+            password: hash
+          })
+        )
         .then(_ => {
           return _.dataValues.name;
         })
@@ -37,6 +47,24 @@ _db.insert_user = function(_username, _email, _password) {
           console.log(error);
           return false;
         });
+    });
+};
+
+_db.find_user_by_email = function(_email) {
+  return Users.findOne({ where: { email: _email } })
+    .then(result => result)
+    .catch(error => {
+      console.log(error);
+      return false;
+    });
+};
+
+_db.find_user_by_id = function(_id) {
+  return Users.findOne({ where: { id: _id } })
+    .then(result => result)
+    .catch(error => {
+      console.log(error);
+      return false;
     });
 };
 
