@@ -10,7 +10,7 @@ class GameLobbyListItem extends Component {
     let playerList = this.props.gameLobby.playerList.map(playerName => {
       return (
         <li>
-          <Tag className="is-pulled-left">{playerName}</Tag>
+          <Tag>{playerName}</Tag>
         </li>
       );
     });
