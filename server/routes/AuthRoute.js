@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const authenticate = require('../authentication/authenticate');
+const requireAuthentication = require('../authentication/requireAuthentication');
 const dummyAccount = require('./dummyAccount');
 router.get('/register', dummyAccount, (request, response) => {
   console.log(
@@ -9,7 +9,7 @@ router.get('/register', dummyAccount, (request, response) => {
   response.send('on register page <-- shouldnt happen');
 });
 
-router.get('/main-lobby', authenticate, (request, response) => {
+router.get('/main-lobby', requireAuthentication, (request, response) => {
   response.send('auth success');
 });
 
