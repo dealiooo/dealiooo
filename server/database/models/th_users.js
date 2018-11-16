@@ -1,8 +1,8 @@
 'use strict';
-
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('th_users', {
+module.exports = (sequelize, Sequelize) => {
+  return sequelize.define(
+    'th_users',
+    {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -14,16 +14,22 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isEmail: true
+        },
+        unique: {
+          args: true,
+          msg: 'Email address already in use!'
+        }
       },
       password: {
         type: Sequelize.STRING,
         allowNull: false
       }
-    });
-  },
-
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('th_users');
-  }
+    },
+    {
+      timestamps: false
+    }
+  );
 };
