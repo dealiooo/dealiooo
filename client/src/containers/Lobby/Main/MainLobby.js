@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import GameLobbyList from './GameLobbyList';
+import ChatLog from '../../../components/Chat/ChatLog';
+import ChatInput from '../../../components/Chat/ChatInput';
 
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
@@ -23,7 +25,10 @@ class MainLobby extends Component {
             />
             <Button className="is-large">Create</Button>
           </Columns.Column>
-          <Columns.Column>Chat goes here</Columns.Column>
+          <Columns.Column>
+            <ChatLog />
+            <ChatInput />
+          </Columns.Column>
         </Columns>
       </Box>
     );
