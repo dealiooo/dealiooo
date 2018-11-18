@@ -1,4 +1,4 @@
-const requireAuthentication = (request, response, next) => {
+const require_authentication = (request, response, next) => {
   if (request.isAuthenticated()) {
     response.locals.user = request.user;
     next();
@@ -7,4 +7,4 @@ const requireAuthentication = (request, response, next) => {
   }
 };
 
-module.exports = requireAuthentication;
+module.exports = require_authentication;

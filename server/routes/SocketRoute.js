@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { io } = require('../sockets');
-const requireAuthentication = require('../authentication/requireAuthentication');
+const requireAuthentication = require('./middlewares/require_authentication');
 const db = require('../database');
 
 router.post('/chat/:room_id', requireAuthentication, (request, response) => {
