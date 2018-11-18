@@ -5,10 +5,6 @@ const db = require('../database');
 
 router.post('/register', empty_strings_to_null, (request, response) => {
   const { name, email, password } = request.body;
-  console.log('Register:');
-  console.log(name);
-  console.log(email);
-  console.log(password);
   db.insert_user(name, email, password)
     .then(user =>
       request.login(user, error => {
