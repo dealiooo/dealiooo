@@ -8,8 +8,9 @@ import {
   Input
 } from 'react-bulma-components/lib/components/form';
 
-class Login extends Component {
+class Register extends Component {
   state = {
+    name: '',
     email: '',
     password: ''
   };
@@ -26,6 +27,17 @@ class Login extends Component {
     return (
       <Box>
         <form onSubmit={this.onSubmit}>
+          <Field>
+            <Control>
+              <Input
+                name="name"
+                type="text"
+                onChange={this.onChange}
+                value={this.state.name}
+                placeholder="Type your in-game name"
+              />
+            </Control>
+          </Field>
           <Field>
             <Control>
               <Input
@@ -59,4 +71,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;
