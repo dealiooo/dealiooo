@@ -1,5 +1,5 @@
 const io = require('socket.io')();
-const session = require('../config/session');
+const session = require('../database/config/session');
 
 const init = server => {
   io.use(({ request }, next) => {

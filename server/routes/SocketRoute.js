@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { io } = require('../socket');
+const { io } = require('../sockets');
 const requireAuthentication = require('../authentication/requireAuthentication');
 const db = require('../database');
 
