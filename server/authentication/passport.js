@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const db = require('../database');
 
 const checkPassword = function(user, password) {
-  bcrypt.compare(password, user.dataValues.password).then(isEqual => {
+  bcrypt.compare(password, user.password).then(isEqual => {
     if (isEqual) {
       return user;
     }
@@ -13,7 +13,6 @@ const checkPassword = function(user, password) {
 };
 
 const verifyCallback = (username, password, done) => {
-  console.log(' verify ');
   db.find_user_by_email(username)
     .then(user => {
       if (user) {
@@ -35,7 +34,15 @@ passport.deserializeUser((_id, done) => {
     .catch(error => done(error, {}));
 });
 
-passport.use(new LocalStrategy(verifyCallback));
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password'
+    },
+    verifyCallback
+  )
+);
 
 const authSettings = {
   successRedirect: '/main-lobby',
