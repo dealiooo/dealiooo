@@ -33,7 +33,7 @@ class Register extends Component {
           this.setState({ modal_message: result.error.errors[0].message });
           this.setState({ modal_display: true });
         } else {
-          window.location = '/login';
+          window.location = '/main-lobby';
         }
       });
   };
