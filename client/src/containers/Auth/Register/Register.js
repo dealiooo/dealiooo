@@ -7,12 +7,17 @@ import {
   Field,
   Input
 } from 'react-bulma-components/lib/components/form';
+import Modal from 'react-bulma-components/lib/components/modal';
+import Section from 'react-bulma-components/lib/components/section';
+import api from '../../../api';
 
 class Register extends Component {
   state = {
     name: '',
     email: '',
-    password: ''
+    password: '',
+    modal_display: false,
+    modal_message: ''
   };
 
   onChange = event => {
@@ -20,12 +25,41 @@ class Register extends Component {
   };
 
   onSubmit = event => {
-    // fetch here
+    event.preventDefault();
+    api
+      .register(this.state.name, this.state.email, this.state.password)
+      .then(result => {
+        if (result.error) {
+          this.setState({ modal_message: result.error.errors[0].message });
+          this.setState({ modal_display: true });
+        } else {
+          window.location = '/login';
+        }
+      });
+  };
+
+  onModalClick = event => {
+    this.setState({ modal_display: false });
   };
 
   render() {
     return (
       <Box>
+        <Modal
+          show={this.state.modal_display}
+          onClose={this.onModalClick}
+          closeOnEsc={true}
+          closeOnBlur={true}
+        >
+          <Modal.Content
+            style={{ backgroundColor: 'white' }}
+            onClick={this.onModalClick}
+          >
+            <Section className="has-text-centered has-text-danger is-size-4">
+              {this.state.modal_message}
+            </Section>
+          </Modal.Content>
+        </Modal>
         <form onSubmit={this.onSubmit}>
           <Field>
             <Control>
