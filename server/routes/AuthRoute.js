@@ -5,7 +5,6 @@ const db = require('../database');
 router.post('/register', (request, response) => {
   const { name, email, password } = request.body;
   db.insert_user(name, email, password)
-    .then(_ => db.find_user_by_email(email))
     .then(user =>
       request.login(user, error => {
         if (error) {
@@ -13,7 +12,8 @@ router.post('/register', (request, response) => {
         }
         return response.json({ user });
       })
-    );
+    )
+    .catch(error => response.json({ error }));
 });
 
 router.post('/forgot-password', (request, response) => {
@@ -24,7 +24,9 @@ router.post('/forgot-password', (request, response) => {
 
 router.post('/new-password', (request, response, next) => {
   const { email, password } = request.body;
-  db.update_password(email, password).then(_ => response.sendStatus(200));
+  db.update_password(email, password)
+    .then(_ => response.sendStatus(200))
+    .catch(error => response.json({ error }));
 });
 
 router.post('/login', requireAuthentication);

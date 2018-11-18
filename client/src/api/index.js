@@ -3,8 +3,6 @@ const website = 'localhost';
 const port_num = ':8000';
 
 const check_status = response => {
-  console.log('check_status');
-  console.log(response);
   if (response.ok) {
     return response;
   }

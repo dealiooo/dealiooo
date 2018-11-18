@@ -31,41 +31,22 @@ _db.insert_user = function(_username, _email, _password) {
       logging: false
     })
     .then(() => {
-      return bcrypt
-        .hash(_password, SALT_ROUNDS)
-        .then(hash =>
-          _db.Users.create({
-            name: _username,
-            email: _email,
-            password: hash
-          })
-        )
-        .then(_ => {
-          return _.dataValues.name;
+      return bcrypt.hash(_password, SALT_ROUNDS).then(hash =>
+        _db.Users.create({
+          name: _username,
+          email: _email,
+          password: hash
         })
-        .catch(error => {
-          console.log(error);
-          return false;
-        });
+      );
     });
 };
 
 _db.find_user_by_email = function(_email) {
-  return Users.findOne({ where: { email: _email } })
-    .then(result => result)
-    .catch(error => {
-      console.log(error);
-      return false;
-    });
+  return Users.findOne({ where: { email: _email } });
 };
 
 _db.find_user_by_id = function(_id) {
-  return Users.findOne({ where: { id: _id } })
-    .then(result => result)
-    .catch(error => {
-      console.log(error);
-      return false;
-    });
+  return Users.findOne({ where: { id: _id } });
 };
 
 _db.update_password = function(_email, _new_password) {
@@ -83,14 +64,7 @@ _db.update_password = function(_email, _new_password) {
             email: _email
           }
         }
-      )
-        .then(_ => {
-          return true;
-        })
-        .catch(error => {
-          console.log(error);
-          return false;
-        });
+      );
     });
 };
 
@@ -100,20 +74,12 @@ _db.insert_game = function(_user_id) {
       logging: false
     })
     .then(() => {
-      return _db.Games.create({})
-        .then(_ => {
-          _db.GameUsers.create({
-            th_game_id: _.dataValues.id,
-            th_user_id: _user_id
-          });
-        })
-        .then(_ => {
-          return _.dataValues.th_game_id;
-        })
-        .catch(error => {
-          console.log(error);
-          return false;
+      return _db.Games.create({}).then(_ => {
+        _db.GameUsers.create({
+          th_game_id: _.dataValues.id,
+          th_user_id: _user_id
         });
+      });
     });
 };
 
@@ -127,23 +93,16 @@ _db.join_game = function(_game_id, _user_id) {
         where: {
           th_game_id: _game_id
         }
-      })
-        .then(result => {
-          if (result.count < 5) {
-            _db.GameUsers.create({
-              th_game_id: _game_id,
-              th_user_id: _user_id
-            }).then(_ => {
-              return true;
-            });
-          } else {
-            return false;
-          }
-        })
-        .catch(error => {
-          console.log(error);
+      }).then(result => {
+        if (result.count < 5) {
+          return _db.GameUsers.create({
+            th_game_id: _game_id,
+            th_user_id: _user_id
+          });
+        } else {
           return false;
-        });
+        }
+      });
     });
 };
 
