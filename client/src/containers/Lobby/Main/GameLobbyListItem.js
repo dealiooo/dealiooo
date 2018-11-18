@@ -7,9 +7,9 @@ import Tag from 'react-bulma-components/lib/components/tag';
 
 class GameLobbyListItem extends Component {
   render() {
-    let playerList = this.props.gameLobby.playerList.map(playerName => {
+    let playerList = this.props.gameLobby.playerList.map((playerName, i) => {
       return (
-        <li>
+        <li key={i}>
           <Tag>{playerName}</Tag>
         </li>
       );

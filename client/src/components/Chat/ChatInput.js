@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
-
 import {
   Control,
   Field,
@@ -23,7 +22,9 @@ class ChatInput extends Component {
   };
 
   onSubmit = evt => {
-    // TODO:
+    evt.preventDefault();
+    // TODO: fetch here
+    evt.target.elements.message.value = '';
   };
 
   render() {
