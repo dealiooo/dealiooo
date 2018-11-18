@@ -2,6 +2,7 @@ const router = require('express').Router();
 const empty_strings_to_null = require('./middlewares/empty_strings_to_null');
 const requireAuthentication = require('./middlewares/require_authentication');
 const db = require('../database');
+const bcrypt = require('bcrypt');
 
 router.post('/register', empty_strings_to_null, (request, response) => {
   const { name, email, password } = request.body;
@@ -34,7 +35,31 @@ router.post(
   }
 );
 
-router.post('/login', empty_strings_to_null, requireAuthentication);
+router.post('/login', empty_strings_to_null, (request, response) => {
+  const { email, password } = request.body;
+  db.find_user_by_email(email)
+    .then(user => {
+      bcrypt
+        .compare(password, user.password)
+        .then(isEqual => {
+          if (isEqual) {
+            return user;
+          }
+          return Promise.reject(new Error('Invalid credentials.'));
+        })
+        .then(user =>
+          request.login(user, error => {
+            if (error) {
+              return response.json({ error });
+            }
+            return response.json({ user });
+          })
+        );
+    })
+    .catch(error => {
+      return response.json({ error });
+    });
+});
 
 router.post('/logout', (request, response) => {
   request.logout();
