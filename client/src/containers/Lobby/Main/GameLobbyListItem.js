@@ -16,7 +16,7 @@ class GameLobbyListItem extends Component {
     });
     return (
       <Box>
-        Game Lobby - {this.props.gameLobby.id}
+        {this.props.gameLobby.id}
         <Columns>
           <Columns.Column>
             {this.props.gameLobby.playerNum} / {this.props.gameLobby.playerCap}

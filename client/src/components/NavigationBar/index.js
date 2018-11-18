@@ -1,8 +1,9 @@
 import React from 'react';
 import Button from 'react-bulma-components/lib/components/button';
 import Navbar from 'react-bulma-components/lib/components/navbar';
+import Heading from 'react-bulma-components/lib/components/heading';
 
-const NavigationBar = () => {
+const NavigationBar = ({ title }) => {
   // TODO:
   const isAuthenticated = null;
 
@@ -16,6 +17,11 @@ const NavigationBar = () => {
       <Navbar.Menu>
         <Navbar.Container>
           <Navbar.Item href="#">Company Name</Navbar.Item>
+        </Navbar.Container>
+        <Navbar.Container>
+          <Navbar.Item renderAs="div">
+            <Heading size={3}>{title}</Heading>
+          </Navbar.Item>
         </Navbar.Container>
         <Navbar.Container position="end">
           {isAuthenticated ? (

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GameLobbyList from './GameLobbyList';
 import ChatLog from '../../../components/Chat/ChatLog';
 import ChatInput from '../../../components/Chat/ChatInput';
+import NavigationBar from '../../../components/NavigationBar';
 
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
@@ -16,7 +17,7 @@ class MainLobby extends Component {
   render() {
     return (
       <Box>
-        <Section>navBar goes here</Section>
+        <NavigationBar title="Main Lobby" />
         <Columns>
           <Columns.Column>
             <GameLobbyList
