@@ -49,8 +49,8 @@ class ChatLog extends Component {
   render() {
     return (
       <Box>
-        {this.state.log.map(message => (
-          <p> {message} </p>
+        {this.state.log.map((message, i) => (
+          <p key={i}> {message} </p>
         ))}
       </Box>
     );
