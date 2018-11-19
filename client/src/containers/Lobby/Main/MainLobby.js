@@ -7,13 +7,50 @@ import NavigationBar from '../../../components/NavigationBar';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
-import Section from 'react-bulma-components/lib/components/section';
+import api from '../../../api';
 
 import './MainLobby.css';
 
 var debug = true;
 
 class MainLobby extends Component {
+  state = {
+    lobbies: null
+  };
+
+  componentWillMount() {
+    api.get_game_lobby_list().then(pending_response => {
+      if (pending_response.ok) {
+        pending_response.text().then(promise => {
+          this.setState({ lobbies: JSON.parse(promise).result });
+          /*
+              this.lobbies.map( ( game, i )  => {
+                api.get_game_lobby_info( game.id )
+                  .then( info => {
+                    var tempState = this.state.lobbies;
+                    tempState[i].playerList = info;
+                    this.setState({'lobbies': tempState});
+                  })
+              });
+              */
+        });
+      } else {
+        window.location = '/login';
+      }
+    });
+  }
+
+  onClick = evt => {
+    api.get_create_game().then(response => {
+      if (response.ok) {
+        console.log('create game');
+        console.log(response.body);
+        // notify socket
+        // go to game lobby
+      }
+    });
+  };
+
   render() {
     return (
       <Box>
@@ -24,7 +61,9 @@ class MainLobby extends Component {
               key="gameLobbies"
               gameLobbies={getGameLobbies(this.props.gameLobbies)}
             />
-            <Button className="is-large">Create</Button>
+            <Button onClick={this.onClick} className="is-large">
+              Create
+            </Button>
           </Columns.Column>
           <Columns.Column>
             <ChatLog />

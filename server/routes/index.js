@@ -13,6 +13,7 @@ router.use(function(request, response, next) {
     'Access-Control-Allow-Origin',
     `${connection_type}${website}${port_num}`
   );
+  response.header('Access-Control-Allow-Methods', 'GET, POST');
   response.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'

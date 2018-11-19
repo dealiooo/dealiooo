@@ -8,4 +8,14 @@ router.get('/main-lobby', requireAuthentication, (request, response) => {
     .catch(error => response.json({ error }));
 });
 
+router.get(
+  '/main-lobby/create-game',
+  requireAuthentication,
+  (request, response) => {
+    db.insert_game(request.user.id)
+      .then(game_user => response.json({ game_user }))
+      .catch(error => response.json({ error }));
+  }
+);
+
 module.exports = router;

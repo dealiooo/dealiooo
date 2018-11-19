@@ -77,14 +77,13 @@ _db.insert_game = function(_user_id) {
     .sync({
       logging: false
     })
-    .then(() => {
-      return _db.Games.create({}).then(_ => {
-        _db.GameUsers.create({
-          th_game_id: _.dataValues.id,
-          th_user_id: _user_id
-        });
-      });
-    });
+    .then(_ => _db.Games.create({}))
+    .then(game =>
+      _db.GameUsers.create({
+        th_game_id: game.id,
+        th_user_id: _user_id
+      })
+    );
 };
 
 _db.join_game = function(_game_id, _user_id) {
@@ -92,21 +91,22 @@ _db.join_game = function(_game_id, _user_id) {
     .sync({
       logging: false
     })
-    .then(() => {
-      return _db.GameUsers.findAndCountAll({
+    .then(() =>
+      _db.GameUsers.findAndCountAll({
         where: {
           th_game_id: _game_id
         }
-      }).then(result => {
-        if (result.count < 5) {
-          return _db.GameUsers.create({
-            th_game_id: _game_id,
-            th_user_id: _user_id
-          });
-        } else {
-          return false;
-        }
-      });
+      })
+    )
+    .then(result => {
+      if (result.count < 5) {
+        return _db.GameUsers.create({
+          th_game_id: _game_id,
+          th_user_id: _user_id
+        });
+      } else {
+        return false;
+      }
     });
 };
 

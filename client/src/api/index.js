@@ -2,13 +2,6 @@ const connection_type = 'http://';
 const website = 'localhost';
 const port_num = ':8000';
 
-const check_status = response => {
-  if (response.ok) {
-    return response;
-  }
-  return Promise.reject(new Error(`Response status was ${response.status}`));
-};
-
 const request_configuration = (body = {}, method) => {
   const config = {
     method,
@@ -21,7 +14,6 @@ const request_configuration = (body = {}, method) => {
   if (Object.keys(body).length > 0) {
     config.body = JSON.stringify(body);
   }
-
   return config;
 };
 
@@ -30,18 +22,17 @@ const build_url = endpoint => {
 };
 
 const request = (endpoint, body, method = 'post') =>
-  fetch(build_url(endpoint), request_configuration(body, method)).then(
-    check_status
-  );
+  fetch(build_url(endpoint), request_configuration(body, method));
 
 const jsonify = response => response.json();
 
 export default {
   get_register: () => request('/register', {}, 'get'),
   get_login: () => request('/login', {}, 'get'),
-  //get_game_lobby_list: () => request('/games', {}, 'get').then(jsonify),
-  //get_game_info: game_id => request(`game-info/${game_id}`, {}, 'get').then(jsonify),
-  //get_create_game: () => request('', {}, 'get'),
+  get_game_lobby_list: () => request('/main-lobby', {}, 'get'),
+  get_game_lobby_info: game_id =>
+    request(`game-lobby/${game_id}/info`, {}, 'get').then(jsonify),
+  get_create_game: () => request('/main-lobby/create-game', {}, 'get'),
   //get_join_game: () => request('games/create', {}),
   //get_leave_game: () => request('games/create', {}, 'get'),
   //get_run_game: () => request('games/create', {}, 'get'),
