@@ -68,6 +68,10 @@ _db.update_password = function(_email, _new_password) {
     });
 };
 
+_db.find_all_game_lobbies = function() {
+  return _db.Games.findAll({ where: { turn: 0 } });
+};
+
 _db.insert_game = function(_user_id) {
   return db.sequelize
     .sync({

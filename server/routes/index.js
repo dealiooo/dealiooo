@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const AuthRoute = require('./AuthRoute');
+const MainLobbyRoute = require('./MainLobbyRoute');
 const SocketRoute = require('./SocketRoute');
 const DefaultRoute = require('./DefaultRoute');
 
@@ -21,6 +22,7 @@ router.use(function(request, response, next) {
 });
 
 router.use(AuthRoute);
+router.use(MainLobbyRoute);
 router.use(SocketRoute);
 // All routes not specified above will default to this route
 router.use(DefaultRoute);
