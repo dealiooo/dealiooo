@@ -25,8 +25,7 @@ class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    api.login(this.state.email, this.state.password).then(result => {
-      console.log(result);
+    api.post_login(this.state.email, this.state.password).then(result => {
       if (result.error) {
         this.setState({
           modal_message: 'Invalid email & password combination'
@@ -41,6 +40,14 @@ class Login extends Component {
   onModalClick = event => {
     this.setState({ modal_display: false });
   };
+
+  componentWillMount() {
+    api.get_login().then(response => {
+      if (response.ok) {
+        window.location = '/main-lobby';
+      }
+    });
+  }
 
   render() {
     return (

@@ -4,6 +4,12 @@ const requireAuthentication = require('./middlewares/require_authentication');
 const db = require('../database');
 const bcrypt = require('bcrypt');
 
+router.get('/register', requireAuthentication);
+router.get('/login', requireAuthentication);
+router.get('/forgot-password', requireAuthentication);
+router.get('/new-password', requireAuthentication);
+router.get('/logout', requireAuthentication);
+
 router.post('/register', empty_strings_to_null, (request, response) => {
   const { name, email, password } = request.body;
   db.insert_user(name, email, password)
