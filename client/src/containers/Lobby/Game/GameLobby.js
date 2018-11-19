@@ -4,21 +4,20 @@ import Section from 'react-bulma-components/lib/components/section';
 import Level from 'react-bulma-components/lib/components/level';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
+import NavigationBar from '../../../components/NavigationBar';
 
-class MainLobby extends Component {
+class GameLobby extends Component {
   render() {
     let gameLobbyName;
     if (this.props.gameLobby) {
-      gameLobbyName = this.props.gameLobby.id;
+      gameLobbyName = `${this.props.gameLobby.id}'s Lobby`;
     } else {
       gameLobbyName = 'Not Registered';
     }
+
     return (
       <Box>
-        <Section className="has-text-centered">navBar goes here</Section>
-        <Section className="has-text-centered">
-          Game Lobby - {gameLobbyName}
-        </Section>
+        <NavigationBar title={gameLobbyName} />
         <Section className="has-text-centered">chat goes here</Section>
         <Section>
           <Level>
@@ -48,4 +47,4 @@ function StartButton(props) {
   return <div />;
 }
 
-export default MainLobby;
+export default GameLobby;
