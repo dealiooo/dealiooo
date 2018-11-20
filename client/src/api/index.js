@@ -1,6 +1,7 @@
 const connection_type = 'http://';
 const website = 'localhost';
 const port_num = ':8000';
+const server_address = connection_type + website + port_num;
 
 const resolvePendingPromise = response => {
   return response.text().then(data => data);
@@ -22,7 +23,7 @@ const request_configuration = (body = {}, method) => {
 };
 
 const build_url = endpoint => {
-  return `${connection_type}${website}${port_num}${endpoint}`;
+  return `${server_address}${endpoint}`;
 };
 
 const request = (endpoint, body, method = 'post') =>
@@ -31,6 +32,7 @@ const request = (endpoint, body, method = 'post') =>
 const jsonify = response => response.json();
 
 export default {
+  server_address: server_address,
   get_register: () => request('/register', {}, 'get'),
   get_login: () => request('/login', {}, 'get'),
   get_main_lobby: () => request('/main-lobby', {}, 'get'),
