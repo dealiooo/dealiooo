@@ -43,7 +43,7 @@ class Register extends Component {
   };
 
   componentWillMount() {
-    api.get_registration().then(response => {
+    api.get_register().then(response => {
       if (response.ok) {
         window.location = '/main-lobby';
       }

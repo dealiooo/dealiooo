@@ -63,7 +63,7 @@ _db.insert_user = (username, email, password, callback) =>
     .sync({ logging: false })
     .then(_ =>
       bcrypt
-        .hash(_password, SALT_ROUNDS)
+        .hash(password, SALT_ROUNDS)
         .then(hash =>
           Users.create({ name: username, email: email, password: hash })
         )
