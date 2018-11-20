@@ -2,6 +2,10 @@ const connection_type = 'http://';
 const website = 'localhost';
 const port_num = ':8000';
 
+const resolvePendingPromise = response => {
+  return response.text().then(data => data);
+};
+
 const request_configuration = (body = {}, method) => {
   const config = {
     method,
@@ -29,9 +33,11 @@ const jsonify = response => response.json();
 export default {
   get_register: () => request('/register', {}, 'get'),
   get_login: () => request('/login', {}, 'get'),
-  get_game_lobby_list: () => request('/main-lobby', {}, 'get'),
+  get_main_lobby: () => request('/main-lobby', {}, 'get'),
   get_game_lobby_info: game_id =>
-    request(`game-lobby/${game_id}/info`, {}, 'get').then(jsonify),
+    request(`/game-lobby/${game_id}/info`, {}, 'get').then(
+      resolvePendingPromise
+    ),
   get_create_game: () => request('/main-lobby/create-game', {}, 'get'),
   //get_join_game: () => request('games/create', {}),
   //get_leave_game: () => request('games/create', {}, 'get'),
@@ -42,6 +48,7 @@ export default {
     ),
   post_login: (email, password) =>
     request('/login', { email: email, password: password }).then(jsonify),
+  post_main_lobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
   send_chat: (room_id, message) => request(`/chat/${room_id}`, { message }),
   post_create_game: game_id => request(`/create-game/${game_id}`, {}),
   post_join_game: game_id => request(`/join-game/${game_id}`, {}),

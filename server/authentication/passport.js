@@ -12,27 +12,32 @@ const checkPassword = function(user, password) {
   });
 };
 
-const verifyCallback = (username, password, done) => {
-  db.find_user_by_email(username)
-    .then(user => {
-      if (user) {
-        return checkPassword(user, password).then(user => done(null, user));
-      } else {
-        return done(null, false, { message: 'incorrect username' });
-      }
-    })
-    .catch(error => done(null, false, error.message));
-};
+const verifyCallback = (username, password, done) =>
+  db.find_user_by_email(username, (error, user) => {
+    if (error) {
+      done(null, false, error.message);
+    } else if (user) {
+      checkPassword(user, password)
+        .then(user => done(null, user))
+        .catch(error => done(null, false, error.message));
+    } else {
+      done(null, false, { message: 'incorrect username' });
+    }
+  });
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser((_id, done) => {
-  db.find_user_by_id(_id)
-    .then(user => done(null, user))
-    .catch(error => done(error, {}));
-});
+passport.deserializeUser((id, done) =>
+  db.find_user_by_id(id, (error, user) => {
+    if (error) {
+      done(error, {});
+    } else {
+      done(null, user);
+    }
+  })
+);
 
 passport.use(
   new LocalStrategy(

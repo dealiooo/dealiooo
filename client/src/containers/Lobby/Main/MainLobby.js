@@ -11,7 +11,7 @@ import api from '../../../api';
 
 import './MainLobby.css';
 
-var debug = true;
+var debug = false;
 
 class MainLobby extends Component {
   state = {
@@ -19,20 +19,19 @@ class MainLobby extends Component {
   };
 
   componentWillMount() {
-    api.get_game_lobby_list().then(pending_response => {
-      if (pending_response.ok) {
-        pending_response.text().then(promise => {
+    api.get_main_lobby().then(response => {
+      if (response.ok) {
+        api.post_main_lobby().then(promise => {
           this.setState({ lobbies: JSON.parse(promise).result });
-          /*
-              this.lobbies.map( ( game, i )  => {
-                api.get_game_lobby_info( game.id )
-                  .then( info => {
-                    var tempState = this.state.lobbies;
-                    tempState[i].playerList = info;
-                    this.setState({'lobbies': tempState});
-                  })
-              });
-              */
+          var baseState = this.state.lobbies;
+          baseState.map((game, i) =>
+            api.get_game_lobby_info(game.id).then(info => {
+              baseState[i].playerList = JSON.parse(info).result;
+              baseState[i].playerNum = JSON.parse(info).result.length;
+              baseState[i].playerCap = 5;
+              this.setState({ lobbies: baseState });
+            })
+          );
         });
       } else {
         window.location = '/login';
@@ -59,7 +58,7 @@ class MainLobby extends Component {
           <Columns.Column>
             <GameLobbyList
               key="gameLobbies"
-              gameLobbies={getGameLobbies(this.props.gameLobbies)}
+              gameLobbies={getGameLobbies(this.state.lobbies)}
             />
             <Button onClick={this.onClick} className="is-large">
               Create
@@ -82,43 +81,67 @@ function getGameLobbies(val) {
         id: 1000,
         playerNum: 5,
         playerCap: 5,
-        playerList: ['zxcqa1', 'zxcqa2', 'zxcqa3', 'zxcqa4', 'zxcqa5']
+        playerList: [
+          { name: 'zxcqa1' },
+          { name: 'zxcqa2' },
+          { name: 'zxcqa3' },
+          { name: 'zxcqa4' },
+          { name: 'zxcqa5' }
+        ]
       },
       {
         id: 1001,
         playerNum: 5,
         playerCap: 5,
-        playerList: ['zxcqb1', 'zxcqb2', 'zxcqb3', 'zxcqb4', 'zxcqb5']
+        playerList: [
+          { name: 'zxcqb1' },
+          { name: 'zxcqb2' },
+          { name: 'zxcqb3' },
+          { name: 'zxcqb4' },
+          { name: 'zxcqb5' }
+        ]
       },
       {
         id: 1002,
         playerNum: 2,
         playerCap: 5,
-        playerList: ['qwe1', 'qwe2']
+        playerList: [{ name: 'qwe1' }, { name: 'qwe2' }]
       },
       {
         id: 1003,
         playerNum: 1,
         playerCap: 4,
-        playerList: ['joinMe']
+        playerList: [{ name: 'joinMe' }]
       },
       {
         id: 1004,
         playerNum: 2,
         playerCap: 2,
-        playerList: ['asd1', 'asd2']
+        playerList: [{ name: 'asd1' }, { name: 'asd2' }]
       },
       {
         id: 1005,
         playerNum: 5,
         playerCap: 5,
-        playerList: ['zxc1', 'zxc2', 'zxc3', 'zxc4', 'zxc5']
+        playerList: [
+          { name: 'zxc1' },
+          { name: 'zxc2' },
+          { name: 'zxc3' },
+          { name: 'zxc4' },
+          { name: 'zxc5' }
+        ]
       },
       {
         id: 1006,
         playerNum: 5,
         playerCap: 5,
-        playerList: ['zxcq1', 'zxcq2', 'zxcq3', 'zxcq4', 'zxcq5']
+        playerList: [
+          { name: 'zxcq1' },
+          { name: 'zxcq2' },
+          { name: 'zxcq3' },
+          { name: 'zxcq4' },
+          { name: 'zxcq5' }
+        ]
       }
     ];
   }

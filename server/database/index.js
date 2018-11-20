@@ -16,46 +16,76 @@ const Games = th_games_model(db.sequelize, db.Sequelize);
 const GameUsers = th_game_users_model(db.sequelize, db.Sequelize);
 const GameUserCards = th_game_user_cards_model(db.sequelize, db.Sequelize);
 
+Games.hasOne(GameUsers, { foreignKey: 'th_game_id' });
+Users.hasOne(GameUsers, { foreignKey: 'th_user_id' });
+
+Cards.hasOne(GameUserCards, { foreignKey: 'th_card_id' });
+Games.hasOne(GameUserCards, { foreignKey: 'th_game_id' });
+Users.hasOne(GameUserCards, { foreignKey: 'th_user_id' });
+
+Games.belongsToMany(Users, {
+  as: 'Users',
+  through: GameUsers,
+  foreignKey: 'th_game_id'
+});
+Games.belongsToMany(Cards, {
+  as: 'Cards',
+  through: GameUserCards,
+  foreignKey: 'th_game_id'
+});
+
+Cards.belongsToMany(Games, {
+  as: 'Games',
+  through: GameUserCards,
+  foreignKey: 'th_card_id'
+});
+Cards.belongsToMany(Users, {
+  as: 'Users',
+  through: GameUserCards,
+  foreignKey: 'th_card_id'
+});
+
+Users.belongsToMany(Games, {
+  as: 'Games',
+  through: GameUsers,
+  foreignKey: 'th_user_id'
+});
+Users.belongsToMany(Cards, {
+  as: 'Cards',
+  through: GameUserCards,
+  foreignKey: 'th_user_id'
+});
+
 const _db = {};
 
-_db.Sessions = Sessions;
-_db.Cards = Cards;
-_db.Users = Users;
-_db.Games = Games;
-_db.GameUsers = GameUsers;
-_db.GameUserCards = GameUserCards;
+_db.insert_user = (username, email, password, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      bcrypt
+        .hash(_password, SALT_ROUNDS)
+        .then(hash =>
+          Users.create({ name: username, email: email, password: hash })
+        )
+        .then(user => callback(null, user))
+    )
+    .catch(error => callback(error));
 
-_db.insert_user = function(_username, _email, _password) {
-  return db.sequelize
-    .sync({
-      logging: false
-    })
-    .then(() => {
-      return bcrypt.hash(_password, SALT_ROUNDS).then(hash =>
-        _db.Users.create({
-          name: _username,
-          email: _email,
-          password: hash
-        })
-      );
-    });
-};
+_db.find_user_by_email = (email, callback) =>
+  Users.findOne({ where: { email: email } })
+    .then(user => callback(null, user))
+    .catch(error => callback(error));
 
-_db.find_user_by_email = function(_email) {
-  return Users.findOne({ where: { email: _email } });
-};
+_db.find_user_by_id = (id, callback) =>
+  Users.findOne({ where: { id: id } })
+    .then(user => callback(null, user))
+    .catch(error => callback(error));
 
-_db.find_user_by_id = function(_id) {
-  return Users.findOne({ where: { id: _id } });
-};
-
-_db.update_password = function(_email, _new_password) {
-  return db.sequelize
-    .sync({
-      logging: false
-    })
-    .then(() => {
-      return _db.Users.update(
+_db.update_password = (email, new_password, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      Users.update(
         {
           password: _new_password
         },
@@ -64,80 +94,88 @@ _db.update_password = function(_email, _new_password) {
             email: _email
           }
         }
-      );
-    });
-};
+      )
+    )
+    .then(user => callback(null, user))
+    .catch(error => callback(error));
 
-_db.find_all_game_lobbies = function() {
-  return _db.Games.findAll({ where: { turn: 0 } });
-};
+_db.find_all_game_lobbies = callback =>
+  Games.findAll({ where: { turn: 0 } })
+    .then(open_games => callback(null, open_games))
+    .catch(error => callback(error));
 
-_db.insert_game = function(_user_id) {
-  return db.sequelize
-    .sync({
-      logging: false
-    })
-    .then(_ => _db.Games.create({}))
+_db.find_game_by_id = (game_id, callback) =>
+  Games.findOne({ where: { id: game_id } })
+    .then(game => callback(null, game))
+    .catch(error => callback(error));
+
+_db.find_all_game_user_names = (game_id, callback) =>
+  _db.find_game_by_id(game_id, (error, game) => {
+    if (error) {
+      callback(error);
+    }
+    game
+      .getUsers({ attributes: ['name'] })
+      .then(users => callback(null, users))
+      .catch(error => callback(error));
+  });
+
+_db.insert_game = (user_id, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ => Games.create({}))
     .then(game =>
-      _db.GameUsers.create({
+      GameUsers.create({
         th_game_id: game.id,
-        th_user_id: _user_id
+        th_user_id: user_id
       })
-    );
-};
+    )
+    .then(game_user => callback(null, game_user))
+    .catch(error => callback(error));
 
-_db.join_game = function(_game_id, _user_id) {
-  return db.sequelize
-    .sync({
-      logging: false
-    })
-    .then(() =>
-      _db.GameUsers.findAndCountAll({
+_db.join_game = (game_id, user_id, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      GameUsers.findAndCountAll({
         where: {
-          th_game_id: _game_id
+          th_game_id: game_id
         }
       })
     )
     .then(result => {
       if (result.count < 5) {
-        return _db.GameUsers.create({
-          th_game_id: _game_id,
-          th_user_id: _user_id
-        });
+        GameUsers.create({
+          th_game_id: game_id,
+          th_user_id: user_id
+        }).then(game_user => callback(null, game_user));
       } else {
-        return false;
+        callback(Promise.reject(new Error('Game is at full capacity')));
       }
-    });
-};
+    })
+    .catch(error => callback(error));
 
-_db.delete_game = function(_game_id) {
-  // TODO
-  return false;
-};
+_db.delete_game = (game_id, callback) =>
+  callback(Promise.reject(new Error('TODO')));
 
-_db.ready = function(_game_id) {
-  // TODO
-  return false;
-};
+_db.ready = (game_id, callback) => callback(Promise.reject(new Error('TODO')));
 
-_db.ready = function(_user_id, game_id) {
-  // TODO
-  return false;
-};
+_db.ready = (user_id, game_id, callback) =>
+  callback(Promise.reject(new Error('TODO')));
 
 /*
 
 delete_game( game_id )
-True // if delete succeeded
-False // if delete failed
+Promise // if delete succeeded
+Error // if delete failed
 
 ready( user_id, game_id )
-True // if update ( user_id.ready = !user_id.ready ) succeeded
-False // if update ( user_id.ready = !user_id.ready ) failed
+Promise // if update ( user_id.ready = !user_id.ready ) succeeded
+Error // if update ( user_id.ready = !user_id.ready ) failed
 
 ready( game_id )
-True // if all players are ready
-False // if not all players are ready
+Promise // if all players are ready
+Error // if not all players are ready
 
 */
 

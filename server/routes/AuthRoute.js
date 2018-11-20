@@ -12,16 +12,18 @@ router.get('/logout', requireAuthentication);
 
 router.post('/register', empty_strings_to_null, (request, response) => {
   const { name, email, password } = request.body;
-  db.insert_user(name, email, password)
-    .then(user =>
-      request.login(user, error => {
+  db.insert_user(name, email, password, (error, user) => {
+    if (error) {
+      response.json({ error });
+    } else {
+      return request.login(user, error => {
         if (error) {
-          return response.json({ error });
+          response.json({ error });
         }
-        return response.json({ user });
-      })
-    )
-    .catch(error => response.json({ error }));
+        response.json({ user });
+      });
+    }
+  });
 });
 
 router.post('/forgot-password', empty_strings_to_null, (request, response) => {
@@ -43,8 +45,10 @@ router.post(
 
 router.post('/login', empty_strings_to_null, (request, response) => {
   const { email, password } = request.body;
-  db.find_user_by_email(email)
-    .then(user => {
+  db.find_user_by_email(email, (error, user) => {
+    if (error) {
+      response.json({ error });
+    } else {
       bcrypt
         .compare(password, user.password)
         .then(isEqual => {
@@ -60,11 +64,10 @@ router.post('/login', empty_strings_to_null, (request, response) => {
             }
             return response.json({ user });
           })
-        );
-    })
-    .catch(error => {
-      return response.json({ error });
-    });
+        )
+        .catch(error => response.json({ error }));
+    }
+  });
 });
 
 router.post('/logout', (request, response) => {
