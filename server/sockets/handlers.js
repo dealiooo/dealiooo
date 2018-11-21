@@ -21,7 +21,6 @@ const handle_room = room_manager => {
 const handlers = (client_socket, room_manager) => {
   const handle_room_event = handle_room(room_manager);
   const name = client_socket.id;
-
   const handle_connection = _ => room_manager.connected(client_socket);
 
   const handle_disconnect = _ => room_manager.disconnect(client_socket);

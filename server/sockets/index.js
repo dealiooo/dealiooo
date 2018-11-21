@@ -1,10 +1,10 @@
 const io = require('socket.io')();
 const session = require('../database/config/session');
 const handlers = require('./handlers');
-const chat_manager = require('./room_managers/chat_manager');
-const game_manager = require('./room_managers/game_manager');
-const gamelobby_manager = require('./room_managers/gamelobby_manager');
-const mainlobby_manager = require('./room_managers/mainlobby_manager');
+const chat_manager = require('./room_managers/chat_manager')();
+const game_manager = require('./room_managers/game_manager')();
+const gamelobby_manager = require('./room_managers/gamelobby_manager')();
+const mainlobby_manager = require('./room_managers/mainlobby_manager')();
 
 const init = server => {
   io.use(({ request }, next) => {
