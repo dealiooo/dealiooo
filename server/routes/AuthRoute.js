@@ -1,14 +1,19 @@
 const router = require('express').Router();
 const empty_strings_to_null = require('./middlewares/empty_strings_to_null');
 const requireAuthentication = require('./middlewares/require_authentication');
+const send_user_id_and_user_name = require('./middlewares/send_user_id_and_user_name');
 const db = require('../database');
 const bcrypt = require('bcrypt');
 
-router.get('/register', requireAuthentication);
-router.get('/login', requireAuthentication);
-router.get('/forgot-password', requireAuthentication);
-router.get('/new-password', requireAuthentication);
-router.get('/logout', requireAuthentication);
+router.get('/register', requireAuthentication, send_user_id_and_user_name);
+router.get('/login', requireAuthentication, send_user_id_and_user_name);
+router.get(
+  '/forgot-password',
+  requireAuthentication,
+  send_user_id_and_user_name
+);
+router.get('/new-password', requireAuthentication, send_user_id_and_user_name);
+router.get('/logout', requireAuthentication, send_user_id_and_user_name);
 
 router.post('/register', empty_strings_to_null, (request, response) => {
   const { name, email, password } = request.body;
