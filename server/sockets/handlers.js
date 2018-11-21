@@ -1,7 +1,7 @@
 const handle_room = room_manager => {
   const exist = (getter, error_message) =>
     new Promise((resolve, reject) => {
-      const resolved = getter();
+      const resolved = getter;
       if (resolved) {
         return resolve(resolved);
       } else {
