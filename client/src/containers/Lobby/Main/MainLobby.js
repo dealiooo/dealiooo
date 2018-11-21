@@ -8,15 +8,23 @@ import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 import api from '../../../api';
+import socket from '../../../api/socket';
 
 import './MainLobby.css';
 
 var debug = false;
 
 class MainLobby extends Component {
-  state = {
-    lobbies: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      user_id: null,
+      user_name: null,
+      lobbies: null,
+      chat_socket: socket(),
+      lobby_socket: socket()
+    };
+  }
 
   componentWillMount() {
     api.get_main_lobby().then(response => {
@@ -32,6 +40,11 @@ class MainLobby extends Component {
               this.setState({ lobbies: baseState });
             })
           );
+        });
+        response.text().then(body => {
+          body = JSON.parse(body);
+          this.setState({ user_id: body.id });
+          this.setState({ user_name: body.name });
         });
       } else {
         window.location = '/login';
@@ -65,8 +78,24 @@ class MainLobby extends Component {
             </Button>
           </Columns.Column>
           <Columns.Column>
-            <ChatLog />
-            <ChatInput />
+            <ChatLog
+              room_id={'mainlobby'}
+              user_id={this.state.user_id}
+              user_name={this.state.user_name}
+              register_handler={this.state.chat_socket.register_chat_handler}
+              unregister_handler={
+                this.state.chat_socket.unregister_chat_handler
+              }
+            />
+            <ChatInput
+              room_id={'mainlobby'}
+              user_id={this.state.user_id}
+              user_name={this.state.user_name}
+              register_handler={this.state.chat_socket.register_chat_handler}
+              unregister_handler={
+                this.state.chat_socket.unregister_chat_handler
+              }
+            />
           </Columns.Column>
         </Columns>
       </Box>

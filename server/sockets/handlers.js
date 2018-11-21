@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const handle_room = room_manager => {
   const exist = (getter, error_message) =>
     new Promise((resolve, reject) => {
