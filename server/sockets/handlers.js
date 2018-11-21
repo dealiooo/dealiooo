@@ -57,9 +57,9 @@ const handlers = (client_socket, room_manager) => {
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_add_room = ({ room_id, name }, callback) =>
+  const handle_add_room = ({ room_id }, callback) =>
     room_manager
-      .add_room(room_id, name)
+      .add_room(room_id, client_socket)
       .then(_ => callback(null))
       .catch(callback);
 
@@ -71,13 +71,13 @@ const handlers = (client_socket, room_manager) => {
 
   const handle_join_game = ({ game_id }, callback) =>
     room_manager
-      .add_game_user(game_id, name)
+      .join_game(game_id, name)
       .then(_ => callback(null))
       .catch(callback);
 
   const handle_leave_game = ({ game_id }, callback) =>
     room_manager
-      .remove_game_user(game_id, name)
+      .leave_game(game_id, name)
       .then(_ => callback(null))
       .catch(callback);
 
