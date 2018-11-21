@@ -2,7 +2,6 @@ const router = require('express').Router();
 const AuthRoute = require('./AuthRoute');
 const GameLobbyRoute = require('./GameLobbyRoute');
 const MainLobbyRoute = require('./MainLobbyRoute');
-const SocketRoute = require('./SocketRoute');
 const DefaultRoute = require('./DefaultRoute');
 
 const connection_type = 'http://';
@@ -26,7 +25,6 @@ router.use(function(request, response, next) {
 router.use(AuthRoute);
 router.use(GameLobbyRoute);
 router.use(MainLobbyRoute);
-router.use(SocketRoute);
 // All routes not specified above will default to this route
 router.use(DefaultRoute);
 
