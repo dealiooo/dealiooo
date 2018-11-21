@@ -1,7 +1,4 @@
-const connection_type = 'http://';
-const website = 'localhost';
-const port_num = ':8000';
-const server_address = connection_type + website + port_num;
+const server_address = require('./server_address');
 
 const resolvePendingPromise = response => {
   return response.text().then(data => data);
@@ -32,7 +29,6 @@ const request = (endpoint, body, method = 'post') =>
 const jsonify = response => response.json();
 
 export default {
-  server_address: server_address,
   get_register: () => request('/register', {}, 'get'),
   get_login: () => request('/login', {}, 'get'),
   get_main_lobby: () => request('/main-lobby', {}, 'get'),
@@ -45,9 +41,7 @@ export default {
   //get_leave_game: () => request('games/create', {}, 'get'),
   //get_run_game: () => request('games/create', {}, 'get'),
   post_register: (name, email, password) =>
-    request('/register', { name: name, email: email, password: password }).then(
-      jsonify
-    ),
+    request('/register', { name: name, email: email, password: password }),
   post_login: (email, password) =>
     request('/login', { email: email, password: password }).then(jsonify),
   post_main_lobby: () => request('/main-lobby', {}).then(resolvePendingPromise),

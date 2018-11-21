@@ -87,15 +87,15 @@ const handlers = (client_socket, room_manager) => {
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_player_ready = ({ game_id }, callback) =>
+  const handle_player_ready = ({ room_id }, callback) =>
     room_manager
-      .player_ready(game_id, client_socket)
+      .player_ready(room_id, client_socket)
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_player_unready = ({ game_id }, callback) =>
+  const handle_player_unready = ({ room_id }, callback) =>
     room_manager
-      .player_unready(game_id, client_socket)
+      .player_unready(room_id, client_socket)
       .then(_ => callback(null))
       .catch(callback);
 
