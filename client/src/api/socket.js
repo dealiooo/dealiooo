@@ -9,10 +9,10 @@ const register_chat_handler = ({ on_message_received }) => {
   socket.on('message', on_message_received);
   const add_room = ({ room_id }, callback) =>
     socket.emit('add-room-chat', { room_id }, callback);
-  const join = ({ room_id }, callback) =>
-    socket.emit('join-chat', { room_id }, callback);
-  const leave = ({ room_id }, callback) =>
-    socket.emit('leave-chat', { room_id }, callback);
+  const join = ({ room_id, user_name }, callback) =>
+    socket.emit('join-chat', { room_id, user_name }, callback);
+  const leave = ({ room_id, user_name }, callback) =>
+    socket.emit('leave-chat', { room_id, user_name }, callback);
   const message = ({ room_id, message }, callback) =>
     socket.emit('message', { room_id, message }, callback);
   return {
@@ -35,10 +35,10 @@ const register_gamelobby_handler = ({ on_player_ready, on_player_unready }) => {
   socket.on('player-unready', on_player_unready);
   const add_room = ({ room_id }, callback) =>
     socket.emit('add-room-gamelobby', { room_id }, callback);
-  const join = ({ room_id }, callback) =>
-    socket.emit('join-gamelobby', { room_id }, callback);
-  const leave = ({ room_id }, callback) =>
-    socket.emit('leave-gamelobby', { room_id }, callback);
+  const join = ({ room_id, user_name }, callback) =>
+    socket.emit('join-gamelobby', { room_id, user_name }, callback);
+  const leave = ({ room_id, user_name }, callback) =>
+    socket.emit('leave-gamelobby', { room_id, user_name }, callback);
   const player_ready = ({ room_id }, callback) =>
     socket.emit('player-ready', { room_id }, callback);
   const player_unready = ({ room_id }, callback) =>
@@ -62,14 +62,14 @@ const register_mainlobby_handler = ({
   socket.on('join-game', on_join_game);
   socket.on('leave-game', on_leave_game);
   socket.on('run-game', on_run_game);
-  const add_game = ({ room_id }, callback) =>
-    socket.emit('add-game', { room_id }, callback);
-  const join_game = ({ room_id }, callback) =>
-    socket.emit('join-game', { room_id }, callback);
-  const leave_game = ({ room_id }, callback) =>
-    socket.emit('leave-game', { room_id }, callback);
-  const run_game = ({ room_id }, callback) =>
-    socket.emit('run-game', { room_id }, callback);
+  const add_game = ({ game_id, user_name }, callback) =>
+    socket.emit('add-game', { game_id, user_name }, callback);
+  const join_game = ({ game_id, user_name }, callback) =>
+    socket.emit('join-game', { game_id, user_name }, callback);
+  const leave_game = ({ game_id, user_name }, callback) =>
+    socket.emit('leave-game', { game_id, user_name }, callback);
+  const run_game = ({ game_id }, callback) =>
+    socket.emit('run-game', { game_id }, callback);
   return {
     add_game,
     join_game,

@@ -22,15 +22,15 @@ const handle_room = room_manager => {
 
 const handlers = (client_socket, room_manager) => {
   const handle_room_event = handle_room(room_manager);
-  const name = client_socket.id;
+
   const handle_connection = _ => room_manager.connected(client_socket);
 
   const handle_disconnect = _ => room_manager.disconnect(client_socket);
 
-  const handle_join = ({ room_id }, callback) => {
+  const handle_join = ({ room_id, user_name }, callback) => {
     const join_message = `${moment().format(
       'HH:mm:ss'
-    )}:${name} joined the room.`;
+    )}:${user_name} joined the room.`;
     handle_room_event(room_id, join_message)
       .then(room => {
         room.add_socket(client_socket);
@@ -39,10 +39,10 @@ const handlers = (client_socket, room_manager) => {
       .catch(callback);
   };
 
-  const handle_leave = ({ room_id }, callback) => {
+  const handle_leave = ({ room_id, user_name }, callback) => {
     const leave_message = `${moment().format(
       'HH:mm:ss'
-    )}:${name} left the room.`;
+    )}:${user_name} left the room.`;
     handle_room_event(room_id, leave_message)
       .then(room => {
         room.remove_socket(client_socket);
@@ -65,27 +65,27 @@ const handlers = (client_socket, room_manager) => {
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_add_game = ({ game_id }, callback) =>
+  const handle_add_game = ({ game_id, user_name }, callback) =>
     room_manager
-      .add_game(game_id)
+      .add_game(game_id, user_name)
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_join_game = ({ game_id }, callback) =>
+  const handle_join_game = ({ game_id, user_name }, callback) =>
     room_manager
-      .join_game(game_id, name)
+      .join_game(game_id, user_name)
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_leave_game = ({ game_id }, callback) =>
+  const handle_leave_game = ({ game_id, user_name }, callback) =>
     room_manager
-      .leave_game(game_id, name)
+      .leave_game(game_id, user_name)
       .then(_ => callback(null))
       .catch(callback);
 
   const handle_run_game = ({ game_id }, callback) =>
     room_manager
-      .remove_game(game_id)
+      .run_game(game_id)
       .then(_ => callback(null))
       .catch(callback);
 

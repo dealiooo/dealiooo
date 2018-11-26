@@ -19,11 +19,14 @@ class ChatLog extends Component {
     this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
     this.props
       .register_handler({ on_message_received: this.onMessageReceived })
-      .join({ room_id: this.props.room_id }, error => {
-        if (error) {
-          console.log(error);
+      .join(
+        { room_id: this.props.room_id, user_name: this.props.user_name },
+        error => {
+          if (error) {
+            console.log(error);
+          }
         }
-      });
+      );
   }
 
   componentDidUpdate(prevProps) {
