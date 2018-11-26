@@ -75,7 +75,19 @@ class MainLobby extends Component {
   }
 
   onAddGame(event) {
-    console.log(event);
+    var baseState = this.state.lobbies;
+    var newRoom = {
+      id: event.game_id,
+      turn: 0,
+      playerNum: 1
+    };
+    api.get_game_lobby_info(event.game_id).then(info => {
+      newRoom.playerList = JSON.parse(info).result;
+      newRoom.playerNum = JSON.parse(info).result.length;
+      newRoom.playerCap = 5;
+      baseState = baseState.concat(newRoom);
+      this.setState({ lobbies: baseState });
+    });
   }
 
   onJoinGame(event) {
