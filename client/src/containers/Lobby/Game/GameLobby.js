@@ -9,8 +9,8 @@ import NavigationBar from '../../../components/NavigationBar';
 class GameLobby extends Component {
   render() {
     let gameLobbyName;
-    if (this.props.gameLobby) {
-      gameLobbyName = `${this.props.gameLobby.id}'s Lobby`;
+    if (this.props.match.params.id) {
+      gameLobbyName = `${this.props.match.params.id}'s Lobby`;
     } else {
       gameLobbyName = 'Not Registered';
     }

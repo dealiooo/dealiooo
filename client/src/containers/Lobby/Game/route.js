@@ -2,7 +2,7 @@ import GameLobby from './GameLobby';
 
 const GameLobbyRoute = [
   {
-    path: '/game-lobby',
+    path: '/game-lobby/:id',
     exact: true,
     component: GameLobby
   }
