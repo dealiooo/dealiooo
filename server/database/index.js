@@ -82,22 +82,26 @@ _db.find_user_by_id = (id, callback) =>
     .catch(error => callback(error));
 
 _db.update_password = (email, new_password, callback) =>
-  db.sequelize
-    .sync({ logging: false })
-    .then(_ =>
-      Users.update(
-        {
-          password: _new_password
-        },
-        {
-          where: {
-            email: _email
+  db.sequelize.sync({ logging: false }).then(_ =>
+    bcrypt.hash(new_password, 10, (error, hash) => {
+      if (error) {
+        throw new Error(error);
+      } else {
+        Users.update(
+          {
+            password: hash
+          },
+          {
+            where: {
+              email: email
+            }
           }
-        }
-      )
-    )
-    .then(user => callback(null, user))
-    .catch(error => callback(error));
+        )
+          .then(user => callback(null, user))
+          .catch(error => callback(error));
+      }
+    })
+  );
 
 _db.find_all_game_lobbies = callback =>
   Games.findAll({ where: { turn: 0 } })
@@ -163,8 +167,25 @@ _db.ready = (game_id, callback) => callback(Promise.reject(new Error('TODO')));
 _db.ready = (user_id, game_id, callback) =>
   callback(Promise.reject(new Error('TODO')));
 
-/*
+_db.insert_session = (session_id, sess, expire, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      Sessions.create({
+        sid: session_id,
+        sess: sess,
+        expire: expire
+      })
+    )
+    .then(session => callback(null, session))
+    .catch(error => callback(error));
 
+_db.find_session_by_sid = (session_id, callback) =>
+  Sessions.findOne({ where: { sid: session_id } })
+    .then(session => callback(null, session))
+    .catch(error => callback(error));
+
+/*
 delete_game( game_id )
 Promise // if delete succeeded
 Error // if delete failed
