@@ -12,8 +12,6 @@ import socket from '../../../api/socket';
 
 import './MainLobby.css';
 
-var debug = false;
-
 class MainLobby extends Component {
   constructor(props) {
     super(props);
@@ -120,7 +118,7 @@ class MainLobby extends Component {
             <Columns.Column>
               <GameLobbyList
                 key="gameLobbies"
-                gameLobbies={getGameLobbies(this.state.lobbies)}
+                gameLobbies={this.state.lobbies}
               />
               <Button onClick={this.onCreateClick} className="is-large">
                 Create
@@ -153,80 +151,6 @@ class MainLobby extends Component {
       return <Box>Loading Page...</Box>;
     }
   }
-}
-
-function getGameLobbies(val) {
-  if (debug) {
-    return [
-      {
-        id: 1000,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: [
-          { name: 'zxcqa1' },
-          { name: 'zxcqa2' },
-          { name: 'zxcqa3' },
-          { name: 'zxcqa4' },
-          { name: 'zxcqa5' }
-        ]
-      },
-      {
-        id: 1001,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: [
-          { name: 'zxcqb1' },
-          { name: 'zxcqb2' },
-          { name: 'zxcqb3' },
-          { name: 'zxcqb4' },
-          { name: 'zxcqb5' }
-        ]
-      },
-      {
-        id: 1002,
-        playerNum: 2,
-        playerCap: 5,
-        playerList: [{ name: 'qwe1' }, { name: 'qwe2' }]
-      },
-      {
-        id: 1003,
-        playerNum: 1,
-        playerCap: 4,
-        playerList: [{ name: 'joinMe' }]
-      },
-      {
-        id: 1004,
-        playerNum: 2,
-        playerCap: 2,
-        playerList: [{ name: 'asd1' }, { name: 'asd2' }]
-      },
-      {
-        id: 1005,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: [
-          { name: 'zxc1' },
-          { name: 'zxc2' },
-          { name: 'zxc3' },
-          { name: 'zxc4' },
-          { name: 'zxc5' }
-        ]
-      },
-      {
-        id: 1006,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: [
-          { name: 'zxcq1' },
-          { name: 'zxcq2' },
-          { name: 'zxcq3' },
-          { name: 'zxcq4' },
-          { name: 'zxcq5' }
-        ]
-      }
-    ];
-  }
-  return val;
 }
 
 export default MainLobby;
