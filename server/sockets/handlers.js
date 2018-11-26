@@ -59,47 +59,68 @@ const handlers = (client_socket, room_manager) => {
       .then(_ => callback(null))
       .catch(callback);
 
-  const handle_add_room = ({ room_id }, callback) =>
-    room_manager
-      .add_room(room_id, client_socket)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_add_room = ({ room_id }, callback) => {
+    try {
+      room_manager.add_room(room_id, client_socket);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
-  const handle_add_game = ({ game_id, user_name }, callback) =>
-    room_manager
-      .add_game(game_id, user_name)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_add_game = ({ game_id, user_name }, callback) => {
+    try {
+      room_manager.add_game(game_id, user_name);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
-  const handle_join_game = ({ game_id, user_name }, callback) =>
-    room_manager
-      .join_game(game_id, user_name)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_join_game = ({ game_id, user_name }, callback) => {
+    try {
+      room_manager.join_game(game_id, user_name);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
-  const handle_leave_game = ({ game_id, user_name }, callback) =>
-    room_manager
-      .leave_game(game_id, user_name)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_leave_game = ({ game_id, user_name }, callback) => {
+    try {
+      room_manager.leave_game(game_id, user_name);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
-  const handle_run_game = ({ game_id }, callback) =>
-    room_manager
-      .run_game(game_id)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_run_game = ({ game_id }, callback) => {
+    try {
+      room_manager.run_game(game_id);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
-  const handle_player_ready = ({ room_id }, callback) =>
-    room_manager
-      .player_ready(room_id, client_socket)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_player_ready = ({ room_id }, callback) => {
+    try {
+      room_manager.player_ready(room_id, client_socket);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
-  const handle_player_unready = ({ room_id }, callback) =>
-    room_manager
-      .player_unready(room_id, client_socket)
-      .then(_ => callback(null))
-      .catch(callback);
+  const handle_player_unready = ({ room_id }, callback) => {
+    try {
+      room_manager.player_unready(room_id, client_socket);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
 
   const handle_card_click = ({ game_id }, callback) => callback('TODO');
 
