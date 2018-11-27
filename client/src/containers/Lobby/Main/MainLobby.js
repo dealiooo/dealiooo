@@ -131,6 +131,7 @@ class MainLobby extends Component {
               <GameLobbyList
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
+                user_id={this.state.user_id}
               />
               <Button onClick={this.onCreateClick} className="is-large">
                 Create
@@ -159,9 +160,8 @@ class MainLobby extends Component {
           </Columns>
         </Box>
       );
-    } else {
-      return <Box>Loading Page...</Box>;
     }
+    return <Box>Loading Page...</Box>;
   }
 }
 

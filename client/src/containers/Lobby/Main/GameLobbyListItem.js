@@ -8,13 +8,23 @@ import Tag from 'react-bulma-components/lib/components/tag';
 class GameLobbyListItem extends Component {
   render() {
     if (this.props.gameLobby.playerList) {
+      let hasJoined = false;
       let playerList = this.props.gameLobby.playerList.map((player, i) => {
+        if (this.props.user_id === player.id) {
+          hasJoined = true;
+        }
         return (
           <li key={i}>
             <Tag>{player.name}</Tag>
           </li>
         );
       });
+      let actionButton;
+      if (hasJoined) {
+        actionButton = <Button className="is-large">Enter</Button>;
+      } else {
+        actionButton = <Button className="is-large">Join</Button>;
+      }
       return (
         <Box>
           {this.props.gameLobby.id}
@@ -24,15 +34,17 @@ class GameLobbyListItem extends Component {
               {this.props.gameLobby.playerCap}
             </Columns.Column>
             <Columns.Column>{playerList}</Columns.Column>
-            <Columns.Column>
-              <Button className="is-large">Join</Button>
-            </Columns.Column>
+            <Columns.Column>{actionButton}</Columns.Column>
           </Columns>
         </Box>
       );
-    } else {
-      return <Box>{this.props.gameLobby.id}</Box>;
     }
+    return (
+      <Box>
+        Loading Lobby #{this.props.gameLobby.id}
+        's info
+      </Box>
+    );
   }
 }
 

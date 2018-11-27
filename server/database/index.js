@@ -115,7 +115,7 @@ _db.find_all_game_user_names = (game_id, callback) =>
       callback(error);
     }
     game
-      .getUsers({ attributes: ['name'] })
+      .getUsers({ attributes: ['id', 'name'] })
       .then(users => callback(null, users))
       .catch(error => callback(error));
   });
