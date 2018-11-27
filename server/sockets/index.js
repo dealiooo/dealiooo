@@ -14,8 +14,6 @@ const init = server => {
   io.attach(server);
 };
 
-const userSockets = {};
-
 io.on('connection', socket => {
   try {
     const chat_handlers = handlers(socket, chat_manager);
@@ -59,4 +57,4 @@ io.on('connection', socket => {
   }
 });
 
-module.exports = { init, io, userSockets };
+module.exports = { init, io };

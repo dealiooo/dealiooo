@@ -5,7 +5,36 @@ import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Tag from 'react-bulma-components/lib/components/tag';
 
+import api from '../../../api';
+
 class GameLobbyListItem extends Component {
+  constructor(props) {
+    super(props);
+    this.onEnter = this.onEnter.bind(this);
+    this.onJoin = this.onJoin.bind(this);
+  }
+
+  onEnter(event) {
+    window.location = `/game-lobby/${this.props.game_id}`;
+  }
+
+  onJoin(event) {
+    api.post_join_game(this.props.game_id).then(response => {
+      if (response.ok) {
+        this.props.socket_join_game(
+          { game_id: this.props.game_id, user_id: this.props.user_id },
+          error => {
+            if (error) {
+              console.log(error);
+            } else {
+              window.location = `/game-lobby/${this.props.game_id}`;
+            }
+          }
+        );
+      }
+    });
+  }
+
   render() {
     if (this.props.gameLobby.playerList) {
       let hasJoined = false;
@@ -21,7 +50,11 @@ class GameLobbyListItem extends Component {
       });
       let actionButton;
       if (hasJoined) {
-        actionButton = <Button className="is-large">Enter</Button>;
+        actionButton = (
+          <Button onClick={this.onEnter} className="is-large">
+            Enter
+          </Button>
+        );
       } else {
         actionButton = <Button className="is-large">Join</Button>;
       }

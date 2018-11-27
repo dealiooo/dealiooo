@@ -1,7 +1,10 @@
 const server_address = require('./server_address');
 
 const resolvePendingPromise = response => {
-  return response.text().then(data => data);
+  if (response.ok) {
+    return response.text().then(data => JSON.parse(data));
+  }
+  return response;
 };
 
 const request_configuration = (body = {}, method) => {
@@ -36,18 +39,19 @@ export default {
     request(`/game-lobby/${game_id}/info`, {}, 'get').then(
       resolvePendingPromise
     ),
-  get_create_game: () => request('/main-lobby/create-game', {}, 'get'),
-  //get_join_game: () => request('games/create', {}),
-  //get_leave_game: () => request('games/create', {}, 'get'),
-  //get_run_game: () => request('games/create', {}, 'get'),
   post_register: (name, email, password) =>
-    request('/register', { name: name, email: email, password: password }),
+    request('/register', { name, email, password }),
   post_login: (email, password) =>
-    request('/login', { email: email, password: password }).then(jsonify),
+    request('/login', { email, password }).then(jsonify),
   post_main_lobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
-  send_chat: (room_id, message) => request(`/chat/${room_id}`, { message }),
-  post_create_game: game_id => request(`/create-game/${game_id}`, {}),
-  post_join_game: game_id => request(`/join-game/${game_id}`, {}),
-  post_leave_game: game_id => request(`/leave-game/${game_id}`, {}),
-  post_run_game: game_id => request(`/run-game/${game_id}`, {})
+  post_create_game: () =>
+    request('/main-lobby/create-game', {}).then(resolvePendingPromise),
+  post_join_game: game_id =>
+    request(`/game-lobby/${game_id}/join`, {}).then(resolvePendingPromise),
+  post_leave_game: game_id =>
+    request(`/game-lobby/${game_id}/leave`, {}).then(resolvePendingPromise),
+  post_run_game: game_id =>
+    request(`/game-lobby/${game_id}/run`, {}).then(resolvePendingPromise),
+  post_delete_game: game_id =>
+    request(`/game-lobby/${game_id}/delete`, {}).then(resolvePendingPromise)
 };

@@ -19,13 +19,14 @@ class MainLobby extends Component {
     this.onJoinGame = this.onJoinGame.bind(this);
     this.onLeaveGame = this.onLeaveGame.bind(this);
     this.onRunGame = this.onRunGame.bind(this);
-    this.onCreateClick = this.onCreateClick.bind(this);
+    this.onCreate = this.onCreate.bind(this);
     this.state = {
       start_render: false,
       user_id: null,
       user_name: null,
       lobbies: null,
       socket_add_game: null,
+      socket_join_game: null,
       chat_socket: socket(),
       lobby_socket: socket()
     };
@@ -34,23 +35,22 @@ class MainLobby extends Component {
   componentWillMount() {
     api.get_main_lobby().then(response => {
       if (response.ok) {
-        api.post_main_lobby().then(promise => {
-          this.setState({ lobbies: JSON.parse(promise).result });
-          var baseState = this.state.lobbies;
-          baseState.map((game, i) =>
-            api.get_game_lobby_info(game.id).then(info => {
-              baseState[i].playerList = JSON.parse(info).result;
-              baseState[i].playerNum = JSON.parse(info).result.length;
-              baseState[i].playerCap = 5;
-              this.setState({ lobbies: baseState });
-            })
-          );
-        });
         response.text().then(body => {
           body = JSON.parse(body);
           this.setState({ user_id: body.id });
           this.setState({ user_name: body.name });
           this.setState({ start_render: true });
+          api.post_main_lobby().then(promise => {
+            var baseState = promise.result;
+            baseState.map((game, i) =>
+              api.get_game_lobby_info(game.id).then(info => {
+                baseState[i].playerList = info.result;
+                baseState[i].playerNum = info.result.length;
+                baseState[i].playerCap = 5;
+                this.setState({ lobbies: baseState });
+              })
+            );
+          });
         });
       } else {
         window.location = '/login';
@@ -66,7 +66,8 @@ class MainLobby extends Component {
       on_run_game: this.onRunGame
     });
     this.setState({
-      socket_add_game: temp.add_game
+      socket_add_game: temp.add_game,
+      socket_join_game: temp.join_game
     });
   }
 
@@ -82,8 +83,8 @@ class MainLobby extends Component {
       playerNum: 1
     };
     api.get_game_lobby_info(event.game_id).then(info => {
-      newRoom.playerList = JSON.parse(info).result;
-      newRoom.playerNum = JSON.parse(info).result.length;
+      newRoom.playerList = info.result;
+      newRoom.playerNum = info.result.length;
       newRoom.playerCap = 5;
       baseState = baseState.concat(newRoom);
       this.setState({ lobbies: baseState });
@@ -91,33 +92,71 @@ class MainLobby extends Component {
   }
 
   onJoinGame(event) {
-    console.log(event);
+    // todo: convert this array operation to a dictionary operation
+    var length = this.state.lobbies.length;
+    var index = 0;
+    for (var i = 0; i < length; i++) {
+      if (this.state.lobbies[i].id === event.game_id) {
+        index = i;
+        break;
+      }
+    }
+    api.get_game_lobby_info(event.game_id).then(info => {
+      var baseState = this.state.lobbies;
+      baseState[index].playerList = info.result;
+      baseState[index].playerNum = info.result.length;
+      baseState[index].playerCap = 5;
+      this.setState({ lobbies: baseState });
+    });
   }
 
   onLeaveGame(event) {
-    console.log(event);
+    // todo: convert this array operation to a dictionary operation
+    var length = this.state.lobbies.length;
+    var index = 0;
+    for (var i = 0; i < length; i++) {
+      if (this.state.lobbies[i].id === event.game_id) {
+        index = i;
+        break;
+      }
+    }
+    api.get_game_lobby_info(event.game_id).then(info => {
+      var baseState = this.state.lobbies;
+      baseState[index].playerList = info.result;
+      baseState[index].playerNum = info.result.length;
+      baseState[index].playerCap = 5;
+      this.setState({ lobbies: baseState });
+    });
   }
 
   onRunGame(event) {
-    console.log(event);
+    // todo: convert this array operation to a dictionary operation
+    var length = this.state.lobbies.length;
+    var index = 0;
+    for (var i = 0; i < length; i++) {
+      if (this.state.lobbies[i].id === event.game_id) {
+        index = i;
+        break;
+      }
+    }
+    var baseState = this.state.lobbies;
+    baseState.splice(index, 1);
+    this.setState({ lobbies: baseState });
   }
 
-  onCreateClick = evt => {
-    api.get_create_game().then(response => {
-      if (response.ok) {
-        response.text().then(promise => {
-          var game_id = JSON.parse(promise).game_user.th_game_id;
-          this.state.socket_add_game(
-            { game_id, user_name: this.state.user_name },
-            error => {
-              if (error) {
-                console.log(error);
-              }
-            }
-          );
-          //window.location = `/game-lobby/${room_id}`;
-        });
-      }
+  onCreate = evt => {
+    api.post_create_game().then(promise => {
+      var game_id = promise.game_user.th_game_id;
+      this.state.socket_add_game(
+        { game_id, user_name: this.state.user_name },
+        error => {
+          if (error) {
+            console.log(error);
+          } else {
+            window.location = `/game-lobby/${game_id}`;
+          }
+        }
+      );
     });
   };
 
@@ -132,8 +171,9 @@ class MainLobby extends Component {
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
                 user_id={this.state.user_id}
+                socket_join={this.state.socket_join_game}
               />
-              <Button onClick={this.onCreateClick} className="is-large">
+              <Button onClick={this.onCreate} className="is-large">
                 Create
               </Button>
             </Columns.Column>

@@ -87,11 +87,11 @@ _db.update_password = (email, new_password, callback) =>
     .then(_ =>
       Users.update(
         {
-          password: _new_password
+          password: new_password
         },
         {
           where: {
-            email: _email
+            email: email
           }
         }
       )
@@ -112,9 +112,9 @@ _db.find_game_by_id = (game_id, callback) =>
 _db.find_all_game_user_names = (game_id, callback) =>
   _db.find_game_by_id(game_id, (error, game) => {
     if (error) {
-      callback(error);
+      return callback(error);
     }
-    game
+    return game
       .getUsers({ attributes: ['id', 'name'] })
       .then(users => callback(null, users))
       .catch(error => callback(error));
@@ -145,18 +145,59 @@ _db.join_game = (game_id, user_id, callback) =>
     )
     .then(result => {
       if (result.count < 5) {
-        GameUsers.create({
+        return GameUsers.create({
           th_game_id: game_id,
           th_user_id: user_id
         }).then(game_user => callback(null, game_user));
       } else {
-        callback(Promise.reject(new Error('Game is at full capacity')));
+        return callback(Promise.reject(new Error('Game is at full capacity')));
       }
     })
     .catch(error => callback(error));
 
+_db.leave_game = (game_id, user_id, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      GameUsers.destroy({
+        where: {
+          th_game_id: game_id,
+          th_user_id: user_id
+        }
+      })
+    )
+    .then(result => callback(null, result))
+    .catch(error => callback(error));
+
 _db.delete_game = (game_id, callback) =>
-  callback(Promise.reject(new Error('TODO')));
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      GameUsers.findAndCountAll({
+        where: {
+          th_game_id: game_id
+        }
+      })
+    )
+    .then(result => {
+      if (0 === result.count) {
+        return Games.destroy({
+          where: {
+            id: game_id
+          }
+        });
+      }
+      return Promise.reject(new Error('Game is not empty'));
+    })
+    .then(result => callback(null, result))
+    .catch(error => callback(error));
+
+_db.run_game = (game_id, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ => Games.update({ turn: 1 }, { where: { id: game_id } }))
+    .then(result => callback(null, result))
+    .catch(error => callback(error));
 
 _db.ready = (game_id, callback) => callback(Promise.reject(new Error('TODO')));
 
@@ -165,9 +206,9 @@ _db.ready = (user_id, game_id, callback) =>
 
 /*
 
-delete_game( game_id )
-Promise // if delete succeeded
-Error // if delete failed
+run_game( game_id )
+Promise // if run succeeded
+Error // if run failed
 
 ready( user_id, game_id )
 Promise // if update ( user_id.ready = !user_id.ready ) succeeded

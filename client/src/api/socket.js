@@ -62,12 +62,12 @@ const register_mainlobby_handler = ({
   socket.on('join-game', on_join_game);
   socket.on('leave-game', on_leave_game);
   socket.on('run-game', on_run_game);
-  const add_game = ({ game_id, user_name }, callback) =>
-    socket.emit('add-game', { game_id, user_name }, callback);
-  const join_game = ({ game_id, user_name }, callback) =>
-    socket.emit('join-game', { game_id, user_name }, callback);
-  const leave_game = ({ game_id, user_name }, callback) =>
-    socket.emit('leave-game', { game_id, user_name }, callback);
+  const add_game = ({ game_id, user_id }, callback) =>
+    socket.emit('add-game', { game_id, user_id }, callback);
+  const join_game = ({ game_id, user_id }, callback) =>
+    socket.emit('join-game', { game_id, user_id }, callback);
+  const leave_game = ({ game_id, user_id }, callback) =>
+    socket.emit('leave-game', { game_id, user_id }, callback);
   const run_game = ({ game_id }, callback) =>
     socket.emit('run-game', { game_id }, callback);
   return {

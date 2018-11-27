@@ -25,6 +25,8 @@ class GameLobbyList extends Component {
             key={gameLobby.id}
             gameLobby={gameLobby}
             user_id={this.props.user_id}
+            game_id={gameLobby.id}
+            socket_join={this.props.socket_join_game}
           />
         );
       });

@@ -68,27 +68,27 @@ const handlers = (client_socket, room_manager) => {
     }
   };
 
-  const handle_add_game = ({ game_id, user_name }, callback) => {
+  const handle_add_game = ({ game_id, user_id }, callback) => {
     try {
-      room_manager.add_game(game_id, user_name);
+      room_manager.add_game(game_id, user_id);
       return callback(null);
     } catch (error) {
       return callback(error);
     }
   };
 
-  const handle_join_game = ({ game_id, user_name }, callback) => {
+  const handle_join_game = ({ game_id, user_id }, callback) => {
     try {
-      room_manager.join_game(game_id, user_name);
+      room_manager.join_game(game_id, user_id);
       return callback(null);
     } catch (error) {
       return callback(error);
     }
   };
 
-  const handle_leave_game = ({ game_id, user_name }, callback) => {
+  const handle_leave_game = ({ game_id, user_id }, callback) => {
     try {
-      room_manager.leave_game(game_id, user_name);
+      room_manager.leave_game(game_id, user_id);
       return callback(null);
     } catch (error) {
       return callback(error);
