@@ -111,9 +111,6 @@ router.post(
   }
 );
 
-// TODO::::::::
-// Make forget-password a one-time-link
-////////////////
 router.post(
   '/new-password/:session_id',
   not_authenticated,
@@ -128,7 +125,7 @@ router.post(
       }
 
       if (!session) {
-        return response.json(400);
+        return response.sendStatus(400);
       }
 
       const { sid, sess, expire } = session.dataValues;
@@ -136,16 +133,22 @@ router.post(
       const today = new Date();
 
       if (sid === session_id && email === sessionEmail && today < expire) {
-        return db.update_password(email, password, (error, user) => {
+        db.delete_session(sid, error => {
           if (error) {
             return response.json({ error });
           }
 
-          if (!user) {
-            return response.sendStatus(400);
-          }
+          return db.update_password(email, password, (error, user) => {
+            if (error) {
+              return response.json({ error });
+            }
 
-          return response.sendStatus(201);
+            if (!user) {
+              return response.sendStatus(400);
+            }
+
+            return response.sendStatus(201);
+          });
         });
       } else {
         return response.sendStatus(401);
