@@ -56,7 +56,11 @@ class GameLobbyListItem extends Component {
           </Button>
         );
       } else {
-        actionButton = <Button className="is-large">Join</Button>;
+        actionButton = (
+          <Button onClick={this.onJoin} className="is-large">
+            Join
+          </Button>
+        );
       }
       return (
         <Box>
