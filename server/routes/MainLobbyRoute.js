@@ -15,7 +15,7 @@ router.post('/main-lobby', requireAuthentication, (request, response) =>
   })
 );
 
-router.get(
+router.post(
   '/main-lobby/create-game',
   requireAuthentication,
   (request, response) =>
