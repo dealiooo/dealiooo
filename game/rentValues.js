@@ -1,64 +1,53 @@
 /*
 * RentValues Format
-* {
-*    color: String,
+* 'color':{
 *    rentValues: [Integer],
 *    maxSize: Integer
 * }
 *
 */
 
-const rentValues = [
-  {
-    color: 'green',
+const rentValues = {
+  'green':{
     rentValues: [2, 4, 7],
     maxSize: 3
   },
-  {
-    color: 'dark-blue',
+  'dark-blue':{
     rentValues: [3, 8],
     maxSize: 2
   },
-  {
-    color: 'light-blue',
+  'light-blue':{
     rentValues: [1, 2, 3],
     maxSize: 3
   },
-  {
-    color: 'red',
+  'red':{
     rentValues: [2, 3, 6],
     maxSize: 3
   },
-  {
-    color: 'utility',
+  'utility':{
     rentValues: [1, 2],
     maxSize: 2
   },
-  {
-    color: 'yellow',
+  'yellow':{
     rentValues: [2, 4, 6],
     maxSize: 3
   },
-  {
-    color: 'orange',
+  'orange':{
     rentValues: [1, 3, 5],
     maxSize: 3
   },
-  {
-    color: 'brown',
+  'brown':{
     rentValues: [1, 2],
     maxSize: 2
   },
-  {
-    color: 'purple',
+  'purple':{
     rentValues: [1, 2, 4],
     maxSize: 3
   },
-  {
-    color: 'railroad',
+  'railroad':{
     rentValues: [1, 2, 3, 4],
     maxSize: 4
   }
-];
+};
 
 export default rentValues;
