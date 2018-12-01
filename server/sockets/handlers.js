@@ -106,7 +106,6 @@ const handlers = (client_socket, room_manager) => {
 
   const handle_player_ready = ({ room_id, user_id }, callback) => {
     try {
-      console.log('aaaaaaaaaaaaaaaaaa');
       room_manager.player_ready(room_id, user_id);
       return callback(null);
     } catch (error) {
@@ -116,7 +115,6 @@ const handlers = (client_socket, room_manager) => {
 
   const handle_player_unready = ({ room_id, user_id }, callback) => {
     try {
-      console.log('bbbbbbbbbbbbbbbbbbbbbbbbb');
       room_manager.player_unready(room_id, user_id);
       return callback(null);
     } catch (error) {

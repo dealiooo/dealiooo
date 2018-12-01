@@ -42,7 +42,7 @@ router.post(
   '/game-lobby/:game_id/join',
   requireAuthentication,
   (request, response) =>
-    db.join_game(request.params.game_id, request.id, (error, result) => {
+    db.join_game(request.params.game_id, request.user.id, (error, result) => {
       if (error) {
         response.json({ error });
       } else {

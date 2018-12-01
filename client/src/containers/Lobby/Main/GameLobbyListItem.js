@@ -20,13 +20,16 @@ class GameLobbyListItem extends Component {
 
   onJoin(event) {
     api.post_join_game(this.props.game_id).then(response => {
-      if (response.ok) {
+      if (response.result) {
+        console.log('yay');
+        console.log(this.props.socket_join_game);
         this.props.socket_join_game(
           { game_id: this.props.game_id, user_id: this.props.user_id },
           error => {
             if (error) {
               console.log(error);
             } else {
+              console.log('hmmm');
               window.location = `/game-lobby/${this.props.game_id}`;
             }
           }

@@ -115,16 +115,20 @@ class MainLobby extends Component {
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === event.game_id) {
+      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
         index = i;
         break;
       }
     }
     api.get_game_lobby_info(event.game_id).then(info => {
       var baseState = this.state.lobbies;
-      baseState[index].playerList = info.result;
-      baseState[index].playerNum = info.result.length;
-      baseState[index].playerCap = 5;
+      if (info.result.length) {
+        baseState[index].playerList = info.result;
+        baseState[index].playerNum = info.result.length;
+        baseState[index].playerCap = 5;
+      } else {
+        baseState.splice(index, 1);
+      }
       this.setState({ lobbies: baseState });
     });
   }
@@ -134,7 +138,7 @@ class MainLobby extends Component {
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === event.game_id) {
+      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
         index = i;
         break;
       }
@@ -171,7 +175,7 @@ class MainLobby extends Component {
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
                 user_id={this.state.user_id}
-                socket_join={this.state.socket_join_game}
+                socket_join_game={this.state.socket_join_game}
               />
               <Button onClick={this.onCreate} className="is-large">
                 Create

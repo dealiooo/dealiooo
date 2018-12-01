@@ -86,11 +86,14 @@ class GameLobby extends Component {
                 if (error) {
                   console.log(error);
                   console.log(`creating room: gamelobby/${this.state.game_id}`);
-                  g_temp.add_room({ room_id: this.state.game_id }, error => {
-                    if (error) {
-                      console.log(error);
+                  g_temp.add_room(
+                    { room_id: `gamelobby/${this.state.game_id}` },
+                    error => {
+                      if (error) {
+                        console.log(error);
+                      }
                     }
-                  });
+                  );
                 }
               }
             );
@@ -144,7 +147,7 @@ class GameLobby extends Component {
       if (ready_state.result) {
         this.state.socket_player_ready(
           {
-            room_id: this.state.game_id,
+            room_id: `gamelobby/${this.state.game_id}`,
             user_id: this.state.user_id
           },
           error => {
@@ -156,7 +159,7 @@ class GameLobby extends Component {
       } else {
         this.state.socket_player_unready(
           {
-            room_id: this.state.game_id,
+            room_id: `gamelobby/${this.state.game_id}`,
             user_id: this.state.user_id
           },
           error => {
@@ -170,7 +173,25 @@ class GameLobby extends Component {
   }
 
   onExit(event) {
-    console.log('TODO');
+    api.post_leave_game(this.state.game_id).then(result => {
+      if (!result.status) {
+        this.state.socket_leave_game(
+          {
+            game_id: this.state.game_id,
+            user_id: this.state.user_id
+          },
+          error => {
+            if (error) {
+              console.log(error);
+            } else {
+              api
+                .post_delete_game(this.state.game_id)
+                .then(result => (window.location = '/main-lobby'));
+            }
+          }
+        );
+      }
+    });
   }
 
   onAddGame(event) {
@@ -178,11 +199,31 @@ class GameLobby extends Component {
   }
 
   onJoinGame(event) {
-    console.log('TODO');
+    if (this.state.game_id === event.game_id) {
+      api.get_game_lobby_player_status(this.state.game_id).then(status => {
+        status.result.map(
+          player_status =>
+            (player_status.ready = player_status.th_game_user.ready)
+        );
+        this.setState({ players_status: status.result });
+      });
+    }
   }
 
   onLeaveGame(event) {
-    console.log('TODO');
+    if (this.state.game_id === event.game_id) {
+      var temp = this.state.players_status;
+      this.setState({
+        players_status: temp.filter(
+          player_status => player_status.id !== event.user_id
+        )
+      });
+      if (this.state.user_id === event.user_id) {
+        api
+          .post_delete_game(this.state.game_id)
+          .then(result => (window.location = '/main-lobby'));
+      }
+    }
   }
 
   onRunGame(event) {
