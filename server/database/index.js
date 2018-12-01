@@ -122,6 +122,27 @@ _db.find_all_game_user_names = (game_id, callback) =>
       .catch(error => callback(error));
   });
 
+_db.user_belong_to_game_id = (game_id, user_id, callback) =>
+  GameUsers.findAndCountAll({
+    where: { th_game_id: game_id, th_user_id: user_id }
+  })
+    .then(result => callback(null, result.count === 1))
+    .catch(error => callback(error));
+
+_db.find_game_lobby_status = (game_id, callback) =>
+  Users.findAll({
+    attributes: ['id', 'name'],
+    include: [
+      {
+        model: GameUsers,
+        attributes: ['ready'],
+        where: { th_game_id: game_id }
+      }
+    ]
+  })
+    .then(status => callback(null, status))
+    .catch(error => callback(error));
+
 _db.insert_game = (user_id, callback) =>
   db.sequelize
     .sync({ logging: false })
@@ -203,8 +224,40 @@ _db.run_game = (game_id, callback) =>
 
 _db.ready = (game_id, callback) => callback(Promise.reject(new Error('TODO')));
 
-_db.ready = (user_id, game_id, callback) =>
-  callback(Promise.reject(new Error('TODO')));
+_db.ready = (game_id, user_id, callback) =>
+  db.sequelize
+    .sync({ logging: false })
+    .then(_ =>
+      GameUsers.findOne({
+        attributes: ['ready'],
+        where: {
+          th_game_id: game_id,
+          th_user_id: user_id
+        }
+      })
+    )
+    .then(status =>
+      GameUsers.update(
+        { ready: !status.ready },
+        {
+          where: {
+            th_game_id: game_id,
+            th_user_id: user_id
+          }
+        }
+      )
+    )
+    .then(_ =>
+      GameUsers.findOne({
+        attributes: ['ready'],
+        where: {
+          th_game_id: game_id,
+          th_user_id: user_id
+        }
+      })
+    )
+    .then(status => callback(null, status.ready))
+    .catch(error => callback(error));
 
 _db.insert_session = (sid, sess, expire, callback) =>
   db.sequelize

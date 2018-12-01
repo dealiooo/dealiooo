@@ -104,18 +104,20 @@ const handlers = (client_socket, room_manager) => {
     }
   };
 
-  const handle_player_ready = ({ room_id }, callback) => {
+  const handle_player_ready = ({ room_id, user_id }, callback) => {
     try {
-      room_manager.player_ready(room_id, client_socket);
+      console.log('aaaaaaaaaaaaaaaaaa');
+      room_manager.player_ready(room_id, user_id);
       return callback(null);
     } catch (error) {
       return callback(error);
     }
   };
 
-  const handle_player_unready = ({ room_id }, callback) => {
+  const handle_player_unready = ({ room_id, user_id }, callback) => {
     try {
-      room_manager.player_unready(room_id, client_socket);
+      console.log('bbbbbbbbbbbbbbbbbbbbbbbbb');
+      room_manager.player_unready(room_id, user_id);
       return callback(null);
     } catch (error) {
       return callback(error);

@@ -35,8 +35,13 @@ export default {
   get_register: () => request('/register', {}, 'get'),
   get_login: () => request('/login', {}, 'get'),
   get_main_lobby: () => request('/main-lobby', {}, 'get'),
+  get_game_lobby: game_id => request(`/game-lobby/${game_id}`, {}, 'get'),
   get_game_lobby_info: game_id =>
     request(`/game-lobby/${game_id}/info`, {}, 'get').then(
+      resolvePendingPromise
+    ),
+  get_game_lobby_player_status: game_id =>
+    request(`/game-lobby/${game_id}/status`, {}, 'get').then(
       resolvePendingPromise
     ),
   post_register: (name, email, password) =>
@@ -53,5 +58,7 @@ export default {
   post_run_game: game_id =>
     request(`/game-lobby/${game_id}/run`, {}).then(resolvePendingPromise),
   post_delete_game: game_id =>
-    request(`/game-lobby/${game_id}/delete`, {}).then(resolvePendingPromise)
+    request(`/game-lobby/${game_id}/delete`, {}).then(resolvePendingPromise),
+  post_player_ready: game_id =>
+    request(`/game-lobby/${game_id}/ready`).then(resolvePendingPromise)
 };

@@ -39,10 +39,10 @@ const register_gamelobby_handler = ({ on_player_ready, on_player_unready }) => {
     socket.emit('join-gamelobby', { room_id, user_name }, callback);
   const leave = ({ room_id, user_name }, callback) =>
     socket.emit('leave-gamelobby', { room_id, user_name }, callback);
-  const player_ready = ({ room_id }, callback) =>
-    socket.emit('player-ready', { room_id }, callback);
-  const player_unready = ({ room_id }, callback) =>
-    socket.emit('player-unready', { room_id }, callback);
+  const player_ready = ({ room_id, user_id }, callback) =>
+    socket.emit('player-ready', { room_id, user_id }, callback);
+  const player_unready = ({ room_id, user_id }, callback) =>
+    socket.emit('player-unready', { room_id, user_id }, callback);
   return {
     add_room,
     join,

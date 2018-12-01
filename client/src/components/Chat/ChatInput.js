@@ -21,11 +21,12 @@ class ChatInput extends Component {
     this.onChange = this.onChange.bind(this);
     this.onMessageReceived = this.onMessageReceived.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    var temp = this.props.register_handler({
+      on_message_received: this.onMessageReceived
+    });
     this.state = {
       message: '',
-      socket_message: this.props.register_handler({
-        on_message_received: this.onMessageReceived
-      }).message
+      socket_message: temp.message
     };
   }
 

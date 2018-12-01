@@ -1,0 +1,13 @@
+html
+  > body
+  > div#root
+  > div.box
+  > section.section
+  > div.columns.is-multiline
+  > div.column
+  > div.box.ps {
+  position: relative;
+  min-height: 400px;
+  max-height: 400px;
+  overflow: auto;
+}

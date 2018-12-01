@@ -10,10 +10,10 @@ manager = () => {
   };
   const remove_room = room_id => rooms.delete(room_id);
   const get_room = room_id => rooms.get(room_id);
-  const player_ready = (room_id, client_socket) =>
-    rooms.get(room_id).signal('player-ready', client_socket.id);
-  const player_unready = (room_id, client_socket) =>
-    rooms.get(room_id).signal('player-unready', client_socket.id);
+  const player_ready = (room_id, user_id) =>
+    rooms.get(room_id).signal('player-ready', user_id);
+  const player_unready = (room_id, user_id) =>
+    rooms.get(room_id).signal('player-unready', user_id);
   return {
     disconnect,
     add_room,
