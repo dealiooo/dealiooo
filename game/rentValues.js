@@ -8,45 +8,45 @@
 */
 
 const rentValues = {
-  'green':{
+  green: {
     rentValues: [2, 4, 7],
-    maxSize: 3
+    maxSetSize: 3
   },
-  'dark-blue':{
+  'dark-blue': {
     rentValues: [3, 8],
-    maxSize: 2
+    maxSetSize: 2
   },
-  'light-blue':{
+  'light-blue': {
     rentValues: [1, 2, 3],
-    maxSize: 3
+    maxSetSize: 3
   },
-  'red':{
+  red: {
     rentValues: [2, 3, 6],
-    maxSize: 3
+    maxSetSize: 3
   },
-  'utility':{
+  utility: {
     rentValues: [1, 2],
-    maxSize: 2
+    maxSetSize: 2
   },
-  'yellow':{
+  yellow: {
     rentValues: [2, 4, 6],
-    maxSize: 3
+    maxSetSize: 3
   },
-  'orange':{
+  orange: {
     rentValues: [1, 3, 5],
-    maxSize: 3
+    maxSetSize: 3
   },
-  'brown':{
+  brown: {
     rentValues: [1, 2],
-    maxSize: 2
+    maxSetSize: 2
   },
-  'purple':{
+  purple: {
     rentValues: [1, 2, 4],
-    maxSize: 3
+    maxSetSize: 3
   },
-  'railroad':{
+  railroad: {
     rentValues: [1, 2, 3, 4],
-    maxSize: 4
+    maxSetSize: 4
   }
 };
 

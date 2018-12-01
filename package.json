@@ -10,7 +10,6 @@
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo",
     "postinstall": "sequelize db:migrate",
-    "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
@@ -47,5 +46,10 @@
     "lint-staged": "^8.0.4",
     "nodemon": "^1.18.6",
     "prettier": "1.14.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
