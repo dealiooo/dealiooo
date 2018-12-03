@@ -1,0 +1,7 @@
+div.log {
+  border: 2px solid black;
+  border-radius: 5px;
+  min-height: 400px;
+  max-height: 400px;
+  overflow: scroll;
+}
