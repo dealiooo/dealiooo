@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, Sequelize) => {
   return sequelize.define(
-    'test_games',
+    'th_games',
     {
       id: {
         type: Sequelize.INTEGER,

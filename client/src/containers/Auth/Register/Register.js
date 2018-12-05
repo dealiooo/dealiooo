@@ -11,8 +11,9 @@ import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
 import api from '../../../api';
 
-class Login extends Component {
+class Register extends Component {
   state = {
+    name: '',
     email: '',
     password: '',
     modal_display: false,
@@ -25,16 +26,16 @@ class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    api.post_login(this.state.email, this.state.password).then(result => {
-      if (result.error) {
-        this.setState({
-          modal_message: 'Invalid email & password combination'
-        });
-        this.setState({ modal_display: true });
-      } else {
-        window.location = '/main-lobby';
-      }
-    });
+    api
+      .post_register(this.state.name, this.state.email, this.state.password)
+      .then(result => {
+        if (result.error) {
+          this.setState({ modal_message: result.error.errors[0].message });
+          this.setState({ modal_display: true });
+        } else {
+          window.location = '/main-lobby';
+        }
+      });
   };
 
   onModalClick = event => {
@@ -42,7 +43,7 @@ class Login extends Component {
   };
 
   componentWillMount() {
-    api.get_login().then(response => {
+    api.get_register().then(response => {
       if (response.ok) {
         window.location = '/main-lobby';
       }
@@ -68,6 +69,17 @@ class Login extends Component {
           </Modal.Content>
         </Modal>
         <form onSubmit={this.onSubmit}>
+          <Field>
+            <Control>
+              <Input
+                name="name"
+                type="text"
+                onChange={this.onChange}
+                value={this.state.name}
+                placeholder="Type your in-game name"
+              />
+            </Control>
+          </Field>
           <Field>
             <Control>
               <Input
@@ -101,4 +113,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Register;

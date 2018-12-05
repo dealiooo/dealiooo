@@ -20,7 +20,15 @@ class GameLobbyList extends Component {
     let gameLobbyListItems;
     if (this.props.gameLobbies) {
       gameLobbyListItems = this.props.gameLobbies.map(gameLobby => {
-        return <GameLobbyListItem key={gameLobby.id} gameLobby={gameLobby} />;
+        return (
+          <GameLobbyListItem
+            key={gameLobby.id}
+            gameLobby={gameLobby}
+            user_id={this.props.user_id}
+            game_id={gameLobby.id}
+            socket_join_game={this.props.socket_join_game}
+          />
+        );
       });
     }
     return <Box>{gameLobbyListItems}</Box>;

@@ -7,43 +7,47 @@ import Box from 'react-bulma-components/lib/components/box';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 class ChatLog extends Component {
-  state = {
-    log: [
-      'user1: delete us',
-      'user2: once socket',
-      'user3: has been implemented',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re',
-      're:re'
-    ]
-  };
+  constructor(props) {
+    super(props);
+    this.onMessageReceived = this.onMessageReceived.bind(this);
+    this.state = {
+      log: []
+    };
+  }
 
   componentDidMount() {
     this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
+    var temp = this.props.register_handler({
+      on_message_received: this.onMessageReceived
+    });
+    temp.join(
+      { room_id: this.props.room_id, user_name: this.props.user_name },
+      error => {
+        if (error) {
+          console.log(error);
+          console.log(`creating room: ${this.props.room_id}`);
+          temp.add_room({ room_id: this.props.room_id }, error => {
+            if (error) {
+              console.log(error);
+            }
+          });
+        }
+      }
+    );
   }
 
   componentDidUpdate(prevProps) {
     this.ps.update();
+  }
+
+  componentWillUnmount() {
+    this.props.unregister_chat_handler();
+  }
+
+  onMessageReceived(message) {
+    this.setState({
+      log: this.state.log.concat(message.event)
+    });
   }
 
   render() {

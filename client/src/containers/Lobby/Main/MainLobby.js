@@ -7,83 +7,206 @@ import NavigationBar from '../../../components/NavigationBar';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
-import Section from 'react-bulma-components/lib/components/section';
+import api from '../../../api';
+import socket from '../../../api/socket';
 
 import './MainLobby.css';
 
-var debug = true;
-
 class MainLobby extends Component {
-  render() {
-    return (
-      <Box>
-        <NavigationBar title="Main Lobby" />
-        <Columns>
-          <Columns.Column>
-            <GameLobbyList
-              key="gameLobbies"
-              gameLobbies={getGameLobbies(this.props.gameLobbies)}
-            />
-            <Button className="is-large">Create</Button>
-          </Columns.Column>
-          <Columns.Column>
-            <ChatLog />
-            <ChatInput />
-          </Columns.Column>
-        </Columns>
-      </Box>
-    );
+  constructor(props) {
+    super(props);
+    this.onAddGame = this.onAddGame.bind(this);
+    this.onJoinGame = this.onJoinGame.bind(this);
+    this.onLeaveGame = this.onLeaveGame.bind(this);
+    this.onRunGame = this.onRunGame.bind(this);
+    this.onCreate = this.onCreate.bind(this);
+    this.state = {
+      start_render: false,
+      user_id: null,
+      user_name: null,
+      lobbies: null,
+      socket_add_game: null,
+      socket_join_game: null,
+      chat_socket: socket(),
+      lobby_socket: socket()
+    };
   }
-}
 
-function getGameLobbies(val) {
-  if (debug) {
-    return [
-      {
-        id: 1000,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: ['zxcqa1', 'zxcqa2', 'zxcqa3', 'zxcqa4', 'zxcqa5']
-      },
-      {
-        id: 1001,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: ['zxcqb1', 'zxcqb2', 'zxcqb3', 'zxcqb4', 'zxcqb5']
-      },
-      {
-        id: 1002,
-        playerNum: 2,
-        playerCap: 5,
-        playerList: ['qwe1', 'qwe2']
-      },
-      {
-        id: 1003,
-        playerNum: 1,
-        playerCap: 4,
-        playerList: ['joinMe']
-      },
-      {
-        id: 1004,
-        playerNum: 2,
-        playerCap: 2,
-        playerList: ['asd1', 'asd2']
-      },
-      {
-        id: 1005,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: ['zxc1', 'zxc2', 'zxc3', 'zxc4', 'zxc5']
-      },
-      {
-        id: 1006,
-        playerNum: 5,
-        playerCap: 5,
-        playerList: ['zxcq1', 'zxcq2', 'zxcq3', 'zxcq4', 'zxcq5']
+  componentWillMount() {
+    api.get_main_lobby().then(response => {
+      if (response.ok) {
+        response.text().then(body => {
+          body = JSON.parse(body);
+          this.setState({ user_id: body.id });
+          this.setState({ user_name: body.name });
+          this.setState({ start_render: true });
+          api.post_main_lobby().then(promise => {
+            var baseState = promise.result;
+            baseState.map((game, i) =>
+              api.get_game_lobby_info(game.id).then(info => {
+                baseState[i].playerList = info.result;
+                baseState[i].playerNum = info.result.length;
+                baseState[i].playerCap = 5;
+                this.setState({ lobbies: baseState });
+              })
+            );
+          });
+        });
+      } else {
+        window.location = '/login';
       }
-    ];
+    });
   }
-  return val;
+
+  componentDidMount() {
+    var temp = this.state.lobby_socket.register_mainlobby_handler({
+      on_add_game: this.onAddGame,
+      on_join_game: this.onJoinGame,
+      on_leave_game: this.onLeaveGame,
+      on_run_game: this.onRunGame
+    });
+    this.setState({
+      socket_add_game: temp.add_game,
+      socket_join_game: temp.join_game
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.lobby_socket.unregister_mainlobby_handler();
+  }
+
+  onAddGame(event) {
+    var baseState = this.state.lobbies;
+    var newRoom = {
+      id: event.game_id,
+      turn: 0,
+      playerNum: 1
+    };
+    api.get_game_lobby_info(event.game_id).then(info => {
+      newRoom.playerList = info.result;
+      newRoom.playerNum = info.result.length;
+      newRoom.playerCap = 5;
+      baseState = baseState.concat(newRoom);
+      this.setState({ lobbies: baseState });
+    });
+  }
+
+  onJoinGame(event) {
+    // todo: convert this array operation to a dictionary operation
+    var length = this.state.lobbies.length;
+    var index = 0;
+    for (var i = 0; i < length; i++) {
+      if (this.state.lobbies[i].id === event.game_id) {
+        index = i;
+        break;
+      }
+    }
+    api.get_game_lobby_info(event.game_id).then(info => {
+      var baseState = this.state.lobbies;
+      baseState[index].playerList = info.result;
+      baseState[index].playerNum = info.result.length;
+      baseState[index].playerCap = 5;
+      this.setState({ lobbies: baseState });
+    });
+  }
+
+  onLeaveGame(event) {
+    // todo: convert this array operation to a dictionary operation
+    var length = this.state.lobbies.length;
+    var index = 0;
+    for (var i = 0; i < length; i++) {
+      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
+        index = i;
+        break;
+      }
+    }
+    api.get_game_lobby_info(event.game_id).then(info => {
+      var baseState = this.state.lobbies;
+      if (info.result.length) {
+        baseState[index].playerList = info.result;
+        baseState[index].playerNum = info.result.length;
+        baseState[index].playerCap = 5;
+      } else {
+        baseState.splice(index, 1);
+      }
+      this.setState({ lobbies: baseState });
+    });
+  }
+
+  onRunGame(event) {
+    // todo: convert this array operation to a dictionary operation
+    var length = this.state.lobbies.length;
+    var index = 0;
+    for (var i = 0; i < length; i++) {
+      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
+        index = i;
+        break;
+      }
+    }
+    var baseState = this.state.lobbies;
+    baseState.splice(index, 1);
+    this.setState({ lobbies: baseState });
+  }
+
+  onCreate = evt => {
+    api.post_create_game().then(promise => {
+      var game_id = promise.game_user.th_game_id;
+      this.state.socket_add_game(
+        { game_id, user_name: this.state.user_name },
+        error => {
+          if (error) {
+            console.log(error);
+          } else {
+            window.location = `/game-lobby/${game_id}`;
+          }
+        }
+      );
+    });
+  };
+
+  render() {
+    if (this.state.start_render) {
+      return (
+        <Box>
+          <NavigationBar title="Main Lobby" />
+          <Columns>
+            <Columns.Column>
+              <GameLobbyList
+                key="gameLobbies"
+                gameLobbies={this.state.lobbies}
+                user_id={this.state.user_id}
+                socket_join_game={this.state.socket_join_game}
+              />
+              <Button onClick={this.onCreate} className="is-large">
+                Create
+              </Button>
+            </Columns.Column>
+            <Columns.Column>
+              <ChatLog
+                room_id={'mainlobby'}
+                user_id={this.state.user_id}
+                user_name={this.state.user_name}
+                register_handler={this.state.chat_socket.register_chat_handler}
+                unregister_handler={
+                  this.state.chat_socket.unregister_chat_handler
+                }
+              />
+              <ChatInput
+                room_id={'mainlobby'}
+                user_id={this.state.user_id}
+                user_name={this.state.user_name}
+                register_handler={this.state.chat_socket.register_chat_handler}
+                unregister_handler={
+                  this.state.chat_socket.unregister_chat_handler
+                }
+              />
+            </Columns.Column>
+          </Columns>
+        </Box>
+      );
+    }
+    return <Box>Loading Page...</Box>;
+  }
 }
 
 export default MainLobby;
