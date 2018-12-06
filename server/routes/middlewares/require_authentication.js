@@ -5,6 +5,7 @@ const require_authentication = (request, response, next) => {
   } else {
     response.sendStatus(404);
   }
+  return null;
 };
 
 module.exports = require_authentication;

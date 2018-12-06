@@ -7,6 +7,7 @@ const empty_strings_to_null = (request, response, next) => {
     }
   }
   next();
+  return null;
 };
 
 module.exports = empty_strings_to_null;

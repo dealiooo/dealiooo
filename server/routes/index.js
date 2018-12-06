@@ -20,6 +20,7 @@ router.use(function(request, response, next) {
   );
   response.header('Access-Control-Allow-Credentials', true);
   next();
+  return null;
 });
 
 router.use(AuthRoute);
