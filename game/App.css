@@ -1,0 +1,53 @@
+.container {
+  margin: 0 auto;
+  width: 900px;
+  height: 1200px;
+}
+
+.row:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.column {
+  margin: 0 auto;
+  float: left;
+  width: 30%;
+  margin-left: 20px;
+}
+
+.general_log,
+.inputs {
+  margin-top: 16px;
+  border: 2px solid purple;
+  padding: 6px;
+}
+
+input,
+button[type='submit'] {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.current-turn {
+  margin-bottom: 6px;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  padding-left: 8px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.field {
+  border: 1px solid green;
+  color: green;
+  padding-left: 8px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.message {
+  line-height: 14px;
+}
