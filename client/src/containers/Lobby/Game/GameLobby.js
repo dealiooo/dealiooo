@@ -233,15 +233,42 @@ class GameLobby extends Component {
   render() {
     if (this.state.start_render) {
       return (
-        <Box>
+        <Box className="has-background-black">
           <NavigationBar title={this.state.lobby_name} />
           <Section>
             <Columns>
               <Columns.Column>
                 <PlayerStatus status={this.state.players_status} />
+                <Level>
+                  <Level.Item>
+                    <StartButton host={this.props.host} />
+                  </Level.Item>
+                  <Level.Item>
+                    <Button onClick={this.onReady} className="is-large">
+                      Ready
+                    </Button>
+                  </Level.Item>
+                  <Level.Item>
+                    <Button onClick={this.onExit} className="is-large">
+                      Exit
+                    </Button>
+                  </Level.Item>
+                  <Level.Item />
+                </Level>
               </Columns.Column>
-              <Columns.Column>
+              <Columns.Column size="5">
                 <ChatLog
+                  room_id={`gamelobby/${this.state.game_id}`}
+                  user_id={this.state.user_id}
+                  user_name={this.state.user_name}
+                  register_handler={
+                    this.state.chat_socket.register_chat_handler
+                  }
+                  unregister_handler={
+                    this.state.chat_socket.unregister_chat_handler
+                  }
+                />
+                <ChatInput
                   room_id={`gamelobby/${this.state.game_id}`}
                   user_id={this.state.user_id}
                   user_name={this.state.user_name}
@@ -254,15 +281,6 @@ class GameLobby extends Component {
                 />
               </Columns.Column>
             </Columns>
-            <ChatInput
-              room_id={`gamelobby/${this.state.game_id}`}
-              user_id={this.state.user_id}
-              user_name={this.state.user_name}
-              register_handler={this.state.chat_socket.register_chat_handler}
-              unregister_handler={
-                this.state.chat_socket.unregister_chat_handler
-              }
-            />
           </Section>
           <Section>
             <Level>

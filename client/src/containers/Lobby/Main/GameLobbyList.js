@@ -26,12 +26,12 @@ class GameLobbyList extends Component {
             gameLobby={gameLobby}
             user_id={this.props.user_id}
             game_id={gameLobby.id}
-            socket_join_game={this.props.socket_join_game}
+            socket_join={this.props.socket_join_game}
           />
         );
       });
     }
-    return <Box>{gameLobbyListItems}</Box>;
+    return <Box className="has-background-black-ter">{gameLobbyListItems}</Box>;
   }
 }
 

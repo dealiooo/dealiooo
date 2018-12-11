@@ -3,6 +3,8 @@ import GameLobbyList from './GameLobbyList';
 import ChatLog from '../../../components/Chat/ChatLog';
 import ChatInput from '../../../components/Chat/ChatInput';
 import NavigationBar from '../../../components/NavigationBar';
+import Container from 'react-bulma-components/lib/components/container/container';
+import Heading from 'react-bulma-components/lib/components/heading';
 
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
@@ -11,6 +13,7 @@ import api from '../../../api';
 import socket from '../../../api/socket';
 
 import './MainLobby.css';
+import container from 'react-bulma-components/lib/components/container/container';
 
 class MainLobby extends Component {
   constructor(props) {
@@ -115,20 +118,16 @@ class MainLobby extends Component {
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
+      if (this.state.lobbies[i].id === event.game_id) {
         index = i;
         break;
       }
     }
     api.get_game_lobby_info(event.game_id).then(info => {
       var baseState = this.state.lobbies;
-      if (info.result.length) {
-        baseState[index].playerList = info.result;
-        baseState[index].playerNum = info.result.length;
-        baseState[index].playerCap = 5;
-      } else {
-        baseState.splice(index, 1);
-      }
+      baseState[index].playerList = info.result;
+      baseState[index].playerNum = info.result.length;
+      baseState[index].playerCap = 5;
       this.setState({ lobbies: baseState });
     });
   }
@@ -138,7 +137,7 @@ class MainLobby extends Component {
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
+      if (this.state.lobbies[i].id === event.game_id) {
         index = i;
         break;
       }
@@ -167,7 +166,7 @@ class MainLobby extends Component {
   render() {
     if (this.state.start_render) {
       return (
-        <Box>
+        <Box className="has-background-black">
           <NavigationBar title="Main Lobby" />
           <Columns>
             <Columns.Column>
@@ -175,13 +174,13 @@ class MainLobby extends Component {
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
                 user_id={this.state.user_id}
-                socket_join_game={this.state.socket_join_game}
+                socket_join={this.state.socket_join_game}
               />
               <Button onClick={this.onCreate} className="is-large">
                 Create
               </Button>
             </Columns.Column>
-            <Columns.Column>
+            <Columns.Column className="is-two-fifths">
               <ChatLog
                 room_id={'mainlobby'}
                 user_id={this.state.user_id}

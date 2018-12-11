@@ -2,16 +2,20 @@ import React from 'react';
 import Button from 'react-bulma-components/lib/components/button';
 import Navbar from 'react-bulma-components/lib/components/navbar';
 import Heading from 'react-bulma-components/lib/components/heading';
+import Image from 'react-bulma-components/lib/components/image';
+import header_logo from './header_logo.png';
 
 const NavigationBar = ({ title }) => {
   // TODO:
   const isAuthenticated = null;
 
   return (
-    <Navbar>
+    <Navbar color="success" className="is-fullhd">
       <Navbar.Brand>
-        <Navbar.Item href="/">
-          <img src="/path/to/logo" alt="logo" />
+        <Navbar.Item href="/login">
+          <div style={{ width: 160 }}>
+            <Image src={header_logo} size="5by1" />
+          </div>
         </Navbar.Item>
       </Navbar.Brand>
       <Navbar.Menu>
