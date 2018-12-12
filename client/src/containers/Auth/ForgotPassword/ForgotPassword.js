@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {
   Field,
-  Label,
   Control,
   Input
 } from 'react-bulma-components/lib/components/form';
-import Box from 'react-bulma-components/lib/components/box';
 import Section from 'react-bulma-components/lib/components/section';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/container';
+import Banner from '../../../components/Banner';
+import Heading from 'react-bulma-components/lib/components/heading';
 
 class ForgotPassword extends Component {
   state = {
@@ -31,14 +31,17 @@ class ForgotPassword extends Component {
   render() {
     const { email } = this.state;
     return (
-      <Box>
+      <Container className="is-fullhd">
+        <Banner />
         <Section>
           <Container>
             <form onSubmit={this.onSubmit}>
               <Columns className="is-centered">
                 <Columns.Column className="is-two-fifths">
                   <Field>
-                    <Label>Forgot Password</Label>
+                    <Heading className="has-text-centered has-text-white">
+                      Forgot Password
+                    </Heading>
                     <Control>
                       <Input
                         name="email"
@@ -59,7 +62,7 @@ class ForgotPassword extends Component {
             </form>
           </Container>
         </Section>
-      </Box>
+      </Container>
     );
   }
 }

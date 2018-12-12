@@ -3,8 +3,6 @@ import GameLobbyList from './GameLobbyList';
 import ChatLog from '../../../components/Chat/ChatLog';
 import ChatInput from '../../../components/Chat/ChatInput';
 import NavigationBar from '../../../components/NavigationBar';
-import Container from 'react-bulma-components/lib/components/container/container';
-import Heading from 'react-bulma-components/lib/components/heading';
 
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
@@ -13,7 +11,6 @@ import api from '../../../api';
 import socket from '../../../api/socket';
 
 import './MainLobby.css';
-import container from 'react-bulma-components/lib/components/container/container';
 
 class MainLobby extends Component {
   constructor(props) {

@@ -282,26 +282,6 @@ class GameLobby extends Component {
               </Columns.Column>
             </Columns>
           </Section>
-          <Section>
-            <Level>
-              <Level.Item />
-              <Level.Item />
-              <Level.Item>
-                <StartButton host={this.props.host} />
-              </Level.Item>
-              <Level.Item>
-                <Button onClick={this.onReady} className="is-large">
-                  Ready
-                </Button>
-              </Level.Item>
-              <Level.Item>
-                <Button onClick={this.onExit} className="is-large">
-                  Exit
-                </Button>
-              </Level.Item>
-              <Level.Item />
-            </Level>
-          </Section>
         </Box>
       );
     }

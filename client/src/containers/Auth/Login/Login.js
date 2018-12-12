@@ -10,11 +10,8 @@ import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
 import Container from 'react-bulma-components/lib/components/container';
-import Hero from 'react-bulma-components/lib/components/hero';
 import Heading from 'react-bulma-components/lib/components/heading';
-import Image from 'react-bulma-components/lib/components/image';
-import header_logo from './header_logo.png';
-import './login.css';
+import Banner from '../../../components/Banner';
 
 import api from '../../../api';
 
@@ -59,17 +56,7 @@ class Login extends Component {
   render() {
     return (
       <Container className="is-fullhd">
-        <Hero size="fullwidth" className="is-success">
-          <Hero.Body>
-            <Columns className="is-centered">
-              <Columns.Column className="is-centered" size="3" offset="0">
-                <div style={{ width: 300 }}>
-                  <Image src={header_logo} size="5by2" />
-                </div>
-              </Columns.Column>
-            </Columns>
-          </Hero.Body>
-        </Hero>
+        <Banner />
         <Modal
           show={this.state.modal_display}
           onClose={this.onModalClick}

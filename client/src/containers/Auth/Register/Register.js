@@ -11,8 +11,8 @@ import Section from 'react-bulma-components/lib/components/section';
 import api from '../../../api';
 import Container from 'react-bulma-components/lib/components/container/container';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
-import Hero from 'react-bulma-components/lib/components/hero';
 import Heading from 'react-bulma-components/lib/components/heading';
+import Banner from '../../../components/Banner';
 class Register extends Component {
   state = {
     name: '',
@@ -55,11 +55,7 @@ class Register extends Component {
   render() {
     return (
       <Container className="is-fullhd">
-        <Hero size="fullwidth" className="is-success has-text">
-          <Hero.Body>
-            <Heading className="has-text-centered">Monopoly Deal</Heading>
-          </Hero.Body>
-        </Hero>
+        <Banner />
         <Modal
           show={this.state.modal_display}
           onClose={this.onModalClick}
@@ -78,7 +74,9 @@ class Register extends Component {
         <form onSubmit={this.onSubmit}>
           <Columns className="is-centered">
             <Columns.Column className="is-3">
-              <Heading className="has-text-centered">Register</Heading>
+              <Heading className="has-text-centered has-text-white">
+                Register
+              </Heading>
               <Field>
                 <Control className="control-padding-vertical">
                   <Input
