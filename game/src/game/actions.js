@@ -131,7 +131,9 @@ export const payRent = (payee, player, amount, callback) => {
   if (pile.length) {
     userActions.pick_valuable_field_card(payee, pile, (error, card, source) => {
       if (error) {
-        callback(error);
+        console.log('you cant escape rent unless you have no money');
+        console.log(error);
+        payRent(payee, player, amount, callback);
       } else {
         if ('property_cards' === source.pileName) {
           if (getPropertySetStatus(source.pile)) {

@@ -114,7 +114,7 @@ export const pick_field_card = (player, pileNames, callback) => {
     callback: (error, pileName) => {
       if (error) {
         callback(error);
-      } else {
+      } else if (player.field[pileName].length) {
         pick_card_id({
           player,
           callback: (error, id) => {
@@ -134,6 +134,9 @@ export const pick_field_card = (player, pileNames, callback) => {
             }
           }
         });
+      } else {
+        console.log('pile is empty');
+        callback(new Error().stack);
       }
     }
   });
