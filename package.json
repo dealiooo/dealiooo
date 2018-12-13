@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "start:dev": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
+    "start:game": "cd game && npm start",
     "db:create:migration": "sequelize migration:generate --name",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo",
