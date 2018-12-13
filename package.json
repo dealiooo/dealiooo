@@ -6,8 +6,10 @@
   "scripts": {
     "start": "BLUEBIRD_WARNINGS=0 node ./bin/www",
     "start:dev": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server\"",
+    "start:dev:windows": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server:windows\"",
     "start:dev:client": "cd client && npm run start",
     "start:dev:server": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
+    "start:dev:server:windows": "SET NODE_ENV=development& SET DEBUG=MonopolyDeal:*& nodemon ./bin/www",
     "db:create:migration": "sequelize migration:generate --name",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo",
