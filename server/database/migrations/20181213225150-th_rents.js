@@ -12,12 +12,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      value: {
-        type: Sequelize.STRING,
-        unique: true,
+      values: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
         allowNull: false
       },
-      set: {
+      max_size: {
         type: Sequelize.INTEGER,
         allowNull: false
       }
