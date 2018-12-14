@@ -1,12 +1,16 @@
 'use strict';
-module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    'th_cards',
-    {
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('th_pile_cards', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
+      },
+      th_pile_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'th_piles', key: 'id' }
       },
       name: {
         type: Sequelize.STRING,
@@ -14,10 +18,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       value: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-          min: 0
-        }
+        allowNull: false
       },
       type: {
         type: Sequelize.ENUM,
@@ -40,10 +41,15 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
         defaultValue: null
+      },
+      order: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       }
-    },
-    {
-      timestamps: false
-    }
-  );
+    });
+  },
+
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('th_pile_cards');
+  }
 };

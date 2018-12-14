@@ -1,8 +1,8 @@
 'use strict';
-module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    'th_games',
-    {
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('th_games', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -29,15 +29,11 @@ module.exports = (sequelize, Sequelize) => {
       },
       player_cap: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-          min: 2,
-          max: 5
-        }
+        allowNull: false
       }
-    },
-    {
-      timestamps: false
-    }
-  );
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('th_games');
+  }
 };

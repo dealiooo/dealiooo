@@ -56,7 +56,7 @@ class GameLobby extends Component {
           api.get_game_lobby_player_status(this.state.game_id).then(status => {
             status.result.map(
               player_status =>
-                (player_status.ready = player_status.th_game_user.ready)
+                (player_status.ready = player_status.th_player.ready)
             );
             this.setState({ players_status: status.result });
             var m_temp = this.state.mainlobby_socket.register_mainlobby_handler(
@@ -202,8 +202,7 @@ class GameLobby extends Component {
     if (this.state.game_id === event.game_id) {
       api.get_game_lobby_player_status(this.state.game_id).then(status => {
         status.result.map(
-          player_status =>
-            (player_status.ready = player_status.th_game_user.ready)
+          player_status => (player_status.ready = player_status.th_player.ready)
         );
         this.setState({ players_status: status.result });
       });

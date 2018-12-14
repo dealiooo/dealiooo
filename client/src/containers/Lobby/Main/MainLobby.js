@@ -150,7 +150,7 @@ class MainLobby extends Component {
 
   onCreate = evt => {
     api.post_create_game().then(promise => {
-      var game_id = promise.game_user.th_game_id;
+      var game_id = promise.player.th_game_id;
       this.state.socket_add_game(
         { game_id, user_name: this.state.user_name },
         error => {

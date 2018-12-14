@@ -1,8 +1,8 @@
 'use strict';
-module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    'th_cards',
-    {
+
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('th_cards', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -14,10 +14,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       value: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        validate: {
-          min: 0
-        }
+        allowNull: false
       },
       type: {
         type: Sequelize.ENUM,
@@ -41,9 +38,9 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: true,
         defaultValue: null
       }
-    },
-    {
-      timestamps: false
-    }
-  );
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('th_cards');
+  }
 };

@@ -16,7 +16,7 @@ router.get(
   requireAuthentication,
   (request, response) =>
     db
-      .find_all_game_user_names(request.params.game_id)
+      .find_all_player_names(request.params.game_id)
       .then(result => response.json({ result }))
       .catch(error => response.json({ error }))
 );

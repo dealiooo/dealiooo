@@ -3,43 +3,35 @@ const db = require('./models');
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 
-db.th_games.hasOne(db.th_game_users, { foreignKey: 'th_game_id' });
-db.th_users.hasOne(db.th_game_users, { foreignKey: 'th_user_id' });
+db.th_games.hasMany(db.th_players, {
+  as: 'Players',
+  foreignKey: 'th_game_id'
+});
 
-db.th_cards.hasOne(db.th_game_user_cards, { foreignKey: 'th_card_id' });
-db.th_games.hasOne(db.th_game_user_cards, { foreignKey: 'th_game_id' });
-db.th_users.hasOne(db.th_game_user_cards, { foreignKey: 'th_user_id' });
+db.th_players.hasMany(db.th_piles, {
+  as: 'Piles',
+  foreignKey: 'th_player_id'
+});
+
+db.th_piles.hasMany(db.th_pile_cards, {
+  as: 'Cards',
+  foreignKey: 'th_pile_id'
+});
+
+db.th_users.hasMany(db.th_players, {
+  as: 'Players',
+  foreignKey: 'th_game_id'
+});
 
 db.th_games.belongsToMany(db.th_users, {
   as: 'Users',
-  through: db.th_game_users,
+  through: db.th_players,
   foreignKey: 'th_game_id'
-});
-db.th_games.belongsToMany(db.th_cards, {
-  as: 'Cards',
-  through: db.th_game_user_cards,
-  foreignKey: 'th_game_id'
-});
-
-db.th_cards.belongsToMany(db.th_games, {
-  as: 'Games',
-  through: db.th_game_user_cards,
-  foreignKey: 'th_card_id'
-});
-db.th_cards.belongsToMany(db.th_users, {
-  as: 'Users',
-  through: db.th_game_user_cards,
-  foreignKey: 'th_card_id'
 });
 
 db.th_users.belongsToMany(db.th_games, {
   as: 'Games',
-  through: db.th_game_users,
-  foreignKey: 'th_user_id'
-});
-db.th_users.belongsToMany(db.th_cards, {
-  as: 'Cards',
-  through: db.th_game_user_cards,
+  through: db.th_players,
   foreignKey: 'th_user_id'
 });
 
@@ -78,13 +70,13 @@ const debugOutput = result => {
   return result;
 };
 
-db.find_all_game_user_names = game_id =>
+db.find_all_player_names = game_id =>
   db
     .find_game_by_id(game_id)
     .then(game => game.getUsers({ attributes: ['id', 'name'] }));
 
 db.user_belong_to_game_id = (game_id, user_id) =>
-  db.th_game_users.findAndCountAll({
+  db.th_players.findAndCountAll({
     where: {
       th_game_id: game_id,
       th_user_id: user_id
@@ -96,7 +88,7 @@ db.find_game_lobby_status = game_id =>
     attributes: ['id', 'name'],
     include: [
       {
-        model: db.th_game_users,
+        model: db.th_players,
         attributes: ['ready'],
         where: { th_game_id: game_id }
       }
@@ -108,24 +100,24 @@ db.insert_game = user_id =>
     .sync({ logging: false })
     .then(_ => db.th_games.create({}))
     .then(game =>
-      th_game_users.create({
+      th_players.create({
         th_game_id: game.id,
         th_user_id: user_id
       })
     );
 
-db.game_user_size = game_id =>
-  db.th_game_users.findAndCountAll({
+db.player_size = game_id =>
+  db.th_players.findAndCountAll({
     where: { th_game_id: game_id }
   });
 
 db.join_game = (game_id, user_id) =>
-  db.game_user_size(game_id).then(result => {
+  db.player_size(game_id).then(result => {
     if (result.count >= 5) {
       return Promise.reject(new Error('Game lobby is full'));
     } else {
       return db.sequelize.sync({ logging: false }).then(_ =>
-        db.th_game_users.create({
+        db.th_players.create({
           th_game_id: game_id,
           th_user_id: user_id
         })
@@ -135,7 +127,7 @@ db.join_game = (game_id, user_id) =>
 
 db.leave_game = (game_id, user_id) =>
   db.sequelize.sync({ logging: false }).then(_ =>
-    db.th_game_users.destroy({
+    db.th_players.destroy({
       where: {
         th_game_id: game_id,
         th_user_id: user_id
@@ -144,7 +136,7 @@ db.leave_game = (game_id, user_id) =>
   );
 
 db.delete_game = game_id =>
-  db.game_user_size(game_id).then(result => {
+  db.player_size(game_id).then(result => {
     if (result.count) {
       return Promise.reject(new Error('Game is not empty'));
     } else {
@@ -161,11 +153,11 @@ db.run_game = game_id =>
 
 db.ready = game_id =>
   db
-    .find_all_game_user_names(game_id)
+    .find_all_player_names(game_id)
     .then(results => results.map(result => db.get_ready(game_id, result.id)));
 
 db.get_ready = (game_id, user_id) =>
-  db.th_game_users.findOne({
+  db.th_players.findOne({
     attributes: ['ready'],
     where: {
       th_game_id: game_id,
@@ -176,7 +168,7 @@ db.get_ready = (game_id, user_id) =>
 db.ready = (game_id, user_id) =>
   db.get_ready(game_id, user_id).then(result =>
     db.sequelize.sync({ logging: false }).then(_ =>
-      db.th_game_users.update(
+      db.th_players.update(
         { ready: !result.ready },
         {
           where: {
@@ -190,7 +182,7 @@ db.ready = (game_id, user_id) =>
 
 db.insert_session = (sid, sess, expire) =>
   db.sequelize.sync({ logging: false }).then(_ =>
-    db.sessions.create({
+    db.session.create({
       sid,
       sess,
       expire
@@ -200,8 +192,8 @@ db.insert_session = (sid, sess, expire) =>
 db.delete_session = sid =>
   db.sequelize
     .sync({ logging: false })
-    .then(_ => db.sessions.destroy({ where: { sid } }));
+    .then(_ => db.session.destroy({ where: { sid } }));
 
-db.find_session_by_sid = sid => db.sessions.findOne({ where: { sid } });
+db.find_session_by_sid = sid => db.session.findOne({ where: { sid } });
 
 module.exports = db;

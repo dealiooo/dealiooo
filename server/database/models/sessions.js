@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, Sequelize) => {
   return sequelize.define(
-    'sessions',
+    'session',
     {
       sid: {
         type: Sequelize.STRING,

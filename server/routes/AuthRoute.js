@@ -30,7 +30,10 @@ router.post('/register', empty_strings_to_null, (request, response) => {
         return response.json({ user });
       })
     )
-    .catch(error => response.json({ error }));
+    .catch(error => {
+      console.log(error);
+      return response.json({ error });
+    });
 });
 
 router.post(
