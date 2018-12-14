@@ -56,7 +56,7 @@ class GameLobby extends Component {
           api.get_game_lobby_player_status(this.state.game_id).then(status => {
             status.result.map(
               player_status =>
-                (player_status.ready = player_status.th_player.ready)
+                (player_status.ready = player_status.Players[0].ready)
             );
             this.setState({ players_status: status.result });
             var m_temp = this.state.mainlobby_socket.register_mainlobby_handler(
@@ -144,7 +144,7 @@ class GameLobby extends Component {
 
   onReady(event) {
     api.post_player_ready(this.state.game_id).then(ready_state => {
-      if (ready_state.result) {
+      if (ready_state.result[1].ready) {
         this.state.socket_player_ready(
           {
             room_id: `gamelobby/${this.state.game_id}`,

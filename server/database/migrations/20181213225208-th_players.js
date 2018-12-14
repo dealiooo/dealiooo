@@ -16,6 +16,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'th_games', key: 'id' }
       },
+      ready: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
       order: {
         type: Sequelize.INTEGER,
         defaultValue: 0,

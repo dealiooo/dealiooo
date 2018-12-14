@@ -17,9 +17,12 @@ router.post(
   requireAuthentication,
   (request, response) =>
     db
-      .insert_game(request.user.id)
+      .insert_game(request.user.id, 2)
       .then(result => response.json({ result }))
-      .catch(error => response.json({ error }))
+      .catch(error => {
+        console.log(error);
+        return response.json({ error });
+      })
 );
 
 module.exports = router;

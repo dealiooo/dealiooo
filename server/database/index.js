@@ -89,18 +89,19 @@ db.find_game_lobby_status = game_id =>
     include: [
       {
         model: db.th_players,
+        as: 'Players',
         attributes: ['ready'],
         where: { th_game_id: game_id }
       }
     ]
   });
 
-db.insert_game = user_id =>
+db.insert_game = (user_id, player_cap) =>
   db.sequelize
     .sync({ logging: false })
-    .then(_ => db.th_games.create({}))
+    .then(_ => db.th_games.create({ player_cap }))
     .then(game =>
-      th_players.create({
+      db.th_players.create({
         th_game_id: game.id,
         th_user_id: user_id
       })
@@ -174,7 +175,9 @@ db.ready = (game_id, user_id) =>
           where: {
             th_game_id: game_id,
             th_user_id: user_id
-          }
+          },
+          returning: true,
+          plain: true
         }
       )
     )
