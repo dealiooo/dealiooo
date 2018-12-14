@@ -1,8 +1,7 @@
-const db = require('../../database');
+const { Auth } = require('../../database/api');
 
 const require_authentication = (request, response, next) => {
-  return db
-    .user_belong_to_game_id(request.params.game_id, request.user.id)
+  return Auth.user_belong_to_game_id(request.params.game_id, request.user.id)
     .then(result => {
       if (result.count) {
         next();

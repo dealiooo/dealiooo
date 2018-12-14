@@ -6,7 +6,7 @@ const empty_strings_to_null = require('./middlewares/empty_strings_to_null');
 const requireAuthentication = require('./middlewares/require_authentication');
 const not_authenticated = require('./middlewares/not_authenticated');
 const send_user_id_and_user_name = require('./middlewares/send_user_id_and_user_name');
-const db = require('../database');
+const { Auth } = require('../database/api');
 
 router.get('/register', requireAuthentication, send_user_id_and_user_name);
 router.get('/login', requireAuthentication, send_user_id_and_user_name);
@@ -20,8 +20,7 @@ router.get('/logout', requireAuthentication, send_user_id_and_user_name);
 
 router.post('/register', empty_strings_to_null, (request, response) => {
   const { name, email, password } = request.body;
-  return db
-    .insert_user(name, email, password)
+  return Auth.insert_user(name, email, password)
     .then(user =>
       request.login(user, error => {
         if (error) {
@@ -44,8 +43,7 @@ router.post(
     const { email } = request.body;
     const SALT_FACTOR = 10;
 
-    return db
-      .find_user_by_email(email)
+    return Auth.find_user_by_email(email)
       .then(user => {
         if (!user) {
           return response.sendStatus(400);
@@ -69,8 +67,7 @@ router.post(
 
             console.log(sid);
 
-            return db
-              .insert_session(sid, sess, expire)
+            return Auth.insert_session(sid, sess, expire)
               .then(session => {
                 if (!session) {
                   return response.sendStatus(400);
@@ -122,8 +119,7 @@ router.post(
     const { email, password } = request.body;
     const { session_id } = request.params;
 
-    return db
-      .find_session_by_sid(session_id)
+    return Auth.find_session_by_sid(session_id)
       .then(session => {
         if (!session) {
           return response.sendStatus(400);
@@ -134,11 +130,9 @@ router.post(
         const today = new Date();
 
         if (sid === session_id && email === sessionEmail && today < expire) {
-          return db
-            .delete_session(sid)
+          return Auth.delete_session(sid)
             .then(_ =>
-              db
-                .update_password(email, password)
+              Auth.update_password(email, password)
                 .then(user => {
                   if (!user) {
                     return response.sendStatus(400);
@@ -157,8 +151,7 @@ router.post(
 
 router.post('/login', empty_strings_to_null, (request, response) => {
   const { email, password } = request.body;
-  return db
-    .find_user_by_email(email)
+  return Auth.find_user_by_email(email)
     .then(user => {
       bcrypt
         .compare(password, user.password)

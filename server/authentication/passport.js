@@ -1,7 +1,7 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('../database');
+const { Auth } = require('../database/api');
 
 const checkPassword = function(user, password) {
   bcrypt.compare(password, user.password).then(isEqual => {
@@ -13,8 +13,7 @@ const checkPassword = function(user, password) {
 };
 
 const verifyCallback = (username, password, done) =>
-  db
-    .find_user_by_email(username)
+  Auth.find_user_by_email(username)
     .then(user => {
       if (user) {
         return checkPassword(user, password)
@@ -29,8 +28,7 @@ const verifyCallback = (username, password, done) =>
 passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser((id, done) =>
-  db
-    .find_user_by_id(id)
+  Auth.find_user_by_id(id)
     .then(user => done(null, user))
     .catch(error => done(error, {}))
 );
