@@ -29,11 +29,13 @@ io.on('connection', socket => {
     socket.on('message', chat_handlers.handle_message);
 
     socket.on('add-room-game', game_handlers.handle_add_room);
-    socket.on('join-game', game_handlers.handle_join);
-    socket.on('leave-game', game_handlers.handle_leave);
-    socket.on('card-click', game_handlers.handle_card_click);
-    socket.on('card-move', game_handlers.handle_card_move);
+    socket.on('join-room-game', game_handlers.handle_join);
+    socket.on('leave-room-game', game_handlers.handle_leave_game);
+    socket.on('click', game_handlers.handle_click);
     socket.on('end-turn', game_handlers.handle_end_turn);
+    socket.on('general-update', game_handlers.handle_general_update);
+    socket.on('players-update', game_handlers.handle_players_update);
+    socket.on('options-update', game_handlers.handle_options_update);
 
     socket.on('add-room-gamelobby', gamelobby_handlers.handle_add_room);
     socket.on('join-gamelobby', gamelobby_handlers.handle_join);

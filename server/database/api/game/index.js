@@ -15,6 +15,12 @@ const PROPERTY_WILDCARD = 'property-wildcard';
 const RAILROAD = 'railroad';
 const UTILITY = 'utility';
 
+const getPlayer = db => th_player_id =>
+  db.th_players.findOne({ where: { id: th_player_id } });
+
+const getCard = db => th_pile_card_id =>
+  db.th_pile_cards.findOne({ where: { id: th_pile_card_id } });
+
 const getPilesByTypes = db => (th_player_id, types) => {
   if ('object' === typeof th_player_id) {
     return th_player_id
@@ -88,7 +94,7 @@ const movePile = _ => (oldPile, newPile) =>
       .then(cards => cards.update({ th_pile_id: newPile.id }))
   );
 
-export const swapPropertyCard = db => (cardA, cardB) =>
+const swapPropertyCard = db => (cardA, cardB) =>
   cardA.getPile().then(pileA =>
     pileA.getPlayer().then(playerA =>
       cardB.getPile().then(pileB =>
@@ -114,8 +120,8 @@ const shufflePile = _ => pile =>
       cards.map((_, i) => {
         let j = Math.floor(Math.random() * (i + 1));
         return cards[i]
-          .update({ order: i })
-          .then(_ => cards[j].update({ order: j }));
+          .update({ order: card[j].order })
+          .then(_ => cards[j].update({ order: card[i].order }));
       })
     )
   );
@@ -150,6 +156,8 @@ module.exports = db => ({
   PROPERTY_WILDCARD,
   RAILROAD,
   UTILITY,
+  getPlayer: getPlayer(db),
+  getCard: getCard(db),
   getPilesByTypes: getPilesByTypes(db),
   getRentByMainColor: getRentByMainColor(db),
   insertEmptySet: insertEmptySet(db),

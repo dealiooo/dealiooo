@@ -68,6 +68,11 @@ router.post(
       .catch(error => response.json({ error }))
 );
 
+const debug = msg => {
+  console.log(msg);
+  return msg;
+};
+
 router.post(
   '/game-lobby/:game_id/ready',
   requireAuthentication,

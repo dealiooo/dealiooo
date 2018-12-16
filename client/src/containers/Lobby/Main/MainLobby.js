@@ -24,7 +24,7 @@ class MainLobby extends Component {
       start_render: false,
       user_id: null,
       user_name: null,
-      lobbies: null,
+      lobbies: [],
       socket_add_game: null,
       socket_join_game: null,
       chat_socket: socket(),

@@ -122,11 +122,50 @@ const handlers = (client_socket, room_manager) => {
     }
   };
 
-  const handle_card_click = ({ game_id }, callback) => callback('TODO');
+  const handle_click = ({ room_id, player_id, message }, callback) => {
+    try {
+      room_manager.click(room_id, player_id, message);
+      return callback(null);
+    } catch (error) {
+      return callback(errror);
+    }
+  };
 
-  const handle_card_move = ({ game_id }, callback) => callback('TODO');
+  const handle_end_turn = ({ room_id, player_id }, callback) => {
+    try {
+      room_manager.end_turn(room_id, player_id);
+      return callback(null);
+    } catch (error) {
+      return callback(errror);
+    }
+  };
 
-  const handle_end_turn = ({ game_id }, callback) => callback('TODO');
+  const handle_general_update = ({ room_id, player_id }, callback) => {
+    try {
+      room_manager.general_update(room_id, player_id);
+      return callback(null);
+    } catch (error) {
+      return callback(errror);
+    }
+  };
+
+  const handle_players_update = ({ room_id, player_id }, callback) => {
+    try {
+      room_manager.players_update(room_id, player_id);
+      return callback(null);
+    } catch (error) {
+      return callback(errror);
+    }
+  };
+
+  const handle_options_update = ({ room_id, player_id }, callback) => {
+    try {
+      room_manager.options_update(room_id, player_id);
+      return callback(null);
+    } catch (error) {
+      return callback(errror);
+    }
+  };
 
   return {
     handle_connection,
@@ -141,9 +180,11 @@ const handlers = (client_socket, room_manager) => {
     handle_run_game,
     handle_player_ready,
     handle_player_unready,
-    handle_card_click,
-    handle_card_move,
-    handle_end_turn
+    handle_click,
+    handle_end_turn,
+    handle_general_update,
+    handle_players_update,
+    handle_options_update
   };
 };
 

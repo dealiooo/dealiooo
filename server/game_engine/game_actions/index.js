@@ -123,7 +123,7 @@ const drawCard = player =>
   );
 
 // TODO: define userActions
-export const payRent = (payee, player, amount, callback) => {
+const payRent = (payee, player, amount, callback) => {
   Game.getPilesByTypes(payee.id, [Game.BANK, Game.BUILDING, Game.PROPERTY_SET])
     .then(piles => filterAsync(piles, getPileValue))
     .then(piles => {
@@ -175,6 +175,8 @@ const getDestinations = {
 };
 
 module.exports = {
+  getPlayer: Game.getPlayer,
+  getCard: Game.getCard,
   removeEmptyPropertySets,
   getRentValue,
   getDestinations,
@@ -185,6 +187,7 @@ module.exports = {
   shufflePile: Game.shufflePile,
   switchColor: Game.switchColor,
   removePlayer: Game.removePlayer,
+  payRent,
   getDeckEmpty,
   getHasThreeFullPropertySets,
   getHasPlayedThreeCards,
