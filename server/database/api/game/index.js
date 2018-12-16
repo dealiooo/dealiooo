@@ -98,20 +98,20 @@ const swapPropertyCard = db => (cardA, cardB) =>
   cardA.getPile().then(pileA =>
     pileA.getPlayer().then(playerA =>
       cardB.getPile().then(pileB =>
-        pileB.getPlayer().then(playerB =>
-          db.th_piles
-            .create({ th_player_id: playerA.id, type: PROPERTY_SET })
-            .then(newPileA =>
-              db.th_piles
-                .create({ th_player_id: playerB.id, type: PROPERTY_SET })
-                .then(newPileB => moveCard(cardA, newPileB))
-                .then(_ => moveCard(cardB, newPileA))
-                .then(_ => removeSetIfEmptySet(db)(pileA))
-                .then(_ => removeSetIfEmptySet(db)(pileB))
-            )
-        )
+        pileB
+          .getPlayer()
+          .then(playerB => movePropertyToNewSet(cardA, playerB))
+          .then(_ => movePropertyToNewSet(cardB, playerA))
       )
     )
+  );
+
+const movePropertyToNewSet = db => (card, player) =>
+  card.getPile().then(oldPile =>
+    db.th_piles
+      .create({ th_player_id: player.id, type: PROPERTY_SET })
+      .then(newPile => moveCard(card, newPile))
+      .then(_ => removeSetIfEmptySet(oldPile))
   );
 
 const shufflePile = _ => pile =>
@@ -165,6 +165,7 @@ module.exports = db => ({
   moveCard: moveCard(db),
   movePile: movePile(db),
   swapPropertyCard: swapPropertyCard(db),
+  movePropertyToNewSet: movePropertyToNewSet(db),
   shufflePile: shufflePile(db),
   switchColor: switchColor(db),
   removePlayer: removePlayer(db)

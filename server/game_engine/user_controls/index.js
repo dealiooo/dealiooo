@@ -59,55 +59,51 @@ const pick_target_player = (player, callback) =>
       })
     );
 
-const pick_field_card = (player, pileTypes, callback) =>
-  Game.getPilesByTypes(player.id, pileTypes).then(piles =>
-    Promise.all(piles.map(pile => pile.getCards())).then(
-      pileCardsCollection => {
-        if (pileCardsCollection.filter(pileCards => pileCards.length).length) {
-          return userActions.pick_card_id({
-            player,
-            callback: (error, id) => {
-              if (error) {
-                callback(error);
-                return {
-                  message: 'you just broke the game',
-                  pending: null
-                };
-              } else {
-                let index = 0;
-                let card = null;
-                for (let i = 0; i < pileCardsCollection.length; i++) {
-                  for (let j = 0; j < pileCardsCollection[i].length; j++) {
-                    if (id === pileCardsCollection[i][j].id) {
-                      index = j;
-                      card = pileCardsCollection[i][j];
-                    }
-                  }
-                }
-                if (card) {
-                  return callback(null, card, piles[index]);
-                } else {
-                  return pick_field_card(player, pileTypes, callback);
+const pick_field_card = (player, piles, callback) =>
+  Promise.all(piles.map(pile => pile.getCards())).then(pileCardsCollection => {
+    if (pileCardsCollection.filter(pileCards => pileCards.length).length) {
+      return userActions.pick_card_id({
+        player,
+        callback: (error, id) => {
+          if (error) {
+            callback(error);
+            return {
+              message: 'you just broke the game',
+              pending: null
+            };
+          } else {
+            let index = 0;
+            let card = null;
+            for (let i = 0; i < pileCardsCollection.length; i++) {
+              for (let j = 0; j < pileCardsCollection[i].length; j++) {
+                if (id === pileCardsCollection[i][j].id) {
+                  index = j;
+                  card = pileCardsCollection[i][j];
                 }
               }
             }
-          });
-        } else {
-          console.log('pile is empty');
-          return callback(new Error().stack);
+            if (card) {
+              return callback(null, card, piles[index]);
+            } else {
+              return pick_field_card(player, piles, callback);
+            }
+          }
         }
-      }
-    )
-  );
+      });
+    } else {
+      console.log('pile is empty');
+      return callback(new Error().stack);
+    }
+  });
 
-const pick_valuable_field_card = (player, pileTypes, callback) => {
-  pick_field_card(player, pileTypes, (error, card, pile) => {
+const pick_valuable_field_card = (player, piles, callback) => {
+  pick_field_card(player, piles, (error, card, pile) => {
     if (error) {
       return callback(error);
     } else if (card.value > 0) {
       return callback(null, card, pile);
     } else {
-      return pick_valuable_field_card(player, pileTypes, callback);
+      return pick_valuable_field_card(player, piles, callback);
     }
   });
 };

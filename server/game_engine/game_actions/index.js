@@ -1,5 +1,5 @@
 const { Game } = require('../../database/api');
-
+const userControls = require('./../user_controls');
 const filterAsync = (array, filter) =>
   Promise.all(array.map(element => filter(element))).then(result =>
     array.filter(_ => result.shift())
@@ -122,18 +122,113 @@ const drawCard = player =>
     )
   );
 
-// TODO: define userActions
 const payRent = (payee, player, amount, callback) => {
+  const done = card => {
+    if (card.value < amount) {
+      return payRent(payee, player, amount - card.value, callback);
+    } else {
+      return callback(null);
+    }
+  };
   Game.getPilesByTypes(payee.id, [Game.BANK, Game.BUILDING, Game.PROPERTY_SET])
     .then(piles => filterAsync(piles, getPileValue))
     .then(piles => {
       if (piles.length) {
-        // userActions.pick_valuable_card
+        userControls.pick_valuable_field_card(
+          payee,
+          piles,
+          (error, card, pile) => {
+            if (error) {
+              console.log('you cant escape rent unless you have no money');
+              console.log(error);
+              return payRent(payee, player, amount, callback);
+            } else {
+              return processCardPayment(payee, player, card, pile, done);
+            }
+          }
+        );
       } else {
         callback(null);
       }
     });
 };
+
+const processCardPayment = (payee, player, card, pile, done) => {
+  if (Game.PROPERTY_SET === pile.type) {
+    return Game.getRentByMainColor(card.main_color).then(rent =>
+      pile.getCards().then(set => {
+        if (getPropertySetStatus(set, rent)) {
+          return processCardPaymentOnFullSet(
+            payee,
+            player,
+            card,
+            rent,
+            set,
+            done
+          );
+        } else {
+          return processCardPaymentOnPartialSet(card, player, done);
+        }
+      })
+    );
+  } else {
+    return Game.getPilesByTypes(player.id, [pile.type]).then(piles =>
+      Game.moveCard(card, piles[0]).then(_ => done(card))
+    );
+  }
+};
+
+const processCardPaymentOnFullSet = (payee, player, card, rent, set, done) => {
+  if (Game.BUILDING === card.type) {
+    if (Game.HOUSE === card.name && getHotelStatus(set, rent)) {
+      return processCardPaymentOnFullSetOnHouseWithHotel(
+        payee,
+        player,
+        card,
+        set,
+        done
+      );
+    } else {
+      return processCardPaymentOnFullSetOnAnyBuilding(player, card, done);
+    }
+  } else {
+    return Game.getPilesByTypes(payee.id, [Game.BUILDING]).then(piles =>
+      Promise.all(
+        set.map(card => {
+          if (Game.BUILDING === card.type) {
+            Game.moveCard(card, piles[0]);
+          }
+        })
+      ).then(_ => Game.movePropertyToNewSet(card, player).then(_ => done(card)))
+    );
+  }
+};
+
+const processCardPaymentOnPartialSet = (card, player, done) =>
+  Game.movePropertyToNewSet(card, player).then(_ => done(card));
+
+const processCardPaymentOnFullSetOnHouseWithHotel = (
+  payee,
+  player,
+  card,
+  set,
+  done
+) =>
+  Game.getPilesByTypes(payee.id, [Game.BUILDING])
+    .then(piles =>
+      Game.moveCard(set.filter(card => Game.HOTEL === card.name)[0], piles[0])
+    )
+    .then(_ =>
+      Game.getPilesByTypes(player.id, [Game.BUILDING]).then(piles =>
+        Game.moveCard(card, piles[0])
+      )
+    )
+    .then(_ => done(card));
+
+const processCardPaymentOnFullSetOnAnyBuilding = (player, card, done) =>
+  Game.getPilesByTypes(player.id, [Game.BUILDING])
+    .then(piles => Game.moveCard(card, piles[0]))
+    .then(_ => done(card));
 
 const getNumberFullPropertySets = player =>
   Game.getPilesByTypes(player.id, [Game.PROPERTY_SET]).then(piles =>
