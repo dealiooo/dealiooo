@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
+  const pile_cards = sequelize.define(
     'th_pile_cards',
     {
       id: {
@@ -51,4 +51,11 @@ module.exports = (sequelize, Sequelize) => {
       timestamps: false
     }
   );
+  pile_cards.associate = db => {
+    pile_cards.belongsTo(db.th_piles, {
+      as: 'Pile',
+      foreignKey: 'th_pile_id'
+    });
+  };
+  return pile_cards;
 };

@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
+  const players = sequelize.define(
     'th_players',
     {
       id: {
@@ -31,4 +31,19 @@ module.exports = (sequelize, Sequelize) => {
       timestamps: false
     }
   );
+  players.associate = db => {
+    players.hasMany(db.th_piles, {
+      as: 'Piles',
+      foreignKey: 'th_player_id'
+    });
+    players.belongsTo(db.th_games, {
+      as: 'Game',
+      foreignKey: 'th_game_id'
+    });
+    players.belongsTo(db.th_users, {
+      as: 'User',
+      foreignKey: 'th_user_id'
+    });
+  };
+  return players;
 };
