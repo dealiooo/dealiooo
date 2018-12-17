@@ -25,8 +25,11 @@ const register_chat_handler = ({ on_message_received }) => {
 
 const register_game_handler = ({ todo }) => {
   console.log('TODO');
+  const click = ({ room_id, user_id, message }, callback) =>
+    socket.emit('click', { room_id, user_id, message }, callback);
   return {
-    error: todo
+    error: todo,
+    click
   };
 };
 

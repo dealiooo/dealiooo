@@ -1,7 +1,7 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('../database');
+const { Auth } = require('../database/api');
 
 const checkPassword = function(user, password) {
   bcrypt.compare(password, user.password).then(isEqual => {
@@ -13,30 +13,24 @@ const checkPassword = function(user, password) {
 };
 
 const verifyCallback = (username, password, done) =>
-  db.find_user_by_email(username, (error, user) => {
-    if (error) {
-      done(null, false, error.message);
-    } else if (user) {
-      checkPassword(user, password)
-        .then(user => done(null, user))
-        .catch(error => done(null, false, error.message));
-    } else {
-      done(null, false, { message: 'incorrect username' });
-    }
-  });
+  Auth.find_user_by_email(username)
+    .then(user => {
+      if (user) {
+        return checkPassword(user, password)
+          .then(user => done(null, user))
+          .catch(error => done(null, false, error.message));
+      } else {
+        return done(null, false, { message: 'incorrect username' });
+      }
+    })
+    .catch(error => done(null, false, error.message));
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
+passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser((id, done) =>
-  db.find_user_by_id(id, (error, user) => {
-    if (error) {
-      done(error, {});
-    } else {
-      done(null, user);
-    }
-  })
+  Auth.find_user_by_id(id)
+    .then(user => done(null, user))
+    .catch(error => done(error, {}))
 );
 
 passport.use(

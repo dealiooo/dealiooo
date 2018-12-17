@@ -24,7 +24,7 @@ class MainLobby extends Component {
       start_render: false,
       user_id: null,
       user_name: null,
-      lobbies: null,
+      lobbies: [],
       socket_add_game: null,
       socket_join_game: null,
       chat_socket: socket(),
@@ -146,7 +146,8 @@ class MainLobby extends Component {
 
   onCreate = evt => {
     api.post_create_game().then(promise => {
-      var game_id = promise.game_user.th_game_id;
+      console.log(promise);
+      var game_id = promise.result.th_game_id;
       this.state.socket_add_game(
         { game_id, user_name: this.state.user_name },
         error => {

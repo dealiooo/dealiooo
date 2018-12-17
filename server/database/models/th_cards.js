@@ -14,16 +14,32 @@ module.exports = (sequelize, Sequelize) => {
       },
       value: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: false,
+        validate: {
+          min: 0
+        }
       },
       type: {
-        type: Sequelize.ENUM(
+        type: Sequelize.ENUM,
+        values: [
+          'action',
+          'building',
           'money',
           'property',
-          'property-wildcard',
-          'action'
-        ),
+          'property_wildcard',
+          'rent',
+          'rent_wildcard'
+        ],
         allowNull: false
+      },
+      main_color: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      colors: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true,
+        defaultValue: null
       }
     },
     {

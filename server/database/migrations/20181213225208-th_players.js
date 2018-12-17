@@ -2,20 +2,21 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('th_game_user_cards', {
-      th_game_id: {
+    return queryInterface.createTable('th_players', {
+      id: {
         type: Sequelize.INTEGER,
-        references: { model: 'th_games', key: 'id' }
+        primaryKey: true,
+        autoIncrement: true
       },
       th_user_id: {
         type: Sequelize.INTEGER,
         references: { model: 'th_users', key: 'id' }
       },
-      th_card_id: {
+      th_game_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'th_cards', key: 'id' }
+        references: { model: 'th_games', key: 'id' }
       },
-      field: {
+      ready: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false
@@ -27,8 +28,7 @@ module.exports = {
       }
     });
   },
-
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('th_game_user_cards');
+    return queryInterface.dropTable('th_players');
   }
 };

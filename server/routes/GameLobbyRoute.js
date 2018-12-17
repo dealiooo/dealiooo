@@ -2,7 +2,7 @@ const router = require('express').Router();
 const requireAuthentication = require('./middlewares/require_authentication');
 const userBelongsToGameId = require('./middlewares/user_belongs_to_game_id');
 const send_user_id_and_user_name = require('./middlewares/send_user_id_and_user_name');
-const db = require('../database');
+const { GameLobby } = require('../database/api');
 
 router.get(
   '/game-lobby/:game_id',
@@ -15,13 +15,9 @@ router.get(
   '/game-lobby/:game_id/info',
   requireAuthentication,
   (request, response) =>
-    db.find_all_game_user_names(request.params.game_id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.find_all_player_names(request.params.game_id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
 
 router.get(
@@ -29,26 +25,18 @@ router.get(
   requireAuthentication,
   userBelongsToGameId,
   (request, response) =>
-    db.find_game_lobby_status(request.params.game_id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.find_game_lobby_status(request.params.game_id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
 
 router.post(
   '/game-lobby/:game_id/join',
   requireAuthentication,
   (request, response) =>
-    db.join_game(request.params.game_id, request.user.id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.join_game(request.params.game_id, request.user.id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
 
 router.post(
@@ -56,13 +44,9 @@ router.post(
   requireAuthentication,
   userBelongsToGameId,
   (request, response) =>
-    db.leave_game(request.params.game_id, request.user.id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.leave_game(request.params.game_id, request.user.id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
 
 router.post(
@@ -70,40 +54,33 @@ router.post(
   requireAuthentication,
   userBelongsToGameId,
   (request, response) =>
-    db.run_game(request.params.game_id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.run_game(request.params.game_id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
 
 router.post(
   '/game-lobby/:game_id/delete',
   requireAuthentication,
   (request, response) =>
-    db.delete_game(request.params.game_id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.delete_game(request.params.game_id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
+
+const debug = msg => {
+  console.log(msg);
+  return msg;
+};
 
 router.post(
   '/game-lobby/:game_id/ready',
   requireAuthentication,
   userBelongsToGameId,
   (request, response) =>
-    db.ready(request.params.game_id, request.user.id, (error, result) => {
-      if (error) {
-        response.json({ error });
-      } else {
-        response.json({ result });
-      }
-    })
+    GameLobby.player_ready(request.params.game_id, request.user.id)
+      .then(result => response.json({ result }))
+      .catch(error => response.json({ error }))
 );
 
 module.exports = router;
