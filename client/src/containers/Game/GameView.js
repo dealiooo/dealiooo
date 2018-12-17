@@ -6,7 +6,7 @@ import Box from 'react-bulma-components/lib/components/box';
 import Tile from 'react-bulma-components/lib/components/tile';
 import Card from 'react-bulma-components/lib/components/card';
 
-import { Data } from './Data';
+import { GameState } from './MockData';
 import ZoomModal from './ZoomModal';
 
 const getTotalValue = set => {
@@ -19,18 +19,20 @@ const getTotalValue = set => {
   return total;
 };
 
-const renderStack = (cards, type) => {
-  let icons = {
-    money_cards: '🏦',
-    property_cards: '🏠',
-    building_cards: '🏢',
-    action_cards: '🚴‍'
-  };
-  let titleBar = `${icons[type]} $${getTotalValue(cards)}`;
-  let pileView;
+const getPileTitle = (cards, type) =>
+  `${
+    {
+      bank_cards: '🏦',
+      property_cards: '🏠',
+      building_cards: '🏢',
+      action_cards: '🚴‍'
+    }[type]
+  } $${getTotalValue(cards)}`;
 
+const renderPileViewComponents = (cards, type) => {
+  let PileView;
   if (type === 'property_cards') {
-    pileView = cards.map(card => {
+    PileView = cards.map(card => {
       return (
         <Card>
           <Card.Header>
@@ -45,7 +47,7 @@ const renderStack = (cards, type) => {
     // calculate frequencies for each card
     cards.map(c => cardFrequencies[c.name]++);
     const keys = Object.keys(cardFrequencies);
-    pileView = keys.map(key => {
+    PileView = keys.map(key => {
       if (cardFrequencies[key] > 0) {
         return (
           <Card>
@@ -58,7 +60,7 @@ const renderStack = (cards, type) => {
       }
     });
   } else if (type === 'action_cards') {
-    pileView =
+    PileView =
       cards.length === 0 ? (
         <Card>
           <Card.Header>
@@ -75,23 +77,27 @@ const renderStack = (cards, type) => {
           </Card>
         ))
       );
-  } else if (type === 'money_cards') {
-    const cardFrequencies = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 10: 0 };
-    cards.map(c => cardFrequencies[c.value]++);
-    const keys = Object.keys(cardFrequencies).filter(
-      key => cardFrequencies[key] > 0
+  } else if (type === 'bank_cards') {
+    const frequencies = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 10: 0 };
+    cards.map(c => frequencies[c.value]++);
+    const valueCards = Object.keys(frequencies).filter(
+      key => frequencies[key] > 0
     );
-    pileView = keys.map(key => (
+    PileView = valueCards.map(card => (
       <Card>
         <Card.Header>
-          <Card.Header.Title>{cardFrequencies[key]}</Card.Header.Title>
+          <Card.Header.Title>{frequencies[card]}</Card.Header.Title>
         </Card.Header>
-        <Card.Content>${key}</Card.Content>
+        <Card.Content>${card}</Card.Content>
       </Card>
     ));
   }
 
-  const cardsModalView = Array.isArray(cards[0]) ? (
+  return PileView;
+};
+
+const renderCardsModalView = cards =>
+  Array.isArray(cards[0]) ? (
     <div>
       {cards.map(set => (
         <div>
@@ -109,25 +115,26 @@ const renderStack = (cards, type) => {
     </div>
   );
 
+const renderStack = (cards, type) => {
   return (
     <Tile
       kind="child"
-      size={type === 'property_cards' || type === 'money_cards' ? 4 : 2}
+      size={type === 'property_cards' || type === 'bank_cards' ? 4 : 2}
     >
       <Box>
         <Level renderAs="nav">
           <Level.Side align="left">
-            <Level.Item>{titleBar}</Level.Item>
+            <Level.Item>{getPileTitle(cards, type)}</Level.Item>
           </Level.Side>
           <Level.Side align="right">
             <Level.Item>
-              <ZoomModal>{cardsModalView}</ZoomModal>
+              <ZoomModal>{renderCardsModalView(cards)}</ZoomModal>
             </Level.Item>
           </Level.Side>
         </Level>
         <Card style={{ overflowX: 'auto' }}>
           <Tile>
-            {pileView.map(card => (
+            {renderPileViewComponents(cards, type).map(card => (
               <Tile style={{ paddingRight: 8 }}>{card}</Tile>
             ))}
           </Tile>
@@ -141,11 +148,11 @@ const PlayerField = ({
   building_cards,
   property_cards,
   action_cards,
-  money_cards
+  bank_cards
 }) => {
   return (
     <Tile kind="parent" size={12}>
-      {renderStack(money_cards, 'money_cards')}
+      {renderStack(bank_cards, 'bank_cards')}
       {renderStack(property_cards, 'property_cards')}
       {renderStack(action_cards, 'action_cards')}
       {renderStack(building_cards, 'building_cards')}
@@ -169,14 +176,14 @@ const PlayerHand = ({ hand }) => {
   );
 };
 
-const PlayerView = ({ data, style, showHand = false }) => {
+const PlayerView = ({ data, showHand = false }) => {
   return (
     <div>
-      <Tile kind="ancestor" style={style}>
+      <Tile kind="ancestor">
         <PlayerField {...data} />
       </Tile>
       {showHand ? (
-        <Tile kind="ancestor" style={style}>
+        <Tile kind="ancestor">
           <PlayerHand {...data} />
         </Tile>
       ) : null}
@@ -249,8 +256,8 @@ class GameView extends Component {
   }
 
   render() {
-    const gameMaster = Data.general_info.players[0];
-    const players_data = Data.general_info.players;
+    const gameMaster = GameState.general_info.players[0];
+    const players_data = GameState.general_info.players;
     const me =
       players_data[Math.floor(Math.random() * players_data.length) + 1];
 

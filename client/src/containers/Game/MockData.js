@@ -1,4 +1,4 @@
-const Data = {
+const GameState = {
   general_info: {
     players: [
       {
@@ -253,7 +253,7 @@ const Data = {
             colors: ['green', 'red']
           }
         ],
-        money_cards: [
+        bank_cards: [
           {
             id: 1,
             name: '',
@@ -409,7 +409,7 @@ const Data = {
             colors: ['green', 'red']
           }
         ],
-        money_cards: [
+        bank_cards: [
           {
             id: 1,
             name: '',
@@ -535,7 +535,7 @@ const Data = {
             colors: ['green', 'red']
           }
         ],
-        money_cards: [
+        bank_cards: [
           {
             id: 1,
             name: '',
@@ -652,7 +652,7 @@ const Data = {
             colors: ['green', 'red']
           }
         ],
-        money_cards: [
+        bank_cards: [
           {
             id: 1,
             name: '',
@@ -894,7 +894,7 @@ const Data = {
             colors: ['green', 'red']
           }
         ],
-        money_cards: [
+        bank_cards: [
           {
             id: 1,
             name: '',
@@ -973,4 +973,4 @@ const GameInfo = {
   ]
 };
 
-export { Data, GameInfo };
+export { GameState, GameInfo };

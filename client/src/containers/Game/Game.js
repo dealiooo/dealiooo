@@ -13,7 +13,7 @@ import GameChat from './GameChat';
 
 import './Game.css';
 
-import { Data } from './Data';
+import { GameState } from './MockData';
 
 class Game extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class Game extends Component {
           <GameView />
         </Columns.Column>
         <Columns.Column size={2}>
-          <GameInfo {...Data.general_info.game} />
+          <GameInfo {...GameState.general_info.game} />
           <GameChat {...this.props} />
         </Columns.Column>
       </Columns>
