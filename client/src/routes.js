@@ -1,4 +1,5 @@
 import MainRoute from './containers/Main/route';
+import GameRoute from './containers/Game/route';
 import GameLobbyRoute from './containers/Lobby/Game/route';
 import MainLobbyRoute from './containers/Lobby/Main/route';
 import ErrorRoute from './containers/Error/route';
@@ -9,6 +10,7 @@ import NewPasswordRoute from './containers/Auth/NewPassword/route';
 
 const routes = [
   ...MainRoute,
+  ...GameRoute,
   ...GameLobbyRoute,
   ...MainLobbyRoute,
   ...RegisterRoute,

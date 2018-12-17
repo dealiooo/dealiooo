@@ -1,0 +1,46 @@
+.gamechat .box.ps {
+  position: relative;
+  min-height: 200px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.dark-blue {
+  background-color: darkblue;
+}
+
+.light-blue {
+  background-color: lightblue;
+}
+
+.utility {
+  background-color: lightcyan;
+}
+
+.railroad {
+  background-color: black;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.brown {
+  background-color: brown;
+}
+
+.purple {
+  background-color: purple;
+}
