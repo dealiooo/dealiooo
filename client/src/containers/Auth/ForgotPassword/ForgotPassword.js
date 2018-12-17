@@ -10,10 +10,12 @@ import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Banner from '../../../components/Banner';
 import Heading from 'react-bulma-components/lib/components/heading';
+import api from '../../../api';
 
 class ForgotPassword extends Component {
   state = {
-    email: ''
+    email: '',
+    error_message: null
   };
 
   onChange = evt => {
@@ -25,16 +27,29 @@ class ForgotPassword extends Component {
   };
 
   onSubmit = evt => {
-    // TODO
+    evt.preventDefault();
+    api.post_forgot_password(this.state.email).then(result => {
+      if (result.error) {
+        this.setState({
+          error_message: 'Invalid email'
+        });
+        this.setState({ modal_display: true });
+      } else {
+        window.location = '/';
+      }
+    });
   };
 
   render() {
-    const { email } = this.state;
+    const { email, error_message } = this.state;
     return (
       <Container className="is-fullhd">
         <Banner />
         <Section>
           <Container>
+            {error_message ? (
+              <div className="has-text-danger">{error_message}</div>
+            ) : null}
             <form onSubmit={this.onSubmit}>
               <Columns className="is-centered">
                 <Columns.Column className="is-two-fifths">

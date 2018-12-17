@@ -10,11 +10,7 @@ const { Auth } = require('../database/api');
 
 router.get('/register', requireAuthentication, send_user_id_and_user_name);
 router.get('/login', requireAuthentication, send_user_id_and_user_name);
-router.get(
-  '/forgot-password',
-  requireAuthentication,
-  send_user_id_and_user_name
-);
+router.get('/forgot-password', not_authenticated, send_user_id_and_user_name);
 router.get('/new-password', requireAuthentication, send_user_id_and_user_name);
 router.get('/logout', requireAuthentication, send_user_id_and_user_name);
 

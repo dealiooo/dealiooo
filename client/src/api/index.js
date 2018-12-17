@@ -34,6 +34,7 @@ const jsonify = response => response.json();
 export default {
   get_register: () => request('/register', {}, 'get'),
   get_login: () => request('/login', {}, 'get'),
+  get_forgot_password: () => request('/forgot-password', {}, 'get'),
   get_main_lobby: () => request('/main-lobby', {}, 'get'),
   get_game_lobby: game_id => request(`/game-lobby/${game_id}`, {}, 'get'),
   get_game_lobby_info: game_id =>
@@ -48,6 +49,7 @@ export default {
     request('/register', { name, email, password }),
   post_login: (email, password) =>
     request('/login', { email, password }).then(jsonify),
+  post_forgot_password: email => request('/forgot-password', { email }),
   post_main_lobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
   post_create_game: () =>
     request('/main-lobby/create-game', {}).then(resolvePendingPromise),
