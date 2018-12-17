@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('th_cards', {
+    return queryInterface.createTable('th_users', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -12,23 +12,18 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      value: {
-        type: Sequelize.INTEGER,
-        allowNull: true
+      email: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
-      type: {
-        type: Sequelize.ENUM(
-          'money',
-          'property',
-          'property-wildcard',
-          'action'
-        ),
+      password: {
+        type: Sequelize.STRING,
         allowNull: false
       }
     });
   },
-
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('th_cards');
+    return queryInterface.dropTable('th_users');
   }
 };
