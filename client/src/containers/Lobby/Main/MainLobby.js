@@ -145,6 +145,7 @@ class MainLobby extends Component {
   }
 
   onCreate = evt => {
+    //let maxPlayers = prompt("Enter number of players");
     api.post_create_game().then(promise => {
       console.log(promise);
       var game_id = promise.result.th_game_id;
@@ -164,7 +165,7 @@ class MainLobby extends Component {
   render() {
     if (this.state.start_render) {
       return (
-        <Box>
+        <div className="boxcolor">
           <NavigationBar title="Main Lobby" />
           <Columns>
             <Columns.Column>
@@ -199,7 +200,7 @@ class MainLobby extends Component {
               />
             </Columns.Column>
           </Columns>
-        </Box>
+        </div>
       );
     }
     return <Box>Loading Page...</Box>;

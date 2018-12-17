@@ -39,7 +39,7 @@ class NewPassword extends Component {
               <Columns.Column className="is-two-fifths">
                 <form onSubmit={this.onSubmit}>
                   <Field>
-                    <Heading className="has-text-centered has-text-white">
+                    <Heading className="has-text-centered has-text-black">
                       New Password
                     </Heading>
                     <Control>

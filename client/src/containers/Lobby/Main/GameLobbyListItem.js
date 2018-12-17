@@ -20,6 +20,7 @@ class GameLobbyListItem extends Component {
 
   onJoin(event) {
     api.post_join_game(this.props.game_id).then(response => {
+      console.log(response);
       if (response.result) {
         console.log('yay');
         console.log(this.props.socket_join_game);

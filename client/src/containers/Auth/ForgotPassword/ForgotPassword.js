@@ -52,9 +52,9 @@ class ForgotPassword extends Component {
             ) : null}
             <form onSubmit={this.onSubmit}>
               <Columns className="is-centered">
-                <Columns.Column className="is-two-fifths">
+                <Columns.Column className="is-two-fifths is-4">
                   <Field>
-                    <Heading className="has-text-centered has-text-white">
+                    <Heading className="has-text-centered has-text-black">
                       Forgot Password
                     </Heading>
                     <Control>
