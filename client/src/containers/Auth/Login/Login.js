@@ -75,7 +75,7 @@ class Login extends Component {
         <form onSubmit={this.onSubmit}>
           <Columns className="is-centered">
             <Columns.Column className="is-3 ">
-              <Heading className="has-text-centered has-text-white">
+              <Heading className="has-text-centered has-text-black">
                 Login
               </Heading>
               <Field>

@@ -233,11 +233,11 @@ class GameLobby extends Component {
   render() {
     if (this.state.start_render) {
       return (
-        <Box>
+        <Box className="boxcolor">
           <NavigationBar title={this.state.lobby_name} />
           <Section>
             <Columns>
-              <Columns.Column>
+              <Columns.Column className="has-background-black-ter">
                 <PlayerStatus status={this.state.players_status} />
                 <Level>
                   <Level.Item>

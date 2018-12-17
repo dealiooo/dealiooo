@@ -10,6 +10,7 @@ import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Banner from '../../../components/Banner';
 import Heading from 'react-bulma-components/lib/components/heading';
+import api from '../../../api';
 
 class ForgotPassword extends Component {
   state = {
@@ -37,9 +38,9 @@ class ForgotPassword extends Component {
           <Container>
             <form onSubmit={this.onSubmit}>
               <Columns className="is-centered">
-                <Columns.Column className="is-two-fifths">
+                <Columns.Column className="is-two-fifths is-4">
                   <Field>
-                    <Heading className="has-text-centered has-text-white">
+                    <Heading className="has-text-centered has-text-black">
                       Forgot Password
                     </Heading>
                     <Control>

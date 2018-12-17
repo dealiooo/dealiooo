@@ -48,6 +48,7 @@ export default {
     request('/register', { name, email, password }),
   post_login: (email, password) =>
     request('/login', { email, password }).then(jsonify),
+  post_logout: () => request('/logout', {}),
   post_main_lobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
   post_create_game: () =>
     request('/main-lobby/create-game', {}).then(resolvePendingPromise),
