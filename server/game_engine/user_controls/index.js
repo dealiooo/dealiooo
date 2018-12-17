@@ -1,4 +1,4 @@
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 const userActions = require('./../user_actions');
 const { Game } = require('./../../database/api');
 

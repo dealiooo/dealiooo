@@ -1,4 +1,4 @@
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 
 const ACTION = 'action';
 const BANK = 'bank';
@@ -183,17 +183,15 @@ const generateDeckAndShuffle = db => game =>
   );
 
 const updateCurrentPlayer = _ => player =>
-  player
-    .getGame()
-    .then(game =>
-      game
-        .getPlayers({
-          where: { order: (game.turn % (game.player_count - 1)) + 1 }
-        })
-        .then(players =>
-          game.update({ current_player: players[0].id, cards_played: 0 })
-        )
-    );
+  player.getGame().then(game =>
+    game
+      .getPlayers({
+        where: { order: (game.turn % (game.player_count - 1)) + 1 }
+      })
+      .then(players =>
+        game.update({ current_player: players[0].id, cards_played: 0 })
+      )
+  );
 
 module.exports = db => ({
   ACTION,
