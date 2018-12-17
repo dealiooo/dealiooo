@@ -32,7 +32,8 @@ const join_game = db => (game_id, user_id) =>
       return db.sequelize.sync({ logging: false }).then(_ =>
         db.th_players.create({
           th_game_id: game_id,
-          th_user_id: user_id
+          th_user_id: user_id,
+          order: result.count + 1
         })
       );
     }

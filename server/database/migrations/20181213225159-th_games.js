@@ -13,7 +13,7 @@ module.exports = {
         defaultValue: 0,
         allowNull: false
       },
-      card_played: {
+      cards_played: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
         allowNull: false

@@ -21,8 +21,7 @@ module.exports = (sequelize, Sequelize) => {
           'deck',
           'discard',
           'hand',
-          'property_set',
-          'card_played_log'
+          'property_set'
         ]
       }
     },

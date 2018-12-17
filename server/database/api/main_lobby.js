@@ -8,7 +8,8 @@ const insert_game = db => (user_id, player_cap) =>
     .then(game =>
       db.th_players.create({
         th_game_id: game.id,
-        th_user_id: user_id
+        th_user_id: user_id,
+        order: 1
       })
     );
 

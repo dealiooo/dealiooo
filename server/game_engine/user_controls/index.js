@@ -13,7 +13,7 @@ const pick_hand_card = (player, callback) =>
           pending: null
         };
       } else {
-        return Game.getPilesByTypes(player.id, Game.HAND).then(piles =>
+        return Game.getPilesByTypes(player.id, [Game.HAND]).then(piles =>
           piles[0].getCards({ where: { id } }).then(card => {
             if (card) {
               return callback(null, card);
@@ -108,6 +108,11 @@ const pick_valuable_field_card = (player, piles, callback) => {
   });
 };
 
+const pick_movable_card = (player, callback) =>
+  Game.getPilesByTypes(player, [Game.PROPERTY_SET, Game.BUILDING]).then(piles =>
+    pick_field_card(player, piles, callback)
+  );
+
 const pick_basic_options = (player, callback) =>
   Game.getPilesByTypes(player, [
     Game.HAND,
@@ -136,5 +141,6 @@ module.exports = {
   pick_target_player,
   pick_field_card,
   pick_valuable_field_card,
+  pick_movable_card,
   pick_basic_options
 };

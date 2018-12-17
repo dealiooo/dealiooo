@@ -1,5 +1,6 @@
 const { Game } = require('../../database/api');
 const userControls = require('./../user_controls');
+
 const filterAsync = (array, filter) =>
   Promise.all(array.map(element => filter(element))).then(result =>
     array.filter(_ => result.shift())
@@ -251,7 +252,7 @@ const getHasThreeFullPropertySets = player =>
   getNumberFullPropertySets(player).then(count => 3 <= count);
 
 const getHasPlayedThreeCards = player =>
-  player.getGame().then(game => 3 <= game.card_played);
+  player.getGame().then(game => 3 <= game.cards_played);
 
 const getHasSevenOrLessCards = player =>
   Game.getPilesByTypes(player.id, [Game.HAND]).then(piles =>
@@ -269,15 +270,49 @@ const getDestinations = {
   rent: getRentDestinations
 };
 
+const discardCard = (player, card) =>
+  Game.getPilesByTypes(player, [Game.DISCARD]).then(piles =>
+    moveCard(card, piles[0])
+  );
+
+const discardPile = (player, pile) =>
+  Game.getPilesByTypes(player, [Game.DISCARD]).then(discardPiles =>
+    Game.movePile(pile, discardPiles[0])
+  );
+
+const discardActionPile = player =>
+  Game.getPilesByTypes(player, [Game.DISCARD]).then(discardPiles =>
+    Game.getPilesByTypes(player.id, [Game.ACTION]).then(actionPiles =>
+      Game.movePile(actionPiles[0], discardPiles[0])
+    )
+  );
+
+const moveCardToBank = (player, card) =>
+  Game.getPilesByTypes(player, [Game.BANK]).then(piles =>
+    moveCard(card, piles[0])
+  );
+
+const moveDiscardToDeck = player =>
+  Game.getPilesByTypes(player, [Game.DISCARD]).then(discardPiles =>
+    Game.getPilesByTypes(player, [Game.DECK]).then(deckPiles =>
+      Game.movePile(discardPiles[0], deckPiles[0]).then(_ => deckPiles[0])
+    )
+  );
+
 module.exports = {
   getPlayer: Game.getPlayer,
   getCard: Game.getCard,
   removeEmptyPropertySets,
   getRentValue,
   getDestinations,
+  discardCard,
+  discardPile,
+  discardActionPile,
   drawCard,
   moveCard: Game.moveCard,
+  moveCardToBank,
   movePile: Game.movePile,
+  moveDiscardToDeck,
   swapPropertyCard: Game.swapPropertyCard,
   shufflePile: Game.shufflePile,
   switchColor: Game.switchColor,
@@ -287,5 +322,7 @@ module.exports = {
   getHasThreeFullPropertySets,
   getHasPlayedThreeCards,
   getHasSevenOrLessCards,
-  getHasTwoToFivePlayers
+  getHasTwoToFivePlayers,
+  startGame: Game.startGame,
+  updateCurrentPlayer: Game.updateCurrentPlayer
 };
