@@ -163,7 +163,7 @@ class MainLobby extends Component {
   render() {
     if (this.state.start_render) {
       return (
-        <Box className="has-background-black">
+        <Box>
           <NavigationBar title="Main Lobby" />
           <Columns>
             <Columns.Column>
@@ -177,7 +177,7 @@ class MainLobby extends Component {
                 Create
               </Button>
             </Columns.Column>
-            <Columns.Column className="is-two-fifths">
+            <Columns.Column className="main-lobby-chat is-two-fifths">
               <ChatLog
                 room_id={'mainlobby'}
                 user_id={this.state.user_id}

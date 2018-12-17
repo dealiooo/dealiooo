@@ -233,7 +233,7 @@ class GameLobby extends Component {
   render() {
     if (this.state.start_render) {
       return (
-        <Box className="has-background-black">
+        <Box>
           <NavigationBar title={this.state.lobby_name} />
           <Section>
             <Columns>
@@ -256,7 +256,7 @@ class GameLobby extends Component {
                   <Level.Item />
                 </Level>
               </Columns.Column>
-              <Columns.Column size="5">
+              <Columns.Column size="5" className="game-lobby-chat">
                 <ChatLog
                   room_id={`gamelobby/${this.state.game_id}`}
                   user_id={this.state.user_id}

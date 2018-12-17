@@ -4,7 +4,7 @@ html
   > div.box
   > section.section
   > div.columns.is-multiline
-  > div.column
+  > .game-lobby-chat
   > div.box.ps {
   position: relative;
   min-height: 400px;

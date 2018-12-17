@@ -31,7 +31,7 @@ class GameLobbyList extends Component {
         );
       });
     }
-    return <Box className="has-background-black-ter">{gameLobbyListItems}</Box>;
+    return <Box>{gameLobbyListItems}</Box>;
   }
 }
 
