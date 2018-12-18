@@ -6,7 +6,7 @@ const chat = sockets => (gameId, message) =>
     );
 
 const enterGame = (globalSockets, sockets) => (gameId, userId) => {
-  if (!(gameId in sockets)) {
+  if (undefined === sockets.get(gameId)) {
     sockets.set(gameId, new Map());
   }
   sockets.get(gameId).set(userId, globalSockets.get(userId));
@@ -18,15 +18,13 @@ const enterGame = (globalSockets, sockets) => (gameId, userId) => {
 };
 
 const leaveGame = sockets => (gameId, userId, userName) =>
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game-lobby:${gameId}:leave-game`, {
-        gameId,
-        userId,
-        userName
-      })
-    );
+  sockets.get(gameId).forEach(client_socket =>
+    client_socket.emit(`game-lobby:${gameId}:leave-game`, {
+      gameId,
+      userId,
+      userName
+    })
+  );
 
 const playerReady = sockets => (gameId, userId, userName) =>
   sockets.get(gameId).forEach(client_socket =>

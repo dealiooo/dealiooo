@@ -1,222 +1,171 @@
 const gameControls = require('./gameControls');
 const userControls = require('./userControls');
 
-const pretty_print_cards = cards => {
-  let str = '';
-  for (let i = 0; i < cards.length; i++) {
-    str += `* ( ${cards[i].id} - ${cards[i].name} 💰${cards[i].value} 🎨    ${
-      cards[i].mainColor ? cards[i].mainColor : cards[i].colors.join(',')
-    })`;
-    if (cards.length > 1) {
-      str += '\n';
-    }
-  }
-  return str;
-};
-
 const game_engine = {
   start: playerIds => {
     let Game = gameControls.startGame(playerIds);
-    game_engine.apply_start_turn(Game);
+    game_engine.applyStartTurn(Game);
     return Game;
   },
   input: (Game, user_input, player_id) => {
     Game.user_input = user_input;
-    let return_value = '';
+    let returnValue = '';
     let pending = Game.pending_for_user_input;
     if (pending) {
-      return_value = pending.function(Game, pending.arguments, player_id);
+      returnValue = pending.function(Game, pending.arguments, player_id);
     } else if (null !== Game.winner) {
-      return_value = game_engine.apply_player_won(Game);
+      returnValue = game_engine.applyPlayerWon(Game);
     } else {
-      return_value = '\ngame is not running :(';
+      returnValue = '\ngame is not running :(';
     }
-    return return_value;
+    return returnValue;
   },
-  get_prompt: Game => {
-    return {
-      general_info: game_engine.prompt_general_info(Game),
-      player_info: game_engine.prompt_player_info(Game),
-      options_info: game_engine.prompt_options_info(Game)
-    };
+  getVars: (Game, playerId) => {
+    let data = {};
+    getGeneralInfo(Game, data);
+    getPlayersInfo(Game, playerId, data);
+    getOptionsInfo(Game, data);
+    return data;
   },
-  prompt_general_info: Game => {
-    let return_value =
-      `\nturn count: ${Game.turn_count}` +
-      `\ndeck count: ${Game.deck.length}` +
-      `\ndiscard:  `;
-    if (Game.discard.length) {
-      return_value += Game.discard[Game.discard.length - 1].id;
-    } else {
-      return_value += '-';
-    }
-    return_value += `\ncards_played: ${Game.cards_played}`;
-    return return_value;
+  getGeneralInfo: (Game, data) => {
+    data.general_info = {};
+    data.general_info.turnCount = Game.turn_count;
+    data.general_info.currentPlayer =
+      Game.players[Game.turn_count % Game.player_count].id;
+    data.general_info.cardsPlayed = Game.cards_played;
+    data.general_info.deckCount = Game.deck.length;
+    data.general_info.discard = Game.discard;
   },
-  prompt_options_info: Game => {
-    let return_value = '';
-    let pending = Game.pending_for_user_input;
-    if (pending) {
-      return_value += pending.message;
-    }
-    return return_value;
-  },
-  prompt_player_info: (Game, player_id) => {
-    let turn_player = Game.turn_count % Game.player_count;
-    let return_value = [];
-    let size = Game.players.length;
-    for (let i = 0; i < size; i++) {
-      let str = '';
-      if (Game.players[i].id === Game.players[turn_player].id) {
-        str += `\nCurrent Turn: Player (id:${Game.players[i].id})`;
+  getPlayersInfo: (Game, playerId, data) => {
+    data.players_info = [];
+    Game.players.map(player => {
+      let tempPlayer = {};
+      if (player.id === playerId) {
+        tempPlayer.hand = player.hand;
       } else {
-        str += `\nPlayer (id:${Game.players[i].id})`;
+        tempPlayer.hand = player.hand.length;
       }
-      str += `\n✌️ Hand:\n`;
-      if (i === player_id) {
-        str += '\n' + pretty_print_cards(Game.players[i].hand) + '';
-      } else {
-        str += Game.players[i].hand.length;
-      }
-      str += `\n🏦 Bank: \n`;
-      str += '[' + pretty_print_cards(Game.players[i].field.bank_cards) + ']';
-      str += `\n🏠 Properties: \n`;
-      if (Game.players[i].field.property_cards.length) {
-        Game.players[i].field.property_cards.map(
-          property_set => (str += `\n[${pretty_print_cards(property_set)}]`)
-        );
-      } else {
-        str += '[]';
-      }
-      str += `\n🚴 Actions: \n`;
-      str += '[' + pretty_print_cards(Game.players[i].field.action_cards) + ']';
-      str += `\n🏢 Buildings: \n`;
-      str +=
-        '[' + pretty_print_cards(Game.players[i].field.building_cards) + ']';
-      return_value.push(str);
-    }
-    return return_value;
-  },
-  prompt_basic_options: Game => {
-    let apply_basic_options = {
-      'Play Hand Card': game_engine.prompt_play_hand_card,
-      'Move Card Around': game_engine.prompt_move_card_around,
-      'End Turn': game_engine.apply_end_turn
-    };
-    let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.pickBasicOptions(Game, player, (error, option) => {
-      if (error) {
-        console.log(error);
-      } else {
-        apply_basic_options[option](Game);
-      }
+      tempPlayer.action_cards = player.field.action_cards;
+      tempPlayer.bank_cards = player.field.bank_cards;
+      tempPlayer.building_cards = player.field.building_cards;
+      tempPlayer.property_cards = player.field.property_cards;
+      return data.player_info.push(tempPlayer);
     });
   },
-  prompt_play_hand_card: Game => {
-    let apply_play_hand_card = {
-      'Pick Card Id': game_engine.prompt_hand_card_id,
-      'Go Back': game_engine.prompt_basic_options
+  getOptionsInfo: (Game, data) => {
+    data.prompts_info = {};
+    let pending = Game.pending_for_user_input;
+    if (pending) {
+      data.prompts_info.promptPlayer = pending.arguments.player;
+      data.prompts_info.promptMessage = pending.message;
+    }
+  },
+  promptBasicOptions: Game => {
+    let applyBasicOptions = {
+      'Play Hand Card': game_engine.promptPlayHandCard,
+      'Move Card Around': game_engine.promptMoveCardAround,
+      'End Turn': game_engine.applyEndTurn
+    };
+    let player = Game.players[Game.turn_count % Game.player_count];
+    userControls.pickBasicOptions(Game, player, (_, option) => {
+      applyBasicOptions[option](Game);
+    });
+  },
+  promptPlayHandCard: Game => {
+    let applyPlayHandCard = {
+      'Pick Card Id': game_engine.promptHandCardId,
+      'Go Back': game_engine.promptBasicOptions
     };
     let player = Game.players[Game.turn_count % Game.player_count];
     userControls.playHandCard(Game, player, (error, option) => {
       if (error) {
-        console.log(error);
-        game_engine.prompt_basic_options(Game);
+        game_engine.promptBasicOptions(Game);
       } else {
-        apply_play_hand_card[option](Game);
+        applyPlayHandCard[option](Game);
       }
     });
   },
-  prompt_move_card_around: Game => {
-    let apply_move_card_around = {
-      'Pick Source and Destination': game_engine.prompt_source_and_destination,
-      'Go Back': game_engine.prompt_basic_options
+  promptMoveCardAround: Game => {
+    let applyMoveCardAround = {
+      'Pick Source and Destination': game_engine.promptSourceAndDestination,
+      'Go Back': game_engine.promptBasicOptions
     };
     let player = Game.players[Game.turn_count % Game.player_count];
     userControls.moveCardAround(Game, player, (error, option) => {
       if (error) {
-        console.log(error);
-        game_engine.prompt_basic_options(Game);
+        game_engine.promptBasicOptions(Game);
       } else {
-        apply_move_card_around[option](Game);
+        applyMoveCardAround[option](Game);
       }
     });
 
     if (gameControls.computeWinCondition(Game)) {
-      return game_engine.apply_player_won(Game);
+      return game_engine.applyPlayerWon(Game);
     }
   },
-  prompt_hand_card_id: Game => {
+  promptHandCardId: Game => {
     let player = Game.players[Game.turn_count % Game.player_count];
     userControls.pickHandCard(Game, player, (error, card) => {
       if (error) {
-        console.log(error);
-        game_engine.prompt_basic_options(Game);
+        game_engine.promptBasicOptions(Game);
       } else {
-        game_engine.apply_play_card(Game, card);
+        game_engine.applyPlayCard(Game, card);
       }
     });
   },
-  prompt_source_and_destination: Game => {
+  promptSourceAndDestination: Game => {
     let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.moveCardAround(Game, player, error => {
-      if (error) {
-        console.log(error);
-      }
+    gameControls.moveCardAround(Game, player, _ => {
       if (!gameControls.computeWinCondition(Game, player)) {
-        game_engine.prompt_basic_options(Game);
+        game_engine.promptBasicOptions(Game);
       }
     });
   },
-  apply_play_card: (Game, card) => {
+  applyPlayCard: (Game, card) => {
     let player = Game.players[Game.turn_count % Game.player_count];
     gameControls.playCard(Game, player, card, (error, card) => {
       if (error) {
-        console.log(error);
-        game_engine.prompt_basic_options(Game);
+        game_engine.promptBasicOptions(Game);
       } else {
         gameControls.onCardPlayed(Game, card);
         if (gameControls.computeWinCondition(Game)) {
-          return game_engine.apply_player_won(Game);
+          return game_engine.applyPlayerWon(Game);
         } else {
           if (3 <= Game.cards_played) {
-            game_engine.apply_end_turn(Game);
+            game_engine.applyEndTurn(Game);
           } else {
-            game_engine.prompt_basic_options(Game);
+            game_engine.promptBasicOptions(Game);
           }
         }
       }
     });
   },
-  apply_start_turn: Game => {
+  applyStartTurn: Game => {
     let player = Game.players[Game.turn_count % Game.player_count];
     gameControls.startTurn(Game, player);
-    game_engine.prompt_basic_options(Game);
+    game_engine.promptBasicOptions(Game);
   },
-  apply_player_won: Game => {
+  applyPlayerWon: Game => {
     return `\nPlayer (id:${
       Game.winner.id
     }) won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
-  apply_end_turn: Game => {
+  applyEndTurn: Game => {
     if (null === Game.pending_for_user_input) {
-      gameControls.endTurn(Game, error => {
-        if (error) {
-          console.log(error);
-        }
+      gameControls.endTurn(Game, _ => {
         Game.turn_count++;
-        game_engine.apply_start_turn(Game);
+        game_engine.applyStartTurn(Game);
       });
     }
     return ``;
   },
-  apply_leave_game: (Game, player_id) => {
+  applyLeaveGame: (Game, playerId) => {
     let player = Game.players[Game.turn_count % Game.player_count];
-    if (player.id === player_id) {
+    if (player.id === playerId) {
       gameControls.forfeit(Game, player);
     }
   },
-  on_end_turn: (Game, player_id) => {
+  onEndTurn: (Game, playerId) => {
     let player = Game.players[Game.turn_count % Game.player_count];
     let pending = Game.pending_for_user_input;
     if (null !== pending) {
@@ -225,9 +174,9 @@ const game_engine = {
           pending.arguments.options.filter(option => 'End Turn' === option)
             .length
         ) {
-          if (player.id === player_id) {
+          if (player.id === playerId) {
             Game.pending_for_user_input = null;
-            game_engine.apply_end_turn(Game);
+            game_engine.applyEndTurn(Game);
             return `\nEnding Turn...`;
           }
         }
@@ -235,10 +184,10 @@ const game_engine = {
     }
     return `\nEnd Turn is not available`;
   },
-  on_leave_game: (Game, player_id) => {
-    game_engine.apply_leave_game(Game, player_id);
+  onLeaveGame: (Game, player_id) => {
+    game_engine.applyLeaveGame(Game, player_id);
     if (gameControls.computeWinCondition(Game)) {
-      return game_engine.apply_player_won(Game);
+      return game_engine.applyPlayerWon(Game);
     }
     return ``;
   }

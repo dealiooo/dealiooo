@@ -1,7 +1,7 @@
 const gameEngine = require('./../../game_engine');
 const { Game } = require('./../../database/api');
 
-const gameGlobals = {};
+const gameGlobals = new Map();
 
 const chat = sockets => (gameId, message) =>
   sockets
@@ -50,7 +50,7 @@ const forfeit = sockets => (gameId, userId) => {
 };
 
 const join = (globalSockets, sockets) => (gameId, userId) => {
-  if (!(gameId in sockets)) {
+  if (undefined === sockets.get(gameId)) {
     sockets.set(gameId, new Map());
     gameGlobals.set(gameId, null);
   }

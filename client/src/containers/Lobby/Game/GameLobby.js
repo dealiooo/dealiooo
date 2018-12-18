@@ -37,12 +37,12 @@ class GameLobby extends Component {
       playersStatus: null,
       socket: api.socket
     };
+    api.postGameLobbyEnter(gameId);
     api.socket.on(`game-lobby:${gameId}:enter-game`, this.onEnterGame);
     api.socket.on(`game-lobby:${gameId}:leave-game`, this.onLeaveGame);
     api.socket.on(`game-lobby:${gameId}:player-ready`, this.onPlayerReady);
     api.socket.on(`game-lobby:${gameId}:player-unready`, this.onPlayerUnready);
     api.socket.on(`game-lobby:${gameId}:start-game`, this.onStartGame);
-    api.postGameLobbyEnter(gameId);
   }
 
   componentDidMount() {
@@ -70,6 +70,7 @@ class GameLobby extends Component {
   }
 
   onEnterGame(event) {
+    console.log(event);
     if (this.state.gameId === event) {
       api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
         status.result.map(

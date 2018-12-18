@@ -21,7 +21,7 @@ const pickOption = (
   }
   if (options.length) {
     if ('' === Game.user_input) {
-      setPending();
+      setPending(Game, requiredPlayer, options, callback);
     } else {
       let option = parseInt(Game.user_input);
       if (-1 < option && option < options.length) {
