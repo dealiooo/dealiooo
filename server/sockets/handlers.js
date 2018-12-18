@@ -14,7 +14,7 @@ const handle_room = room_manager => {
     exist(room_manager.get_room(room_id), `room not found ${room_id}`);
   const handle_room_event = (room_id, event) =>
     room_exist(room_id).then(room => {
-      room.broadcast({ event });
+      room.broadcast('message', { event });
       return room;
     });
   return handle_room_event;

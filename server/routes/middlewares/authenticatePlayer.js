@@ -1,9 +1,9 @@
 const { Auth } = require('../../database/api');
 
-const require_authentication = (request, response, next) => {
-  return Auth.user_belong_to_game_id(request.params.game_id, request.user.id)
+module.exports = (request, response, next) => {
+  return Auth.findPlayer(request.params.game_id, request.user.id)
     .then(result => {
-      if (result.count) {
+      if (result) {
         next();
         return result;
       } else {
@@ -12,5 +12,3 @@ const require_authentication = (request, response, next) => {
     })
     .catch(error => response.json({ error }));
 };
-
-module.exports = require_authentication;

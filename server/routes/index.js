@@ -9,7 +9,7 @@ const connection_type = 'http://';
 const website = 'localhost';
 const port_num = ':3000';
 
-router.use(function(request, response, next) {
+router.use((_, response, next) => {
   response.header(
     'Access-Control-Allow-Origin',
     `${connection_type}${website}${port_num}`
@@ -28,7 +28,6 @@ router.use(AuthRoute);
 router.use(GameRoute);
 router.use(GameLobbyRoute);
 router.use(MainLobbyRoute);
-// All routes not specified above will default to this route
 router.use(DefaultRoute);
 
 module.exports = router;

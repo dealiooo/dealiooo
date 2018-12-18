@@ -1,51 +1,51 @@
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 
-const insert_user = db => (username, email, password) =>
-  bcrypt.hash(password, SALT_ROUNDS).then(hash =>
+const insertUser = db => (name, email, hash_me) =>
+  bcrypt.hash(hash_me, SALT_ROUNDS).then(password =>
     db.th_users.create({
-      name: username,
+      name,
       email,
-      password: hash
+      password
     })
   );
 
-const find_user_by_email = db => email =>
+const findUserByEmail = db => email =>
   db.th_users.findOne({ where: { email } });
 
-const find_user_by_id = db => id => db.th_users.findOne({ where: { id } });
+const findUserById = db => id => db.th_users.findOne({ where: { id } });
 
-const update_password = db => (email, new_password) =>
+const updatePassword = db => (email, new_password) =>
   bcrypt
     .hash(new_password, SALT_ROUNDS)
     .then(hash => db.th_users.update({ password: hash }, { where: { email } }));
 
-const insert_session = db => (sid, sess, expire) =>
+const insertSession = db => (sid, sess, expire) =>
   db.session.create({
     sid,
     sess,
     expire
   });
 
-const delete_session = db => sid => db.session.destroy({ where: { sid } });
+const deleteSession = db => sid => db.session.destroy({ where: { sid } });
 
-const find_session_by_sid = db => sid => db.session.findOne({ where: { sid } });
+const findSessionBySid = db => sid => db.session.findOne({ where: { sid } });
 
-const user_belong_to_game_id = db => (game_id, user_id) =>
-  db.th_players.findAndCountAll({
+const findPlayer = db => (th_game_id, th_user_id) =>
+  db.th_players.findOne({
     where: {
-      th_game_id: game_id,
-      th_user_id: user_id
+      th_game_id,
+      th_user_id
     }
   });
 
 module.exports = db => ({
-  insert_user: insert_user(db),
-  find_user_by_email: find_user_by_email(db),
-  find_user_by_id: find_user_by_id(db),
-  update_password: update_password(db),
-  insert_session: insert_session(db),
-  delete_session: delete_session(db),
-  find_session_by_sid: find_session_by_sid(db),
-  user_belong_to_game_id: user_belong_to_game_id(db)
+  insertUser: insertUser(db),
+  findUserByEmail: findUserByEmail(db),
+  findUserById: findUserById(db),
+  updatePassword: updatePassword(db),
+  insertSession: insertSession(db),
+  deleteSession: deleteSession(db),
+  findSessionById: findSessionBySid(db),
+  findPlayer: findPlayer(db)
 });
