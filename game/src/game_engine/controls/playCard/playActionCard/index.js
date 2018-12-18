@@ -34,7 +34,11 @@ export const playActionCard = (player, card, callback) => {
         gameActions.moveCard(player.hand, player.field.action_cards, card);
         play[card.name](player, card, (error, card) => {
           if (error) {
-            console.log(`card is not played properly | card id:${card.id} | card name: ${card.name}`);
+            console.log(
+              `card is not played properly | card id:${card.id} | card name: ${
+                card.name
+              }`
+            );
             console.log(error);
             callback(null, card);
           } else {
