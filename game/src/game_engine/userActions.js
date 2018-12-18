@@ -21,7 +21,7 @@ const pick_card_id = (
 
 // REFACTOR: this should return a callback with options[option] not option
 // options should be an array of message like ["1. r'ed", "2. blue", "3. green", ... ]
-export const pick_option = (
+const pick_option = (
   Game,
   { player: requiredPlayer, options, callback },
   player_id = null
@@ -53,7 +53,7 @@ export const pick_option = (
   }
 };
 
-export const pick_hand_card = (Game, player, callback) => {
+const pick_hand_card = (Game, player, callback) => {
   pick_card_id(Game, {
     player,
     callback: (error, id) => {
@@ -80,7 +80,7 @@ export const pick_hand_card = (Game, player, callback) => {
 };
 
 // user picks a color to switch to from colors
-export const pick_card_color = (Game, player, card, callback) => {
+const pick_card_color = (Game, player, card, callback) => {
   pick_option(Game, {
     player,
     options: card.colors,
@@ -89,7 +89,7 @@ export const pick_card_color = (Game, player, card, callback) => {
 };
 
 // user picks a player to target
-export const pick_target_player = (Game, player, callback) =>
+const pick_target_player = (Game, player, callback) =>
   pick_option(Game, {
     player,
     options: Game.players.reduce((filtered, e) => {
@@ -110,7 +110,7 @@ export const pick_target_player = (Game, player, callback) =>
     }
   });
 
-export const pick_field_card = (Game, player, pileNames, callback) => {
+pick_field_card = (Game, player, pileNames, callback) => {
   const retrieve_from_pile = {
     property_cards: retrieve_from_property_pile,
     bank_cards: retrieve_from_non_property_pile,
@@ -201,7 +201,7 @@ const retrieve_from_non_property_pile = (player, pileName, id) => {
 
 // pileNames is a array with values that can be "property_set", "bank", "building"]
 // bank and building are handled defaultly since that are always 1D array
-export const pick_valuable_field_card = (Game, player, pileNames, callback) => {
+const pick_valuable_field_card = (Game, player, pileNames, callback) => {
   pick_field_card(Game, player, pileNames, (error, card, source) => {
     if (error) {
       callback(error);
@@ -213,7 +213,7 @@ export const pick_valuable_field_card = (Game, player, pileNames, callback) => {
   });
 };
 
-export const pick_basic_options = (Game, player, callback) => {
+const pick_basic_options = (Game, player, callback) => {
   let options = [];
   if (player.hand.length) {
     options.push('Play Hand Card');
@@ -229,7 +229,7 @@ export const pick_basic_options = (Game, player, callback) => {
   });
 };
 
-export const play_hand_card = (Game, player, callback) => {
+const play_hand_card = (Game, player, callback) => {
   let options = [];
   options.push('Pick Card Id');
   options.push('Go Back');
@@ -240,7 +240,7 @@ export const play_hand_card = (Game, player, callback) => {
   });
 };
 
-export const move_card_around = (Game, player, callback) => {
+const move_card_around = (Game, player, callback) => {
   let options = [];
   options.push('Pick Source and Destination');
   options.push('Go Back');
@@ -253,4 +253,17 @@ export const move_card_around = (Game, player, callback) => {
 
 // user chooses what card to negate from card_played_stack
 // (implemented as stack - aka. card_played_stack which consists of { player, card })
-export const play_just_say_no = (/*?*/) => {};
+const play_just_say_no = (/*?*/) => {};
+
+module.exports = {
+  pick_option,
+  pick_hand_card,
+  pick_card_color,
+  pick_target_player,
+  pick_field_card,
+  pick_valuable_field_card,
+  pick_basic_options,
+  play_hand_card,
+  move_card_around,
+  play_just_say_no
+};

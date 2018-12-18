@@ -1,6 +1,5 @@
-import * as gameActions from '../../actions';
-import * as userActions from '../../userActions';
-
+const gameActions = require('../../actions');
+const userActions = require('../../userActions');
 /*
  * Renting Logic
  * note: might be difficult to implement
@@ -15,7 +14,7 @@ import * as userActions from '../../userActions';
  * Return 0 if cannot play
  * Return 1 if can play
  */
-export const playDualColorRentCard = (Game, player, card, callback) => {
+const playDualColorRentCard = (Game, player, card, callback) => {
   userActions.pick_option(Game, {
     player,
     options: ['bank', 'action'],

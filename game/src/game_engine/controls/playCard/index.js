@@ -1,12 +1,12 @@
-import { playActionCard } from './playActionCard';
-import { playBuildingCard } from './playBuildingCard';
-import { playMoneyCard } from './playMoneyCard';
-import { playPropertyCard } from './playPropertyCard';
-import { playPropertyWildCard } from './playPropertyWildCard';
-import { playDualColorRentCard } from './playDualColorRentCard';
-import { playRentWildCard } from './playRentWildCard';
+const { playActionCard } = require('./playActionCard');
+const { playBuildingCard } = require('./playBuildingCard');
+const { playMoneyCard } = require('./playMoneyCard');
+const { playPropertyCard } = require('./playPropertyCard');
+const { playPropertyWildCard } = require('./playPropertyWildCard');
+const { playDualColorRentCard } = require('./playDualColorRentCard');
+const { playRentWildCard } = require('./playRentWildCard');
 
-export const playCard = (Game, player, card, callback) => {
+const playCard = (Game, player, card, callback) => {
   const play = {
     action: playActionCard,
     building: playBuildingCard,
@@ -18,3 +18,5 @@ export const playCard = (Game, player, card, callback) => {
   };
   play[card.type](Game, player, card, callback);
 };
+
+module.exports = playCard;

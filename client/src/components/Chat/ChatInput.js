@@ -8,30 +8,14 @@ import {
   Input
 } from 'react-bulma-components/lib/components/form';
 
-/*
-  room_id={'mainlobby'}
-  user_id={this.state.user_id}
-  user_name={this.state.user_name}
-  register_handler={this.state.chat_socket.register_chat_handler}
-  unregister_handler={this.state.chat_socket.unregister_chat_handler}
-*/
 class ChatInput extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.onMessageReceived = this.onMessageReceived.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    var temp = this.props.register_handler({
-      on_message_received: this.onMessageReceived
-    });
     this.state = {
-      message: '',
-      socket_message: temp.message
+      message: ''
     };
-  }
-
-  componentWillUnmount() {
-    this.props.unregister_chat_handler();
   }
 
   onChange = evt => {
@@ -42,29 +26,10 @@ class ChatInput extends Component {
     });
   };
 
-  onMessageReceived = message => {
-    /* no input functionality */
-  };
-
   onSubmit = evt => {
     evt.preventDefault();
-    this.state.socket_message(
-      {
-        room_id: this.props.room_id,
-        message: `[${this.props.user_id}]${this.props.user_name}:${
-          this.state.message
-        }`
-      },
-      error => {
-        if (error) {
-          console.log(error);
-        } else {
-          this.setState({
-            message: ''
-          });
-        }
-      }
-    );
+    this.props.api({ roomId: this.props.roomId, message: this.state.message });
+    this.setState({ message: '' });
   };
 
   render() {

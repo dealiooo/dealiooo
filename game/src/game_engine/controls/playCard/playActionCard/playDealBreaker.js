@@ -1,7 +1,7 @@
-import * as gameActions from '../../../actions';
-import * as userActions from '../../../userActions';
+const gameActions = require('../../../actions');
+const userActions = require('../../../userActions');
 
-export const playDealBreaker = (Game, player, card, callback) => {
+const playDealBreaker = (Game, player, card, callback) => {
   userActions.pick_target_player(Game, player, (error, pickedPlayer) => {
     if (error) {
       callback(error);
@@ -52,3 +52,5 @@ export const playDealBreaker = (Game, player, card, callback) => {
    * then a force deal or sly deal can be used to steel it.
    */
 };
+
+module.exports = playDealBreaker;

@@ -12,7 +12,7 @@ class GameLobbyList extends Component {
     this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(_) {
     this.ps.update();
   }
 
@@ -24,9 +24,8 @@ class GameLobbyList extends Component {
           <GameLobbyListItem
             key={gameLobby.id}
             gameLobby={gameLobby}
-            user_id={this.props.user_id}
-            game_id={gameLobby.id}
-            socket_join={this.props.socket_join_game}
+            userId={this.props.userId}
+            gameId={gameLobby.id}
           />
         );
       });

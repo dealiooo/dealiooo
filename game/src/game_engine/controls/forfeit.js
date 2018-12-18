@@ -1,8 +1,8 @@
-import * as gameActions from '../actions';
+const gameActions = require('../actions');
 
 // ui: do you want to keep playing? surrender?
 // triggered by: closing tab / clicking surrender button
-export const forfeit = (Game, player) => {
+const forfeit = (Game, player) => {
   Game.player_count--;
 
   // basically remove all cards that the player has to discard pile
@@ -43,3 +43,5 @@ export const forfeit = (Game, player) => {
     }
   }
 };
+
+module.exports = forfeit;

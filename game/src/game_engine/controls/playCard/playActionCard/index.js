@@ -1,16 +1,16 @@
-import { playDealBreaker } from './playDealBreaker';
-import { playDebtCollector } from './playDebtCollector';
-import { playDoubleTheRent } from './playDoubleTheRent';
-import { playForcedDeal } from './playForcedDeal';
-import { playItsMyBirthday } from './playItsMyBirthday';
-import { playJustSayNo } from './playJustSayNo';
-import { playPassGo } from './playPassGo';
-import { playSlyDeal } from './playSlyDeal';
+const gameActions = require('../../../actions');
+const userActions = require('../../../userActions');
 
-import * as gameActions from '../../../actions';
-import * as userActions from '../../../userActions';
+const { playDealBreaker } = require('./playDealBreaker');
+const { playDebtCollector } = require('./playDebtCollector');
+const { playDoubleTheRent } = require('./playDoubleTheRent');
+const { playForcedDeal } = require('./playForcedDeal');
+const { playItsMyBirthday } = require('./playItsMyBirthday');
+const { playJustSayNo } = require('./playJustSayNo');
+const { playPassGo } = require('./playPassGo');
+const { playSlyDeal } = require('./playSlyDeal');
 
-export const playActionCard = (Game, player, card, callback) => {
+const playActionCard = (Game, player, card, callback) => {
   const play = {
     'deal-beaker': playDealBreaker,
     'debt-collector': playDebtCollector,
@@ -49,3 +49,5 @@ export const playActionCard = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playActionCard;

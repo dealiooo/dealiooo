@@ -1,5 +1,7 @@
-import * as gameActions from '../actions';
+const gameActions = require('../actions');
 
-export const changeCardMainColor = (card, color) => {
+const changeCardMainColor = (card, color) => {
   gameActions.switchColor(card, color);
 };
+
+module.exports = changeCardMainColor;

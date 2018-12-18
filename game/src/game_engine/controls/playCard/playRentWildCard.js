@@ -1,7 +1,6 @@
-import * as gameActions from '../../actions';
-import * as userActions from '../../userActions';
-
-export const playRentWildCard = (Game, player, card, callback) => {
+const gameActions = require('../../actions');
+const userActions = require('../../userActions');
+const playRentWildCard = (Game, player, card, callback) => {
   userActions.pick_option(Game, {
     player,
     options: ['bank', 'action'],
@@ -80,3 +79,5 @@ export const playRentWildCard = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playRentWildCard;

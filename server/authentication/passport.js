@@ -13,7 +13,7 @@ const checkPassword = function(user, password) {
 };
 
 const verifyCallback = (username, password, done) =>
-  Auth.find_user_by_email(username)
+  Auth.findUserByEmail(username)
     .then(user => {
       if (user) {
         return checkPassword(user, password)
@@ -28,7 +28,7 @@ const verifyCallback = (username, password, done) =>
 passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser((id, done) =>
-  Auth.find_user_by_id(id)
+  Auth.findUserById(id)
     .then(user => done(null, user))
     .catch(error => done(error, {}))
 );
