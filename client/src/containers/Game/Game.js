@@ -7,17 +7,17 @@ import Button from 'react-bulma-components/lib/components/button';
 import GeneralGameInfo from './GeneralGameInfo';
 import GameView from './GameView';
 import GameChat from './GameChat';
-import socket from '../../api/socket';
+import api from '../../api';
 
 import { MockData } from './MockData';
 import './Game.css';
 
 class Game extends Component {
   constructor(props) {
-    super();
+    super(props);
 
     this.state = {
-      game_socket: socket(),
+      game_socket: api.socket,
       start_game: false
     };
   }
