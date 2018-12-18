@@ -1,5 +1,5 @@
-const gameControls = require('./controls');
-const userActions = require('./userActions');
+const gameControls = require('./gameControls');
+const userControls = require('./userControls');
 
 const pretty_print_cards = cards => {
   let str = '';
@@ -24,7 +24,6 @@ const game_engine = {
     Game.user_input = user_input;
     let return_value = '';
     let pending = Game.pending_for_user_input;
-    console.log(pending);
     if (pending) {
       return_value = pending.function(Game, pending.arguments, player_id);
     } else if (null !== Game.winner) {
@@ -105,7 +104,7 @@ const game_engine = {
       'End Turn': game_engine.apply_end_turn
     };
     let player = Game.players[Game.turn_count % Game.player_count];
-    userActions.pick_basic_options(Game, player, (error, option) => {
+    userControls.pickBasicOptions(Game, player, (error, option) => {
       if (error) {
         console.log(error);
       } else {
@@ -119,7 +118,7 @@ const game_engine = {
       'Go Back': game_engine.prompt_basic_options
     };
     let player = Game.players[Game.turn_count % Game.player_count];
-    userActions.play_hand_card(Game, player, (error, option) => {
+    userControls.playHandCard(Game, player, (error, option) => {
       if (error) {
         console.log(error);
         game_engine.prompt_basic_options(Game);
@@ -134,7 +133,7 @@ const game_engine = {
       'Go Back': game_engine.prompt_basic_options
     };
     let player = Game.players[Game.turn_count % Game.player_count];
-    userActions.move_card_around(Game, player, (error, option) => {
+    userControls.moveCardAround(Game, player, (error, option) => {
       if (error) {
         console.log(error);
         game_engine.prompt_basic_options(Game);
@@ -149,7 +148,7 @@ const game_engine = {
   },
   prompt_hand_card_id: Game => {
     let player = Game.players[Game.turn_count % Game.player_count];
-    userActions.pick_hand_card(Game, player, (error, card) => {
+    userControls.pickHandCard(Game, player, (error, card) => {
       if (error) {
         console.log(error);
         game_engine.prompt_basic_options(Game);
