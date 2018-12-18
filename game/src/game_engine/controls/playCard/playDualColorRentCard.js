@@ -15,8 +15,8 @@ import * as userActions from '../../userActions';
  * Return 0 if cannot play
  * Return 1 if can play
  */
-export const playDualColorRentCard = (player, card, callback) => {
-  userActions.pick_option({
+export const playDualColorRentCard = (Game, player, card, callback) => {
+  userActions.pick_option(Game, {
     player,
     options: ['bank', 'action'],
     callback: (error, option) => {
@@ -26,7 +26,7 @@ export const playDualColorRentCard = (player, card, callback) => {
         gameActions.moveCard(player.hand, player.field.bank_cards, card);
         callback(null, card);
       } else {
-        userActions.pick_card_color(player, card, (error, color) => {
+        userActions.pick_card_color(Game, player, card, (error, color) => {
           if (error) {
             callback(error);
           } else {
@@ -40,7 +40,7 @@ export const playDualColorRentCard = (player, card, callback) => {
               player.hand
             );
             if (destinations.length) {
-              userActions.pick_option({
+              userActions.pick_option(Game, {
                 player,
                 options: destinationIndexes,
                 callback: (error, value) => {
@@ -52,19 +52,21 @@ export const playDualColorRentCard = (player, card, callback) => {
                       player.field.action_cards,
                       card
                     );
-                    for (let i = 0; i < window.players.length; i++) {
+                    for (let i = 0; i < Game.players.length; i++) {
                       let done = i => {
-                        if (i + 1 === window.players.length) {
+                        if (i + 1 === Game.players.length) {
                           callback(null, card);
                         }
                       };
-                      if (window.players[i].id === player.id) {
+                      if (Game.players[i].id === player.id) {
                         done();
                       } else {
                         gameActions.payRent(
-                          window.players[i],
+                          Game,
+                          Game.players[i],
                           player,
                           gameActions.getRentValue(
+                            Game,
                             player,
                             destinations[parseInt(value)]
                           ),

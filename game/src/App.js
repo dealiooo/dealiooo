@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import game from './game';
+import game_engine from './game_engine';
 import './App.css';
 
 class App extends Component {
@@ -13,7 +13,7 @@ class App extends Component {
       optionsLog: [],
       input: ''
     };
-    game.start();
+    this.game = game_engine.start();
   }
 
   updateLog = logUpdate => {
@@ -25,11 +25,11 @@ class App extends Component {
   updateGeneralLog(prompt = null) {
     let log = [];
     if (prompt) {
-      const newPrompt = game.get_prompt().general_info + prompt;
+      const newPrompt = game_engine.get_prompt(this.game).general_info + prompt;
       newPrompt.split('\n').map(line => log.push(line));
     } else {
-      game
-        .get_prompt()
+      game_engine
+        .get_prompt(this.game)
         .general_info.split('\n')
         .map(line => log.push(line));
     }
@@ -38,7 +38,7 @@ class App extends Component {
 
   updatePlayerLog() {
     let log = [[], []];
-    let playerInfoList = game.get_prompt().player_info;
+    let playerInfoList = game_engine.get_prompt(this.game).player_info;
     playerInfoList.map((playerInfoString, i) =>
       playerInfoString.split('\n').map(line => log[i].push(line))
     );
@@ -48,11 +48,11 @@ class App extends Component {
   updateOptionsLog(prompt = null) {
     let log = [];
     if (prompt) {
-      const newPrompt = game.get_prompt().options_info + prompt;
+      const newPrompt = game_engine.get_prompt(this.game).options_info + prompt;
       newPrompt.split('\n').map(line => log.push(line));
     } else {
-      game
-        .get_prompt()
+      game_engine
+        .get_prompt(this.game)
         .options_info.split('\n')
         .map(line => log.push(line));
     }
@@ -69,18 +69,19 @@ class App extends Component {
 
   onEnter(event) {
     event.preventDefault();
-    this.updateLog(game.input(this.state.input));
+    // TODO: Refactor the 1
+    this.updateLog(game_engine.input(this.game, this.state.input, 1));
     this.setState({ input: '' });
   }
 
   onEndTurnSubmit = event => {
     event.preventDefault();
-    this.updateLog(game.on_end_turn());
+    this.updateLog(game_engine.on_end_turn(this.game));
   };
 
   onLeaveGameSubmit = event => {
     event.preventDefault();
-    this.updateLog(game.on_leave_game());
+    this.updateLog(game_engine.on_leave_game(this.game));
   };
 
   stylize = (message, i) => {

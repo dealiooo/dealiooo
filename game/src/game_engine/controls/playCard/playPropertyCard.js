@@ -1,12 +1,12 @@
 import * as gameActions from '../../actions';
 import * as userActions from '../../userActions';
 
-export const playPropertyCard = (player, card, callback) => {
+export const playPropertyCard = (Game, player, card, callback) => {
   player.field.property_cards.push([]);
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
-  ](player, card, player.field.property_cards);
-  userActions.pick_option({
+  ](Game, player, card, player.field.property_cards);
+  userActions.pick_option(Game, {
     player,
     options: destinationIndexes,
     callback: (error, indexString) => {

@@ -6,7 +6,7 @@ import { playPropertyWildCard } from './playPropertyWildCard';
 import { playDualColorRentCard } from './playDualColorRentCard';
 import { playRentWildCard } from './playRentWildCard';
 
-export const playCard = (player, card, callback) => {
+export const playCard = (Game, player, card, callback) => {
   const play = {
     action: playActionCard,
     building: playBuildingCard,
@@ -16,5 +16,5 @@ export const playCard = (player, card, callback) => {
     rent: playDualColorRentCard,
     rent_wildcard: playRentWildCard
   };
-  play[card.type](player, card, callback);
+  play[card.type](Game, player, card, callback);
 };

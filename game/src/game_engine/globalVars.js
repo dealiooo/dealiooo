@@ -1,32 +1,69 @@
-/*
-  List of globals and their types:
-
-  var player_count = Integer
-  var turn_count = Integer
-  var cards_played = Integer
-  var deck = [Card]
-  var discard = [Card]
-  var players = [
-    {
-      "id": Integer
-      "hand": [Card]
-      "field": [[Card]]
-      "bank": [Card]
-    },
-    ...
-  ]
-  var cards_played_list = [Card]
-*/
-
-import players from './players';
 import cards from './cards';
 import rentValues from './rentValues';
 
-// Return a random number including min and max
+const initGlobalVars = playerIds => {
+  const Game = {};
+  initGameVariables(Game, playerIds);
+  initGameUtility(Game);
+  return Game;
+};
+
+const initGameVariables = (Game, playerIds) => {
+  Game.turn_count = 0;
+  Game.cards_played = 0;
+  Game.cards_played_list = [];
+  Game.rent_values = rentValues;
+  Game.discard = [];
+  Game.player_count = playerIds.length || random(2, 5);
+  console.log(Game.player_count);
+  initDeck(Game);
+  initPlayers(Game, playerIds);
+};
+
+const initDeck = Game => {
+  Game.deck = [];
+  for (let i = 0; i < cards.length; i++) {
+    let card = {
+      id: cards[i].id,
+      name: cards[i].name,
+      value: cards[i].value,
+      type: cards[i].type,
+      mainColor: cards[i].mainColor,
+      colors: cards[i].colors.map(color => color)
+    };
+    Game.deck.push(card);
+  }
+  Game.deck = shuffle(Game.deck);
+};
+
+const initPlayers = (Game, playerIds) => {
+  const players = [];
+  for (let i = 0; i < playerIds.length; i++) {
+    let player = {
+      id: playerIds[i],
+      hand: [],
+      field: {
+        action_cards: [],
+        property_cards: [],
+        bank_cards: [],
+        building_cards: []
+      }
+    };
+    players.push(player);
+  }
+  Game.players = shuffle(players).splice(0, playerIds.length);
+};
+
+const initGameUtility = Game => {
+  Game.random = random;
+  Game.shuffle = shuffle;
+  Game.user_input = '';
+  Game.pending_for_user_input = null;
+  Game.winner = null;
+};
+
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-// Shuffle the elements in an array
-// Should be free of side-effects, returns a brand new array with same elements
 const shuffle = a => {
   const copyA = [].concat(a);
   for (let i = a.length - 1; i > 0; i--) {
@@ -36,24 +73,4 @@ const shuffle = a => {
   return copyA;
 };
 
-// Initialize the global variables
-const initGlobalVars = player_count => {
-  // Game
-  window.turn_count = 0;
-  window.cards_played = 0;
-  window.cards_played_list = [];
-  window.rent_values = rentValues;
-  window.deck = shuffle(cards);
-  window.discard = [];
-  window.player_count = player_count || random(2, 5);
-  window.players = shuffle(players).splice(0, player_count); // index also used as order of player turn
-
-  // Util Functions
-  window.random = random;
-  window.shuffle = shuffle;
-  window.user_input = '';
-  window.pending_for_user_input = null;
-  window.winner = null;
-};
-
-export default playerCount => initGlobalVars(playerCount);
+export default playerIds => initGlobalVars(playerIds);

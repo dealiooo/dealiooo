@@ -1,7 +1,6 @@
 import { playCard } from './playCard';
 import { changeCardMainColor } from './changeCardMainColor';
 import { computeWinCondition } from './computeWinCondition';
-import { endGame } from './endGame';
 import { endTurn } from './endTurn';
 import { forfeit } from './forfeit';
 import { onForfeit } from './';
@@ -15,7 +14,6 @@ export {
   playCard,
   changeCardMainColor,
   computeWinCondition,
-  endGame,
   endTurn,
   forfeit,
   onForfeit,

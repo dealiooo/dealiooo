@@ -1,15 +1,15 @@
 import * as gameActions from '../../../actions';
 import * as userActions from '../../../userActions';
 
-export const playDealBreaker = (player, card, callback) => {
-  userActions.pick_target_player(player, (error, pickedPlayer) => {
+export const playDealBreaker = (Game, player, card, callback) => {
+  userActions.pick_target_player(Game, player, (error, pickedPlayer) => {
     if (error) {
       callback(error);
     } else {
       let { destinations, destinationIndexes } = gameActions.getDestinations[
         'all'
       ](pickedPlayer, card, pickedPlayer.field.property_cards);
-      userActions.pick_option({
+      userActions.pick_option(Game, {
         player,
         options: destinationIndexes,
         callback: (error, indexString) => {
@@ -18,6 +18,7 @@ export const playDealBreaker = (player, card, callback) => {
           } else {
             if (
               gameActions.getPropertySetStatus(
+                Game,
                 destinations[parseInt(indexString)]
               )
             ) {

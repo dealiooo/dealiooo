@@ -1,8 +1,8 @@
 import * as gameActions from '../../actions';
 import * as userActions from '../../userActions';
 
-export const playRentWildCard = (player, card, callback) => {
-  userActions.pick_option({
+export const playRentWildCard = (Game, player, card, callback) => {
+  userActions.pick_option(Game, {
     player,
     options: ['bank', 'action'],
     callback: (error, option) => {
@@ -12,7 +12,7 @@ export const playRentWildCard = (player, card, callback) => {
         gameActions.moveCard(player.hand, player.field.bank_cards, card);
         callback(null, card);
       } else {
-        userActions.pick_card_color(player, card, (error, color) => {
+        userActions.pick_card_color(Game, player, card, (error, color) => {
           if (error) {
             callback(error);
           } else {
@@ -27,7 +27,7 @@ export const playRentWildCard = (player, card, callback) => {
               player.hand
             );
             if (destinations.length) {
-              userActions.pick_option({
+              userActions.pick_option(Game, {
                 player,
                 options: destinationIndexes,
                 callback: (error, value) => {
@@ -46,9 +46,11 @@ export const playRentWildCard = (player, card, callback) => {
                           callback(error);
                         } else {
                           gameActions.payRent(
+                            Game,
                             target_player,
                             player,
                             gameActions.getRentValue(
+                              Game,
                               player,
                               destinations[parseInt(value)]
                             ),

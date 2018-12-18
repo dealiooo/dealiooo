@@ -1,40 +1,48 @@
-const pick_card_id = ({ player, callback }) => {
-  if ('' === window.user_input) {
-    let message = `Player id:${player.id}\nPick Card Id:`;
-    window.pending_for_user_input = {
+const pick_card_id = (
+  Game,
+  { player: requiredPlayer, callback },
+  player = null
+) => {
+  if ('' === Game.user_input) {
+    let message = `Player id:${requiredPlayer.id}\nPick Card Id:`;
+    Game.pending_for_user_input = {
       function: pick_card_id,
-      arguments: { player, callback },
+      arguments: { player: requiredPlayer, callback },
       message
     };
   } else {
-    let card_id = parseInt(window.user_input);
-    window.user_input = '';
-    window.pending_for_user_input = null;
+    let card_id = parseInt(Game.user_input);
+    Game.user_input = '';
+    Game.pending_for_user_input = null;
     callback(null, card_id);
     return `\nYou picked card id:${card_id}`;
   }
 };
 
 // REFACTOR: this should return a callback with options[option] not option
-// options should be an array of message like ["1. red", "2. blue", "3. green", ... ]
-export const pick_option = ({ player, options, callback }) => {
+// options should be an array of message like ["1. r'ed", "2. blue", "3. green", ... ]
+export const pick_option = (
+  Game,
+  { player: requiredPlayer, options, callback },
+  player = null
+) => {
   if (options.length) {
-    if ('' === window.user_input) {
+    if ('' === Game.user_input) {
       let message = [
-        `Player id:${player.id}`,
+        `Player id:${requiredPlayer.id}`,
         `pick an option:`,
         options.map((option, i) => `\n${i}: ${option}`).join('')
       ].join('\n');
-      window.pending_for_user_input = {
+      Game.pending_for_user_input = {
         function: pick_option,
-        arguments: { player, options, callback },
+        arguments: { player: requiredPlayer, options, callback },
         message
       };
     } else {
-      let option = parseInt(window.user_input);
+      let option = parseInt(Game.user_input);
       if (-1 < option && option < options.length) {
-        window.user_input = '';
-        window.pending_for_user_input = null;
+        Game.user_input = '';
+        Game.pending_for_user_input = null;
         callback(null, options[option]);
         return `\nYou picked:  \n ◾ ${option}: ${options[option]}`;
       }
@@ -45,8 +53,8 @@ export const pick_option = ({ player, options, callback }) => {
   }
 };
 
-export const pick_hand_card = (player, callback) => {
-  pick_card_id({
+export const pick_hand_card = (Game, player, callback) => {
+  pick_card_id(Game, {
     player,
     callback: (error, id) => {
       if (error) {
@@ -64,7 +72,7 @@ export const pick_hand_card = (player, callback) => {
           callback(null, player.hand[index]);
         } else {
           console.log(`thats not player #${player.id}'s hand card.`);
-          pick_hand_card(player, callback);
+          pick_hand_card(Game, player, callback);
         }
       }
     }
@@ -72,8 +80,8 @@ export const pick_hand_card = (player, callback) => {
 };
 
 // user picks a color to switch to from colors
-export const pick_card_color = (player, card, callback) => {
-  pick_option({
+export const pick_card_color = (Game, player, card, callback) => {
+  pick_option(Game, {
     player,
     options: card.colors,
     callback
@@ -81,10 +89,10 @@ export const pick_card_color = (player, card, callback) => {
 };
 
 // user picks a player to target
-export const pick_target_player = (player, callback) =>
-  pick_option({
+export const pick_target_player = (Game, player, callback) =>
+  pick_option(Game, {
     player,
-    options: window.players.reduce((filtered, e) => {
+    options: Game.players.reduce((filtered, e) => {
       if (e.id !== player.id) {
         filtered.push(e.id);
       }
@@ -96,26 +104,26 @@ export const pick_target_player = (player, callback) =>
       } else {
         callback(
           null,
-          window.players.filter(player => player.id === player_id)[0]
+          Game.players.filter(player => player.id === player_id)[0]
         );
       }
     }
   });
 
-export const pick_field_card = (player, pileNames, callback) => {
+export const pick_field_card = (Game, player, pileNames, callback) => {
   const retrieve_from_pile = {
     property_cards: retrieve_from_property_pile,
     bank_cards: retrieve_from_non_property_pile,
     building_cards: retrieve_from_non_property_pile
   };
-  pick_option({
+  pick_option(Game, {
     player,
     options: pileNames,
     callback: (error, pileName) => {
       if (error) {
         callback(error);
       } else if (player.field[pileName].length) {
-        pick_card_id({
+        pick_card_id(Game, {
           player,
           callback: (error, id) => {
             if (error) {
@@ -129,7 +137,7 @@ export const pick_field_card = (player, pileNames, callback) => {
               if (card_exist) {
                 callback(null, card_exist.card, card_exist.source);
               } else {
-                pick_field_card(player, pileNames, callback);
+                pick_field_card(Game, player, pileNames, callback);
               }
             }
           }
@@ -193,19 +201,19 @@ const retrieve_from_non_property_pile = (player, pileName, id) => {
 
 // pileNames is a array with values that can be "property_set", "bank", "building"]
 // bank and building are handled defaultly since that are always 1D array
-export const pick_valuable_field_card = (player, pileNames, callback) => {
-  pick_field_card(player, pileNames, (error, card, source) => {
+export const pick_valuable_field_card = (Game, player, pileNames, callback) => {
+  pick_field_card(Game, player, pileNames, (error, card, source) => {
     if (error) {
       callback(error);
     } else if (card.value > 0) {
       callback(null, card, source);
     } else {
-      pick_valuable_field_card(player, pileNames, callback);
+      pick_valuable_field_card(Game, player, pileNames, callback);
     }
   });
 };
 
-export const pick_basic_options = (player, callback) => {
+export const pick_basic_options = (Game, player, callback) => {
   let options = [];
   if (player.hand.length) {
     options.push('Play Hand Card');
@@ -214,29 +222,29 @@ export const pick_basic_options = (player, callback) => {
     options.push('Move Card Around');
   }
   options.push('End Turn');
-  pick_option({
+  pick_option(Game, {
     player,
     options,
     callback
   });
 };
 
-export const play_hand_card = (player, callback) => {
+export const play_hand_card = (Game, player, callback) => {
   let options = [];
   options.push('Pick Card Id');
   options.push('Go Back');
-  pick_option({
+  pick_option(Game, {
     player,
     options,
     callback
   });
 };
 
-export const move_card_around = (player, callback) => {
+export const move_card_around = (Game, player, callback) => {
   let options = [];
   options.push('Pick Source and Destination');
   options.push('Go Back');
-  pick_option({
+  pick_option(Game, {
     player,
     options,
     callback

@@ -1,3 +1,3 @@
-export const playDoubleTheRent = (player, card, callback) => {
+export const playDoubleTheRent = (Game, player, card, callback) => {
   callback(null, card);
 };

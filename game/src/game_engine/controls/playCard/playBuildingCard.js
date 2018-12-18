@@ -4,8 +4,8 @@ import * as userActions from '../../userActions';
 // House & Hotel cards should go to a property-set accordingly
 // If they cannot, they should go to building-cards pile
 // property_set_index can be null if not playing house or hotel card
-export const playBuildingCard = (player, card, callback) => {
-  userActions.pick_option({
+export const playBuildingCard = (Game, player, card, callback) => {
+  userActions.pick_option(Game, {
     player,
     options: ['bank', 'properties'],
     callback: (error, option) => {
@@ -21,7 +21,7 @@ export const playBuildingCard = (player, card, callback) => {
             destinationIndexes
           } = gameActions.getDestinations[card.type](player, card, player.hand);
           if (destinations.length) {
-            userActions.pick_option({
+            userActions.pick_option(Game, {
               player,
               options: destinationIndexes,
               callback: (error, value) => {

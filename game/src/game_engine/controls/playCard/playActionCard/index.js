@@ -10,7 +10,7 @@ import { playSlyDeal } from './playSlyDeal';
 import * as gameActions from '../../../actions';
 import * as userActions from '../../../userActions';
 
-export const playActionCard = (player, card, callback) => {
+export const playActionCard = (Game, player, card, callback) => {
   const play = {
     'deal-beaker': playDealBreaker,
     'debt-collector': playDebtCollector,
@@ -21,7 +21,7 @@ export const playActionCard = (player, card, callback) => {
     'sly-deal': playSlyDeal,
     'pass-go': playPassGo
   };
-  userActions.pick_option({
+  userActions.pick_option(Game, {
     player,
     options: ['bank', 'action'],
     callback: (error, option) => {
@@ -32,7 +32,7 @@ export const playActionCard = (player, card, callback) => {
         callback(null, card);
       } else {
         gameActions.moveCard(player.hand, player.field.action_cards, card);
-        play[card.name](player, card, (error, card) => {
+        play[card.name](Game, player, card, (error, card) => {
           if (error) {
             console.log(
               `card is not played properly | card id:${card.id} | card name: ${

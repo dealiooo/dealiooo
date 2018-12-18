@@ -1,7 +1,7 @@
 import * as gameActions from '../../../actions';
 // import * as userActions from '../../../userActions'
 
-export const playJustSayNo = (player, card, callback) => {
+export const playJustSayNo = (Game, player, card, callback) => {
   // use any time when an action card is played against you
   // TODO:
 
