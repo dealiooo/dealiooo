@@ -1,7 +1,7 @@
-import * as gameActions from '../../../actions';
-import * as userActions from '../../../userActions';
+const gameActions = require('../../../actions');
+const userActions = require('../../../userActions');
 
-export const playSlyDeal = (Game, player, card, callback) => {
+const playSlyDeal = (Game, player, card, callback) => {
   // steal a property from the player of your choice (cannot be part of a full set)
   userActions.pick_target_player(Game, player, (error, pickedPlayer) => {
     if (error) {
@@ -43,3 +43,5 @@ export const playSlyDeal = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playSlyDeal;

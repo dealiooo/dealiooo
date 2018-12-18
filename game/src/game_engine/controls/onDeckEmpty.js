@@ -1,8 +1,8 @@
-import * as gameActions from '../actions';
+const gameActions = require('../actions');
 
 // called everytime card is drawn from deck
 // if is then empty create new deck from discard
-export const onDeckEmpty = Game => {
+const onDeckEmpty = Game => {
   if (gameActions.getDeckEmpty(Game)) {
     Game.deck = Game.deck.concat(Game.discard);
     Game.discard = [];
@@ -10,3 +10,5 @@ export const onDeckEmpty = Game => {
     gameActions.shufflePile(Game, Game.deck);
   }
 };
+
+module.exports = onDeckEmpty;

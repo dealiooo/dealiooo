@@ -1,16 +1,16 @@
-import { playCard } from './playCard';
-import { changeCardMainColor } from './changeCardMainColor';
-import { computeWinCondition } from './computeWinCondition';
-import { endTurn } from './endTurn';
-import { forfeit } from './forfeit';
-import { onForfeit } from './';
-import { moveCardAround } from './moveCardAround';
-import { onCardPlayed } from './onCardPlayed';
-import { onDeckEmpty } from './onDeckEmpty';
-import { startGame } from './startGame';
-import { startTurn } from './startTurn';
+const { playCard } = require('./playCard');
+const { changeCardMainColor } = require('./changeCardMainColor');
+const { computeWinCondition } = require('./computeWinCondition');
+const { endTurn } = require('./endTurn');
+const { forfeit } = require('./forfeit');
+const { onForfeit } = require('./onForfeit');
+const { moveCardAround } = require('./moveCardAround');
+const { onCardPlayed } = require('./onCardPlayed');
+const { onDeckEmpty } = require('./onDeckEmpty');
+const { startGame } = require('./startGame');
+const { startTurn } = require('./startTurn');
 
-export {
+module.exports = {
   playCard,
   changeCardMainColor,
   computeWinCondition,

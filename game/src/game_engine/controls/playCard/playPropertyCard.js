@@ -1,7 +1,7 @@
-import * as gameActions from '../../actions';
-import * as userActions from '../../userActions';
+const gameActions = require('../../actions');
+const userActions = require('../../userActions');
 
-export const playPropertyCard = (Game, player, card, callback) => {
+const playPropertyCard = (Game, player, card, callback) => {
   player.field.property_cards.push([]);
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
@@ -24,3 +24,5 @@ export const playPropertyCard = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playPropertyCard;

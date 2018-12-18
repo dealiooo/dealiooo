@@ -1,5 +1,5 @@
-import * as gameControls from './controls';
-import * as userActions from './userActions';
+const gameControls = require('./controls');
+const userActions = require('./userActions');
 
 const pretty_print_cards = cards => {
   let str = '';
@@ -244,4 +244,4 @@ const game_engine = {
   }
 };
 
-export default game_engine;
+module.exports = game_engine;

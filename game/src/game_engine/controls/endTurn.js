@@ -1,7 +1,7 @@
-import * as gameActions from '../actions';
-import * as userActions from '../userActions';
+const gameActions = require('../actions');
+const userActions = require('../userActions');
 
-export const endTurn = (Game, callback) => {
+const endTurn = (Game, callback) => {
   Game.cards_played = 0;
   Game.cards_played_list = [];
 
@@ -26,3 +26,5 @@ export const endTurn = (Game, callback) => {
     });
   }
 };
+
+module.exports = endTurn;

@@ -1,7 +1,6 @@
-import * as gameActions from '../../../actions';
-// import * as userActions from '../../../userActions'
+const gameActions = require('../../../actions');
 
-export const playJustSayNo = (Game, player, card, callback) => {
+const playJustSayNo = (Game, player, card, callback) => {
   // use any time when an action card is played against you
   // TODO:
 
@@ -9,3 +8,5 @@ export const playJustSayNo = (Game, player, card, callback) => {
   gameActions.moveCard(player.hand, player.field.bank_cards, card);
   callback(null, card);
 };
+
+module.exports = playJustSayNo;

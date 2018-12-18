@@ -1,6 +1,8 @@
-import * as gameActions from '../../actions';
+const gameActions = require('../../actions');
 
-export const playMoneyCard = (Game, player, card, callback) => {
+const playMoneyCard = (Game, player, card, callback) => {
   gameActions.moveCard(player.hand, player.field.bank_cards, card);
   callback(null, card);
 };
+
+module.exports = playMoneyCard;
