@@ -97,6 +97,7 @@ class GameLobby extends Component {
   }
 
   onPlayerReady(event) {
+    console.log(event);
     // TODO: refactor this array functionality to a dictionary
     var temp = this.state.playersStatus;
     var size = temp.length;
@@ -109,6 +110,7 @@ class GameLobby extends Component {
   }
 
   onPlayerUnready(event) {
+    console.log(event);
     // TODO: refactor this array functionality to a dictionary
     var temp = this.state.playersStatus;
     var size = temp.length;
@@ -121,15 +123,18 @@ class GameLobby extends Component {
   }
 
   onStartGame(event) {
-    console.log('TODO');
+    // TODO:
+    window.location = `/game/${this.state.gameId}`;
   }
 
   onStart(event) {
-    console.log('TODO');
+    // TODO
+    api.postGameStartGame(this.state.gameId);
   }
 
   onReady(_) {
-    api.postGameLobbyTogglePlayerReady(this.state.gameId);
+    // TODO
+    api.postGameLobbyTogglePlayerReady(this.state.gameId).then(result => {});
   }
 
   onExit(_) {
@@ -167,7 +172,6 @@ class GameLobby extends Component {
                 ) : (
                   <div />
                 )}
-                ;
               </Level.Item>
               <Level.Item>
                 <Button onClick={this.onReady} className="is-large">
