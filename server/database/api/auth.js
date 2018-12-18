@@ -2,14 +2,12 @@ const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 
 const insert_user = db => (username, email, password) =>
-  db.sequelize.sync({ logging: false }).then(_ =>
-    bcrypt.hash(password, SALT_ROUNDS).then(hash =>
-      db.th_users.create({
-        name: username,
-        email,
-        password: hash
-      })
-    )
+  bcrypt.hash(password, SALT_ROUNDS).then(hash =>
+    db.th_users.create({
+      name: username,
+      email,
+      password: hash
+    })
   );
 
 const find_user_by_email = db => email =>
@@ -18,29 +16,18 @@ const find_user_by_email = db => email =>
 const find_user_by_id = db => id => db.th_users.findOne({ where: { id } });
 
 const update_password = db => (email, new_password) =>
-  db.sequelize
-    .sync({ logging: false })
-    .then(_ =>
-      bcrypt
-        .hash(new_password, SALT_ROUNDS)
-        .then(hash =>
-          db.th_users.update({ password: hash }, { where: { email } })
-        )
-    );
+  bcrypt
+    .hash(new_password, SALT_ROUNDS)
+    .then(hash => db.th_users.update({ password: hash }, { where: { email } }));
 
 const insert_session = db => (sid, sess, expire) =>
-  db.sequelize.sync({ logging: false }).then(_ =>
-    db.session.create({
-      sid,
-      sess,
-      expire
-    })
-  );
+  db.session.create({
+    sid,
+    sess,
+    expire
+  });
 
-const delete_session = db => sid =>
-  db.sequelize
-    .sync({ logging: false })
-    .then(_ => db.session.destroy({ where: { sid } }));
+const delete_session = db => sid => db.session.destroy({ where: { sid } });
 
 const find_session_by_sid = db => sid => db.session.findOne({ where: { sid } });
 

@@ -12,6 +12,10 @@ module.exports = {
         type: Sequelize.ENUM,
         values: ['open', 'started', 'ended'],
         allowNull: false
+      },
+      player_cap: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       }
     });
   },

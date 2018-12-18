@@ -20,6 +20,11 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false
+      },
+      host: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
       }
     },
     {

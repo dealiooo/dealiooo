@@ -9,6 +9,7 @@ manager = () => {
   const add_room = (room_id, client_socket) => {
     rooms.set(room_id, room(room_id));
     rooms.get(room_id).add_socket(client_socket);
+
     pendings.set(room_id, null);
   };
   const remove_room = room_id => {
