@@ -8,45 +8,49 @@ import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 import api from '../../../api';
-import socket from '../../../api/socket';
 
 import './MainLobby.css';
 
 class MainLobby extends Component {
   constructor(props) {
     super(props);
-    this.onAddGame = this.onAddGame.bind(this);
+    this.onCreateGame = this.onCreateGame.bind(this);
+    this.onEndGame = this.onEndGame.bind(this);
     this.onJoinGame = this.onJoinGame.bind(this);
     this.onLeaveGame = this.onLeaveGame.bind(this);
-    this.onRunGame = this.onRunGame.bind(this);
+    this.onStartGame = this.onStartGame.bind(this);
     this.onCreate = this.onCreate.bind(this);
     this.state = {
-      start_render: false,
-      user_id: null,
-      user_name: null,
+      startRender: false,
+      userId: null,
+      userName: null,
       lobbies: [],
-      socket_add_game: null,
-      socket_join_game: null,
-      chat_socket: socket(),
-      lobby_socket: socket()
+      socket: api.socket
     };
+    api.socket.on('main-lobby:create-game', this.onCreateGame);
+    api.socket.on('main-lobby:end-game', this.onEndGame);
+    api.socket.on('main-lobby:join-game', this.onJoinGame);
+    api.socket.on('main-lobby:leave-game', this.onLeaveGame);
+    api.socket.on('main-lobby:start-game', this.onStartGame);
   }
 
-  componentWillMount() {
-    api.get_main_lobby().then(response => {
+  componentDidMount() {
+    api.getMainLobby().then(response => {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
-          this.setState({ user_id: body.id });
-          this.setState({ user_name: body.name });
-          this.setState({ start_render: true });
-          api.post_main_lobby().then(promise => {
+          this.setState({ userId: body.id });
+          this.setState({ userName: body.name });
+          this.setState({ startRender: true });
+          api.postMainLobby().then(promise => {
             var baseState = promise.result;
             baseState.map((game, i) =>
-              api.get_game_lobby_info(game.id).then(info => {
+              api.getGameLobbyInfo(game.id).then(info => {
+                baseState[i].id = game.id;
                 baseState[i].playerList = info.result;
                 baseState[i].playerNum = info.result.length;
-                baseState[i].playerCap = 5;
+                baseState[i].playerCap = game.player_cap;
+                baseState[i].status = game.status;
                 this.setState({ lobbies: baseState });
               })
             );
@@ -58,37 +62,23 @@ class MainLobby extends Component {
     });
   }
 
-  componentDidMount() {
-    var temp = this.state.lobby_socket.register_mainlobby_handler({
-      on_add_game: this.onAddGame,
-      on_join_game: this.onJoinGame,
-      on_leave_game: this.onLeaveGame,
-      on_run_game: this.onRunGame
-    });
-    this.setState({
-      socket_add_game: temp.add_game,
-      socket_join_game: temp.join_game
-    });
-  }
-
-  componentWillUnmount() {
-    this.state.lobby_socket.unregister_mainlobby_handler();
-  }
-
-  onAddGame(event) {
+  onCreateGame(event) {
     var baseState = this.state.lobbies;
     var newRoom = {
-      id: event.game_id,
-      turn: 0,
-      playerNum: 1
+      id: event.gameId,
+      playerCap: event.playerCap,
+      status: 'open'
     };
-    api.get_game_lobby_info(event.game_id).then(info => {
+    api.getGameLobbyInfo(event.gameId).then(info => {
       newRoom.playerList = info.result;
       newRoom.playerNum = info.result.length;
-      newRoom.playerCap = 5;
       baseState = baseState.concat(newRoom);
       this.setState({ lobbies: baseState });
     });
+  }
+
+  onEndGame(event) {
+    // todo
   }
 
   onJoinGame(event) {
@@ -96,16 +86,15 @@ class MainLobby extends Component {
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === event.game_id) {
+      if (this.state.lobbies[i].id === event.gameId) {
         index = i;
         break;
       }
     }
-    api.get_game_lobby_info(event.game_id).then(info => {
+    api.getGameLobbyInfo(event.gameId).then(info => {
       var baseState = this.state.lobbies;
       baseState[index].playerList = info.result;
       baseState[index].playerNum = info.result.length;
-      baseState[index].playerCap = 5;
       this.setState({ lobbies: baseState });
     });
   }
@@ -115,17 +104,16 @@ class MainLobby extends Component {
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
+      if (this.state.lobbies[i].id === parseInt(event.gameId)) {
         index = i;
         break;
       }
     }
-    api.get_game_lobby_info(event.game_id).then(info => {
+    api.getGameLobbyInfo(event.gameId).then(info => {
       var baseState = this.state.lobbies;
       if (info.result.length) {
         baseState[index].playerList = info.result;
         baseState[index].playerNum = info.result.length;
-        baseState[index].playerCap = 5;
       } else {
         baseState.splice(index, 1);
       }
@@ -133,12 +121,12 @@ class MainLobby extends Component {
     });
   }
 
-  onRunGame(event) {
+  onStartGame(event) {
     // todo: convert this array operation to a dictionary operation
     var length = this.state.lobbies.length;
     var index = 0;
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === parseInt(event.game_id)) {
+      if (this.state.lobbies[i].id === parseInt(event.gameId)) {
         index = i;
         break;
       }
@@ -148,25 +136,14 @@ class MainLobby extends Component {
     this.setState({ lobbies: baseState });
   }
 
-  onCreate = evt => {
-    api.post_create_game().then(promise => {
-      console.log(promise);
-      var game_id = promise.result.th_game_id;
-      this.state.socket_add_game(
-        { game_id, user_name: this.state.user_name },
-        error => {
-          if (error) {
-            console.log(error);
-          } else {
-            window.location = `/game-lobby/${game_id}`;
-          }
-        }
-      );
-    });
+  onCreate = _ => {
+    api
+      .postMainLobbyCreateGame()
+      .then(result => (window.location = `/game-lobby/${result.result.id}`));
   };
 
   render() {
-    if (this.state.start_render) {
+    if (this.state.startRender) {
       return (
         <Box>
           <NavigationBar title="Main Lobby" />
@@ -175,32 +152,15 @@ class MainLobby extends Component {
               <GameLobbyList
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
-                user_id={this.state.user_id}
-                socket_join_game={this.state.socket_join_game}
+                userId={this.state.userId}
               />
               <Button onClick={this.onCreate} className="is-large">
                 Create
               </Button>
             </Columns.Column>
             <Columns.Column>
-              <ChatLog
-                room_id={'mainlobby'}
-                user_id={this.state.user_id}
-                user_name={this.state.user_name}
-                register_handler={this.state.chat_socket.register_chat_handler}
-                unregister_handler={
-                  this.state.chat_socket.unregister_chat_handler
-                }
-              />
-              <ChatInput
-                room_id={'mainlobby'}
-                user_id={this.state.user_id}
-                user_name={this.state.user_name}
-                register_handler={this.state.chat_socket.register_chat_handler}
-                unregister_handler={
-                  this.state.chat_socket.unregister_chat_handler
-                }
-              />
+              <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />
+              <ChatInput roomId={null} api={api.postMainLobbyChat} />
             </Columns.Column>
           </Columns>
         </Box>

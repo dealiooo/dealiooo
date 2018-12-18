@@ -1,11 +1,10 @@
 const io = require('socket.io')();
 const session = require('../database/config/session');
-const handlers = require('./handlers');
-const chat_manager = require('./room_managers/chat_manager')();
-const game_manager = require('./room_managers/game_manager')();
-const gamelobby_manager = require('./room_managers/gamelobby_manager')();
-const mainlobby_manager = require('./room_managers/mainlobby_manager')();
-
+const {
+  GameHandler,
+  GameLobbyHandler,
+  MainLobbyHandler
+} = require('./handlers');
 const init = server => {
   io.use(({ request }, next) => {
     session(request, request.res, next);
@@ -14,50 +13,33 @@ const init = server => {
   io.attach(server);
 };
 
+const gameSockets = new Map();
+const mainLobbySockets = new Map();
+const gameLobbySockets = new Map();
+
 io.on('connection', socket => {
   try {
-    const chat_handlers = handlers(socket, chat_manager);
-    const game_handlers = handlers(socket, game_manager);
-    const gamelobby_handlers = handlers(socket, gamelobby_manager);
-    const mainlobby_handlers = handlers(socket, mainlobby_manager);
-
-    mainlobby_handlers.handle_connection();
-
-    socket.on('add-room-chat', chat_handlers.handle_add_room);
-    socket.on('join-chat', chat_handlers.handle_join);
-    socket.on('leave-chat', chat_handlers.handle_leave);
-    socket.on('message', chat_handlers.handle_message);
-
-    socket.on('start-game', game_handlers.handle_start_game);
-    socket.on('add-room-game', game_handlers.handle_add_room);
-    socket.on('join-room-game', game_handlers.handle_join);
-    socket.on('leave-room-game', game_handlers.handle_leave_game);
-    socket.on('click', game_handlers.handle_click);
-    socket.on('end-turn', game_handlers.handle_end_turn);
-    socket.on('general-update', game_handlers.handle_general_update);
-    socket.on('players-update', game_handlers.handle_players_update);
-    socket.on('options-update', game_handlers.handle_options_update);
-
-    socket.on('add-room-gamelobby', gamelobby_handlers.handle_add_room);
-    socket.on('join-gamelobby', gamelobby_handlers.handle_join);
-    socket.on('leave-gamelobby', gamelobby_handlers.handle_leave);
-    socket.on('player-ready', gamelobby_handlers.handle_player_ready);
-    socket.on('player-unready', gamelobby_handlers.handle_player_unready);
-
-    socket.on('add-game', mainlobby_handlers.handle_add_game);
-    socket.on('join-game', mainlobby_handlers.handle_join_game);
-    socket.on('leave-game', mainlobby_handlers.handle_leave_game);
-    socket.on('run-game', mainlobby_handlers.handle_run_game);
-
-    socket.on('disconnect', () => {
-      chat_handlers.handle_disconnect();
-      game_handlers.handle_disconnect();
-      gamelobby_handlers.handle_disconnect();
-      gamelobby_handlers.handle_disconnect();
-    });
+    if (socket.request.session.passport) {
+      const { user: userId } = socket.request.session.passport;
+      mainLobbySockets.set(userId, socket);
+      socket.on('disconnect', () => {
+        mainLobbySockets.delete(userId);
+        Object.keys(gameSockets).map(gameId =>
+          gameSockets.get(gameId).delete(userId)
+        );
+        Object.keys(gameLobbySockets).map(roomId =>
+          gameLobbySockets.get(roomId).delete(userId)
+        );
+      });
+    }
   } catch (error) {
     console.log(error);
   }
 });
 
-module.exports = { init, io };
+module.exports = {
+  init,
+  Game: GameHandler(mainLobbySockets, gameSockets),
+  GameLobby: GameLobbyHandler(mainLobbySockets, gameLobbySockets),
+  MainLobby: MainLobbyHandler(mainLobbySockets)
+};

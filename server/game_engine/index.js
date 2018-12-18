@@ -1,5 +1,5 @@
-import * as gameControls from './controls';
-import * as userActions from './userActions';
+const gameControls = require('./controls');
+const userActions = require('./userActions');
 
 const pretty_print_cards = cards => {
   let str = '';
@@ -216,7 +216,6 @@ const game_engine = {
     if (player.id === player_id) {
       gameControls.forfeit(Game, player);
     }
-    return player.id === player_id;
   },
   on_end_turn: (Game, player_id) => {
     let player = Game.players[Game.turn_count % Game.player_count];
@@ -238,10 +237,12 @@ const game_engine = {
     return `\nEnd Turn is not available`;
   },
   on_leave_game: (Game, player_id) => {
-    let return_value = game_engine.apply_leave_game(Game, player_id);
-    gameControls.computeWinCondition(Game);
-    return return_value;
+    game_engine.apply_leave_game(Game, player_id);
+    if (gameControls.computeWinCondition(Game)) {
+      return game_engine.apply_player_won(Game);
+    }
+    return ``;
   }
 };
 
-export default game_engine;
+module.exports = game_engine;

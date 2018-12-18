@@ -10,6 +10,7 @@ class ChatLog extends Component {
   constructor(props) {
     super(props);
     this.onMessageReceived = this.onMessageReceived.bind(this);
+    this.props.socket.on(this.props.roomId, this.onMessageReceived);
     this.state = {
       log: []
     };
@@ -17,36 +18,15 @@ class ChatLog extends Component {
 
   componentDidMount() {
     this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
-    var temp = this.props.register_handler({
-      on_message_received: this.onMessageReceived
-    });
-    temp.join(
-      { room_id: this.props.room_id, user_name: this.props.user_name },
-      error => {
-        if (error) {
-          console.log(error);
-          console.log(`creating room: ${this.props.room_id}`);
-          temp.add_room({ room_id: this.props.room_id }, error => {
-            if (error) {
-              console.log(error);
-            }
-          });
-        }
-      }
-    );
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(_) {
     this.ps.update();
-  }
-
-  componentWillUnmount() {
-    this.props.unregister_chat_handler();
   }
 
   onMessageReceived(message) {
     this.setState({
-      log: this.state.log.concat(message.event)
+      log: this.state.log.concat(message)
     });
   }
 

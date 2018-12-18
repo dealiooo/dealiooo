@@ -16,7 +16,7 @@ router.get('/logout', authenticateUser, sendUserIdAndUserName);
 
 router.post('/register', emptyStringsToNull, (request, response) => {
   const { name, email, password } = request.body;
-  return Auth.insert_user(name, email, password)
+  return Auth.insertUser(name, email, password)
     .then(user =>
       request.login(user, error => {
         if (error) {
@@ -36,7 +36,7 @@ router.post(
     const { email } = request.body;
     const SALT_FACTOR = 10;
 
-    return Auth.find_user_by_email(email)
+    return Auth.findUserByEmail(email)
       .then(user => {
         if (!user) {
           return response.sendStatus(400);
@@ -58,7 +58,7 @@ router.post(
             const sid = hash.replace('/', '&slash;');
             const sess = { email: email };
 
-            return Auth.insert_session(sid, sess, expire)
+            return Auth.insertSession(sid, sess, expire)
               .then(session => {
                 if (!session) {
                   return response.sendStatus(400);
@@ -98,14 +98,14 @@ router.post(
 );
 
 router.post(
-  '/new-password/:session_id',
+  '/new-password/:sessionId',
   notAuthenticated,
   emptyStringsToNull,
-  (request, response, next) => {
+  (request, response) => {
     const { email, password } = request.body;
-    const { session_id } = request.params;
+    const { sessionId } = request.params;
 
-    return Auth.find_session_by_sid(session_id)
+    return Auth.findSessionById(sessionId)
       .then(session => {
         if (!session) {
           return response.sendStatus(400);
@@ -115,10 +115,10 @@ router.post(
         const { email: sessionEmail } = sess;
         const today = new Date();
 
-        if (sid === session_id && email === sessionEmail && today < expire) {
-          return Auth.delete_session(sid)
+        if (sid === sessionId && email === sessionEmail && today < expire) {
+          return Auth.deleteSession(sid)
             .then(_ =>
-              Auth.update_password(email, password)
+              Auth.updatePassword(email, password)
                 .then(user => {
                   if (!user) {
                     return response.sendStatus(400);
@@ -137,7 +137,7 @@ router.post(
 
 router.post('/login', emptyStringsToNull, (request, response) => {
   const { email, password } = request.body;
-  return Auth.find_user_by_email(email)
+  return Auth.findUserByEmail(email)
     .then(user => {
       bcrypt
         .compare(password, user.password)

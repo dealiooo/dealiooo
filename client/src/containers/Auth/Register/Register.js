@@ -27,7 +27,7 @@ class Register extends Component {
   onSubmit = event => {
     event.preventDefault();
     api
-      .post_register(this.state.name, this.state.email, this.state.password)
+      .postRegister(this.state.name, this.state.email, this.state.password)
       .then(result => {
         if (result.error) {
           this.setState({ modal_message: result.error.errors[0].message });
@@ -43,7 +43,7 @@ class Register extends Component {
   };
 
   componentWillMount() {
-    api.get_register().then(response => {
+    api.getRegister().then(response => {
       if (response.ok) {
         window.location = '/main-lobby';
       }

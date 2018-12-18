@@ -1,78 +1,129 @@
 const router = require('express').Router();
 const authenticateUser = require('./middlewares/authenticateUser');
 const authenticatePlayer = require('./middlewares/authenticatePlayer');
+const authenticateHost = require('./middlewares/authenticateHost');
 const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
-const { GameLobby } = require('../database/api');
+const { GameLobby: GameLobbyDB } = require('../database/api');
+const {
+  MainLobby: MainLobbySockets,
+  GameLobby: GameLobbySockets
+} = require('./../sockets');
 
 router.get(
-  '/game-lobby/:game_id',
+  '/game-lobby/:gameId',
   authenticateUser,
   authenticatePlayer,
   sendUserIdAndUserName
 );
 
-router.get('/game-lobby/:game_id/info', authenticateUser, (request, response) =>
-  GameLobby.find_all_player_names(request.params.game_id)
+router.get('/game-lobby/:gameId/info', authenticateUser, (request, response) =>
+  GameLobbyDB.getUsersNames(request.params.gameId)
     .then(result => response.json({ result }))
     .catch(error => response.json({ error }))
 );
 
 router.get(
-  '/game-lobby/:game_id/status',
+  '/game-lobby/:gameId/status',
   authenticateUser,
   authenticatePlayer,
   (request, response) =>
-    GameLobby.find_game_lobby_status(request.params.game_id)
+    GameLobbyDB.getPlayersStatus(request.params.gameId)
       .then(result => response.json({ result }))
       .catch(error => response.json({ error }))
 );
 
 router.post(
-  '/game-lobby/:game_id/join',
-  authenticateUser,
-  (request, response) =>
-    GameLobby.join_game(request.params.game_id, request.user.id)
-      .then(result => response.json({ result }))
-      .catch(error => response.json({ error }))
-);
-
-router.post(
-  '/game-lobby/:game_id/leave',
+  '/game-lobby/:gameId/chat',
   authenticateUser,
   authenticatePlayer,
-  (request, response) =>
-    GameLobby.leave_game(request.params.game_id, request.user.id)
-      .then(result => response.json({ result }))
-      .catch(error => response.json({ error }))
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id, name } = response.locals.user;
+    const { message } = request.body;
+    GameLobbySockets.chat(gameId, `[${id}]:${name}:${message}`);
+    return response.sendStatus(204);
+  }
 );
 
 router.post(
-  '/game-lobby/:game_id/run',
+  '/game-lobby/:gameId/enter',
+  authenticateUser,
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id, name } = response.locals.user;
+    GameLobbySockets.enterGame(gameId, id, name);
+    return response.sendStatus(204);
+  }
+);
+
+router.post(
+  '/game-lobby/:gameId/join',
+  authenticateUser,
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id, name } = response.locals.user;
+    return GameLobbyDB.joinGame(gameId, id)
+      .then(result => {
+        MainLobbySockets.joinGame(gameId, id, name);
+        return response.json({ result });
+      })
+      .catch(error => response.json({ error }));
+  }
+);
+
+router.post(
+  '/game-lobby/:gameId/leave',
   authenticateUser,
   authenticatePlayer,
-  (request, response) =>
-    GameLobby.run_game(request.params.game_id)
-      .then(result => response.json({ result }))
-      .catch(error => response.json({ error }))
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id, name } = response.locals.user;
+    return GameLobbyDB.leaveGame(request.params.gameId, request.user.id)
+      .then(result => {
+        MainLobbySockets.leaveGame(gameId, id, name);
+        GameLobbySockets.leaveGame(gameId, id, name);
+        return response.json({ result });
+      })
+      .catch(error => response.json({ error }));
+  }
 );
 
 router.post(
-  '/game-lobby/:game_id/delete',
-  authenticateUser,
-  (request, response) =>
-    GameLobby.delete_game(request.params.game_id)
-      .then(result => response.json({ result }))
-      .catch(error => response.json({ error }))
-);
-
-router.post(
-  '/game-lobby/:game_id/ready',
+  '/game-lobby/:gameId/start',
   authenticateUser,
   authenticatePlayer,
-  (request, response) =>
-    GameLobby.player_ready(request.params.game_id, request.user.id)
-      .then(result => response.json({ result }))
-      .catch(error => response.json({ error }))
+  authenticateHost,
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id, name } = response.locals.user;
+    return GameLobbyDB.startGame(request.params.gameId)
+      .then(result => {
+        MainLobbySockets.startGame(gameId, id, name);
+        GameLobbySockets.startGame(gameId, id, name);
+        return response.json({ result });
+      })
+      .catch(error => response.json({ error }));
+  }
+);
+
+router.post(
+  '/game-lobby/:gameId/toggle-ready',
+  authenticateUser,
+  authenticatePlayer,
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id, name } = response.locals.user;
+    return GameLobbyDB.togglePlayerReady(gameId, id)
+      .then(result => {
+        if (result[1].ready) {
+          GameLobbySockets.playerReady(gameId, id, name);
+        } else {
+          GameLobbySockets.playerUnready(gameId, id, name);
+        }
+        return response.json({ result });
+      })
+      .catch(error => response.json({ error }));
+  }
 );
 
 module.exports = router;

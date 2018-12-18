@@ -40,20 +40,13 @@ const leaveGame = db => (th_game_id, th_user_id) =>
     })
     .then(player => {
       if (player.host) {
-        return db.th_players.destroy({ where: { th_game_id } });
+        return db.th_players
+          .destroy({ where: { th_game_id } })
+          .then(_ => db.th_games.destroy({ where: { id: th_game_id } }));
       } else {
         return db.th_players.destroy({ where: { th_game_id, th_user_id } });
       }
     });
-
-const deleteGame = db => id =>
-  db.th_players.findAll({ where: { th_game_id: id } }).then(players => {
-    if (players.length) {
-      return Promise.reject(new Error('Game is not empty'));
-    } else {
-      return db.th_games.destroy({ where: { id } });
-    }
-  });
 
 const startGame = db => id =>
   db.th_games.update({ status: started }, { where: { id } });
@@ -96,7 +89,6 @@ module.exports = db => ({
   getPlayersStatus: getPlayersStatus(db),
   joinGame: joinGame(db),
   leaveGame: leaveGame(db),
-  deleteGame: deleteGame(db),
   startGame: startGame(db),
   getGameReady: getGameReady(db),
   getPlayerReady: getPlayerReady(db),

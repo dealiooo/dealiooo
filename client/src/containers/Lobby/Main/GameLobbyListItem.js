@@ -14,26 +14,14 @@ class GameLobbyListItem extends Component {
     this.onJoin = this.onJoin.bind(this);
   }
 
-  onEnter(event) {
-    window.location = `/game-lobby/${this.props.game_id}`;
+  onEnter(_) {
+    window.location = `/game-lobby/${this.props.gameId}`;
   }
 
-  onJoin(event) {
-    api.post_join_game(this.props.game_id).then(response => {
+  onJoin(_) {
+    api.postGameLobbyJoin(this.props.gameId).then(response => {
       if (response.result) {
-        console.log('yay');
-        console.log(this.props.socket_join_game);
-        this.props.socket_join_game(
-          { game_id: this.props.game_id, user_id: this.props.user_id },
-          error => {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('hmmm');
-              window.location = `/game-lobby/${this.props.game_id}`;
-            }
-          }
-        );
+        window.location = `/game-lobby/${this.props.gameId}`;
       }
     });
   }
@@ -42,7 +30,7 @@ class GameLobbyListItem extends Component {
     if (this.props.gameLobby.playerList) {
       let hasJoined = false;
       let playerList = this.props.gameLobby.playerList.map((player, i) => {
-        if (this.props.user_id === player.id) {
+        if (this.props.userId === player.id) {
           hasJoined = true;
         }
         return (
