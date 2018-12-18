@@ -1,15 +1,93 @@
-const GameState = {
-  general_info: {
-    players: [
-      {
-        deck: [
+const MockData = {
+  players_info: [
+    {
+      deck: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ],
+      discard: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ]
+    },
+    // 1st player
+    {
+      hand: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ],
+      building_cards: [
+        {
+          id: 1,
+          name: 'hotel',
+          type: 'building',
+
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+
+          value: 4,
+          mainColor: 'red'
+        }
+      ],
+      property_cards: [
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: 'red',
+            mainColor: 'white',
             colors: ['green', 'red']
-          },
+          }
+        ],
+        [
           {
             id: 1,
             name: 'avenue',
@@ -18,7 +96,293 @@ const GameState = {
             colors: ['green', 'red']
           }
         ],
-        discard: [
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'red',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'railroad',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'white',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'utility',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'red',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'blue',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'blue',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'blue',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'purple',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'purple',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'purple',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'green',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'green',
+            colors: ['green', 'red']
+          }
+        ]
+      ],
+      action_cards: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ],
+      bank_cards: [
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 3,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 2,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 10,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 1,
+          mainColor: '',
+          colors: []
+        }
+      ]
+    },
+    // 2nd player
+    {
+      hand: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ],
+      building_cards: [
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'hotel',
+          type: 'building',
+
+          value: 4,
+          mainColor: 'red'
+        }
+      ],
+      property_cards: [
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'railroad',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'utility',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'red',
+            colors: ['green', 'red']
+          }
+        ],
+        [
           {
             id: 1,
             name: 'avenue',
@@ -27,280 +391,124 @@ const GameState = {
             colors: ['green', 'red']
           }
         ]
-      },
-      // 1st player
-      {
-        hand: [
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          }
-        ],
-        building_cards: [
-          {
-            id: 1,
-            name: 'hotel',
-            type: 'building',
+      ],
+      action_cards: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ],
+      bank_cards: [
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ]
+    },
+    // 3rd Player
+    {
+      hand: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ],
+      building_cards: [
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
 
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'hotel',
+          type: 'building',
 
-            value: 4,
-            mainColor: 'red'
-          }
-        ],
-        property_cards: [
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'white',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'railroad',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'white',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'utility',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'blue',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'blue',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'blue',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'green',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'green',
-              colors: ['green', 'red']
-            }
-          ]
-        ],
-        action_cards: [
+          value: 4,
+          mainColor: 'red'
+        }
+      ],
+      property_cards: [
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: '',
+            mainColor: 'utility',
             colors: ['green', 'red']
-          },
+          }
+        ],
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: '',
+            mainColor: 'red',
             colors: ['green', 'red']
           }
         ],
-        bank_cards: [
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 3,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 2,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 10,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 1,
-            mainColor: '',
-            colors: []
-          }
-        ]
-      },
-      // 2nd player
-      {
-        hand: [
+        [
           {
             id: 1,
             name: 'avenue',
@@ -313,150 +521,102 @@ const GameState = {
             name: 'avenue',
             value: 4,
             mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          }
-        ],
-        building_cards: [
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'hotel',
-            type: 'building',
-
-            value: 4,
-            mainColor: 'red'
-          }
-        ],
-        property_cards: [
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'railroad',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'utility',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ]
-        ],
-        action_cards: [
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: '',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: '',
-            colors: ['green', 'red']
-          }
-        ],
-        bank_cards: [
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
             colors: ['green', 'red']
           }
         ]
-      },
-      // 3rd Player
-      {
-        hand: [
+      ],
+      action_cards: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ],
+      bank_cards: [
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ]
+    },
+    // 4th player
+    {
+      hand: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ],
+      building_cards: [
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'hotel',
+          type: 'building',
+          value: 4,
+          mainColor: 'red'
+        }
+      ],
+      property_cards: [
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: 'red',
+            mainColor: 'utility',
             colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
+          }
+        ],
+        [
           {
             id: 1,
             name: 'avenue',
@@ -465,117 +625,110 @@ const GameState = {
             colors: ['green', 'red']
           }
         ],
-        building_cards: [
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'hotel',
-            type: 'building',
-
-            value: 4,
-            mainColor: 'red'
-          }
-        ],
-        property_cards: [
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'utility',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ]
-        ],
-        action_cards: [
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: '',
+            mainColor: 'green',
             colors: ['green', 'red']
-          }
-        ],
-        bank_cards: [
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
           },
           {
             id: 1,
-            name: '',
+            name: 'avenue',
             value: 4,
-            mainColor: '',
+            mainColor: 'purple',
             colors: ['green', 'red']
           }
         ]
-      },
-      // 4th player
-      {
-        hand: [
+      ],
+      action_cards: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ],
+      bank_cards: [
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ]
+    },
+    // 5th player
+    {
+      hand: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: 'red',
+          colors: ['green', 'red']
+        }
+      ],
+      building_cards: [
+        {
+          id: 1,
+          name: 'hotel',
+          type: 'building',
+
+          value: 4,
+          mainColor: 'red'
+        },
+        {
+          id: 1,
+          name: 'house',
+          type: 'building',
+
+          value: 4,
+          mainColor: 'red'
+        }
+      ],
+      property_cards: [
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: 'red',
+            mainColor: 'white',
             colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
+          }
+        ],
+        [
           {
             id: 1,
             name: 'avenue',
@@ -584,393 +737,217 @@ const GameState = {
             colors: ['green', 'red']
           }
         ],
-        building_cards: [
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'hotel',
-            type: 'building',
-            value: 4,
-            mainColor: 'red'
-          }
-        ],
-        property_cards: [
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'utility',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'green',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            }
-          ]
-        ],
-        action_cards: [
+        [
           {
             id: 1,
             name: 'avenue',
             value: 4,
-            mainColor: '',
+            mainColor: 'red',
             colors: ['green', 'red']
           }
         ],
-        bank_cards: [
+        [
           {
             id: 1,
-            name: '',
+            name: 'avenue',
             value: 4,
-            mainColor: '',
-            colors: []
+            mainColor: 'railroad',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'white',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'utility',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'red',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'blue',
+            colors: ['green', 'red']
           },
           {
             id: 1,
-            name: '',
+            name: 'avenue',
             value: 4,
-            mainColor: '',
+            mainColor: 'blue',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'blue',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'purple',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'purple',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'purple',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'orange',
+            colors: ['green', 'red']
+          }
+        ],
+        [
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'green',
+            colors: ['green', 'red']
+          },
+          {
+            id: 1,
+            name: 'avenue',
+            value: 4,
+            mainColor: 'green',
             colors: ['green', 'red']
           }
         ]
-      },
-      // 5th player
-      {
-        hand: [
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: 'red',
-            colors: ['green', 'red']
-          }
-        ],
-        building_cards: [
-          {
-            id: 1,
-            name: 'hotel',
-            type: 'building',
-
-            value: 4,
-            mainColor: 'red'
-          },
-          {
-            id: 1,
-            name: 'house',
-            type: 'building',
-
-            value: 4,
-            mainColor: 'red'
-          }
-        ],
-        property_cards: [
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'white',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'railroad',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'white',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'utility',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'red',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'blue',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'blue',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'blue',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'purple',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'orange',
-              colors: ['green', 'red']
-            }
-          ],
-          [
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'green',
-              colors: ['green', 'red']
-            },
-            {
-              id: 1,
-              name: 'avenue',
-              value: 4,
-              mainColor: 'green',
-              colors: ['green', 'red']
-            }
-          ]
-        ],
-        action_cards: [
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: '',
-            colors: ['green', 'red']
-          },
-          {
-            id: 1,
-            name: 'avenue',
-            value: 4,
-            mainColor: '',
-            colors: ['green', 'red']
-          }
-        ],
-        bank_cards: [
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 4,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 3,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 2,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 10,
-            mainColor: '',
-            colors: []
-          },
-          {
-            id: 1,
-            name: '',
-            value: 1,
-            mainColor: '',
-            colors: []
-          }
-        ]
-      }
-    ],
-    game: {
-      turnCount: 3,
-      currentPlayer: 2,
-      cardsPlayed: 0,
-      promptPlayer: 2,
-      promptMessage: `prompt message`
+      ],
+      action_cards: [
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        },
+        {
+          id: 1,
+          name: 'avenue',
+          value: 4,
+          mainColor: '',
+          colors: ['green', 'red']
+        }
+      ],
+      bank_cards: [
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 4,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 3,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 2,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 10,
+          mainColor: '',
+          colors: []
+        },
+        {
+          id: 1,
+          name: '',
+          value: 1,
+          mainColor: '',
+          colors: []
+        }
+      ]
     }
+  ],
+  general_info: {
+    turnCount: 3,
+    currentPlayer: 2,
+    cardsPlayed: 0
+  },
+  prompts_info: {
+    promptPlayer: 2,
+    promptMessage: `prompt message`
   }
 };
 
-const GameInfo = {
-  players: [
-    {
-      id: 3,
-      user_id: 15,
-      game_id: 15,
-      order: 1
-    },
-    {
-      id: 2,
-      user_id: 13,
-      game_id: 13,
-      order: 2
-    },
-    {
-      id: 4,
-      user_id: 15,
-      game_id: 15,
-      order: 3
-    }
-  ]
-};
-
-export { GameState, GameInfo };
+export { MockData };

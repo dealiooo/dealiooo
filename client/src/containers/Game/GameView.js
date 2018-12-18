@@ -6,7 +6,6 @@ import Box from 'react-bulma-components/lib/components/box';
 import Tile from 'react-bulma-components/lib/components/tile';
 import Card from 'react-bulma-components/lib/components/card';
 
-import { GameState } from './MockData';
 import ZoomModal from './ZoomModal';
 
 const getTotalValue = set => {
@@ -176,15 +175,15 @@ const PlayerHand = ({ hand }) => {
   );
 };
 
-const PlayerView = ({ data, showHand = false }) => {
+const PlayerView = ({ player_info, showHand = false }) => {
   return (
     <div>
       <Tile kind="ancestor">
-        <PlayerField {...data} />
+        <PlayerField {...player_info} />
       </Tile>
       {showHand ? (
         <Tile kind="ancestor">
-          <PlayerHand {...data} />
+          <PlayerHand hand={player_info.hand} />
         </Tile>
       ) : null}
     </div>
@@ -192,17 +191,17 @@ const PlayerView = ({ data, showHand = false }) => {
 };
 
 // Calculate how to render other players
-const PlayerViews = ({ players }) => {
+const PlayerViews = ({ players_info }) => {
   const ColumnSizes = {
     2: [12],
     3: [6, 6],
     4: [6, 6, 10],
     5: [6, 6, 6, 6]
   };
-  const numPlayers = players.length - 1;
+  const numPlayers = players_info.length - 1;
   return (
     <Columns>
-      {players.map((player, i) => {
+      {players_info.map((player_info, i) => {
         if (i === 0 || i == numPlayers) {
           return null;
         }
@@ -211,7 +210,7 @@ const PlayerViews = ({ players }) => {
             size={ColumnSizes[numPlayers][i - 1]}
             style={{ margin: '0 auto' }}
           >
-            <PlayerView data={player} />
+            <PlayerView player_info={player_info} />
           </Columns.Column>
         );
       })}
@@ -220,7 +219,7 @@ const PlayerViews = ({ players }) => {
 };
 
 // Render deck and discard pile
-const MiddleFieldView = ({ gameMaster }) => {
+const MiddleFieldView = ({ deck, discard }) => {
   return (
     <Tile
       kind="ancestor"
@@ -252,14 +251,17 @@ const MiddleFieldView = ({ gameMaster }) => {
 
 class GameView extends Component {
   constructor(props) {
-    super();
+    super(props);
   }
 
+  // TODO
+  handleCardClick = event => {};
+
   render() {
-    const gameMaster = GameState.general_info.players[0];
-    const players_data = GameState.general_info.players;
+    const { players_info } = this.props;
+    // TODO: fix-me
     const me =
-      players_data[Math.floor(Math.random() * players_data.length) + 1];
+      players_info[Math.floor(Math.random() * players_info.length) + 1];
 
     return (
       <div
@@ -273,9 +275,16 @@ class GameView extends Component {
           padding: 8
         }}
       >
-        <PlayerViews players={players_data} />
-        <MiddleFieldView gameMaster={gameMaster} />
-        <PlayerView data={me} showHand={true} />
+        <PlayerViews players_info={players_info} />
+        <MiddleFieldView
+          deck={players_info[0].deck}
+          discard={players_info[0].discard}
+        />
+        <PlayerView
+          player_info={me}
+          showHand={true}
+          onCardClicked={this.handleCardClick}
+        />
       </div>
     );
   }
