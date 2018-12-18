@@ -91,8 +91,7 @@ const pick_field_card = (player, piles, callback) =>
         }
       });
     } else {
-      console.log('pile is empty');
-      return callback(new Error().stack);
+      return callback('pile is empty');
     }
   });
 

@@ -292,6 +292,11 @@ const moveCardToBank = (player, card) =>
     moveCard(card, piles[0])
   );
 
+const moveCardToAction = (player, card) =>
+  Game.getPilesByTypes(player, [Game.ACTION]).then(piles =>
+    moveCard(card, piles[0])
+  );
+
 const moveDiscardToDeck = player =>
   Game.getPilesByTypes(player, [Game.DISCARD]).then(discardPiles =>
     Game.getPilesByTypes(player, [Game.DECK]).then(deckPiles =>
@@ -311,6 +316,7 @@ module.exports = {
   drawCard,
   moveCard: Game.moveCard,
   moveCardToBank,
+  moveCardToAction,
   movePile: Game.movePile,
   moveDiscardToDeck,
   swapPropertyCard: Game.swapPropertyCard,

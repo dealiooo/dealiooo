@@ -24,7 +24,7 @@ const playAsProperty = (player, card, callback) =>
           }
         });
       } else {
-        return callback(new Error().stack);
+        return callback('cannot play building card, no full set');
       }
     }
   );

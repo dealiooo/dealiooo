@@ -126,7 +126,10 @@ const shufflePile = _ => pile =>
     )
   );
 
-const switchColor = _ => (card, main_color) => card.update({ main_color });
+const switchColor = db => (card, main_color) =>
+  card
+    .update({ main_color })
+    .then(_ => db.th_pile_cards.findOne({ where: { id: card, id } }));
 
 const removePlayer = db => player =>
   player.getGame().then(game =>
@@ -183,17 +186,15 @@ const generateDeckAndShuffle = db => game =>
   );
 
 const updateCurrentPlayer = _ => player =>
-  player
-    .getGame()
-    .then(game =>
-      game
-        .getPlayers({
-          where: { order: (game.turn % (game.player_count - 1)) + 1 }
-        })
-        .then(players =>
-          game.update({ current_player: players[0].id, cards_played: 0 })
-        )
-    );
+  player.getGame().then(game =>
+    game
+      .getPlayers({
+        where: { order: (game.turn % (game.player_count - 1)) + 1 }
+      })
+      .then(players =>
+        game.update({ current_player: players[0].id, cards_played: 0 })
+      )
+  );
 
 module.exports = db => ({
   ACTION,

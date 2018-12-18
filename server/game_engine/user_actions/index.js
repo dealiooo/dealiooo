@@ -45,8 +45,7 @@ const pick_option = (
     }
     return pending(pending_message);
   } else {
-    console.log('empty options');
-    callback(new Error().stack);
+    callback('empty options');
   }
 };
 
