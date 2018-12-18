@@ -8,7 +8,11 @@ import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 import api from '../../../api';
-
+import {
+  Control,
+  Field,
+  Select
+} from 'react-bulma-components/lib/components/form';
 import './MainLobby.css';
 
 class MainLobby extends Component {
@@ -135,10 +139,11 @@ class MainLobby extends Component {
     baseState.splice(index, 1);
     this.setState({ lobbies: baseState });
   }
-  
-  onCreate = _ => {
+
+  onCreate = event => {
+    // todo test value
     api
-      .postMainLobbyCreateGame()
+      .postMainLobbyCreateGame(event.target.value)
       .then(result => (window.location = `/game-lobby/${result.result.id}`));
   };
 
@@ -154,9 +159,13 @@ class MainLobby extends Component {
                 gameLobbies={this.state.lobbies}
                 userId={this.state.userId}
               />
-              <Button onClick={this.onCreate} className="is-large">
-                Create
-              </Button>
+              <form onSubmit={this.onCreate}>
+                <Field>
+                  <Control>
+                    <Select />
+                  </Control>
+                </Field>
+              </form>
             </Columns.Column>
             <Columns.Column className="main-lobby-chat is-two-fifths">
               <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />

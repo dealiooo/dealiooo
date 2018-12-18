@@ -1,34 +1,6 @@
 const MockData = {
   players_info: [
     {
-      deck: [
-        {
-          id: 1,
-          name: 'avenue',
-          value: 4,
-          mainColor: 'red',
-          colors: ['green', 'red']
-        },
-        {
-          id: 1,
-          name: 'avenue',
-          value: 4,
-          mainColor: 'red',
-          colors: ['green', 'red']
-        }
-      ],
-      discard: [
-        {
-          id: 1,
-          name: 'avenue',
-          value: 4,
-          mainColor: 'red',
-          colors: ['green', 'red']
-        }
-      ]
-    },
-    // 1st player
-    {
       hand: [
         {
           id: 1,
@@ -942,11 +914,36 @@ const MockData = {
   general_info: {
     turnCount: 3,
     currentPlayer: 2,
-    cardsPlayed: 0
+    cardsPlayed: 0,
+    deck: 20,
+    discard: [
+      {
+        id: 1,
+        name: '',
+        value: 2,
+        mainColor: '',
+        colors: []
+      },
+      {
+        id: 1,
+        name: '',
+        value: 10,
+        mainColor: '',
+        colors: []
+      },
+      {
+        id: 1,
+        name: '',
+        value: 1,
+        mainColor: '',
+        colors: []
+      }
+    ]
   },
   prompts_info: {
     promptPlayer: 2,
-    promptMessage: `prompt message`
+    promptMessage: `0: 'lightblue, 1: 'red`,
+    promptOptions: [0, 1, 2]
   }
 };
 

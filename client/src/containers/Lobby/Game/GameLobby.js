@@ -31,7 +31,7 @@ class GameLobby extends Component {
       gameId,
       lobbyName: `${gameId}'s Lobby`,
       startRender: false,
-      host: null,
+      host: false,
       userId: null,
       userName: null,
       playersStatus: null,
@@ -52,13 +52,15 @@ class GameLobby extends Component {
           body = JSON.parse(body);
           this.setState({ userId: body.id });
           this.setState({ userName: body.name });
-          this.setState({ startRender: true });
           api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
-            status.result.map(
-              playerStatus =>
-                (playerStatus.ready = playerStatus.Players[0].ready)
-            );
+            status.result.map(playerStatus => {
+              if (this.state.userId === playerStatus.id) {
+                this.setState({ host: playerStatus.Players[0].host });
+              }
+              return (playerStatus.ready = playerStatus.Players[0].ready);
+            });
             this.setState({ playersStatus: status.result });
+            this.setState({ startRender: true });
           });
         });
       } else {
@@ -68,7 +70,7 @@ class GameLobby extends Component {
   }
 
   onEnterGame(event) {
-    if (this.state.gameId === event.game_id) {
+    if (this.state.gameId === event) {
       api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
         status.result.map(
           playerStatus => (playerStatus.ready = playerStatus.th_player.ready)
@@ -79,14 +81,14 @@ class GameLobby extends Component {
   }
 
   onLeaveGame(event) {
-    if (this.state.gameId === event.game_id) {
+    if (this.state.gameId === event.gameId) {
       var temp = this.state.playersStatus;
       this.setState({
-        players_status: temp.filter(
-          playerstatus => playerstatus.id !== event.user_id
+        playersStatus: temp.filter(
+          playerStatus => playerStatus.id !== event.userId
         )
       });
-      if (this.state.userId === event.user_id) {
+      if (this.state.userId === event.userId) {
         api
           .post_delete_game(this.state.gameId)
           .then(result => (window.location = '/main-lobby'));
@@ -157,38 +159,34 @@ class GameLobby extends Component {
           </Section>
           <Section>
             <Level>
-                  <Level.Item>
-                    <StartButton host={this.props.host} />
-                  </Level.Item>
-                  <Level.Item>
-                    <Button onClick={this.onReady} className="is-large">
-                      Ready
-                    </Button>
-                  </Level.Item>
-                  <Level.Item>
-                    <Button onClick={this.onExit} className="is-large">
-                      Exit
-                    </Button>
-                  </Level.Item>
-                  <Level.Item />
-                </Level>
+              <Level.Item>
+                {this.state.host ? (
+                  <Button onClick={this.onStart} className="is-large">
+                    Start
+                  </Button>
+                ) : (
+                  <div />
+                )}
+                ;
+              </Level.Item>
+              <Level.Item>
+                <Button onClick={this.onReady} className="is-large">
+                  Ready
+                </Button>
+              </Level.Item>
+              <Level.Item>
+                <Button onClick={this.onExit} className="is-large">
+                  Exit
+                </Button>
+              </Level.Item>
+              <Level.Item />
+            </Level>
           </Section>
         </Box>
       );
     }
     return <Box>Loading Page...</Box>;
   }
-}
-
-function StartButton(props) {
-  if (props.host) {
-    return (
-      <Button onClick={this.onStart} className="is-large">
-        Start
-      </Button>
-    );
-  }
-  return <div />;
 }
 
 export default GameLobby;

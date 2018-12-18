@@ -219,7 +219,7 @@ const PlayerViews = ({ players_info }) => {
 };
 
 // Render deck and discard pile
-const MiddleFieldView = ({ deck, discard }) => {
+const MiddleFieldView = ({ deck_count, discard }) => {
   return (
     <Tile
       kind="ancestor"

@@ -5,7 +5,7 @@ const chat = sockets => (gameId, message) =>
       client_socket.emit(`game-lobby:${gameId}:chat`, message)
     );
 
-const enterGame = (globalSockets, sockets) => (gameId, userId, playerId) => {
+const enterGame = (globalSockets, sockets) => (gameId, userId) => {
   if (!(gameId in sockets)) {
     sockets.set(gameId, new Map());
   }
@@ -13,55 +13,47 @@ const enterGame = (globalSockets, sockets) => (gameId, userId, playerId) => {
   sockets
     .get(gameId)
     .forEach(client_socket =>
-      client_socket.emit(
-        `game-lobby:${gameId}:enter-game`,
-        `playerId:${playerId} has entered the room.`
-      )
+      client_socket.emit(`game-lobby:${gameId}:enter-game`, gameId)
     );
 };
 
-const leaveGame = sockets => (gameId, playerId) =>
+const leaveGame = sockets => (gameId, userId, userName) =>
   sockets
     .get(gameId)
     .forEach(client_socket =>
-      client_socket.emit(
-        `game-lobby:${gameId}:leave-game`,
-        `playerId:${playerId} has left the room.`
-      )
+      client_socket.emit(`game-lobby:${gameId}:leave-game`, {
+        gameId,
+        userId,
+        userName
+      })
     );
 
 const playerReady = sockets => (gameId, userId, userName) =>
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game-lobby:${gameId}:player-ready`, {
-        gameId,
-        userId,
-        userName
-      })
-    );
+  sockets.get(gameId).forEach(client_socket =>
+    client_socket.emit(`game-lobby:${gameId}:player-ready`, {
+      gameId,
+      userId,
+      userName
+    })
+  );
 
 const playerUnready = sockets => (gameId, userId, userName) =>
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game-lobby:${gameId}:player-unready`, {
-        gameId,
-        userId,
-        userName
-      })
-    );
+  sockets.get(gameId).forEach(client_socket =>
+    client_socket.emit(`game-lobby:${gameId}:player-unready`, {
+      gameId,
+      userId,
+      userName
+    })
+  );
 
 const startGame = sockets => (gameId, userId, userName) =>
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game-lobby:${gameId}:start-game`, {
-        gameId,
-        userId,
-        userName
-      })
-    );
+  sockets.get(gameId).forEach(client_socket =>
+    client_socket.emit(`game-lobby:${gameId}:start-game`, {
+      gameId,
+      userId,
+      userName
+    })
+  );
 
 module.exports = (globalSockets, sockets) => ({
   chat: chat(sockets),

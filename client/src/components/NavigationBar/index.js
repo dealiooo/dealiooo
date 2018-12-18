@@ -6,13 +6,8 @@ import header_logo from './header_logo.png';
 import api from '../../api';
 
 const NavigationBar = ({ title }) => {
-  // TODO:
-  const isAuthenticated = 1;
-
   const logout = () => {
-    console.log('test');
-    api.post_logout().then(result => {
-      console.log(result);
+    api.postLogout().then(result => {
       if (result.error) {
         console.log('error on logout');
       }
@@ -39,18 +34,14 @@ const NavigationBar = ({ title }) => {
           </Navbar.Item>
         </Navbar.Container>
         <Navbar.Container position="end">
-          {isAuthenticated ? (
-            <Navbar.Item renderAs="div" className="has-dropdown is-hoverable">
-              <Navbar.Link>Username</Navbar.Link>
-              <Navbar.Dropdown className="is-right">
-                <Navbar.Item value="item" onClick={logout}>
-                  Logout
-                </Navbar.Item>
-              </Navbar.Dropdown>
-            </Navbar.Item>
-          ) : (
-            <Button>Register</Button>
-          )}
+          <Navbar.Item renderAs="div" className="has-dropdown is-hoverable">
+            <Navbar.Link>Username</Navbar.Link>
+            <Navbar.Dropdown className="is-right">
+              <Navbar.Item value="item" onClick={logout}>
+                Logout
+              </Navbar.Item>
+            </Navbar.Dropdown>
+          </Navbar.Item>
         </Navbar.Container>
       </Navbar.Menu>
     </Navbar>

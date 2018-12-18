@@ -2,14 +2,14 @@ const router = require('express').Router();
 const authenticateUser = require('./middlewares/authenticateUser');
 const authenticatePlayer = require('./middlewares/authenticatePlayer');
 const authenticateHost = require('./middlewares/authenticateHost');
-const sendUserIdUserNameAndPlayerId = require('./middlewares/sendUserIdUserNameAndPlayerId');
+const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
 const { Game } = require('../sockets');
 
 router.get(
   '/game/:gameId',
   authenticateUser,
   authenticatePlayer,
-  sendUserIdUserNameAndPlayerId
+  sendUserIdAndUserName
 );
 
 router.post(
@@ -31,7 +31,7 @@ router.post(
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id } = response.locals.player;
+    const { id } = response.locals.user;
     const { clickInput } = request.body;
     Game.click(gameId, id, clickInput);
     response.sendStatus(204);
@@ -44,7 +44,7 @@ router.post(
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id } = response.locals.player;
+    const { id } = response.locals.user;
     Game.endTurn(gameId, id);
     response.sendStatus(204);
   }
@@ -56,7 +56,7 @@ router.post(
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id } = response.locals.player;
+    const { id } = response.locals.user;
     Game.forfeit(gameId, id);
     response.sendStatus(204);
   }
@@ -69,8 +69,7 @@ router.post(
   (request, response) => {
     const { gameId } = request.params;
     const { id } = response.locals.user;
-    const { id: playerId } = response.locals.player;
-    Game.join(gameId, id, playerId);
+    Game.join(gameId, id);
     response.sendStatus(204);
   }
 );
@@ -93,7 +92,7 @@ router.post(
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id } = response.locals.player;
+    const { id } = response.locals.user;
     Game.update(gameId, id);
     response.sendStatus(204);
   }

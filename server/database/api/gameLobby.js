@@ -10,7 +10,7 @@ const getPlayersStatus = db => th_game_id =>
       {
         model: db.th_players,
         as: 'Players',
-        attributes: ['ready'],
+        attributes: ['ready', 'host'],
         where: { th_game_id }
       }
     ]

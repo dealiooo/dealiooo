@@ -50,8 +50,8 @@ router.post(
   authenticateUser,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, name } = response.locals.user;
-    GameLobbySockets.enterGame(gameId, id, name);
+    const { id } = response.locals.user;
+    GameLobbySockets.enterGame(gameId, id);
     return response.sendStatus(204);
   }
 );
