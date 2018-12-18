@@ -38,6 +38,7 @@ export default {
   socket,
   getLogin: () => request('/login', {}, 'get'),
   getRegister: () => request('/register', {}, 'get'),
+  getForgotPassword: () => request('/forgot-password', {}, 'get'),
   getGame: gameId => request(`/game-lobby/${gameId}`, {}, 'get'),
   getGameLobby: gameId => request(`/game-lobby/${gameId}`, {}, 'get'),
   getMainLobby: () => request('/main-lobby', {}, 'get'),
@@ -53,6 +54,8 @@ export default {
     request('/login', { email, password }).then(jsonify),
   postRegister: (name, email, password) =>
     request('/register', { name, email, password }),
+  postForgotPassword: email => request('/forgot-password', { email }),
+  postLogout: () => request('/logout', {}),
   postMainLobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
   postMainLobbyChat: ({ message }) => request('/main-lobby/chat', { message }),
   postMainLobbyCreateGame: () =>

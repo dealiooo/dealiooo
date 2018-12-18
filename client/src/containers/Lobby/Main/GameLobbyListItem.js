@@ -54,7 +54,7 @@ class GameLobbyListItem extends Component {
         );
       }
       return (
-        <Box>
+        <Box className="has-background-success">
           {this.props.gameLobby.id}
           <Columns>
             <Columns.Column>

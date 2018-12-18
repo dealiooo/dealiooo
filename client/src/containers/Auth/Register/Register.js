@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import {
   Control,
@@ -10,7 +9,10 @@ import {
 import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
 import api from '../../../api';
-
+import Container from 'react-bulma-components/lib/components/container/container';
+import Columns from 'react-bulma-components/lib/components/columns/columns';
+import Heading from 'react-bulma-components/lib/components/heading';
+import Banner from '../../../components/Banner';
 class Register extends Component {
   state = {
     name: '',
@@ -52,7 +54,8 @@ class Register extends Component {
 
   render() {
     return (
-      <Box>
+      <Container className="is-fullhd">
+        <Banner />
         <Modal
           show={this.state.modal_display}
           onClose={this.onModalClick}
@@ -69,46 +72,55 @@ class Register extends Component {
           </Modal.Content>
         </Modal>
         <form onSubmit={this.onSubmit}>
-          <Field>
-            <Control>
-              <Input
-                name="name"
-                type="text"
-                onChange={this.onChange}
-                value={this.state.name}
-                placeholder="Type your in-game name"
-              />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Input
-                name="email"
-                type="email"
-                onChange={this.onChange}
-                value={this.state.email}
-                placeholder="Type your email"
-              />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Input
-                name="password"
-                type="password"
-                onChange={this.onChange}
-                value={this.state.password}
-                placeholder="Type your password"
-              />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Button className="is-info">Send</Button>
-            </Control>
-          </Field>
+          <Columns className="is-centered">
+            <Columns.Column className="is-3">
+              <Heading className="has-text-centered has-text-black">
+                Register
+              </Heading>
+              <Field>
+                <Control className="control-padding-vertical">
+                  <Input
+                    name="name"
+                    type="text"
+                    onChange={this.onChange}
+                    value={this.state.name}
+                    placeholder="Type your in-game name"
+                  />
+                </Control>
+              </Field>
+
+              <Field>
+                <Control>
+                  <Input
+                    name="email"
+                    type="email"
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    placeholder="Type your email"
+                  />
+                </Control>
+              </Field>
+
+              <Field>
+                <Control>
+                  <Input
+                    name="password"
+                    type="password"
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    placeholder="Type your password"
+                  />
+                </Control>
+              </Field>
+              <Field>
+                <Control>
+                  <Button className="is-info is-fullwidth">Send</Button>
+                </Control>
+              </Field>
+            </Columns.Column>
+          </Columns>
         </form>
-      </Box>
+      </Container>
     );
   }
 }

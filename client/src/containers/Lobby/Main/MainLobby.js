@@ -135,7 +135,7 @@ class MainLobby extends Component {
     baseState.splice(index, 1);
     this.setState({ lobbies: baseState });
   }
-
+  
   onCreate = _ => {
     api
       .postMainLobbyCreateGame()
@@ -145,7 +145,7 @@ class MainLobby extends Component {
   render() {
     if (this.state.startRender) {
       return (
-        <Box>
+        <div className="boxcolor">
           <NavigationBar title="Main Lobby" />
           <Columns>
             <Columns.Column>
@@ -158,12 +158,12 @@ class MainLobby extends Component {
                 Create
               </Button>
             </Columns.Column>
-            <Columns.Column>
+            <Columns.Column className="main-lobby-chat is-two-fifths">
               <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />
               <ChatInput roomId={null} api={api.postMainLobbyChat} />
             </Columns.Column>
           </Columns>
-        </Box>
+        </div>
       );
     }
     return <Box>Loading Page...</Box>;

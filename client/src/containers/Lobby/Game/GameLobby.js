@@ -139,14 +139,14 @@ class GameLobby extends Component {
   render() {
     if (this.state.startRender) {
       return (
-        <Box>
+        <Box className="boxcolor">
           <NavigationBar title={this.state.lobbyName} />
           <Section>
             <Columns>
-              <Columns.Column>
+              <Columns.Column className="has-background-black-ter">
                 <PlayerStatus status={this.state.playersStatus} />
               </Columns.Column>
-              <Columns.Column>
+              <Columns.Column size="5" className="game-lobby-chat">
                 <ChatLog
                   socket={this.state.socket}
                   roomId={`game-lobby:${this.state.gameId}:chat`}
@@ -157,23 +157,21 @@ class GameLobby extends Component {
           </Section>
           <Section>
             <Level>
-              <Level.Item />
-              <Level.Item />
-              <Level.Item>
-                <StartButton host={this.props.host} />
-              </Level.Item>
-              <Level.Item>
-                <Button onClick={this.onReady} className="is-large">
-                  Ready
-                </Button>
-              </Level.Item>
-              <Level.Item>
-                <Button onClick={this.onExit} className="is-large">
-                  Exit
-                </Button>
-              </Level.Item>
-              <Level.Item />
-            </Level>
+                  <Level.Item>
+                    <StartButton host={this.props.host} />
+                  </Level.Item>
+                  <Level.Item>
+                    <Button onClick={this.onReady} className="is-large">
+                      Ready
+                    </Button>
+                  </Level.Item>
+                  <Level.Item>
+                    <Button onClick={this.onExit} className="is-large">
+                      Exit
+                    </Button>
+                  </Level.Item>
+                  <Level.Item />
+                </Level>
           </Section>
         </Box>
       );

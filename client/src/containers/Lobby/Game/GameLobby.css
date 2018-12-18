@@ -4,10 +4,14 @@ html
   > div.box
   > section.section
   > div.columns.is-multiline
-  > div.column
+  > .game-lobby-chat
   > div.box.ps {
   position: relative;
   min-height: 400px;
   max-height: 400px;
   overflow: auto;
+}
+
+.boxcolor {
+  background-color: hsl(133, 76%, 72%);
 }

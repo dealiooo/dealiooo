@@ -1,6 +1,21 @@
-html > body > div#root > div.box > div.columns > div.column > div.box.ps {
+html > body > div#root > div.box > div.columns > .main-lobby-chat > div.box.ps {
   position: relative;
-  min-height: 600px;
-  max-height: 600px;
+  min-height: 500px;
+  max-height: 500px;
   overflow: auto;
+}
+
+html > body > div#root > div > div.columns > div.column > div.box.ps {
+  position: relative;
+  min-height: 500px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+html {
+  background-color: hsl(133, 76%, 72%);
+}
+
+.boxcolor {
+  background-color: hsl(133, 76%, 72%);
 }

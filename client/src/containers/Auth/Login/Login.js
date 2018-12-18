@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import {
   Control,
@@ -9,6 +8,11 @@ import {
 } from 'react-bulma-components/lib/components/form';
 import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
+import Columns from 'react-bulma-components/lib/components/columns/columns';
+import Container from 'react-bulma-components/lib/components/container';
+import Heading from 'react-bulma-components/lib/components/heading';
+import Banner from '../../../components/Banner';
+
 import api from '../../../api';
 
 class Login extends Component {
@@ -51,7 +55,8 @@ class Login extends Component {
 
   render() {
     return (
-      <Box>
+      <Container className="is-fullhd">
+        <Banner />
         <Modal
           show={this.state.modal_display}
           onClose={this.onModalClick}
@@ -68,35 +73,47 @@ class Login extends Component {
           </Modal.Content>
         </Modal>
         <form onSubmit={this.onSubmit}>
-          <Field>
-            <Control>
-              <Input
-                name="email"
-                type="email"
-                onChange={this.onChange}
-                value={this.state.email}
-                placeholder="Type your email"
-              />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Input
-                name="password"
-                type="password"
-                onChange={this.onChange}
-                value={this.state.password}
-                placeholder="Type your password"
-              />
-            </Control>
-          </Field>
-          <Field>
-            <Control>
-              <Button className="is-info">Send</Button>
-            </Control>
-          </Field>
+          <Columns className="is-centered">
+            <Columns.Column className="is-3 ">
+              <Heading className="has-text-centered has-text-black">
+                Login
+              </Heading>
+              <Field>
+                <Control>
+                  <Input
+                    name="email"
+                    type="email"
+                    onChange={this.onChange}
+                    value={this.state.email}
+                    placeholder="Type your email"
+                  />
+                </Control>
+              </Field>
+              <Field>
+                <Control>
+                  <Input
+                    name="password"
+                    type="password"
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    placeholder="Type your password"
+                  />
+                </Control>
+              </Field>
+              <Field>
+                <Control>
+                  <Button className="is-info is-fullwidth">Send</Button>
+                </Control>
+              </Field>
+              <p>
+                <a href="/register">register</a>
+                &nbsp;·&nbsp;
+                <a href="/forgot-password">forgot password</a>
+              </p>
+            </Columns.Column>
+          </Columns>
         </form>
-      </Box>
+      </Container>
     );
   }
 }
