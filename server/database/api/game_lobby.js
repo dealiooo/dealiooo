@@ -63,7 +63,9 @@ const delete_game = db => game_id =>
 const run_game = db => game_id =>
   db.sequelize
     .sync({ logging: false })
-    .then(_ => db.th_games.update({ turn: 1 }, { where: { id: game_id } }));
+    .then(_ =>
+      db.th_games.update({ state: started }, { where: { id: game_id } })
+    );
 
 const game_ready = db => game_id =>
   find_all_player_names(db)(game_id).then(results =>
