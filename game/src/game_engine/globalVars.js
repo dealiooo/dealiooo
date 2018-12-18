@@ -1,5 +1,5 @@
-import cards from './cards';
-import rentValues from './rentValues';
+const cards = require('./cards');
+const rentValues = require('./rentValues');
 
 const initGlobalVars = playerIds => {
   const Game = {};
@@ -73,4 +73,4 @@ const shuffle = a => {
   return copyA;
 };
 
-export default playerIds => initGlobalVars(playerIds);
+module.exports = playerIds => initGlobalVars(playerIds);

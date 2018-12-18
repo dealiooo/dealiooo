@@ -1,9 +1,9 @@
-import * as gameActions from '../../actions';
-import * as userActions from '../../userActions';
+const playPropertyCard = require('./playPropertyCard');
 
-import { playPropertyCard } from './playPropertyCard';
+const gameActions = require('../../actions');
+const userActions = require('../../userActions');
 
-export const playPropertyWildCard = (Game, player, card, callback) => {
+const playPropertyWildCard = (Game, player, card, callback) => {
   userActions.pick_card_color(Game, player, card, (error, color) => {
     if (error) {
       callback(error);
@@ -13,3 +13,5 @@ export const playPropertyWildCard = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playPropertyWildCard;

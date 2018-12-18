@@ -1015,7 +1015,7 @@ const money_cards = [
   }
 ];
 
-export default [
+module.exports = [
   ...property_cards,
   ...property_wildcards,
   ...action_cards,

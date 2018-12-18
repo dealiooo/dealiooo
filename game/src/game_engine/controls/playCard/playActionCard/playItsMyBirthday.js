@@ -1,6 +1,6 @@
-import * as gameActions from '../../../actions';
+const gameActions = require('../../../actions');
 
-export const playItsMyBirthday = (Game, player, card, callback) => {
+const playItsMyBirthday = (Game, player, card, callback) => {
   // all players give you $2M as a gift
   for (let i = 0; i < Game.players.length; i++) {
     let done = error => {
@@ -18,3 +18,5 @@ export const playItsMyBirthday = (Game, player, card, callback) => {
     }
   }
 };
+
+module.exports = playItsMyBirthday;

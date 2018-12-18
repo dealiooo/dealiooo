@@ -1,6 +1,6 @@
-import * as userActions from './userActions';
+const userActions = require('./userActions');
 
-export const removeEmptyPropertySets = player => {
+const removeEmptyPropertySets = player => {
   player.field.property_cards = player.field.property_cards.filter(
     set => set.length
   );
@@ -70,7 +70,7 @@ const getRentDestinations = (player, card, source) => {
   return { destinations, destinationIndexes };
 };
 
-export const getDestinations = {
+const getDestinations = {
   property: getPropertyDestinations,
   property_wildcard: getPropertyDestinations,
   building: getBuildingDestinations,
@@ -97,7 +97,7 @@ export const getDestinations = {
  * Add card to hand from deck (always at start of turn)
  * @param {Player.id} player_id
  */
-export const drawCard = (Game, player) => {
+const drawCard = (Game, player) => {
   if (!getDeckEmpty(Game)) {
     const card = Game.deck.pop();
     player.hand.push(card);
@@ -114,7 +114,7 @@ export const drawCard = (Game, player) => {
  * @param {Player} destination
  * @param {Integer} amount
  */
-export const payRent = (Game, payee, player, amount, callback) => {
+const payRent = (Game, payee, player, amount, callback) => {
   console.log(
     `Pay rent:\npayee id:${payee.id}\nplayer id:${player.id}\namount:${amount}`
   );
@@ -199,7 +199,7 @@ export const payRent = (Game, payee, player, amount, callback) => {
  * @param {card, pile, player} source
  * @param {card, pile, player} destination
  */
-export const swapPropertyCards = (source, destination) => {
+const swapPropertyCards = (source, destination) => {
   source.player.field.property_cards.push([]);
   destination.player.field.property_cards.push([]);
   moveCard(
@@ -228,7 +228,7 @@ export const swapPropertyCards = (source, destination) => {
  * @param {Card | [Card]} card
  *
  */
-export const moveCard = (source, destination, card) => {
+const moveCard = (source, destination, card) => {
   // add card to destination
   destination.push(card);
 
@@ -258,14 +258,14 @@ export const moveCard = (source, destination, card) => {
  * Side Effect
  * Move entire pile from source (reference) to destination (reference)
  */
-export const movePile = (source, destination) => {
+const movePile = (source, destination) => {
   for (let i = 0; i < source.length; i++) {
     destination.push(source.pop());
   }
 };
 
 // pile is array of cards
-export const isPileNotEmpty = pile => {
+const isPileNotEmpty = pile => {
   return pile.length === 0;
 };
 
@@ -274,7 +274,7 @@ export const isPileNotEmpty = pile => {
  * Side-Effect
  * @param {Deck | Discard} source
  */
-export const shufflePile = (Game, source) => {
+const shufflePile = (Game, source) => {
   source = Game.shuffle(source);
 };
 
@@ -284,7 +284,7 @@ export const shufflePile = (Game, source) => {
  * @param {Integer} card_id
  * @param {String} color
  */
-export const switchColor = (card, newColor) => {
+const switchColor = (card, newColor) => {
   card.mainColor = newColor;
 };
 
@@ -294,20 +294,20 @@ export const switchColor = (card, newColor) => {
  * @param {Property | Bank} destination
  * @param {Property_Card | Bank_Card} card
  */
-export const pay = (source, destination, card) => {
+const pay = (source, destination, card) => {
   moveCard(destination, card);
 };
 
 /**
  * Side Effect
  */
-export const removePlayer = (Game, player) => {
+const removePlayer = (Game, player) => {
   Game.players = Game.players.filter(p => p.id !== player.id);
 };
 
 // Returns false if did not find full property_set and true if found a full property_set
 // property_set is a array inside player.field.property_cards
-export const getPropertySetStatus = (Game, property_set) => {
+const getPropertySetStatus = (Game, property_set) => {
   let color = property_set[0].mainColor;
   let wildcard_count = property_set.filter(
     card => 'property-wildcard' === card.type
@@ -319,7 +319,7 @@ export const getPropertySetStatus = (Game, property_set) => {
 };
 
 // Counts how many full set a player has
-export const getNumberFullPropertySets = (Game, player) => {
+const getNumberFullPropertySets = (Game, player) => {
   let sum = 0;
   player.field.property_cards.map(
     property_set => (sum += getPropertySetStatus(Game, property_set))
@@ -327,7 +327,7 @@ export const getNumberFullPropertySets = (Game, player) => {
   return sum;
 };
 
-export const getPropertyPileValue = property_field => {
+const getPropertyPileValue = property_field => {
   let sum = 0;
   property_field.map(set => set.map(card => (sum += card.value)));
   return sum;
@@ -336,7 +336,7 @@ export const getPropertyPileValue = property_field => {
 // pile is array of cards
 // Get sum of values in a pile
 // Can only be bank cards
-export const getPileValue = pile => {
+const getPileValue = pile => {
   let sum = 0;
   pile.map(card => (sum += card.value));
   return sum;
@@ -348,7 +348,7 @@ export const getPileValue = pile => {
 // maxSetSize is the max of the amount of cards you can stack in property-stack
 // [property_card1, property_card2, house_card] === maxPropertySetSize + 1
 // [property_card1, property_card2, house, hotel] === maxPropertySetSize + 2
-export const getHouseStatus = (Game, property_set) => {
+const getHouseStatus = (Game, property_set) => {
   return (
     property_set.length ===
     Game.rent_values[property_set[0].mainColor].maxSetSize + 1
@@ -360,7 +360,7 @@ export const getHouseStatus = (Game, property_set) => {
 // Rule: House and hotel cards cannot be laid on railroads or utility cards cause that just doesnÃ¢ÂÂt make any sense silly.
 // check if a player can add a house to a property_set
 // 0: cannot 1: can
-export const getCanAddHouseToPropertySet = (Game, property_set) => {
+const getCanAddHouseToPropertySet = (Game, property_set) => {
   if (getHouseStatus(Game, property_set)) {
     // house already exists
     return 0;
@@ -381,14 +381,14 @@ export const getCanAddHouseToPropertySet = (Game, property_set) => {
 
 // Returns a boolean whether hotel already exists
 // True: exists, False: does not exists
-export const getHotelStatus = (Game, property_set) => {
+const getHotelStatus = (Game, property_set) => {
   return (
     property_set.length ===
     Game.rent_values[property_set[0].mainColor].maxSize + 2
   );
 };
 
-export const getCanAddHotelToPropertySet = (Game, property_set) => {
+const getCanAddHotelToPropertySet = (Game, property_set) => {
   if (getHotelStatus(Game, property_set)) {
     // hotel already exists
     return 0;
@@ -410,11 +410,11 @@ export const getCanAddHotelToPropertySet = (Game, property_set) => {
 /*
  * Return the number of double the rent cards in the action field pile
  */
-export const getDoubleTheRentStatus = action_cards => {
+const getDoubleTheRentStatus = action_cards => {
   return action_cards.filter(card => card.name === 'double-the-rent').length;
 };
 
-export const getPropertySetValue = (Game, property_set) => {
+const getPropertySetValue = (Game, property_set) => {
   let offset =
     getHouseStatus(Game, property_set) + getHotelStatus(Game, property_set);
   return (
@@ -425,33 +425,65 @@ export const getPropertySetValue = (Game, property_set) => {
   );
 };
 
-export const getRentValue = (Game, player, property_set) => {
+const getRentValue = (Game, player, property_set) => {
   return (
     getPropertySetValue(Game, property_set) *
     Math.pow(2, getDoubleTheRentStatus(player.field.action_cards))
   );
 };
 
-export const getPropertyColorMatchesRentColor = (property_card, rent_card) => {
+const getPropertyColorMatchesRentColor = (property_card, rent_card) => {
   return property_card.mainColor === rent_card.mainColor;
 };
 
-export const getDeckEmpty = Game => {
+const getDeckEmpty = Game => {
   return 0 === Game.deck.length;
 };
 
-export const getHasThreeFullPropertySets = (Game, player_id) => {
+const getHasThreeFullPropertySets = (Game, player_id) => {
   return 3 <= getNumberFullPropertySets(Game, player_id);
 };
 
-export const getHasPlayedThreeCards = Game => {
+const getHasPlayedThreeCards = Game => {
   return 3 > Game.cards_played;
 };
 
-export const getHasSevenOrLessCards = player => {
+const getHasSevenOrLessCards = player => {
   return 7 >= player.hand.length;
 };
 
-export const getHasTwoToFivePlayers = Game => {
+const getHasTwoToFivePlayers = Game => {
   return Game.player_count >= 2 && Game.player_count <= 5;
+};
+
+module.exports = {
+  removeEmptyPropertySets,
+  getDestinations,
+  drawCard,
+  payRent,
+  swapPropertyCards,
+  moveCard,
+  movePile,
+  isPileNotEmpty,
+  shufflePile,
+  switchColor,
+  pay,
+  removePlayer,
+  getPropertySetStatus,
+  getNumberFullPropertySets,
+  getPropertyPileValue,
+  getPileValue,
+  getHouseStatus,
+  getCanAddHouseToPropertySet,
+  getHotelStatus,
+  getCanAddHotelToPropertySet,
+  getDoubleTheRentStatus,
+  getPropertySetValue,
+  getRentValue,
+  getPropertyColorMatchesRentColor,
+  getDeckEmpty,
+  getHasThreeFullPropertySets,
+  getHasPlayedThreeCards,
+  getHasSevenOrLessCards,
+  getHasTwoToFivePlayers
 };

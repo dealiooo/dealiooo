@@ -1,6 +1,6 @@
-import * as gameActions from '../actions';
+const gameActions = require('../actions');
 
-export const computeWinCondition = (Game, player = null) => {
+const computeWinCondition = (Game, player = null) => {
   if (null !== player) {
     if (gameActions.getHasThreeFullPropertySets(player)) {
       Game.winner = player;
@@ -13,3 +13,5 @@ export const computeWinCondition = (Game, player = null) => {
   }
   return false;
 };
+
+module.exports = computeWinCondition;

@@ -50,4 +50,4 @@ const rentValues = {
   }
 };
 
-export default rentValues;
+module.exports = rentValues;

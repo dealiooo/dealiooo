@@ -1,8 +1,8 @@
-import * as gameActions from '../actions';
-import * as userActions from '../userActions';
+const gameActions = require('../actions');
+const userActions = require('../userActions');
 
 // Only applies to Property Set & Building
-export const moveCardAround = (Game, player, callback) => {
+const moveCardAround = (Game, player, callback) => {
   let pileNames = ['property_cards', 'building_cards'];
   userActions.pick_field_card(
     Game,
@@ -55,3 +55,5 @@ export const moveCardAround = (Game, player, callback) => {
     }
   );
 };
+
+module.exports = moveCardAround;

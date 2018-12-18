@@ -1,7 +1,7 @@
-import * as gameActions from '../../../actions';
-import * as userActions from '../../../userActions';
+const gameActions = require('../../../actions');
+const userActions = require('../../../userActions');
 
-export const playDebtCollector = (Game, player, card, callback) => {
+const playDebtCollector = (Game, player, card, callback) => {
   // force any player to pay you $5M
   userActions.pick_target_player(Game, player, (error, pickedPlayer) => {
     if (error) {
@@ -17,3 +17,5 @@ export const playDebtCollector = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playDebtCollector;

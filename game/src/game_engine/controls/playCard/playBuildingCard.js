@@ -1,10 +1,10 @@
-import * as gameActions from '../../actions';
-import * as userActions from '../../userActions';
+const gameActions = require('../../actions');
+const userActions = require('../../userActions');
 
 // House & Hotel cards should go to a property-set accordingly
 // If they cannot, they should go to building-cards pile
 // property_set_index can be null if not playing house or hotel card
-export const playBuildingCard = (Game, player, card, callback) => {
+const playBuildingCard = (Game, player, card, callback) => {
   userActions.pick_option(Game, {
     player,
     options: ['bank', 'properties'],
@@ -46,3 +46,5 @@ export const playBuildingCard = (Game, player, card, callback) => {
     }
   });
 };
+
+module.exports = playBuildingCard;

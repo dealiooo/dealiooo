@@ -1,7 +1,7 @@
-import * as gameActions from '../../../actions';
-import * as userActions from '../../../userActions';
+const gameActions = require('../../../actions');
+const userActions = require('../../../userActions');
 
-export const playForcedDeal = (Game, player, card, callback) => {
+const playForcedDeal = (Game, player, card, callback) => {
   // swap any property with another player (cannot be part of a full set)
   userActions.pick_field_card(
     Game,
@@ -52,3 +52,5 @@ export const playForcedDeal = (Game, player, card, callback) => {
     }
   );
 };
+
+module.exports = playForcedDeal;
