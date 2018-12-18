@@ -1,5 +1,6 @@
 const gameActions = require('../../actions');
 const userActions = require('../../userActions');
+
 const playRentWildCard = (Game, player, card, callback) => {
   userActions.pick_option(Game, {
     player,

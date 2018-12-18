@@ -73,7 +73,7 @@ class GameLobby extends Component {
     if (this.state.gameId === event) {
       api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
         status.result.map(
-          playerStatus => (playerStatus.ready = playerStatus.th_player.ready)
+          playerStatus => (playerStatus.ready = playerStatus.Players[0].ready)
         );
         this.setState({ players_status: status.result });
       });

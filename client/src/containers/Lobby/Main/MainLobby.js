@@ -11,8 +11,10 @@ import api from '../../../api';
 import {
   Control,
   Field,
+  Label,
   Select
 } from 'react-bulma-components/lib/components/form';
+
 import './MainLobby.css';
 
 class MainLobby extends Component {
@@ -26,6 +28,7 @@ class MainLobby extends Component {
     this.onCreate = this.onCreate.bind(this);
     this.state = {
       startRender: false,
+      playerCapacity: 2,
       userId: null,
       userName: null,
       lobbies: [],
@@ -48,6 +51,7 @@ class MainLobby extends Component {
           this.setState({ startRender: true });
           api.postMainLobby().then(promise => {
             var baseState = promise.result;
+            console.log(promise);
             baseState.map((game, i) =>
               api.getGameLobbyInfo(game.id).then(info => {
                 baseState[i].id = game.id;
@@ -141,10 +145,15 @@ class MainLobby extends Component {
   }
 
   onCreate = event => {
-    // todo test value
     api
-      .postMainLobbyCreateGame(event.target.value)
+      .postMainLobbyCreateGame(this.state.playerCapacity)
       .then(result => (window.location = `/game-lobby/${result.result.id}`));
+  };
+
+  onPlayerCapacityChange = event => {
+    this.setState({
+      playerCapacity: event.target.value
+    });
   };
 
   render() {
@@ -159,13 +168,27 @@ class MainLobby extends Component {
                 gameLobbies={this.state.lobbies}
                 userId={this.state.userId}
               />
-              <form onSubmit={this.onCreate}>
-                <Field>
-                  <Control>
-                    <Select />
-                  </Control>
-                </Field>
-              </form>
+              <Box>
+                <form onSubmit={this.onCreate}>
+                  <Label>Choose player capacity:</Label>
+                  <Field className="is-grouped">
+                    <Select
+                      onChange={this.onPlayerCapacityChange}
+                      value={this.state.playerCapacity}
+                    >
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </Select>
+                    <Control>
+                      <Button className="is-info" type="submit">
+                        Make a Room
+                      </Button>
+                    </Control>
+                  </Field>
+                </form>
+              </Box>
             </Columns.Column>
             <Columns.Column className="main-lobby-chat is-two-fifths">
               <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />

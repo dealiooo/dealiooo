@@ -915,7 +915,7 @@ const MockData = {
     turnCount: 3,
     currentPlayer: 2,
     cardsPlayed: 0,
-    deck: 20,
+    deckCount: 20,
     discard: [
       {
         id: 1,

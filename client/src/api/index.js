@@ -58,8 +58,8 @@ export default {
   postLogout: () => request('/logout', {}),
   postMainLobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
   postMainLobbyChat: ({ message }) => request('/main-lobby/chat', { message }),
-  postMainLobbyCreateGame: playerCap =>
-    request('/main-lobby/create-game', { playerCap }).then(
+  postMainLobbyCreateGame: playerCapacity =>
+    request('/main-lobby/create-game', { playerCapacity }).then(
       resolvePendingPromise
     ),
   postGameLobbyChat: ({ roomId: gameId, message }) =>

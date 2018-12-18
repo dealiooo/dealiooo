@@ -13,8 +13,9 @@ router.post('/main-lobby', authenticateUser, (_, response) =>
         response.json({ result: startedGames.concat(openLobbies) })
       )
     )
-    .catch(error => response.json({ error }))
+    .then(error => response.json({ error }))
 );
+
 router.post('/main-lobby/chat', authenticateUser, (request, response) => {
   const { id, name } = response.locals.user;
   const { message } = request.body;
@@ -23,7 +24,7 @@ router.post('/main-lobby/chat', authenticateUser, (request, response) => {
 });
 
 router.post('/main-lobby/create-game', authenticateUser, (request, response) =>
-  MainLobbyDB.insertGame(request.user.id, 2)
+  MainLobbyDB.insertGame(request.user.id, request.body.playerCapacity)
     .then(result => {
       const { id, name } = response.locals.user;
       MainLobbySockets.createGame(result.id, id, name, result.player_cap);

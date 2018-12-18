@@ -219,7 +219,7 @@ const PlayerViews = ({ players_info }) => {
 };
 
 // Render deck and discard pile
-const MiddleFieldView = ({ deck_count, discard }) => {
+const MiddleFieldView = ({ deckCount, discard }) => {
   return (
     <Tile
       kind="ancestor"
@@ -233,10 +233,7 @@ const MiddleFieldView = ({ deck_count, discard }) => {
     >
       <Tile kind="parent" size={1}>
         <Tile kind="child" style={{ padding: 2 }}>
-          <Image
-            src={process.env.PUBLIC_URL + '/cards/cardback.jpg'}
-            alt="Deck"
-          />
+          <Box>{deckCount}</Box>
         </Tile>
         <Tile kind="child" style={{ padding: 2 }}>
           <Image
