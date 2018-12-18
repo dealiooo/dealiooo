@@ -23,13 +23,58 @@ const register_chat_handler = ({ on_message_received }) => {
   };
 };
 
-const register_game_handler = ({ todo }) => {
-  console.log('TODO');
+const register_game_handler = ({
+  on_winner_received,
+  on_leave_game_received,
+  on_start_game_received,
+  on_general_update_received,
+  on_player_update_received,
+  on_options_update_received
+}) => {
+  socket.on('winner', on_winner_received);
+  socket.on('leave-game', on_leave_game_received);
+  socket.on('start-game', on_start_game_received);
+  socket.on('general-update', on_general_update_received);
+  socket.on('player-update', on_player_update_received);
+  socket.on('options-update', on_options_update_received);
+
+  const start_game = ({ room_id, user_id, message }, callback) =>
+    socket.emit('start-game', { room_id, user_id, message }, callback);
+
+  const add_room_game = ({ room_id, user_id, message }, callback) =>
+    socket.emit('add-room-game', { room_id, user_id, message }, callback);
+
+  const join_room_game = ({ room_id, user_id, message }, callback) =>
+    socket.emit('join-room-game', { room_id, user_id, message }, callback);
+
+  const leave_room_game = ({ room_id, user_id, message }, callback) =>
+    socket.emit('leave-room-game', { room_id, user_id, message }, callback);
+
   const click = ({ room_id, user_id, message }, callback) =>
     socket.emit('click', { room_id, user_id, message }, callback);
+
+  const end_turn = ({ room_id, user_id, message }, callback) =>
+    socket.emit('end-turn', { room_id, user_id, message }, callback);
+
+  const general_update = ({ room_id, user_id, message }, callback) =>
+    socket.emit('general-update', { room_id, user_id, message }, callback);
+
+  const players_update = ({ room_id, user_id, message }, callback) =>
+    socket.emit('players-update', { room_id, user_id, message }, callback);
+
+  const options_update = ({ room_id, user_id, message }, callback) =>
+    socket.emit('options-update', { room_id, user_id, message }, callback);
+
   return {
-    error: todo,
-    click
+    start_game,
+    add_room_game,
+    join_room_game,
+    leave_room_game,
+    click,
+    end_turn,
+    general_update,
+    players_update,
+    options_update
   };
 };
 
@@ -86,7 +131,12 @@ const unregister_chat_handler = () => {
 };
 
 const unregister_game_handler = () => {
-  console.log('TODO');
+  socket.on('winner');
+  socket.on('leave-game');
+  socket.on('start-game');
+  socket.on('general-update');
+  socket.on('player-update');
+  socket.on('options-update');
 };
 
 const unregister_gamelobby_handler = () => {

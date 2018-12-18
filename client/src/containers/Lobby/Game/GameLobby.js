@@ -27,7 +27,7 @@ class GameLobby extends Component {
     this.onAddGame = this.onAddGame.bind(this);
     this.onJoinGame = this.onJoinGame.bind(this);
     this.onLeaveGame = this.onLeaveGame.bind(this);
-    this.onRunGame = this.onRunGame.bind(this);
+    this.onNotifyMainLobbyGameIsRunning = this.onRunGame.bind(this);
     this.state = {
       game_id: this.props.match.params.id,
       lobby_name: `${this.props.match.params.id}'s Lobby`,
@@ -40,6 +40,7 @@ class GameLobby extends Component {
       socket_player_ready: null,
       socket_player_unready: null,
       chat_socket: socket(),
+      game_socket: socket(),
       mainlobby_socket: socket(),
       gamelobby_socket: socket()
     };
@@ -64,7 +65,7 @@ class GameLobby extends Component {
                 on_add_game: this.onAddGame,
                 on_join_game: this.onJoinGame,
                 on_leave_game: this.onLeaveGame,
-                on_run_game: this.onRunGame
+                on_run_game: this.onNotifyMainLobbyGameIsRunning
               }
             );
             this.setState({
@@ -139,7 +140,15 @@ class GameLobby extends Component {
   }
 
   onStart(event) {
-    console.log('TODO');
+    // TODO:
+    this.state.game_socket.register_game_handler.start_game(
+      {
+        room_id: this.state.room_id,
+        user_id: this.state.user_id,
+        message: ''
+      },
+      () => {}
+    );
   }
 
   onReady(event) {
@@ -225,8 +234,13 @@ class GameLobby extends Component {
     }
   }
 
-  onRunGame(event) {
-    console.log('TODO');
+  onNotifyMainLobbyGameIsRunning(event) {
+    this.state.mainlobby_socket.register_mainlobby_handler.run_game(
+      this.state.game_id,
+      () => {
+        // TODO
+      }
+    );
   }
 
   render() {

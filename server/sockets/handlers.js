@@ -14,7 +14,7 @@ const handle_room = room_manager => {
     exist(room_manager.get_room(room_id), `room not found ${room_id}`);
   const handle_room_event = (room_id, event) =>
     room_exist(room_id).then(room => {
-      room.broadcast({ event });
+      room.broadcast('message', { event });
       return room;
     });
   return handle_room_event;
@@ -62,6 +62,15 @@ const handlers = (client_socket, room_manager) => {
   const handle_add_room = ({ room_id }, callback) => {
     try {
       room_manager.add_room(room_id, client_socket);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
+
+  const handle_start_game = ({ game_id }, callback) => {
+    try {
+      room_manager.startGame(game_id);
       return callback(null);
     } catch (error) {
       return callback(error);
@@ -174,6 +183,7 @@ const handlers = (client_socket, room_manager) => {
     handle_join,
     handle_leave,
     handle_message,
+    handle_start_game,
     handle_add_game,
     handle_join_game,
     handle_leave_game,

@@ -21,9 +21,9 @@ module.exports = {
         defaultValue: false,
         allowNull: false
       },
-      order: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
+      host: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       }
     });

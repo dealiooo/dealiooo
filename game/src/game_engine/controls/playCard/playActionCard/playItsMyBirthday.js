@@ -1,0 +1,20 @@
+import * as gameActions from '../../../actions';
+
+export const playItsMyBirthday = (Game, player, card, callback) => {
+  // all players give you $2M as a gift
+  for (let i = 0; i < Game.players.length; i++) {
+    let done = error => {
+      if (error) {
+        callback(error);
+      } else if (i + 1 === Game.players.length) {
+        callback(null, card);
+      }
+    };
+    if (player.id !== Game.players[i].id) {
+      console.log(`${Game.players[i].id}'s' turn to pay $2`);
+      gameActions.payRent(Game, Game.players[i], player, 2, error =>
+        done(error)
+      );
+    }
+  }
+};

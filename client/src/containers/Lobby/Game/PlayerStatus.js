@@ -16,9 +16,9 @@ class PlayerStatus extends Component {
       });
       let readyList = this.props.status.map((player, i) => {
         if (player.ready) {
-          return <Tag key={i}>ready</Tag>;
+          return <Tag key={i}>Ready</Tag>;
         } else {
-          return <Tag key={i}>not ready</Tag>;
+          return <Tag key={i}>Not Ready</Tag>;
         }
       });
       return (

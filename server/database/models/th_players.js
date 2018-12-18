@@ -21,9 +21,9 @@ module.exports = (sequelize, Sequelize) => {
         defaultValue: false,
         allowNull: false
       },
-      order: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
+      host: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       }
     },
@@ -32,10 +32,6 @@ module.exports = (sequelize, Sequelize) => {
     }
   );
   players.associate = db => {
-    players.hasMany(db.th_piles, {
-      as: 'Piles',
-      foreignKey: 'th_player_id'
-    });
     players.belongsTo(db.th_games, {
       as: 'Game',
       foreignKey: 'th_game_id'
