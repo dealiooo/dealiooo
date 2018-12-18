@@ -197,33 +197,7 @@ const updateCurrentPlayer = _ => player =>
   );
 
 module.exports = db => ({
-  ACTION,
-  BANK,
-  BUILDING,
-  DECK,
-  DISCARD,
-  DOUBLE_THE_RENT,
-  HAND,
-  HOUSE,
-  HOTEL,
-  PROPERTY,
-  PROPERTY_SET,
-  PROPERTY_WILDCARD,
-  RAILROAD,
-  UTILITY,
-  getPlayer: getPlayer(db),
-  getCard: getCard(db),
-  getPilesByTypes: getPilesByTypes(db),
-  getRentByMainColor: getRentByMainColor(db),
-  insertEmptySet: insertEmptySet(db),
-  removeSetIfEmptySet: removeSetIfEmptySet(db),
-  moveCard: moveCard(db),
-  movePile: movePile(db),
-  swapPropertyCard: swapPropertyCard(db),
-  movePropertyToNewSet: movePropertyToNewSet(db),
-  shufflePile: shufflePile(db),
-  switchColor: switchColor(db),
   removePlayer: removePlayer(db),
   startGame: startGame(db),
-  updateCurrentPlayer: updateCurrentPlayer(db)
+  endGame: endGame(db)
 });
