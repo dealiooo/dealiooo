@@ -64,7 +64,7 @@ const run_game = db => game_id =>
   db.sequelize
     .sync({ logging: false })
     .then(_ =>
-      db.th_games.update({ state: started }, { where: { id: game_id } })
+      db.th_games.update({ status: started }, { where: { id: game_id } })
     );
 
 const game_ready = db => game_id =>
