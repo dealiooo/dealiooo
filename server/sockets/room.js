@@ -1,10 +1,8 @@
 const room = _ => {
   const client_sockets = new Map();
-  const broadcast = message => signal('message', message);
-  const signal = (signal, message) =>
-    client_sockets.forEach(client_socket =>
-      client_socket.emit(signal, message)
-    );
+  const broadcast = (event, message) => signal(event, message);
+  const signal = (event, message) =>
+    client_sockets.forEach(client_socket => client_socket.emit(event, message));
   const add_socket = client_socket =>
     client_sockets.set(client_socket.id, client_socket);
   const remove_socket = client_socket =>

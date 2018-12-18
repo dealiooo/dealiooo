@@ -2,23 +2,19 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
-const empty_strings_to_null = require('./middlewares/empty_strings_to_null');
-const requireAuthentication = require('./middlewares/require_authentication');
-const not_authenticated = require('./middlewares/not_authenticated');
-const send_user_id_and_user_name = require('./middlewares/send_user_id_and_user_name');
+const emptyStringsToNull = require('./middlewares/emptyStringsToNull');
+const authenticateUser = require('./middlewares/authenticateUser');
+const notAuthenticated = require('./middlewares/notAuthenticated');
+const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
 const { Auth } = require('../database/api');
 
-router.get('/register', requireAuthentication, send_user_id_and_user_name);
-router.get('/login', requireAuthentication, send_user_id_and_user_name);
-router.get(
-  '/forgot-password',
-  requireAuthentication,
-  send_user_id_and_user_name
-);
-router.get('/new-password', requireAuthentication, send_user_id_and_user_name);
-router.get('/logout', requireAuthentication, send_user_id_and_user_name);
+router.get('/register', authenticateUser, sendUserIdAndUserName);
+router.get('/login', authenticateUser, sendUserIdAndUserName);
+router.get('/forgot-password', authenticateUser, sendUserIdAndUserName);
+router.get('/new-password', authenticateUser, sendUserIdAndUserName);
+router.get('/logout', authenticateUser, sendUserIdAndUserName);
 
-router.post('/register', empty_strings_to_null, (request, response) => {
+router.post('/register', emptyStringsToNull, (request, response) => {
   const { name, email, password } = request.body;
   return Auth.insert_user(name, email, password)
     .then(user =>
@@ -29,16 +25,13 @@ router.post('/register', empty_strings_to_null, (request, response) => {
         return response.json({ user });
       })
     )
-    .catch(error => {
-      console.log(error);
-      return response.json({ error });
-    });
+    .catch(error => response.json({ error }));
 });
 
 router.post(
   '/forgot-password',
-  not_authenticated,
-  empty_strings_to_null,
+  notAuthenticated,
+  emptyStringsToNull,
   (request, response) => {
     const { email } = request.body;
     const SALT_FACTOR = 10;
@@ -65,8 +58,6 @@ router.post(
             const sid = hash.replace('/', '&slash;');
             const sess = { email: email };
 
-            console.log(sid);
-
             return Auth.insert_session(sid, sess, expire)
               .then(session => {
                 if (!session) {
@@ -91,15 +82,10 @@ router.post(
                   html: `Click <a href="${resetPasswordUrl}">here</a> to reset your password`
                 };
 
-                transporter.sendMail(mailData, (error, info) => {
+                transporter.sendMail(mailData, (error, _) => {
                   if (error) {
-                    console.log(error);
+                    return response.json({ error });
                   }
-
-                  if (info) {
-                    console.log(info);
-                  }
-
                   return response.sendStatus(200);
                 });
               })
@@ -113,8 +99,8 @@ router.post(
 
 router.post(
   '/new-password/:session_id',
-  not_authenticated,
-  empty_strings_to_null,
+  notAuthenticated,
+  emptyStringsToNull,
   (request, response, next) => {
     const { email, password } = request.body;
     const { session_id } = request.params;
@@ -149,7 +135,7 @@ router.post(
   }
 );
 
-router.post('/login', empty_strings_to_null, (request, response) => {
+router.post('/login', emptyStringsToNull, (request, response) => {
   const { email, password } = request.body;
   return Auth.find_user_by_email(email)
     .then(user => {

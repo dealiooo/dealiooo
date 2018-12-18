@@ -1,4 +1,4 @@
-const not_authenticated = (request, response, next) => {
+module.exports = (request, response, next) => {
   if (!request.isAuthenticated()) {
     next();
   } else {
@@ -6,5 +6,3 @@ const not_authenticated = (request, response, next) => {
   }
   return null;
 };
-
-module.exports = not_authenticated;
