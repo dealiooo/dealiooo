@@ -32,18 +32,8 @@ const playActionCard = (Game, player, card, callback) => {
         callback(null, card);
       } else {
         gameActions.moveCard(player.hand, player.field.action_cards, card);
-        play[card.name](Game, player, card, (error, card) => {
-          if (error) {
-            console.log(
-              `card is not played properly | card id:${card.id} | card name: ${
-                card.name
-              }`
-            );
-            console.log(error);
-            callback(null, card);
-          } else {
-            callback(null, card);
-          }
+        play[card.name](Game, player, card, (_, card) => {
+          callback(null, card);
         });
       }
     }

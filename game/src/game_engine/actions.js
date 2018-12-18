@@ -115,9 +115,6 @@ const drawCard = (Game, player) => {
  * @param {Integer} amount
  */
 const payRent = (Game, payee, player, amount, callback) => {
-  console.log(
-    `Pay rent:\npayee id:${payee.id}\nplayer id:${player.id}\namount:${amount}`
-  );
   let pile = [];
   if (getPropertyPileValue(payee.field.property_cards)) {
     pile.push('property_cards');
@@ -135,8 +132,6 @@ const payRent = (Game, payee, player, amount, callback) => {
       pile,
       (error, card, source) => {
         if (error) {
-          console.log('you cant escape rent unless you have no money');
-          console.log(error);
           payRent(Game, payee, player, amount, callback);
         } else {
           if ('property_cards' === source.pileName) {

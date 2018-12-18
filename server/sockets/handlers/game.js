@@ -23,7 +23,7 @@ const click = sockets => (gameId, userId, clickInput) => {
 };
 
 const endTurn = sockets => (gameId, userId) => {
-  gameEngine.on_end_turn(gameGlobals.get(gameId), userId);
+  gameEngine.onEndTurn(gameGlobals.get(gameId), userId);
   sockets
     .get(gameId)
     .forEach(client_socket =>
@@ -35,7 +35,7 @@ const endTurn = sockets => (gameId, userId) => {
 };
 
 const forfeit = sockets => (gameId, userId) => {
-  if (gameEngine.on_leave_game(gameGlobals.get(gameId), userId)) {
+  if (gameEngine.onLeaveGame(gameGlobals.get(gameId), userId)) {
     Game.removePlayer(gameId, userId).then(_ =>
       sockets
         .get(gameId)

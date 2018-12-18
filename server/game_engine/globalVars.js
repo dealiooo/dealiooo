@@ -15,7 +15,6 @@ const initGameVariables = (Game, playerIds) => {
   Game.rent_values = rentValues;
   Game.discard = [];
   Game.player_count = playerIds.length || random(2, 5);
-  console.log(Game.player_count);
   initDeck(Game);
   initPlayers(Game, playerIds);
 };
