@@ -49,7 +49,7 @@ const leaveGame = db => (th_game_id, th_user_id) =>
     });
 
 const startGame = db => id =>
-  db.th_games.update({ status: started }, { where: { id } });
+  db.th_games.update({ status: 'started' }, { where: { id } });
 
 const getGameReady = db => id =>
   db.th_games

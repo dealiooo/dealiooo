@@ -51,7 +51,6 @@ class MainLobby extends Component {
           this.setState({ startRender: true });
           api.postMainLobby().then(promise => {
             var baseState = promise.result;
-            console.log(promise);
             baseState.map((game, i) =>
               api.getGameLobbyInfo(game.id).then(info => {
                 baseState[i].id = game.id;

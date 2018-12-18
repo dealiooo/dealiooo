@@ -70,7 +70,6 @@ class GameLobby extends Component {
   }
 
   onEnterGame(event) {
-    console.log(event);
     if (this.state.gameId === event) {
       api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
         status.result.map(
@@ -98,7 +97,6 @@ class GameLobby extends Component {
   }
 
   onPlayerReady(event) {
-    console.log(event);
     // TODO: refactor this array functionality to a dictionary
     var temp = this.state.playersStatus;
     var size = temp.length;
@@ -111,7 +109,6 @@ class GameLobby extends Component {
   }
 
   onPlayerUnready(event) {
-    console.log(event);
     // TODO: refactor this array functionality to a dictionary
     var temp = this.state.playersStatus;
     var size = temp.length;
@@ -130,7 +127,7 @@ class GameLobby extends Component {
 
   onStart(event) {
     // TODO
-    api.postGameStartGame(this.state.gameId);
+    api.postGameLobbyStart(this.state.gameId);
   }
 
   onReady(_) {

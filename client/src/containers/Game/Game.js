@@ -15,11 +15,18 @@ import './Game.css';
 class Game extends Component {
   constructor(props) {
     super(props);
-
+    this.onPlayerAction = this.onPlayerAction.bind(this);
+    this.onStartGame = this.onStartGame.bind(this);
+    this.onGameUpdate = this.onGameUpdate.bind(this);
     this.state = {
       game_socket: api.socket,
       start_game: false
     };
+    let gameId = this.props.match.params.id;
+    api.postGameJoin(gameId);
+    api.socket.on(`game:${gameId}:player-action`, this.onPlayerAction);
+    api.socket.on(`game:${gameId}:start-game`, this.onStartGame);
+    api.socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
   }
 
   // const register_game_handler = ({
@@ -32,6 +39,18 @@ class Game extends Component {
   // player-action
   // start-game
   // game-update
+
+  onPlayerAction(event) {
+    console.log(event);
+  }
+
+  onStartGame(event) {
+    console.log(event);
+  }
+
+  onGameUpdate(event) {
+    console.log(event);
+  }
 
   onWinner = () => {};
   onChat = () => {};
