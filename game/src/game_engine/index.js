@@ -15,18 +15,18 @@ const pretty_print_cards = cards => {
 };
 
 const game_engine = {
-  start: () => {
-    let Game = gameControls.startGame();
+  start: playerIds => {
+    let Game = gameControls.startGame(playerIds);
     game_engine.apply_start_turn(Game);
     return Game;
   },
-  input: (Game, user_input, player) => {
+  input: (Game, user_input, player_id) => {
     Game.user_input = user_input;
     let return_value = '';
     let pending = Game.pending_for_user_input;
     console.log(pending);
     if (pending) {
-      return_value = pending.function(Game, pending.arguments, player);
+      return_value = pending.function(Game, pending.arguments, player_id);
     } else if (null !== Game.winner) {
       return_value = game_engine.apply_player_won(Game);
     } else {
@@ -62,7 +62,7 @@ const game_engine = {
     }
     return return_value;
   },
-  prompt_player_info: Game => {
+  prompt_player_info: (Game, player_id) => {
     let turn_player = Game.turn_count % Game.player_count;
     let return_value = [];
     let size = Game.players.length;
@@ -74,7 +74,7 @@ const game_engine = {
         str += `\nPlayer (id:${Game.players[i].id})`;
       }
       str += `\n✌️ Hand:\n`;
-      if (i === turn_player) {
+      if (i === player_id) {
         str += '\n' + pretty_print_cards(Game.players[i].hand) + '';
       } else {
         str += Game.players[i].hand.length;
@@ -211,11 +211,14 @@ const game_engine = {
     }
     return ``;
   },
-  apply_leave_game: Game => {
+  apply_leave_game: (Game, player_id) => {
     let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.forfeit(Game, player);
+    if (player.id === player_id) {
+      gameControls.forfeit(Game, player);
+    }
   },
-  on_end_turn: Game => {
+  on_end_turn: (Game, player_id) => {
+    let player = Game.players[Game.turn_count % Game.player_count];
     let pending = Game.pending_for_user_input;
     if (null !== pending) {
       if (pending.arguments.options) {
@@ -223,16 +226,18 @@ const game_engine = {
           pending.arguments.options.filter(option => 'End Turn' === option)
             .length
         ) {
-          Game.pending_for_user_input = null;
-          game_engine.apply_end_turn(Game);
-          return `\nEnding Turn...`;
+          if (player.id === player_id) {
+            Game.pending_for_user_input = null;
+            game_engine.apply_end_turn(Game);
+            return `\nEnding Turn...`;
+          }
         }
       }
     }
     return `\nEnd Turn is not available`;
   },
-  on_leave_game: Game => {
-    game_engine.apply_leave_game(Game);
+  on_leave_game: (Game, player_id) => {
+    game_engine.apply_leave_game(Game, player_id);
     if (gameControls.computeWinCondition(Game)) {
       return game_engine.apply_player_won(Game);
     }

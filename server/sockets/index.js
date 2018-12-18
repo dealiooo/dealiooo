@@ -28,6 +28,7 @@ io.on('connection', socket => {
     socket.on('leave-chat', chat_handlers.handle_leave);
     socket.on('message', chat_handlers.handle_message);
 
+    socket.on('start-game', game_handlers.handle_start_game);
     socket.on('add-room-game', game_handlers.handle_add_room);
     socket.on('join-room-game', game_handlers.handle_join);
     socket.on('leave-room-game', game_handlers.handle_leave_game);

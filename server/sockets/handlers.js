@@ -68,6 +68,15 @@ const handlers = (client_socket, room_manager) => {
     }
   };
 
+  const handle_start_game = ({ game_id }, callback) => {
+    try {
+      room_manager.startGame(game_id);
+      return callback(null);
+    } catch (error) {
+      return callback(error);
+    }
+  };
+
   const handle_add_game = ({ game_id, user_id }, callback) => {
     try {
       room_manager.add_game(game_id, user_id);
@@ -174,6 +183,7 @@ const handlers = (client_socket, room_manager) => {
     handle_join,
     handle_leave,
     handle_message,
+    handle_start_game,
     handle_add_game,
     handle_join_game,
     handle_leave_game,

@@ -1,7 +1,7 @@
 const pick_card_id = (
   Game,
   { player: requiredPlayer, callback },
-  player = null
+  player_id = null
 ) => {
   if ('' === Game.user_input) {
     let message = `Player id:${requiredPlayer.id}\nPick Card Id:`;
@@ -24,7 +24,7 @@ const pick_card_id = (
 export const pick_option = (
   Game,
   { player: requiredPlayer, options, callback },
-  player = null
+  player_id = null
 ) => {
   if (options.length) {
     if ('' === Game.user_input) {
