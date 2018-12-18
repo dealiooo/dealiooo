@@ -52,8 +52,10 @@ export default {
   post_forgot_password: email => request('/forgot-password', { email }),
   post_logout: () => request('/logout', {}),
   post_main_lobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
-  post_create_game: () =>
-    request('/main-lobby/create-game', {}).then(resolvePendingPromise),
+  post_create_game: playerCount =>
+    request('/main-lobby/create-game', { playerCount }).then(
+      resolvePendingPromise
+    ),
   post_join_game: game_id =>
     request(`/game-lobby/${game_id}/join`, {}).then(resolvePendingPromise),
   post_leave_game: game_id =>

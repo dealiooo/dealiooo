@@ -14,13 +14,16 @@ router.post('/main-lobby', requireAuthentication, (request, response) =>
 router.post(
   '/main-lobby/create-game',
   requireAuthentication,
-  (request, response) =>
-    MainLobby.insert_game(request.user.id, 2)
+  (request, response) => {
+    const { playerCount } = request.body;
+    console.log(playerCount);
+    MainLobby.insert_game(request.user.id, playerCount)
       .then(result => response.json({ result }))
       .catch(error => {
         console.log(error);
         return response.json({ error });
-      })
+      });
+  }
 );
 
 module.exports = router;

@@ -145,8 +145,8 @@ class MainLobby extends Component {
   }
 
   onCreate = evt => {
-    //let maxPlayers = prompt("Enter number of players");
-    api.post_create_game().then(promise => {
+    const playerCount = prompt('Enter number of players');
+    api.post_create_game(playerCount).then(promise => {
       console.log(promise);
       var game_id = promise.result.th_game_id;
       this.state.socket_add_game(
