@@ -1,7 +1,7 @@
 {
   "name": "term-project-team-h",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fall 2018 CSC 667: team-h: term-project: monopoly deal",
   "main": "index.js",
   "scripts": {
     "start": "BLUEBIRD_WARNINGS=0 node ./bin/www",
