@@ -14,13 +14,13 @@ class GeneralGameInfo extends Component {
   constructor(props) {
     super();
     this.state = {
-      promptOption: null
+      option: null
     };
   }
 
-  onPromptOptionChange = evt => {
+  onOptionChange = evt => {
     this.setState({
-      promptOption: evt.target.value
+      option: evt.target.value
     });
   };
 
@@ -53,14 +53,18 @@ class GeneralGameInfo extends Component {
           <form onSubmit={onPromptOptionsSubmit}>
             <Field>
               <Label>Options:</Label>
-              <Select
-                onChange={this.onPromptOptionChange}
-                value={this.state.option}
-              >
-                {prompts_info.promptOptions.map(option => {
-                  return <option>{option}</option>;
-                })}
-              </Select>
+              {prompts_info.options ? (
+                <Select
+                  onChange={this.onOptionChange}
+                  value={this.state.option}
+                >
+                  {prompts_info.options.map(option => {
+                    return <option>{option}</option>;
+                  })}
+                </Select>
+              ) : (
+                <input onChange={this.onOptionChange} />
+              )}
               <Field>
                 <Control>
                   <Button className="is-info is-fullwidth">Send</Button>

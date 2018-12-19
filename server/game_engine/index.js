@@ -22,9 +22,9 @@ const game_engine = {
   },
   getVars: (Game, playerId) => {
     let data = {};
-    getGeneralInfo(Game, data);
-    getPlayersInfo(Game, playerId, data);
-    getOptionsInfo(Game, data);
+    game_engine.getGeneralInfo(Game, data);
+    game_engine.getPlayersInfo(Game, playerId, data);
+    game_engine.getOptionsInfo(Game, data);
     return data;
   },
   getGeneralInfo: (Game, data) => {
@@ -38,7 +38,7 @@ const game_engine = {
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
-    Game.players.map(player => {
+    return Game.players.map(player => {
       let tempPlayer = {};
       if (player.id === playerId) {
         tempPlayer.hand = player.hand;
@@ -49,7 +49,7 @@ const game_engine = {
       tempPlayer.bank_cards = player.field.bank_cards;
       tempPlayer.building_cards = player.field.building_cards;
       tempPlayer.property_cards = player.field.property_cards;
-      return data.player_info.push(tempPlayer);
+      data.players_info.push(tempPlayer);
     });
   },
   getOptionsInfo: (Game, data) => {

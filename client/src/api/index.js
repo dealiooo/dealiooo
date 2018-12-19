@@ -39,7 +39,7 @@ export default {
   getLogin: () => request('/login', {}, 'get'),
   getRegister: () => request('/register', {}, 'get'),
   getForgotPassword: () => request('/forgot-password', {}, 'get'),
-  getGame: gameId => request(`/game-lobby/${gameId}`, {}, 'get'),
+  getGame: gameId => request(`/game/${gameId}`, {}, 'get'),
   getGameLobby: gameId => request(`/game-lobby/${gameId}`, {}, 'get'),
   getMainLobby: () => request('/main-lobby', {}, 'get'),
   getGameLobbyInfo: gameId =>

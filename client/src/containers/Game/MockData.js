@@ -943,7 +943,7 @@ const MockData = {
   prompts_info: {
     promptPlayer: 2,
     promptMessage: `0: 'lightblue, 1: 'red`,
-    promptOptions: [0, 1, 2]
+    options: [0, 1, 2]
   }
 };
 

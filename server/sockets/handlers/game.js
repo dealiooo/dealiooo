@@ -12,40 +12,43 @@ const chat = sockets => (gameId, message) =>
 
 const click = sockets => (gameId, userId, clickInput) => {
   gameEngine.input(gameGlobals.get(gameId), clickInput, userId);
+  let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
   sockets
     .get(gameId)
     .forEach(client_socket =>
-      client_socket.emit(
-        `game:${gameId}:player-action`,
-        `userId:${userId} click ${clickInput}.`
-      )
+      client_socket.emit(`game:${gameId}:game-update`, data)
     );
+  if (data.winner) {
+    gameGlobals.delete(gameId);
+  }
 };
 
 const endTurn = sockets => (gameId, userId) => {
   gameEngine.onEndTurn(gameGlobals.get(gameId), userId);
+  let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
   sockets
     .get(gameId)
     .forEach(client_socket =>
-      client_socket.emit(
-        `game:${gameId}:player-action`,
-        `userId:${userId} tried to end turn.`
-      )
+      client_socket.emit(`game:${gameId}:game-update`, data)
     );
+  if (data.winner) {
+    gameGlobals.delete(gameId);
+  }
 };
 
 const forfeit = sockets => (gameId, userId) => {
   if (gameEngine.onLeaveGame(gameGlobals.get(gameId), userId)) {
-    Game.removePlayer(gameId, userId).then(_ =>
+    Game.removePlayer(gameId, userId).then(_ => {
+      let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
       sockets
         .get(gameId)
         .forEach(client_socket =>
-          client_socket.emit(
-            `game:${gameId}:player-action`,
-            `userId:${userId} has left the game.`
-          )
-        )
-    );
+          client_socket.emit(`game:${gameId}:game-update`, data)
+        );
+      if (data.winner) {
+        gameGlobals.delete(gameId);
+      }
+    });
   }
 };
 

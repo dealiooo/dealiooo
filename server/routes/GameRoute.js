@@ -2,14 +2,14 @@ const router = require('express').Router();
 const authenticateUser = require('./middlewares/authenticateUser');
 const authenticatePlayer = require('./middlewares/authenticatePlayer');
 const authenticateHost = require('./middlewares/authenticateHost');
-const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
+const sendUserIdUserNameAndHostStatus = require('./middlewares/sendUserIdUserNameAndHostStatus');
 const { Game } = require('../sockets');
 
 router.get(
   '/game/:gameId',
   authenticateUser,
   authenticatePlayer,
-  sendUserIdAndUserName
+  sendUserIdUserNameAndHostStatus
 );
 
 router.post(

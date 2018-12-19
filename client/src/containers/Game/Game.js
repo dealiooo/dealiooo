@@ -15,80 +15,103 @@ import './Game.css';
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.onPlayerAction = this.onPlayerAction.bind(this);
     this.onStartGame = this.onStartGame.bind(this);
     this.onGameUpdate = this.onGameUpdate.bind(this);
     this.state = {
       game_socket: api.socket,
-      start_game: false
+      host: false,
+      start_game: false,
+      start_render: false,
+      data: {}
     };
     let gameId = this.props.match.params.id;
     api.postGameJoin(gameId);
-    api.socket.on(`game:${gameId}:player-action`, this.onPlayerAction);
-    api.socket.on(`game:${gameId}:start-game`, this.onStartGame);
+    api.socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
     api.socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
   }
 
-  // const register_game_handler = ({
-  //   on_winner_received,
-  //   on_leave_game_received,
-  //   on_start_game_received,
-  //   on_update_received
+  componentDidMount = () => {
+    api.getGame(this.props.match.params.id).then(response => {
+      if (response.ok) {
+        response.text().then(body => {
+          body = JSON.parse(body);
+          this.setState({ userId: body.id });
+          this.setState({ userName: body.name });
+          this.setState({ host: body.host });
+          this.setState({ start_render: true });
+        });
+      } else {
+        window.location = '/login';
+      }
+    });
+  };
 
-  // chat
-  // player-action
-  // start-game
-  // game-update
+  onGameUpdate = data => {
+    console.log('DATA', data);
+    this.setState({ data });
+  };
 
-  onPlayerAction(event) {
-    console.log(event);
-  }
+  onStartGame = _ => {
+    api
+      .postGameStartGame(this.props.match.params.id)
+      .then(_ => api.postGameUpdate(this.props.match.params.id));
+  };
 
-  onStartGame(event) {
-    console.log(event);
-  }
-
-  onGameUpdate(event) {
-    console.log(event);
-  }
-
-  onWinner = () => {};
-  onChat = () => {};
-  onPlayerAction = () => {};
-  onLeaveGame = () => {};
-  onStartGame = () => {
+  onStartGameNotifyAll = _ => {
     this.setState({ start_game: true });
   };
-  onGameUpdate = () => {};
 
-  handleForfeit = () => {};
-  handleEndTurn = () => {};
+  handleForfeit = _ => {
+    api.postGameForfeit(this.props.match.params.id);
+  };
+
+  handleEndTurn = _ => {
+    api.postGameEndTurn(this.props.match.params.id);
+  };
 
   render() {
-    const { start_game } = this.state;
-    if (start_game) {
-      return (
-        <Columns>
-          <Columns.Column size={10}>
-            <GameView players_info={MockData.players_info} />
-          </Columns.Column>
-          <Columns.Column size={2}>
-            <GeneralGameInfo
-              general_info={MockData.general_info}
-              prompts_info={MockData.prompts_info}
-              onEndTurn={this.handleEndTurn}
-              onForfeit={this.handleForfeit}
-            />
-            <GameChat match={this.props.match} />
-          </Columns.Column>
-        </Columns>
-      );
+    const { start_game, start_render, host, data } = this.state;
+
+    console.log(data);
+
+    if (start_render) {
+      if (start_game) {
+        return (
+          <Columns>
+            <Columns.Column size={10}>
+              <GameView
+                general_info={data.general_info}
+                players_info={data.players_info}
+              />
+            </Columns.Column>
+            <Columns.Column size={2}>
+              <GeneralGameInfo
+                general_info={data.general_info}
+                prompts_info={data.prompts_info}
+                onEndTurn={this.handleEndTurn}
+                onForfeit={this.handleForfeit}
+              />
+              <GameChat match={this.props.match} />
+            </Columns.Column>
+          </Columns>
+        );
+      } else if (host) {
+        return (
+          <Container>
+            <Button onClick={this.onStartGame}>Start Game</Button>
+          </Container>
+        );
+      } else {
+        return (
+          <Container>
+            <Button onClick={this.onStartGame}>
+              Waiting for host to start game...
+            </Button>
+          </Container>
+        );
+      }
     } else {
-      return (
-        <Container>
-          <Button onClick={this.onStartGame}>Start Game</Button>
-        </Container>
-      );
+      return <div>Loading</div>;
     }
   }
 }

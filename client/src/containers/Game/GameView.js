@@ -255,7 +255,8 @@ class GameView extends Component {
   handleCardClick = event => {};
 
   render() {
-    const { players_info } = this.props;
+    const { players_info, general_info } = this.props;
+    console.log('PLAYERS INFO', players_info);
     // TODO: fix-me
     const me =
       players_info[Math.floor(Math.random() * players_info.length) + 1];
@@ -274,8 +275,8 @@ class GameView extends Component {
       >
         <PlayerViews players_info={players_info} />
         <MiddleFieldView
-          deck={players_info[0].deck}
-          discard={players_info[0].discard}
+          deckCount={general_info.deckCount}
+          discard={general_info.discard}
         />
         <PlayerView
           player_info={me}
