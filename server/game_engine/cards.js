@@ -97,7 +97,7 @@ const property_cards = [
   },
   {
     id: 13,
-    name: 'tennessee',
+    name: 'tennessee-avenue',
     value: 2,
     type: 'property',
     mainColor: 'orange',
@@ -519,7 +519,7 @@ const action_cards = [
 const property_wildcards = [
   {
     id: 65,
-    name: 'property_wildcard',
+    name: 'wildbg',
     value: 4,
     type: 'property_wildcard',
     mainColor: '',
@@ -527,7 +527,7 @@ const property_wildcards = [
   },
   {
     id: 66,
-    name: 'property_wildcard',
+    name: 'wildlbbr',
     value: 1,
     type: 'property_wildcard',
     mainColor: '',
@@ -535,7 +535,7 @@ const property_wildcards = [
   },
   {
     id: 67,
-    name: 'property_wildcard',
+    name: 'wildop',
     value: 2,
     type: 'property_wildcard',
     mainColor: '',
@@ -543,7 +543,7 @@ const property_wildcards = [
   },
   {
     id: 68,
-    name: 'property_wildcard',
+    name: 'wildop',
     value: 2,
     type: 'property_wildcard',
     mainColor: '',
@@ -551,7 +551,7 @@ const property_wildcards = [
   },
   {
     id: 69,
-    name: 'property_wildcard',
+    name: 'wildgt',
     value: 4,
     type: 'property_wildcard',
     mainColor: '',
@@ -559,7 +559,7 @@ const property_wildcards = [
   },
   {
     id: 70,
-    name: 'property_wildcard',
+    name: 'wildlbt',
     value: 4,
     type: 'property_wildcard',
     mainColor: '',
@@ -567,7 +567,7 @@ const property_wildcards = [
   },
   {
     id: 71,
-    name: 'property_wildcard',
+    name: 'wildut',
     value: 2,
     type: 'property_wildcard',
     mainColor: '',
@@ -575,7 +575,7 @@ const property_wildcards = [
   },
   {
     id: 72,
-    name: 'property_wildcard',
+    name: 'wildry',
     value: 3,
     type: 'property_wildcard',
     mainColor: '',
@@ -583,7 +583,7 @@ const property_wildcards = [
   },
   {
     id: 73,
-    name: 'property_wildcard',
+    name: 'wildry',
     value: 3,
     type: 'property_wildcard',
     mainColor: '',
@@ -591,7 +591,7 @@ const property_wildcards = [
   },
   {
     id: 74,
-    name: 'property_wildcard',
+    name: 'propertywildcard',
     value: 0,
     type: 'property_wildcard',
     mainColor: '',
@@ -632,7 +632,7 @@ const property_wildcards = [
 const rent_cards = [
   {
     id: 76,
-    name: 'rent',
+    name: 'rentbg',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -640,7 +640,7 @@ const rent_cards = [
   },
   {
     id: 77,
-    name: 'rent',
+    name: 'rentbg',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -648,7 +648,7 @@ const rent_cards = [
   },
   {
     id: 78,
-    name: 'rent',
+    name: 'rentlbbr',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -656,7 +656,7 @@ const rent_cards = [
   },
   {
     id: 79,
-    name: 'rent',
+    name: 'rentlbbr',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -664,7 +664,7 @@ const rent_cards = [
   },
   {
     id: 80,
-    name: 'rent',
+    name: 'rentop',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -672,7 +672,7 @@ const rent_cards = [
   },
   {
     id: 81,
-    name: 'rent',
+    name: 'rentop',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -680,7 +680,7 @@ const rent_cards = [
   },
   {
     id: 82,
-    name: 'rent',
+    name: 'rentut',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -688,7 +688,7 @@ const rent_cards = [
   },
   {
     id: 83,
-    name: 'rent',
+    name: 'rentut',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -696,7 +696,7 @@ const rent_cards = [
   },
   {
     id: 84,
-    name: 'rent',
+    name: 'rentry',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -704,7 +704,7 @@ const rent_cards = [
   },
   {
     id: 85,
-    name: 'rent',
+    name: 'rentry',
     value: 1,
     type: 'rent',
     mainColor: '',
@@ -715,7 +715,7 @@ const rent_cards = [
 const rent_wildcards = [
   {
     id: 86,
-    name: 'rent',
+    name: 'rentwild',
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
@@ -734,7 +734,7 @@ const rent_wildcards = [
   },
   {
     id: 87,
-    name: 'rent',
+    name: 'rentwild',
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
@@ -753,7 +753,7 @@ const rent_wildcards = [
   },
   {
     id: 88,
-    name: 'rent',
+    name: 'rentwild',
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
@@ -775,7 +775,7 @@ const rent_wildcards = [
 const money_cards = [
   {
     id: 89,
-    name: 'money',
+    name: '1-million',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -783,7 +783,7 @@ const money_cards = [
   },
   {
     id: 90,
-    name: 'money',
+    name: '1-million',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -791,7 +791,7 @@ const money_cards = [
   },
   {
     id: 91,
-    name: 'money',
+    name: '1-million',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -799,7 +799,7 @@ const money_cards = [
   },
   {
     id: 92,
-    name: 'money',
+    name: '1-million',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -807,7 +807,7 @@ const money_cards = [
   },
   {
     id: 93,
-    name: 'money',
+    name: '1-million',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -815,7 +815,7 @@ const money_cards = [
   },
   {
     id: 94,
-    name: 'money',
+    name: '1-million',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -823,7 +823,7 @@ const money_cards = [
   },
   {
     id: 95,
-    name: 'money',
+    name: '2-million',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -831,7 +831,7 @@ const money_cards = [
   },
   {
     id: 96,
-    name: 'money',
+    name: '2-million',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -839,7 +839,7 @@ const money_cards = [
   },
   {
     id: 97,
-    name: 'money',
+    name: '2-million',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -847,7 +847,7 @@ const money_cards = [
   },
   {
     id: 98,
-    name: 'money',
+    name: '2-million',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -855,7 +855,7 @@ const money_cards = [
   },
   {
     id: 99,
-    name: 'money',
+    name: '2-million',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -863,7 +863,7 @@ const money_cards = [
   },
   {
     id: 100,
-    name: 'money',
+    name: '3-million',
     value: 3,
     type: 'money',
     mainColor: '',
@@ -871,7 +871,7 @@ const money_cards = [
   },
   {
     id: 101,
-    name: 'money',
+    name: '3-million',
     value: 3,
     type: 'money',
     mainColor: '',
@@ -879,7 +879,7 @@ const money_cards = [
   },
   {
     id: 102,
-    name: 'money',
+    name: '3-million',
     value: 3,
     type: 'money',
     mainColor: '',
@@ -887,7 +887,7 @@ const money_cards = [
   },
   {
     id: 103,
-    name: 'money',
+    name: '4-million',
     value: 4,
     type: 'money',
     mainColor: '',
@@ -895,7 +895,7 @@ const money_cards = [
   },
   {
     id: 104,
-    name: 'money',
+    name: '4-million',
     value: 4,
     type: 'money',
     mainColor: '',
@@ -903,7 +903,7 @@ const money_cards = [
   },
   {
     id: 105,
-    name: 'money',
+    name: '4-million',
     value: 4,
     type: 'money',
     mainColor: '',
@@ -911,7 +911,7 @@ const money_cards = [
   },
   {
     id: 106,
-    name: 'money',
+    name: '5-million',
     value: 5,
     type: 'money',
     mainColor: '',
@@ -919,7 +919,7 @@ const money_cards = [
   },
   {
     id: 107,
-    name: 'money',
+    name: '5-million',
     value: 5,
     type: 'money',
     mainColor: '',
@@ -927,7 +927,7 @@ const money_cards = [
   },
   {
     id: 108,
-    name: 'money',
+    name: '10-million',
     value: 10,
     type: 'money',
     mainColor: '',

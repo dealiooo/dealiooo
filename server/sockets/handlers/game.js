@@ -12,42 +12,28 @@ const chat = sockets => (gameId, message) =>
 
 const click = sockets => (gameId, userId, clickInput) => {
   gameEngine.input(gameGlobals.get(gameId), clickInput, userId);
-  let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game:${gameId}:game-update`, data)
-    );
-  if (data.winner) {
-    gameGlobals.delete(gameId);
-  }
+
+  sockets.get(gameId).forEach((value, key, map) => {
+    let data = gameEngine.getVars(gameGlobals.get(gameId), key);
+    value.emit(`game:${gameId}:game-update`, data);
+  });
 };
 
 const endTurn = sockets => (gameId, userId) => {
   gameEngine.onEndTurn(gameGlobals.get(gameId), userId);
-  let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game:${gameId}:game-update`, data)
-    );
-  if (data.winner) {
-    gameGlobals.delete(gameId);
-  }
+  sockets.get(gameId).forEach((value, key, map) => {
+    let data = gameEngine.getVars(gameGlobals.get(gameId), key);
+    value.emit(`game:${gameId}:game-update`, data);
+  });
 };
 
 const forfeit = sockets => (gameId, userId) => {
   if (gameEngine.onLeaveGame(gameGlobals.get(gameId), userId)) {
     Game.removePlayer(gameId, userId).then(_ => {
-      let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
-      sockets
-        .get(gameId)
-        .forEach(client_socket =>
-          client_socket.emit(`game:${gameId}:game-update`, data)
-        );
-      if (data.winner) {
-        gameGlobals.delete(gameId);
-      }
+      sockets.get(gameId).forEach((value, key, map) => {
+        let data = gameEngine.getVars(gameGlobals.get(gameId), key);
+        value.emit(`game:${gameId}:game-update`, data);
+      });
     });
   }
 };
@@ -80,15 +66,10 @@ const startGame = sockets => gameId => {
 };
 
 const update = sockets => (gameId, userId) => {
-  let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game:${gameId}:game-update`, data)
-    );
-  if (data.winner) {
-    gameGlobals.delete(gameId);
-  }
+  sockets.get(gameId).forEach((value, key, map) => {
+    let data = gameEngine.getVars(gameGlobals.get(gameId), key);
+    value.emit(`game:${gameId}:game-update`, data);
+  });
 };
 
 module.exports = (globalSockets, sockets) => ({

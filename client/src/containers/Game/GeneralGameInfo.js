@@ -14,7 +14,7 @@ class GeneralGameInfo extends Component {
   constructor(props) {
     super();
     this.state = {
-      option: null
+      option: 0
     };
   }
 
@@ -24,12 +24,16 @@ class GeneralGameInfo extends Component {
     });
   };
 
+  onPromptOptionsSubmit = evt => {
+    evt.preventDefault();
+    this.props.onPromptOptionsSubmit(this.state.option);
+  };
+
   render() {
     const {
-      cardImage, // TODO:
-      onEndTurn, // TODO:
-      onForfeit, // TODO:,
-      onPromptOptionsSubmit, // TODO:
+      card, // TODO:
+      onEndTurn,
+      onForfeit,
       general_info,
       prompts_info
     } = this.props;
@@ -37,9 +41,11 @@ class GeneralGameInfo extends Component {
     return (
       <Section>
         <Section>
-          <Image
-            src={process.env.PUBLIC_URL + '/cards/action/dealbreaker.jpg'}
-          />
+          {/* <Image
+              src={
+                process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
+            }
+          /> */}
         </Section>
         <Section style={{ padding: '12px' }}>
           <p>Turn: {general_info.turnCount}</p>
@@ -49,8 +55,8 @@ class GeneralGameInfo extends Component {
         <Section style={{ padding: '12px' }}>
           <p>Prompt</p>
           <p>{prompts_info.promptMessage}</p>
-          <p>{prompts_info.promptPlayer}</p>
-          <form onSubmit={onPromptOptionsSubmit}>
+          <p>{prompts_info.promptPlayer.id}</p>
+          <form onSubmit={this.onPromptOptionsSubmit}>
             <Field>
               <Label>Options:</Label>
               {prompts_info.options ? (
@@ -58,8 +64,8 @@ class GeneralGameInfo extends Component {
                   onChange={this.onOptionChange}
                   value={this.state.option}
                 >
-                  {prompts_info.options.map(option => {
-                    return <option>{option}</option>;
+                  {prompts_info.options.map((option, i) => {
+                    return <option value={i}>{option}</option>;
                   })}
                 </Select>
               ) : (

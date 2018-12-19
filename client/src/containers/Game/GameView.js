@@ -29,6 +29,7 @@ const getPileTitle = (cards, type) =>
   } $${getTotalValue(cards)}`;
 
 const renderPileViewComponents = (cards, type) => {
+  console.log(cards);
   let PileView;
   if (type === 'property_cards') {
     PileView = cards.map(card => {
@@ -60,22 +61,16 @@ const renderPileViewComponents = (cards, type) => {
     });
   } else if (type === 'action_cards') {
     PileView =
-      cards.length === 0 ? (
-        <Card>
-          <Card.Header>
-            <Card.Header.Title>Empty Set</Card.Header.Title>
-          </Card.Header>
-        </Card>
-      ) : (
-        cards.map(card => (
-          <Card>
-            <Card.Header>
-              <Card.Header.Title>{card.name}</Card.Header.Title>
-            </Card.Header>
-            <Card.Content>{card.mainColor || '_'}</Card.Content>
-          </Card>
-        ))
-      );
+      cards.length === 0
+        ? []
+        : cards.map(card => (
+            <Card>
+              <Card.Header>
+                <Card.Header.Title>{card.name}</Card.Header.Title>
+              </Card.Header>
+              <Card.Content>{card.mainColor || '_'}</Card.Content>
+            </Card>
+          ));
   } else if (type === 'bank_cards') {
     const frequencies = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 10: 0 };
     cards.map(c => frequencies[c.value]++);
@@ -92,18 +87,21 @@ const renderPileViewComponents = (cards, type) => {
     ));
   }
 
-  console.log('AArray?', PileView);
-
   return PileView;
 };
 
-const renderCardsModalView = cards =>
-  Array.isArray(cards[0]) ? (
+const renderCardsModalView = cards => {
+  return Array.isArray(cards[0]) ? (
     <div>
       {cards.map(set => (
         <div>
           {set.map(card => (
-            <Image onClick={() => {}} src="" alt="card" />
+            <Image
+              src={
+                process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
+              }
+              alt="card"
+            />
           ))}
         </div>
       ))}
@@ -111,13 +109,16 @@ const renderCardsModalView = cards =>
   ) : (
     <div>
       {cards.map(card => (
-        <Image onClick={() => {}} src="" alt="card" />
+        <Image
+          src={process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`}
+          alt="card"
+        />
       ))}
     </div>
   );
+};
 
 const renderStack = (cards, type) => {
-  console.log('C.', cards);
   return (
     <Tile
       kind="child"
@@ -147,7 +148,6 @@ const renderStack = (cards, type) => {
 };
 
 const PlayerField = ({ player_info }) => {
-  console.log(player_info);
   return (
     <Tile kind="parent" size={12}>
       {renderStack(player_info.bank_cards, 'bank_cards')}
@@ -159,22 +159,35 @@ const PlayerField = ({ player_info }) => {
 };
 
 const PlayerHand = ({ hand }) => {
-  return (
-    <Tile kind="parent" size={12} style={{ justifyContent: 'center' }}>
-      {hand.map(card => (
+  let HandView;
+  if (Array.isArray(hand)) {
+    HandView = hand.map(card => {
+      return (
         <Tile kind="child" size={1}>
+          <h1>{card.id}</h1>
           <Image
             onClick={() => {}}
-            src={process.env.PUBLIC_URL + '/cards/cardback.jpg'}
+            src={
+              process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
+            }
             alt="hand-card"
           />
         </Tile>
-      ))}
+      );
+    });
+  } else {
+    HandView = <div>#Cards: {hand}</div>;
+  }
+
+  return (
+    <Tile kind="parent" size={12} style={{ justifyContent: 'center' }}>
+      {HandView}
     </Tile>
   );
 };
 
 const PlayerView = ({ player_info, showHand = false }) => {
+  console.log(player_info);
   return (
     <div>
       <Tile kind="ancestor">
@@ -201,6 +214,7 @@ const PlayerViews = ({ players_info, userId }) => {
   return (
     <Columns>
       {players_info.map((player_info, i) => {
+        // TODO:
         if (i === userId)
           return (
             <Columns.Column
@@ -248,15 +262,11 @@ class GameView extends Component {
     super(props);
   }
 
-  // TODO
-  handleCardClick = event => {};
-
   render() {
-    const { players_info, general_info } = this.props;
-    console.log('PLAYERS INFO', players_info);
-    // TODO: fix-me
-    const me = players_info[Math.floor(Math.random() * players_info.length)];
-
+    const { players_info, general_info, userId } = this.props;
+    // TODO:
+    const me = players_info.filter(player => player.id === userId)[0];
+    console.log('me', me);
     return (
       <div
         className="has-background-white-ter"
@@ -269,16 +279,12 @@ class GameView extends Component {
           padding: 8
         }}
       >
-        <PlayerViews players_info={players_info} userId={this.props.userId} />
+        <PlayerViews players_info={players_info} userId={userId} />
         <MiddleFieldView
           deckCount={general_info.deckCount}
           discard={general_info.discard}
         />
-        <PlayerView
-          player_info={me}
-          showHand={true}
-          onCardClicked={this.handleCardClick}
-        />
+        <PlayerView player_info={me} showHand={true} />
       </div>
     );
   }

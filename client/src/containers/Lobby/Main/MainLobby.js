@@ -175,10 +175,10 @@ class MainLobby extends Component {
                       onChange={this.onPlayerCapacityChange}
                       value={this.state.playerCapacity}
                     >
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
                     </Select>
                     <Control>
                       <Button className="is-info" type="submit">

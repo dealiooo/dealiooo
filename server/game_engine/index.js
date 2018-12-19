@@ -40,6 +40,7 @@ const game_engine = {
     data.players_info = [];
     return Game.players.map(player => {
       let tempPlayer = {};
+      tempPlayer.id = player.id;
       if (player.id === playerId) {
         tempPlayer.hand = player.hand;
       } else {

@@ -8,8 +8,6 @@ import api from './../../api';
 class GameChat extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
   }
 
   render() {

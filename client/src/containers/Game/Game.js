@@ -9,7 +9,6 @@ import GameView from './GameView';
 import GameChat from './GameChat';
 import api from '../../api';
 
-import { MockData } from './MockData';
 import './Game.css';
 
 class Game extends Component {
@@ -51,7 +50,6 @@ class Game extends Component {
   };
 
   onGameUpdate = data => {
-    console.log('DATA', data);
     if (data) {
       this.setState({ data });
     }
@@ -65,6 +63,11 @@ class Game extends Component {
 
   onStartGameNotifyAll = _ => {
     this.setState({ start_game: true });
+  };
+
+  onPromptOptionsSubmit = value => {
+    console.log(value);
+    api.postGameClick(this.props.match.params.id, value);
   };
 
   handleForfeit = _ => {
@@ -93,6 +96,7 @@ class Game extends Component {
               <GeneralGameInfo
                 general_info={data.general_info}
                 prompts_info={data.prompts_info}
+                onPromptOptionsSubmit={this.onPromptOptionsSubmit}
                 onEndTurn={this.handleEndTurn}
                 onForfeit={this.handleForfeit}
               />
