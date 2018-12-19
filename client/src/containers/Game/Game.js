@@ -18,10 +18,12 @@ class Game extends Component {
     this.onStartGame = this.onStartGame.bind(this);
     this.onGameUpdate = this.onGameUpdate.bind(this);
     this.state = {
+      userId: null,
+      userName: null,
       game_socket: api.socket,
       host: false,
       start_game: false,
-      start_render: false,
+      load: false,
       data: {}
     };
     let gameId = this.props.match.params.id;
@@ -35,10 +37,12 @@ class Game extends Component {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
-          this.setState({ userId: body.id });
-          this.setState({ userName: body.name });
-          this.setState({ host: body.host });
-          this.setState({ start_render: true });
+          this.setState({
+            userId: body.id,
+            userName: body.name,
+            host: body.host,
+            load: true
+          });
         });
       } else {
         window.location = '/login';
@@ -48,7 +52,9 @@ class Game extends Component {
 
   onGameUpdate = data => {
     console.log('DATA', data);
-    this.setState({ data });
+    if (data) {
+      this.setState({ data });
+    }
   };
 
   onStartGame = _ => {
@@ -70,16 +76,15 @@ class Game extends Component {
   };
 
   render() {
-    const { start_game, start_render, host, data } = this.state;
+    const { start_game, load, host, data } = this.state;
 
-    console.log(data);
-
-    if (start_render) {
-      if (start_game) {
+    if (load) {
+      if (start_game && data.players_info) {
         return (
           <Columns>
             <Columns.Column size={10}>
               <GameView
+                userId={this.state.userId}
                 general_info={data.general_info}
                 players_info={data.players_info}
               />

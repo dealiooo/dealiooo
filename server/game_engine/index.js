@@ -58,6 +58,9 @@ const game_engine = {
     if (pending) {
       data.prompts_info.promptPlayer = pending.arguments.player;
       data.prompts_info.promptMessage = pending.message;
+      if (pending.arguments.options) {
+        data.prompts_info.options = pending.arguments.options;
+      }
     }
   },
   promptBasicOptions: Game => {

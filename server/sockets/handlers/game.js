@@ -70,7 +70,7 @@ const join = (globalSockets, sockets) => (gameId, userId) => {
 
 const startGame = sockets => gameId => {
   Game.getUserIds(gameId).then(userIds => {
-    gameGlobals.set(gameId, gameEngine.start(userIds));
+    gameGlobals.set(gameId, gameEngine.start(userIds.map(userId => userId.id)));
     sockets
       .get(gameId)
       .forEach(client_socket =>

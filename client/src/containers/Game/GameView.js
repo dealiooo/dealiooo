@@ -92,6 +92,8 @@ const renderPileViewComponents = (cards, type) => {
     ));
   }
 
+  console.log('AArray?', PileView);
+
   return PileView;
 };
 
@@ -115,6 +117,7 @@ const renderCardsModalView = cards =>
   );
 
 const renderStack = (cards, type) => {
+  console.log('C.', cards);
   return (
     <Tile
       kind="child"
@@ -143,18 +146,14 @@ const renderStack = (cards, type) => {
   );
 };
 
-const PlayerField = ({
-  building_cards,
-  property_cards,
-  action_cards,
-  bank_cards
-}) => {
+const PlayerField = ({ player_info }) => {
+  console.log(player_info);
   return (
     <Tile kind="parent" size={12}>
-      {renderStack(bank_cards, 'bank_cards')}
-      {renderStack(property_cards, 'property_cards')}
-      {renderStack(action_cards, 'action_cards')}
-      {renderStack(building_cards, 'building_cards')}
+      {renderStack(player_info.bank_cards, 'bank_cards')}
+      {renderStack(player_info.property_cards, 'property_cards')}
+      {renderStack(player_info.action_cards, 'action_cards')}
+      {renderStack(player_info.building_cards, 'building_cards')}
     </Tile>
   );
 };
@@ -179,7 +178,7 @@ const PlayerView = ({ player_info, showHand = false }) => {
   return (
     <div>
       <Tile kind="ancestor">
-        <PlayerField {...player_info} />
+        <PlayerField player_info={player_info} />
       </Tile>
       {showHand ? (
         <Tile kind="ancestor">
@@ -191,28 +190,26 @@ const PlayerView = ({ player_info, showHand = false }) => {
 };
 
 // Calculate how to render other players
-const PlayerViews = ({ players_info }) => {
+const PlayerViews = ({ players_info, userId }) => {
   const ColumnSizes = {
     2: [12],
     3: [6, 6],
     4: [6, 6, 10],
     5: [6, 6, 6, 6]
   };
-  const numPlayers = players_info.length - 1;
+  const numPlayers = players_info.length;
   return (
     <Columns>
       {players_info.map((player_info, i) => {
-        if (i === 0 || i == numPlayers) {
-          return null;
-        }
-        return (
-          <Columns.Column
-            size={ColumnSizes[numPlayers][i - 1]}
-            style={{ margin: '0 auto' }}
-          >
-            <PlayerView player_info={player_info} />
-          </Columns.Column>
-        );
+        if (i === userId)
+          return (
+            <Columns.Column
+              size={ColumnSizes[numPlayers][i]}
+              style={{ margin: '0 auto' }}
+            >
+              <PlayerView player_info={player_info} />
+            </Columns.Column>
+          );
       })}
     </Columns>
   );
@@ -258,8 +255,7 @@ class GameView extends Component {
     const { players_info, general_info } = this.props;
     console.log('PLAYERS INFO', players_info);
     // TODO: fix-me
-    const me =
-      players_info[Math.floor(Math.random() * players_info.length) + 1];
+    const me = players_info[Math.floor(Math.random() * players_info.length)];
 
     return (
       <div
@@ -273,7 +269,7 @@ class GameView extends Component {
           padding: 8
         }}
       >
-        <PlayerViews players_info={players_info} />
+        <PlayerViews players_info={players_info} userId={this.props.userId} />
         <MiddleFieldView
           deckCount={general_info.deckCount}
           discard={general_info.discard}
