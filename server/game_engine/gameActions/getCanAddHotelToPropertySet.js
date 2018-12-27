@@ -1,10 +1,11 @@
-const gameActions = require('./');
+const getHotelStatus = require('./getHotelStatus');
+const getHouseStatus = require('./getHouseStatus');
 
 module.exports = (Game, property_set) => {
-  if (gameActions.getHotelStatus(Game, property_set)) {
+  if (getHotelStatus(Game, property_set)) {
     return 0;
   }
-  if (!gameActions.getHouseStatus(Game, property_set)) {
+  if (!getHouseStatus(Game, property_set)) {
     return 0;
   }
   if (

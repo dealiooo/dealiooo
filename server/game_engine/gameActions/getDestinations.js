@@ -1,4 +1,6 @@
-const gameActions = require('./');
+const getPropertySetStatus = require('./getPropertySetStatus');
+const getCanAddHotelToPropertySet = require('./getCanAddHotelToPropertySet');
+const getCanAddHouseToPropertySet = require('./getCanAddHouseToPropertySet');
 
 const getAllDestinations = (player, card, source) => {
   let destinationIndexes = [];
@@ -14,7 +16,7 @@ const getPropertyDestinations = (Game, player, card, source) => {
   let destinations = player.field.property_cards.filter((set, i) => {
     if (set.length) {
       if (set[0].mainColor === card.mainColor) {
-        if (!gameActions.getPropertySetStatus(Game, set)) {
+        if (!getPropertySetStatus(Game, set)) {
           destinationIndexes.push(`${i}`);
         }
       }
@@ -33,7 +35,7 @@ const getBuildingDestinations = (Game, player, card, source) => {
     destination = [];
   } else if ('house' === card.name) {
     destination = player.field.property_cards.filter((set, i) => {
-      let condition = gameActions.getCanAddHouseToPropertySet(Game, set);
+      let condition = getCanAddHouseToPropertySet(Game, set);
       if (condition) {
         destinationIndexes.push(`${i}`);
       }
@@ -41,7 +43,7 @@ const getBuildingDestinations = (Game, player, card, source) => {
     });
   } else {
     destination = player.field.property_cards.filter((set, i) => {
-      let condition = gameActions.getCanAddHotelToPropertySet(Game, set);
+      let condition = getCanAddHotelToPropertySet(Game, set);
       if (condition) {
         destinationIndexes.push(`${i}`);
       }
