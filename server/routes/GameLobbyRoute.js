@@ -87,7 +87,6 @@ router.post(
       .catch(error => response.json({ error }));
   }
 );
-
 router.post(
   '/game-lobby/:gameId/start',
   authenticateUser,
@@ -105,7 +104,7 @@ router.post(
             return response.json({ result });
           })
         } else {
-          return response.json({result});
+          return response.json({message:'not all players are ready'});
         }
       }
     ).catch(error => response.json({ error }));
