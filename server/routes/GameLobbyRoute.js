@@ -96,13 +96,19 @@ router.post(
   (request, response) => {
     const { gameId } = request.params;
     const { id, name } = response.locals.user;
-    return GameLobbyDB.startGame(request.params.gameId)
-      .then(result => {
-        MainLobbySockets.startGame(gameId, id, name);
-        GameLobbySockets.startGame(gameId, id, name);
-        return response.json({ result });
-      })
-      .catch(error => response.json({ error }));
+    return GameLobbyDB.getGameReady(gameId).then(
+      result => {
+        if (result) {
+          return GameLobbyDB.startGame(gameId).then(result => {
+            MainLobbySockets.startGame(gameId, id, name);
+            GameLobbySockets.startGame(gameId, id, name);
+            return response.json({ result });
+          })
+        } else {
+          return response.json({result});
+        }
+      }
+    ).catch(error => response.json({ error }));
   }
 );
 
