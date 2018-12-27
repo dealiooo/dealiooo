@@ -12,6 +12,7 @@ import ChatInput from '../../../components/Chat/ChatInput';
 import PlayerStatus from './PlayerStatus';
 
 import { socket, GameLobby as GameLobbyAPI } from '../../../api';
+import { toast } from 'react-toastify';
 
 import './GameLobby.css';
 
@@ -132,6 +133,7 @@ class GameLobby extends Component {
     GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId).then(
       result => {}
     );
+    toast(`${this.state.userId} is ready`);
   }
 
   onExit(_) {
