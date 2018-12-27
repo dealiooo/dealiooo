@@ -147,8 +147,11 @@ class MainLobby extends Component {
   }
 
   onCreate = event => {
+    event.preventDefault();
     MainLobbyAPI.postMainLobbyCreateGame(this.state.playerCapacity).then(
-      result => (window.location = `/game-lobby/${result.result.id}`)
+      result => {
+        window.location = `/game-lobby/${result.result.id}`;
+      }
     );
   };
 
