@@ -7,7 +7,11 @@ import NavigationBar from '../../../components/NavigationBar';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
-import { socket, MainLobby as MainLobbyAPI, GameLobby as GameLobbyAPI } from '../../../api';
+import {
+  socket,
+  MainLobby as MainLobbyAPI,
+  GameLobby as GameLobbyAPI
+} from '../../../api';
 import {
   Control,
   Field,
@@ -143,9 +147,9 @@ class MainLobby extends Component {
   }
 
   onCreate = event => {
-    MainLobbyAPI
-      .postMainLobbyCreateGame(this.state.playerCapacity)
-      .then(result => (window.location = `/game-lobby/${result.result.id}`));
+    MainLobbyAPI.postMainLobbyCreateGame(this.state.playerCapacity).then(
+      result => (window.location = `/game-lobby/${result.result.id}`)
+    );
   };
 
   onPlayerCapacityChange = event => {

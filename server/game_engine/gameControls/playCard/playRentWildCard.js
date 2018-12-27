@@ -15,7 +15,7 @@ const playAsAction = (Game, player, card, callback) => {
       gameActions.switchColor(card, color);
       let { destinations, destinationIndexes } = gameActions.getDestinations[
         card.type
-      ](player, card, player.hand);
+      ](Game, player, card, player.hand);
       if (destinations.length) {
         pickPropertySetToRent(
           Game,

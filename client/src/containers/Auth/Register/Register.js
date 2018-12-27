@@ -28,16 +28,18 @@ class Register extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    Auth
-      .postRegister(this.state.name, this.state.email, this.state.password)
-      .then(result => {
-        if (result.error) {
-          this.setState({ modal_message: result.error.errors[0].message });
-          this.setState({ modal_display: true });
-        } else {
-          window.location = '/main-lobby';
-        }
-      });
+    Auth.postRegister(
+      this.state.name,
+      this.state.email,
+      this.state.password
+    ).then(result => {
+      if (result.error) {
+        this.setState({ modal_message: result.error.errors[0].message });
+        this.setState({ modal_display: true });
+      } else {
+        window.location = '/main-lobby';
+      }
+    });
   };
 
   onModalClick = event => {

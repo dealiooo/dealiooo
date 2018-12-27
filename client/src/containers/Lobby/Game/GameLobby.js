@@ -52,16 +52,18 @@ class GameLobby extends Component {
           body = JSON.parse(body);
           this.setState({ userId: body.id });
           this.setState({ userName: body.name });
-          GameLobbyAPI.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
-            status.result.map(playerStatus => {
-              if (this.state.userId === playerStatus.id) {
-                this.setState({ host: playerStatus.Players[0].host });
-              }
-              return (playerStatus.ready = playerStatus.Players[0].ready);
-            });
-            this.setState({ playersStatus: status.result });
-            this.setState({ startRender: true });
-          });
+          GameLobbyAPI.getGameLobbyPlayersStatus(this.state.gameId).then(
+            status => {
+              status.result.map(playerStatus => {
+                if (this.state.userId === playerStatus.id) {
+                  this.setState({ host: playerStatus.Players[0].host });
+                }
+                return (playerStatus.ready = playerStatus.Players[0].ready);
+              });
+              this.setState({ playersStatus: status.result });
+              this.setState({ startRender: true });
+            }
+          );
         });
       } else {
         window.location = '/main-lobby';
@@ -127,13 +129,15 @@ class GameLobby extends Component {
   }
 
   onReady(_) {
-    GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId).then(result => {});
+    GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId).then(
+      result => {}
+    );
   }
 
   onExit(_) {
-    GameLobbyAPI
-      .postGameLobbyLeave(this.state.gameId)
-      .then(_ => (window.location = '/main-lobby'));
+    GameLobbyAPI.postGameLobbyLeave(this.state.gameId).then(
+      _ => (window.location = '/main-lobby')
+    );
   }
 
   render() {
@@ -153,7 +157,10 @@ class GameLobby extends Component {
                 />
               </Columns.Column>
             </Columns>
-            <ChatInput roomId={this.state.gameId} api={GameLobbyAPI.postGameLobbyChat} />
+            <ChatInput
+              roomId={this.state.gameId}
+              api={GameLobbyAPI.postGameLobbyChat}
+            />
           </Section>
           <Section>
             <Level>

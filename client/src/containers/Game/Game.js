@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
+import { toast } from 'react-toastify';
 
 import GeneralGameInfo from './GeneralGameInfo';
 import GameView from './GameView';
@@ -23,12 +24,17 @@ class Game extends Component {
       host: false,
       start_game: false,
       load: false,
-      data: {}
+      data: {},
+      cardClicked: {}
     };
     let gameId = this.props.match.params.id;
     GameAPI.postGameJoin(gameId);
     socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
     socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
+    socket.on(`game:${gameId}:game-forfeit`, this.onGameForfeit);
+
+    this.handleEndTurn = this.handleEndTurn.bind(this);
+    this.handleForfeit = this.handleForfeit.bind(this);
   }
 
   componentDidMount = () => {
@@ -55,10 +61,14 @@ class Game extends Component {
     }
   };
 
+  onGameForfeit = message => {
+    toast(message);
+  };
+
   onStartGame = _ => {
-    GameAPI
-      .postGameStartGame(this.props.match.params.id)
-      .then(_ => GameAPI.postGameUpdate(this.props.match.params.id));
+    GameAPI.postGameStartGame(this.props.match.params.id).then(_ =>
+      GameAPI.postGameUpdate(this.props.match.params.id)
+    );
   };
 
   onStartGameNotifyAll = _ => {
@@ -66,20 +76,25 @@ class Game extends Component {
   };
 
   onPromptOptionsSubmit = value => {
-    console.log(value);
     GameAPI.postGameClick(this.props.match.params.id, value);
   };
 
   handleForfeit = _ => {
     GameAPI.postGameForfeit(this.props.match.params.id);
+    window.location = '/main-lobby';
+  };
+
+  handleHandCardClicked = card => {
+    this.setState({ cardClicked: card });
   };
 
   handleEndTurn = _ => {
+    console.log(this.props.match.params.id);
     GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
   render() {
-    const { start_game, load, host, data } = this.state;
+    const { start_game, load, host, data, cardClicked } = this.state;
 
     if (load) {
       if (start_game && data.players_info) {
@@ -90,10 +105,12 @@ class Game extends Component {
                 userId={this.state.userId}
                 general_info={data.general_info}
                 players_info={data.players_info}
+                onHandCardClicked={this.handleHandCardClicked}
               />
             </Columns.Column>
             <Columns.Column size={2}>
               <GeneralGameInfo
+                card={cardClicked}
                 general_info={data.general_info}
                 prompts_info={data.prompts_info}
                 onPromptOptionsSubmit={this.onPromptOptionsSubmit}
