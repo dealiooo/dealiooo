@@ -125,7 +125,11 @@ class GameLobby extends Component {
   }
 
   onStart(_) {
-    GameLobbyAPI.postGameLobbyStart(this.state.gameId);
+    GameLobbyAPI.postGameLobbyStart(this.state.gameId).then(result => {
+      if (result.message) {
+        console.log(result.message);
+      }
+    });
   }
 
   onReady(_) {
