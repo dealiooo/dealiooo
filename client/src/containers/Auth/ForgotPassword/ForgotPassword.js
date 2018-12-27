@@ -10,7 +10,7 @@ import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Banner from '../../../components/Banner';
 import Heading from 'react-bulma-components/lib/components/heading';
-import api from '../../../api';
+import { Auth } from '../../../api';
 
 class ForgotPassword extends Component {
   state = {
@@ -28,7 +28,7 @@ class ForgotPassword extends Component {
 
   onSubmit = evt => {
     evt.preventDefault();
-    api.post_forgot_password(this.state.email).then(result => {
+    Auth.postForgotPassword(this.state.email).then(result => {
       if (result.error) {
         this.setState({
           error_message: 'Invalid email'

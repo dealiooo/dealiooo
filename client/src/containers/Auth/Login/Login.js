@@ -13,7 +13,7 @@ import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
 import Banner from '../../../components/Banner';
 
-import api from '../../../api';
+import { Auth } from '../../../api';
 
 class Login extends Component {
   state = {
@@ -29,7 +29,7 @@ class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    api.postLogin(this.state.email, this.state.password).then(result => {
+    Auth.postLogin(this.state.email, this.state.password).then(result => {
       if (result.error) {
         this.setState({
           modal_message: 'Invalid email & password combination'
@@ -46,7 +46,7 @@ class Login extends Component {
   };
 
   componentWillMount() {
-    api.getLogin().then(response => {
+    Auth.getLogin().then(response => {
       if (response.ok) {
         window.location = '/main-lobby';
       }

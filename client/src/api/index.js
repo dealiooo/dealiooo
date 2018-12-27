@@ -1,85 +1,13 @@
-const io = require('socket.io-client');
-const serverAddress = require('./serverAddress');
+const socket = require('./socket');
+const Auth = require('./Auth');
+const Game = require('./Game');
+const GameLobby = require('./GameLobby');
+const MainLobby = require('./MainLobby');
 
-const socket = io.connect(serverAddress);
-
-const resolvePendingPromise = response => {
-  if (response.ok) {
-    return response.text().then(data => JSON.parse(data));
-  }
-  return response;
-};
-
-const requestConfiguration = (body = {}, method) => {
-  const config = {
-    method,
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  if (Object.keys(body).length > 0) {
-    config.body = JSON.stringify(body);
-  }
-  return config;
-};
-
-const build_url = endpoint => {
-  return `${serverAddress}${endpoint}`;
-};
-
-const request = (endpoint, body, method = 'post') =>
-  fetch(build_url(endpoint), requestConfiguration(body, method));
-
-const jsonify = response => response.json();
-
-export default {
+module.exports = {
   socket,
-  getLogin: () => request('/login', {}, 'get'),
-  getRegister: () => request('/register', {}, 'get'),
-  getForgotPassword: () => request('/forgot-password', {}, 'get'),
-  getGame: gameId => request(`/game/${gameId}`, {}, 'get'),
-  getGameLobby: gameId => request(`/game-lobby/${gameId}`, {}, 'get'),
-  getMainLobby: () => request('/main-lobby', {}, 'get'),
-  getGameLobbyInfo: gameId =>
-    request(`/game-lobby/${gameId}/info`, {}, 'get').then(
-      resolvePendingPromise
-    ),
-  getGameLobbyPlayersStatus: gameId =>
-    request(`/game-lobby/${gameId}/status`, {}, 'get').then(
-      resolvePendingPromise
-    ),
-  postLogin: (email, password) =>
-    request('/login', { email, password }).then(jsonify),
-  postRegister: (name, email, password) =>
-    request('/register', { name, email, password }),
-  postForgotPassword: email => request('/forgot-password', { email }),
-  postLogout: () => request('/logout', {}),
-  postMainLobby: () => request('/main-lobby', {}).then(resolvePendingPromise),
-  postMainLobbyChat: ({ message }) => request('/main-lobby/chat', { message }),
-  postMainLobbyCreateGame: playerCapacity =>
-    request('/main-lobby/create-game', { playerCapacity }).then(
-      resolvePendingPromise
-    ),
-  postGameLobbyChat: ({ roomId: gameId, message }) =>
-    request(`/game-lobby/${gameId}/chat`, { message }),
-  postGameLobbyEnter: gameId => request(`/game-lobby/${gameId}/enter`, {}),
-  postGameLobbyJoin: gameId =>
-    request(`/game-lobby/${gameId}/join`, {}).then(resolvePendingPromise),
-  postGameLobbyLeave: gameId =>
-    request(`/game-lobby/${gameId}/leave`, {}).then(resolvePendingPromise),
-  postGameLobbyStart: gameId =>
-    request(`/game-lobby/${gameId}/start`, {}).then(resolvePendingPromise),
-  postGameLobbyTogglePlayerReady: gameId =>
-    request(`/game-lobby/${gameId}/toggle-ready`).then(resolvePendingPromise),
-  postGameChat: ({ roomId: gameId, message }) =>
-    request(`/game/${gameId}/chat`, { message }),
-  postGameClick: (gameId, clickInput) =>
-    request(`/game/${gameId}/click`, { clickInput }),
-  postGameEndTurn: gameId => request(`/game/${gameId}/endTurn`, {}),
-  postGameForfeit: gameId => request(`/game/${gameId}/forfeit`, {}),
-  postGameJoin: gameId => request(`/game/${gameId}/join`, {}),
-  postGameStartGame: gameId => request(`/game/${gameId}/startGame`, {}),
-  postGameUpdate: gameId => request(`/game/${gameId}/update`, {})
+  Auth,
+  Game,
+  GameLobby,
+  MainLobby
 };
