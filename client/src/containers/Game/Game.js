@@ -7,7 +7,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import GeneralGameInfo from './GeneralGameInfo';
 import GameView from './GameView';
 import GameChat from './GameChat';
-import api from '../../api';
+import { socket, Game as GameAPI } from '../../api';
 
 import './Game.css';
 
@@ -19,20 +19,20 @@ class Game extends Component {
     this.state = {
       userId: null,
       userName: null,
-      game_socket: api.socket,
+      game_socket: socket,
       host: false,
       start_game: false,
       load: false,
       data: {}
     };
     let gameId = this.props.match.params.id;
-    api.postGameJoin(gameId);
-    api.socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
-    api.socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
+    GameAPI.postGameJoin(gameId);
+    socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
+    socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
   }
 
   componentDidMount = () => {
-    api.getGame(this.props.match.params.id).then(response => {
+    GameAPI.getGame(this.props.match.params.id).then(response => {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
@@ -56,9 +56,9 @@ class Game extends Component {
   };
 
   onStartGame = _ => {
-    api
+    GameAPI
       .postGameStartGame(this.props.match.params.id)
-      .then(_ => api.postGameUpdate(this.props.match.params.id));
+      .then(_ => GameAPI.postGameUpdate(this.props.match.params.id));
   };
 
   onStartGameNotifyAll = _ => {
@@ -67,15 +67,15 @@ class Game extends Component {
 
   onPromptOptionsSubmit = value => {
     console.log(value);
-    api.postGameClick(this.props.match.params.id, value);
+    GameAPI.postGameClick(this.props.match.params.id, value);
   };
 
   handleForfeit = _ => {
-    api.postGameForfeit(this.props.match.params.id);
+    GameAPI.postGameForfeit(this.props.match.params.id);
   };
 
   handleEndTurn = _ => {
-    api.postGameEndTurn(this.props.match.params.id);
+    GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
   render() {

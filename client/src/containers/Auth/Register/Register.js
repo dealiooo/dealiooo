@@ -8,7 +8,7 @@ import {
 } from 'react-bulma-components/lib/components/form';
 import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
-import api from '../../../api';
+import { Auth } from '../../../api';
 import Container from 'react-bulma-components/lib/components/container/container';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
 import Heading from 'react-bulma-components/lib/components/heading';
@@ -28,7 +28,7 @@ class Register extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    api
+    Auth
       .postRegister(this.state.name, this.state.email, this.state.password)
       .then(result => {
         if (result.error) {
@@ -45,7 +45,7 @@ class Register extends Component {
   };
 
   componentWillMount() {
-    api.getRegister().then(response => {
+    Auth.getRegister().then(response => {
       if (response.ok) {
         window.location = '/main-lobby';
       }
