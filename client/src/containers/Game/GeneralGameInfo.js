@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import Image from 'react-bulma-components/lib/components/image';
 import Button from 'react-bulma-components/lib/components/button';
 import Section from 'react-bulma-components/lib/components/section';
@@ -10,9 +9,11 @@ import {
   Select
 } from 'react-bulma-components/lib/components/form';
 
+import { NotificationConsumer } from '../../contexts/NotificationContext';
+
 class GeneralGameInfo extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       option: 0
     };
@@ -27,25 +28,28 @@ class GeneralGameInfo extends Component {
   onPromptOptionsSubmit = evt => {
     evt.preventDefault();
     this.props.onPromptOptionsSubmit(this.state.option);
+    this.setState({ option: 0 });
   };
 
   render() {
     const {
-      card, // TODO:
+      card,
       onEndTurn,
       onForfeit,
       general_info,
       prompts_info
     } = this.props;
 
+    console.log('PROMPTS_INFO_!', prompts_info);
+
     return (
       <Section>
         <Section>
-          {/* <Image
-              src={
-                process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
+          <Image
+            src={
+              process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
             }
-          /> */}
+          />
         </Section>
         <Section style={{ padding: '12px' }}>
           <p>Turn: {general_info.turnCount}</p>
@@ -80,8 +84,8 @@ class GeneralGameInfo extends Component {
           </form>
         </Section>
         <Section style={{ padding: '12px' }}>
-          <Button onEndTurn={onEndTurn}>End Turn</Button>
-          <Button onForfeit={onForfeit}>Forfeit</Button>
+          <Button onClick={onEndTurn}>End Turn</Button>
+          <Button onClick={onForfeit}>Forfeit</Button>
         </Section>
       </Section>
     );

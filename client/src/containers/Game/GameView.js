@@ -29,18 +29,23 @@ const getPileTitle = (cards, type) =>
   } $${getTotalValue(cards)}`;
 
 const renderPileViewComponents = (cards, type) => {
-  console.log(cards);
   let PileView;
+
+  // TODO: FIX
   if (type === 'property_cards') {
-    PileView = cards.map(card => {
-      return (
-        <Card>
-          <Card.Header>
-            <Card.Header.Title>{card.length}</Card.Header.Title>
-          </Card.Header>
-          <Card.Content className={card[0].mainColor}>P</Card.Content>
-        </Card>
-      );
+    PileView = cards.map(stack => {
+      if (stack.length) {
+        return (
+          <Card>
+            <Card.Header>
+              <Card.Header.Title>{stack.length}</Card.Header.Title>
+            </Card.Header>
+            <Card.Content className={stack[0].mainColor}>P</Card.Content>
+          </Card>
+        );
+      } else {
+        return <div>[]</div>;
+      }
     });
   } else if (type === 'building_cards') {
     const cardFrequencies = { house: 0, hotel: 0 };
@@ -158,7 +163,7 @@ const PlayerField = ({ player_info }) => {
   );
 };
 
-const PlayerHand = ({ hand }) => {
+const PlayerHand = ({ hand, handleClick }) => {
   let HandView;
   if (Array.isArray(hand)) {
     HandView = hand.map(card => {
@@ -166,7 +171,7 @@ const PlayerHand = ({ hand }) => {
         <Tile kind="child" size={1}>
           <h1>{card.id}</h1>
           <Image
-            onClick={() => {}}
+            onClick={() => handleClick(card)}
             src={
               process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
             }
@@ -186,8 +191,7 @@ const PlayerHand = ({ hand }) => {
   );
 };
 
-const PlayerView = ({ player_info, showHand = false }) => {
-  console.log(player_info);
+const PlayerView = ({ player_info, showHand = false, handleClick }) => {
   return (
     <div>
       <Tile kind="ancestor">
@@ -195,7 +199,7 @@ const PlayerView = ({ player_info, showHand = false }) => {
       </Tile>
       {showHand ? (
         <Tile kind="ancestor">
-          <PlayerHand hand={player_info.hand} />
+          <PlayerHand hand={player_info.hand} handleClick={handleClick} />
         </Tile>
       ) : null}
     </div>
@@ -210,15 +214,16 @@ const PlayerViews = ({ players_info, userId }) => {
     4: [6, 6, 10],
     5: [6, 6, 6, 6]
   };
-  const numPlayers = players_info.length;
+
+  console.log(players_info);
+
   return (
     <Columns>
       {players_info.map((player_info, i) => {
-        // TODO:
         if (i === userId)
           return (
             <Columns.Column
-              size={ColumnSizes[numPlayers][i]}
+              size={ColumnSizes[players_info.length][i]}
               style={{ margin: '0 auto' }}
             >
               <PlayerView player_info={player_info} />
@@ -263,10 +268,14 @@ class GameView extends Component {
   }
 
   render() {
-    const { players_info, general_info, userId } = this.props;
-    // TODO:
+    const {
+      userId,
+      players_info,
+      general_info,
+      onHandCardClicked
+    } = this.props;
     const me = players_info.filter(player => player.id === userId)[0];
-    console.log('me', me);
+
     return (
       <div
         className="has-background-white-ter"
@@ -284,7 +293,11 @@ class GameView extends Component {
           deckCount={general_info.deckCount}
           discard={general_info.discard}
         />
-        <PlayerView player_info={me} showHand={true} />
+        <PlayerView
+          player_info={me}
+          showHand={true}
+          handleClick={onHandCardClicked}
+        />
       </div>
     );
   }

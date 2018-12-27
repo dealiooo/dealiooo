@@ -6,7 +6,7 @@
   "scripts": {
     "start": "BLUEBIRD_WARNINGS=0 node ./bin/www",
     "start:game": "cd game && npm start",
-    "start:dev": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server\"",
+    "start:dev": "BLUEBIRD_WARNINGS=0 concurrently \"npm:start:dev:client\" \"npm:start:dev:server\"",
     "start:dev:windows": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server:windows\"",
     "start:dev:client": "cd client && npm run start",
     "start:dev:server": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
