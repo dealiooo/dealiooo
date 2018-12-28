@@ -54,12 +54,14 @@ class GameLobbyListItem extends Component {
         );
       }
       return (
-        <Box className="has-background-success">
+        <Box>
           {this.props.gameLobby.id}
           <Columns>
             <Columns.Column>
-              {this.props.gameLobby.playerNum} /{' '}
-              {this.props.gameLobby.playerCap}
+              <p className="is-size-4">
+                {this.props.gameLobby.playerNum} /{' '}
+                {this.props.gameLobby.playerCap}
+              </p>
             </Columns.Column>
             <Columns.Column>{playerList}</Columns.Column>
             <Columns.Column>{actionButton}</Columns.Column>

@@ -6,22 +6,19 @@ import {
   Field,
   Input
 } from 'react-bulma-components/lib/components/form';
-import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
-import Icon from 'react-bulma-components/lib/components/icon';
+import Box from 'react-bulma-components/lib/components/box';
 import Banner from '../../../components/Banner';
-
 import { Auth } from '../../../api';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
-    modal_display: false,
-    modal_message: ''
+    error_message: ''
   };
 
   onChange = event => {
@@ -33,17 +30,12 @@ class Login extends Component {
     Auth.postLogin(this.state.email, this.state.password).then(result => {
       if (result.error) {
         this.setState({
-          modal_message: 'Invalid email & password combination'
+          error_message: 'Invalid email & password combination'
         });
-        this.setState({ modal_display: true });
       } else {
         window.location = '/main-lobby';
       }
     });
-  };
-
-  onModalClick = _ => {
-    this.setState({ modal_display: false });
   };
 
   componentWillMount() {
@@ -55,66 +47,58 @@ class Login extends Component {
   }
 
   render() {
+    const { email, password, error_message } = this.state;
     return (
-      <Container className="is-fullhd">
+      <Container fluid>
         <Banner />
-        <Modal
-          show={this.state.modal_display}
-          onClose={this.onModalClick}
-          closeOnEsc={true}
-          closeOnBlur={true}
-        >
-          <Modal.Content
-            style={{ backgroundColor: 'white' }}
-            onClick={this.onModalClick}
-          >
-            <Section className="has-text-centered has-text-danger is-size-4">
-              {this.state.modal_message}
-            </Section>
-          </Modal.Content>
-        </Modal>
-        <form onSubmit={this.onSubmit}>
+        <Section>
           <Columns className="is-centered">
-            <Columns.Column className="is-3 ">
-              <Heading className="has-text-centered has-text-black">
-                Login
-              </Heading>
-              <Field>
-                <Control className="has-icons-left">
-                  <Icon icon="" color="info" />
-                  <Input
-                    name="email"
-                    type="email"
-                    onChange={this.onChange}
-                    value={this.state.email}
-                    placeholder="Type your email"
-                  />
-                </Control>
-              </Field>
-              <Field>
-                <Control>
-                  <Input
-                    name="password"
-                    type="password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    placeholder="Type your password"
-                  />
-                </Control>
-              </Field>
-              <Field>
-                <Control>
-                  <Button className="is-info is-fullwidth">Send</Button>
-                </Control>
-              </Field>
-              <p>
-                <a href="/register">register</a>
-                &nbsp;·&nbsp;
-                <a href="/forgot-password">forgot password</a>
-              </p>
+            <Columns.Column size={4}>
+              {error_message ? (
+                <div className="has-text-danger">{error_message}</div>
+              ) : null}
+              <Box>
+                <form onSubmit={this.onSubmit}>
+                  <Heading className="has-text-centered">Login</Heading>
+                  <Field>
+                    <Control>
+                      <Input
+                        name="email"
+                        type="email"
+                        className="is-large"
+                        onChange={this.onChange}
+                        value={email}
+                        placeholder="Email"
+                      />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Input
+                        name="password"
+                        type="password"
+                        className="is-large"
+                        onChange={this.onChange}
+                        value={password}
+                        placeholder="Password"
+                      />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Button className="is-fullwidth is-large">Login</Button>
+                    </Control>
+                  </Field>
+                  <div className="has-text-right">
+                    <a href="/register">Register</a>
+                    &nbsp;|&nbsp;
+                    <a href="/forgot-password">Forgot Password?</a>
+                  </div>
+                </form>
+              </Box>
             </Columns.Column>
           </Columns>
-        </form>
+        </Section>
       </Container>
     );
   }

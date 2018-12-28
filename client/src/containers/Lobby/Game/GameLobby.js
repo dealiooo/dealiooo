@@ -7,8 +7,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 
 import NavigationBar from '../../../components/NavigationBar';
-import ChatLog from '../../../components/Chat/ChatLog';
-import ChatInput from '../../../components/Chat/ChatInput';
+import Chat from '../../../components/Chat';
 import PlayerStatus from './PlayerStatus';
 
 import { socket, GameLobby as GameLobbyAPI } from '../../../api';
@@ -149,23 +148,24 @@ class GameLobby extends Component {
     if (this.state.startRender) {
       return (
         <Box className="has-background-grey-lighter">
-          <NavigationBar title={this.state.lobbyName} />
+          <NavigationBar
+            title={this.state.lobbyName}
+            userName={this.state.userName}
+          />
           <Section>
             <Columns>
-              <Columns.Column className="has-background-black-ter">
+              <Columns.Column>
                 <PlayerStatus status={this.state.playersStatus} />
               </Columns.Column>
               <Columns.Column size="5" className="game-lobby-chat">
-                <ChatLog
+                <Chat
                   socket={this.state.socket}
-                  roomId={`game-lobby:${this.state.gameId}:chat`}
+                  api={GameLobbyAPI.postGameLobbyChat}
+                  channel={`game-lobby:${this.state.gameId}:chat`}
+                  roomId={this.state.gameId}
                 />
               </Columns.Column>
             </Columns>
-            <ChatInput
-              roomId={this.state.gameId}
-              api={GameLobbyAPI.postGameLobbyChat}
-            />
           </Section>
           <Section>
             <Level>

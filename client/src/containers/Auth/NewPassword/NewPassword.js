@@ -6,6 +6,7 @@ import {
 } from 'react-bulma-components/lib/components/form';
 import Section from 'react-bulma-components/lib/components/section';
 import Button from 'react-bulma-components/lib/components/button';
+import Box from 'react-bulma-components/lib/components/box';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Banner from '../../../components/Banner';
@@ -13,30 +14,27 @@ import Heading from 'react-bulma-components/lib/components/heading';
 
 class NewPassword extends Component {
   state = {
-    password: ''
+    password: '',
+    error_message: null
   };
 
-  onChange = evt => {
-    const value =
-      evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
-    this.setState({
-      [evt.target.name]: value
-    });
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
-  onSubmit = evt => {
+  onSubmit = event => {
     // TODO
   };
 
   render() {
     const { password } = this.state;
     return (
-      <Container className="is-fullhd">
+      <Container fluid>
         <Banner />
         <Section>
-          <Container>
-            <Columns className="is-centered">
-              <Columns.Column className="is-two-fifths">
+          <Columns className="is-centered">
+            <Columns.Column size={4}>
+              <Box>
                 <form onSubmit={this.onSubmit}>
                   <Field>
                     <Heading className="has-text-centered has-text-black">
@@ -46,20 +44,22 @@ class NewPassword extends Component {
                       <Input
                         name="password"
                         type="password"
+                        className="is-large"
                         onChange={this.onChange}
                         value={password}
+                        placeholder="New Password"
                       />
                     </Control>
                   </Field>
                   <Field>
-                    <Control className="has-text-centered">
-                      <Button>Submit</Button>
+                    <Control>
+                      <Button className="is-fullwidth is-large">Submit</Button>
                     </Control>
                   </Field>
                 </form>
-              </Columns.Column>
-            </Columns>
-          </Container>
+              </Box>
+            </Columns.Column>
+          </Columns>
         </Section>
       </Container>
     );

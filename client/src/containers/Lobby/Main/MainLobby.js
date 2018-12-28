@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
-import GameLobbyList from './GameLobbyList';
-import ChatLog from '../../../components/Chat/ChatLog';
-import ChatInput from '../../../components/Chat/ChatInput';
-import NavigationBar from '../../../components/NavigationBar';
-
-import Box from 'react-bulma-components/lib/components/box';
-import Button from 'react-bulma-components/lib/components/button';
-import Columns from 'react-bulma-components/lib/components/columns';
-import {
-  socket,
-  MainLobby as MainLobbyAPI,
-  GameLobby as GameLobbyAPI
-} from '../../../api';
 import {
   Control,
   Field,
   Label,
   Select
 } from 'react-bulma-components/lib/components/form';
+import Box from 'react-bulma-components/lib/components/box';
+import Button from 'react-bulma-components/lib/components/button';
+import Columns from 'react-bulma-components/lib/components/columns';
+
+import {
+  socket,
+  MainLobby as MainLobbyAPI,
+  GameLobby as GameLobbyAPI
+} from '../../../api';
+import GameLobbyList from './GameLobbyList';
+import Chat from '../../../components/Chat';
+import NavigationBar from '../../../components/NavigationBar';
 import './MainLobby.css';
 
 class MainLobby extends Component {
@@ -164,9 +163,9 @@ class MainLobby extends Component {
   render() {
     if (this.state.startRender) {
       return (
-        <div className="boxcolor">
-          <NavigationBar title="Main Lobby" />
-          <Columns>
+        <div>
+          <NavigationBar title="Main Lobby" userName={this.state.userName} />
+          <Columns className="is-fullheight-with-navbar">
             <Columns.Column>
               <GameLobbyList
                 key="gameLobbies"
@@ -175,7 +174,7 @@ class MainLobby extends Component {
               />
               <Box>
                 <form onSubmit={this.onCreate}>
-                  <Label>Choose player capacity:</Label>
+                  <Label className="is-size-4">Choose player capacity:</Label>
                   <Field className="is-grouped">
                     <Select
                       onChange={this.onPlayerCapacityChange}
@@ -187,7 +186,7 @@ class MainLobby extends Component {
                       <option value={5}>5</option>
                     </Select>
                     <Control>
-                      <Button className="is-info" type="submit">
+                      <Button className="is-info is-type-4" type="submit">
                         Make a Room
                       </Button>
                     </Control>
@@ -196,8 +195,12 @@ class MainLobby extends Component {
               </Box>
             </Columns.Column>
             <Columns.Column className="main-lobby-chat is-two-fifths">
-              <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />
-              <ChatInput roomId={null} api={MainLobbyAPI.postMainLobbyChat} />
+              <Chat
+                socket={this.state.socket}
+                api={MainLobbyAPI.postMainLobbyChat}
+                channel={'main-lobby:chat'}
+                roomId={null}
+              />
             </Columns.Column>
           </Columns>
         </div>

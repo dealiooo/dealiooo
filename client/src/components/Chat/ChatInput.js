@@ -35,24 +35,23 @@ class ChatInput extends Component {
   render() {
     const { message } = this.state;
     return (
-      <Box>
-        <form onSubmit={this.onSubmit}>
-          <Field className="has-addons">
-            <Control className="is-expanded">
-              <Input
-                name="message"
-                type="text"
-                onChange={this.onChange}
-                value={message}
-                placeholder="Type your message"
-              />
-            </Control>
-            <Control>
-              <Button className="is-info">Send</Button>
-            </Control>
-          </Field>
-        </form>
-      </Box>
+      <form onSubmit={this.onSubmit}>
+        <Field className="has-addons">
+          <Control className="is-expanded">
+            <Input
+              name="message"
+              type="text"
+              className="is-large"
+              onChange={this.onChange}
+              value={message}
+              placeholder="Message"
+            />
+          </Control>
+          <Control>
+            <Button className="is-fullwidth is-large">Submit</Button>
+          </Control>
+        </Field>
+      </form>
     );
   }
 }

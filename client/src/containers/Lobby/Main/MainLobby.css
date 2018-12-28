@@ -11,11 +11,3 @@ html > body > div#root > div > div.columns > div.column > div.box.ps {
   max-height: 500px;
   overflow: auto;
 }
-
-.back-color {
-  background-color: hsl(133, 76%, 72%);
-}
-
-.boxcolor {
-  background-color: hsl(133, 76%, 72%);
-}

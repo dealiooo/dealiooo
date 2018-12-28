@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 
-import Button from 'react-bulma-components/lib/components/button';
 import {
   Control,
   Field,
   Input
 } from 'react-bulma-components/lib/components/form';
-import Modal from 'react-bulma-components/lib/components/modal';
+import Button from 'react-bulma-components/lib/components/button';
+import Box from 'react-bulma-components/lib/components/box';
 import Section from 'react-bulma-components/lib/components/section';
-import { Auth } from '../../../api';
 import Container from 'react-bulma-components/lib/components/container/container';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
 import Heading from 'react-bulma-components/lib/components/heading';
+
 import Banner from '../../../components/Banner';
+import { Auth } from '../../../api';
+
 class Register extends Component {
   state = {
     name: '',
     email: '',
     password: '',
-    modal_display: false,
-    modal_message: ''
+    error_message: null
   };
 
   onChange = event => {
@@ -34,16 +35,11 @@ class Register extends Component {
       this.state.password
     ).then(result => {
       if (result.error) {
-        this.setState({ modal_message: result.error.errors[0].message });
-        this.setState({ modal_display: true });
+        this.setState({ error_message: result.error.errors[0].message });
       } else {
         window.location = '/main-lobby';
       }
     });
-  };
-
-  onModalClick = event => {
-    this.setState({ modal_display: false });
   };
 
   componentWillMount() {
@@ -58,70 +54,62 @@ class Register extends Component {
     return (
       <Container className="is-fullhd">
         <Banner />
-        <Modal
-          show={this.state.modal_display}
-          onClose={this.onModalClick}
-          closeOnEsc={true}
-          closeOnBlur={true}
-        >
-          <Modal.Content
-            style={{ backgroundColor: 'white' }}
-            onClick={this.onModalClick}
-          >
-            <Section className="has-text-centered has-text-danger is-size-4">
-              {this.state.modal_message}
-            </Section>
-          </Modal.Content>
-        </Modal>
-        <form onSubmit={this.onSubmit}>
+        <Section>
           <Columns className="is-centered">
-            <Columns.Column className="is-3">
-              <Heading className="has-text-centered has-text-black">
-                Register
-              </Heading>
-              <Field>
-                <Control className="control-padding-vertical">
-                  <Input
-                    name="name"
-                    type="text"
-                    onChange={this.onChange}
-                    value={this.state.name}
-                    placeholder="Type your in-game name"
-                  />
-                </Control>
-              </Field>
-
-              <Field>
-                <Control>
-                  <Input
-                    name="email"
-                    type="email"
-                    onChange={this.onChange}
-                    value={this.state.email}
-                    placeholder="Type your email"
-                  />
-                </Control>
-              </Field>
-
-              <Field>
-                <Control>
-                  <Input
-                    name="password"
-                    type="password"
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    placeholder="Type your password"
-                  />
-                </Control>
-              </Field>
-              <Field>
-                <Control>
-                  <Button className="is-info is-fullwidth">Send</Button>
-                </Control>
-              </Field>
+            <Columns.Column size={4}>
+              <Box>
+                <form onSubmit={this.onSubmit}>
+                  <Heading className="has-text-centered has-text-black">
+                    Register
+                  </Heading>
+                  <Field>
+                    <Control className="control-padding-vertical">
+                      <Input
+                        name="name"
+                        type="text"
+                        className="is-large"
+                        onChange={this.onChange}
+                        value={this.state.name}
+                        placeholder="Enter a name"
+                      />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Input
+                        name="email"
+                        type="email"
+                        className="is-large"
+                        onChange={this.onChange}
+                        value={this.state.email}
+                        placeholder="Enter a email"
+                      />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Input
+                        name="password"
+                        type="password"
+                        className="is-large"
+                        onChange={this.onChange}
+                        value={this.state.password}
+                        placeholder="Enter a Password"
+                      />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Button className="is-fullwidth is-large">
+                        Register
+                      </Button>
+                    </Control>
+                  </Field>
+                </form>
+              </Box>
             </Columns.Column>
           </Columns>
-        </form>
+        </Section>
       </Container>
     );
   }
