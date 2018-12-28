@@ -1,7 +1,7 @@
 const gameActions = require('../gameActions');
 const userControls = require('../userControls');
 
-module.exports = (Game, callback) => {
+const endTurn = (Game, callback) => {
   Game.cards_played = 0;
   Game.cards_played_list = [];
 
@@ -21,8 +21,10 @@ module.exports = (Game, callback) => {
         callback(error);
       } else {
         gameActions.moveCard(player.hand, Game.discard, card);
-        endTurn(callback);
+        endTurn(Game, callback);
       }
     });
   }
 };
+
+module.exports = endTurn;

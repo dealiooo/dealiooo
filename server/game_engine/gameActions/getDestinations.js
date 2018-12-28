@@ -2,7 +2,7 @@ const getPropertySetStatus = require('./getPropertySetStatus');
 const getCanAddHotelToPropertySet = require('./getCanAddHotelToPropertySet');
 const getCanAddHouseToPropertySet = require('./getCanAddHouseToPropertySet');
 
-const getAllDestinations = (player, card, source) => {
+const getAllDestinations = (Game, player, card, source) => {
   let destinationIndexes = [];
   let destinations = player.field.property_cards.filter((set, i) => {
     destinationIndexes.push(`${i}`);
@@ -29,12 +29,12 @@ const getPropertyDestinations = (Game, player, card, source) => {
 };
 
 const getBuildingDestinations = (Game, player, card, source) => {
-  let destination = [];
+  let destinations = [];
   let destinationIndexes = [];
   if (player.field.building_cards !== source) {
-    destination = [];
+    destinations = [];
   } else if ('house' === card.name) {
-    destination = player.field.property_cards.filter((set, i) => {
+    destinations = player.field.property_cards.filter((set, i) => {
       let condition = getCanAddHouseToPropertySet(Game, set);
       if (condition) {
         destinationIndexes.push(`${i}`);
@@ -42,7 +42,7 @@ const getBuildingDestinations = (Game, player, card, source) => {
       return condition;
     });
   } else {
-    destination = player.field.property_cards.filter((set, i) => {
+    destinations = player.field.property_cards.filter((set, i) => {
       let condition = getCanAddHotelToPropertySet(Game, set);
       if (condition) {
         destinationIndexes.push(`${i}`);
@@ -50,10 +50,10 @@ const getBuildingDestinations = (Game, player, card, source) => {
       return condition;
     });
   }
-  return { destination, destinationIndexes };
+  return { destinations, destinationIndexes };
 };
 
-const getRentDestinations = (player, card, source) => {
+const getRentDestinations = (Game, player, card, source) => {
   let destinationIndexes = [];
   let destinations = player.field.property_cards.filter((set, i) => {
     let condition = set.length && set[0].mainColor === card.mainColor;

@@ -32,9 +32,7 @@ const payRent = (Game, payee, player, amount, callback) => {
 
 const pickValuableFieldCard = (Game, player, pileNames, callback) => {
   userControls.pickFieldCard(Game, player, pileNames, (error, card, source) => {
-    if (error) {
-      callback(error);
-    } else if (card.value > 0) {
+    if (!error & card.value > 0) {
       callback(null, card, source);
     } else {
       pickValuableFieldCard(Game, player, pileNames, callback);

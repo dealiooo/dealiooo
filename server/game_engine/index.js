@@ -71,8 +71,12 @@ const game_engine = {
       'End Turn': game_engine.applyEndTurn
     };
     let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.pickBasicOptions(Game, player, (_, option) => {
-      applyBasicOptions[option](Game);
+    userControls.pickBasicOptions(Game, player, ( error, option) => {
+      if (error) {
+        game_engine.promptBasicOptions(Game);
+      } else {
+        applyBasicOptions[option](Game);
+      }
     });
   },
   promptPlayHandCard: Game => {
@@ -119,8 +123,10 @@ const game_engine = {
   },
   promptSourceAndDestination: Game => {
     let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.moveCardAround(Game, player, _ => {
-      if (!gameControls.computeWinCondition(Game, player)) {
+    gameControls.moveCardAround(Game, player, error => {
+      if (error) {
+        game_engine.promptBasicOptions(Game);
+      } else if (!gameControls.computeWinCondition(Game, player)) {
         game_engine.promptBasicOptions(Game);
       }
     });
@@ -129,6 +135,7 @@ const game_engine = {
     let player = Game.players[Game.turn_count % Game.player_count];
     gameControls.playCard(Game, player, card, (error, card) => {
       if (error) {
+        console.log("123123123123123");
         game_engine.promptBasicOptions(Game);
       } else {
         gameControls.onCardPlayed(Game, card);

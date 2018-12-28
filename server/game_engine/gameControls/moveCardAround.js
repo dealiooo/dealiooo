@@ -2,10 +2,10 @@ const gameActions = require('../gameActions');
 const userActions = require('../userActions');
 const userControls = require('../userControls');
 
-const moveCard = (player, card, source, callback) => {
+const moveCard = (Game, player, card, source, callback) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
-  ](player, card, source.pile);
+  ](Game, player, card, source.pile);
   if (destinations.length) {
     userActions.pickOption(Game, {
       player,
@@ -41,11 +41,11 @@ module.exports = (Game, player, callback) => {
             callback(error);
           } else {
             gameActions.switchColor(card, color);
-            moveCard(player, card, source, callback);
+            moveCard(Game, player, card, source, callback);
           }
         });
       } else {
-        moveCard(player, card, source, callback);
+        moveCard(Game, player, card, source, callback);
       }
     }
   });
