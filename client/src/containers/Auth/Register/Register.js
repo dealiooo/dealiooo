@@ -67,7 +67,6 @@ class Register extends Component {
                       <Input
                         name="name"
                         type="text"
-                        className="is-large"
                         onChange={this.onChange}
                         value={this.state.name}
                         placeholder="Enter a name"
@@ -79,7 +78,6 @@ class Register extends Component {
                       <Input
                         name="email"
                         type="email"
-                        className="is-large"
                         onChange={this.onChange}
                         value={this.state.email}
                         placeholder="Enter a email"
@@ -91,7 +89,6 @@ class Register extends Component {
                       <Input
                         name="password"
                         type="password"
-                        className="is-large"
                         onChange={this.onChange}
                         value={this.state.password}
                         placeholder="Enter a Password"
@@ -100,9 +97,7 @@ class Register extends Component {
                   </Field>
                   <Field>
                     <Control>
-                      <Button className="is-fullwidth is-large">
-                        Register
-                      </Button>
+                      <Button className="is-fullwidth">Register</Button>
                     </Control>
                   </Field>
                 </form>

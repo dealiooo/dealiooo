@@ -41,14 +41,13 @@ class ChatInput extends Component {
             <Input
               name="message"
               type="text"
-              className="is-large"
               onChange={this.onChange}
               value={message}
               placeholder="Message"
             />
           </Control>
           <Control>
-            <Button className="is-fullwidth is-large">Submit</Button>
+            <Button className="is-fullwidth">Submit</Button>
           </Control>
         </Field>
       </form>

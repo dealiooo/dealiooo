@@ -57,7 +57,6 @@ class ForgotPassword extends Component {
                       <Input
                         name="email"
                         type="email"
-                        className="is-large"
                         onChange={this.onChange}
                         placeholder="Email"
                         value={email}
@@ -66,7 +65,7 @@ class ForgotPassword extends Component {
                   </Field>
                   <Field>
                     <Control>
-                      <Button className="is-fullwidth is-large">Submit</Button>
+                      <Button className="is-fullwidth">Submit</Button>
                     </Control>
                   </Field>
                 </Box>

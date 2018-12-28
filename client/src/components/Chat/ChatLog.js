@@ -34,9 +34,7 @@ class ChatLog extends Component {
     return (
       <Box>
         {this.state.log.map((message, i) => (
-          <p key={i} className="is-size-4">
-            {message}
-          </p>
+          <p key={i}>{message}</p>
         ))}
       </Box>
     );

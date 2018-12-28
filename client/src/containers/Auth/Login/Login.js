@@ -65,7 +65,6 @@ class Login extends Component {
                       <Input
                         name="email"
                         type="email"
-                        className="is-large"
                         onChange={this.onChange}
                         value={email}
                         placeholder="Email"
@@ -77,7 +76,6 @@ class Login extends Component {
                       <Input
                         name="password"
                         type="password"
-                        className="is-large"
                         onChange={this.onChange}
                         value={password}
                         placeholder="Password"
@@ -86,7 +84,7 @@ class Login extends Component {
                   </Field>
                   <Field>
                     <Control>
-                      <Button className="is-fullwidth is-large">Login</Button>
+                      <Button className="is-fullwidth">Login</Button>
                     </Control>
                   </Field>
                   <div className="has-text-right">

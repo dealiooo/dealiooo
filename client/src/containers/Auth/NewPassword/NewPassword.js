@@ -44,7 +44,6 @@ class NewPassword extends Component {
                       <Input
                         name="password"
                         type="password"
-                        className="is-large"
                         onChange={this.onChange}
                         value={password}
                         placeholder="New Password"
@@ -53,7 +52,7 @@ class NewPassword extends Component {
                   </Field>
                   <Field>
                     <Control>
-                      <Button className="is-fullwidth is-large">Submit</Button>
+                      <Button className="is-fullwidth">Submit</Button>
                     </Control>
                   </Field>
                 </form>
