@@ -31,7 +31,6 @@ const getPileTitle = (cards, type) =>
 const renderPileViewComponents = (cards, type) => {
   let PileView;
 
-  // TODO: FIX
   if (type === 'property_cards') {
     PileView = cards.map(stack => {
       if (stack.length) {
@@ -152,9 +151,18 @@ const renderStack = (cards, type) => {
   );
 };
 
+const displayHandCount = cards => {
+  return (
+    <Tile kind="child" size={0.5}>
+      <Card style={{ overflowX: 'auto' }}>Hand: {cards.length}</Card>
+    </Tile>
+  );
+};
+
 const PlayerField = ({ player_info }) => {
   return (
     <Tile kind="parent" size={12}>
+      {/* {displayHandCount(player_info.hand)} */}
       {renderStack(player_info.bank_cards, 'bank_cards')}
       {renderStack(player_info.property_cards, 'property_cards')}
       {renderStack(player_info.action_cards, 'action_cards')}
@@ -216,14 +224,15 @@ const PlayerViews = ({ players_info, userId }) => {
   };
 
   console.log(players_info);
+  let i = 0;
 
   return (
     <Columns>
-      {players_info.map((player_info, i) => {
-        if (i === userId)
+      {players_info.map(player_info => {
+        if (!(player_info.id === userId))
           return (
             <Columns.Column
-              size={ColumnSizes[players_info.length][i]}
+              size={ColumnSizes[players_info.length][i++]}
               style={{ margin: '0 auto' }}
             >
               <PlayerView player_info={player_info} />

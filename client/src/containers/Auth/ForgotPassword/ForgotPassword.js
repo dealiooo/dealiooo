@@ -10,6 +10,7 @@ import Columns from 'react-bulma-components/lib/components/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Banner from '../../../components/Banner';
 import Heading from 'react-bulma-components/lib/components/heading';
+import Box from 'react-bulma-components/lib/components/box';
 import { Auth } from '../../../api';
 
 class ForgotPassword extends Component {
@@ -52,26 +53,28 @@ class ForgotPassword extends Component {
             ) : null}
             <form onSubmit={this.onSubmit}>
               <Columns className="is-centered">
-                <Columns.Column className="is-two-fifths is-4">
-                  <Field>
-                    <Heading className="has-text-centered has-text-black">
-                      Forgot Password
-                    </Heading>
-                    <Control>
-                      <Input
-                        name="email"
-                        type="email"
-                        onChange={this.onChange}
-                        placeholder="Email"
-                        value={email}
-                      />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control className="has-text-centered">
-                      <Button>Submit</Button>
-                    </Control>
-                  </Field>
+                <Columns.Column className="is-two-fifths">
+                  <Box className="has-background-light">
+                    <Field>
+                      <Heading className="has-text-centered has-text-black">
+                        Forgot Password
+                      </Heading>
+                      <Control>
+                        <Input
+                          name="email"
+                          type="email"
+                          onChange={this.onChange}
+                          placeholder="Email"
+                          value={email}
+                        />
+                      </Control>
+                    </Field>
+                    <Field>
+                      <Control className="has-text-centered">
+                        <Button>Submit</Button>
+                      </Control>
+                    </Field>
+                  </Box>
                 </Columns.Column>
               </Columns>
             </form>

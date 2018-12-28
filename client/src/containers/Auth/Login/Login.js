@@ -11,6 +11,7 @@ import Section from 'react-bulma-components/lib/components/section';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
 import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
+import Icon from 'react-bulma-components/lib/components/icon';
 import Banner from '../../../components/Banner';
 
 import { Auth } from '../../../api';
@@ -79,7 +80,8 @@ class Login extends Component {
                 Login
               </Heading>
               <Field>
-                <Control>
+                <Control className="has-icons-left">
+                  <Icon icon="" color="info" />
                   <Input
                     name="email"
                     type="email"

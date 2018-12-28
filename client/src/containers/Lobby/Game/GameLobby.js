@@ -128,7 +128,7 @@ class GameLobby extends Component {
   onStart(_) {
     GameLobbyAPI.postGameLobbyStart(this.state.gameId).then(result => {
       if (result.message) {
-        console.log(result.message);
+        toast(result.message);
       }
     });
   }
@@ -137,7 +137,6 @@ class GameLobby extends Component {
     GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId).then(
       result => {}
     );
-    toast(`${this.state.userId} is ready`);
   }
 
   onExit(_) {
@@ -149,7 +148,7 @@ class GameLobby extends Component {
   render() {
     if (this.state.startRender) {
       return (
-        <Box className="boxcolor">
+        <Box className="has-background-grey-lighter">
           <NavigationBar title={this.state.lobbyName} />
           <Section>
             <Columns>

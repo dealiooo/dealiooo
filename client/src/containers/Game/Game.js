@@ -89,7 +89,6 @@ class Game extends Component {
   };
 
   handleEndTurn = _ => {
-    console.log(this.props.match.params.id);
     GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
