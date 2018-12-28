@@ -6,9 +6,6 @@ import ChatInput from '../.../../../components/Chat/ChatInput';
 import { socket, Game } from './../../api';
 
 class GameChat extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     let gameId = this.props.match.params.id;

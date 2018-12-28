@@ -9,7 +9,7 @@ import {
   Select
 } from 'react-bulma-components/lib/components/form';
 
-import { NotificationConsumer } from '../../contexts/NotificationContext';
+// import { NotificationConsumer } from '../../contexts/NotificationContext';
 
 class GeneralGameInfo extends Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class GeneralGameInfo extends Component {
                   value={this.state.option}
                 >
                   {prompts_info.options.map((option, i) => {
-                    return <option value={i}>{option}</option>;
+                    return <option key={i} value={i}>{option}</option>;
                   })}
                 </Select>
               ) : (

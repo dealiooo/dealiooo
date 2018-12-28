@@ -97,6 +97,7 @@ class Game extends Component {
 
     if (load) {
       if (start_game && data.players_info) {
+        console.log('data is: ', data);
         return (
           <Columns>
             <Columns.Column size={10}>

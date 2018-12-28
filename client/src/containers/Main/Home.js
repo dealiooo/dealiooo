@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Container from 'react-bulma-components/lib/components/container';
-import Button from 'react-bulma-components/lib/components/button';
 
 import routes from '../../routes';
 
