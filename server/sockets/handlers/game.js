@@ -59,14 +59,16 @@ const join = (globalSockets, sockets) => (gameId, userId) => {
 };
 
 const startGame = sockets => gameId => {
-  Game.getUserIds(gameId).then(userIds => {
-    gameGlobals.set(gameId, gameEngine.start(userIds.map(userId => userId.id)));
-    sockets
-      .get(gameId)
-      .forEach(client_socket =>
-        client_socket.emit(`game:${gameId}:start-game`, 'game is started')
-      );
-  });
+  Game.startGame(gameId).then(
+    Game.getUserIds(gameId).then(userIds => {
+      gameGlobals.set(gameId, gameEngine.start(userIds.map(userId => userId.id)));
+      sockets
+        .get(gameId)
+        .forEach(client_socket =>
+          client_socket.emit(`game:${gameId}:start-game`, 'game is started')
+        );
+    })
+  ).catch( error => console.log(error))
 };
 
 const update = sockets => (gameId, userId) => {

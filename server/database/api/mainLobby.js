@@ -1,3 +1,8 @@
+const findRunningGames = db => id =>
+db.th_users
+  .findById(id)
+  .then(user => user.getGames({ where: { status: 'running' } }));
+
 const findStartedGames = db => id =>
   db.th_users
     .findById(id)
@@ -16,6 +21,7 @@ const insertGame = db => (th_user_id, player_cap) =>
   );
 
 module.exports = db => ({
+  findRunningGames: findRunningGames(db),
   findStartedGames: findStartedGames(db),
   findOpenLobbies: findOpenLobbies(db),
   insertGame: insertGame(db)

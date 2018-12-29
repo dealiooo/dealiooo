@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ['open', 'started', 'ended'],
+        values: ['open', 'started', 'running', 'ended'],
         allowNull: false
       },
       player_cap: {

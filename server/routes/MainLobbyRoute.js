@@ -7,13 +7,14 @@ const { MainLobby: MainLobbySockets } = require('../sockets');
 router.get('/main-lobby', authenticateUser, sendUserIdAndUserName);
 
 router.post('/main-lobby', authenticateUser, (_, response) =>
-  MainLobbyDB.findStartedGames(response.locals.user.id)
+  MainLobbyDB.findRunningGames(response.locals.user.id).then(
+    runningGames => MainLobbyDB.findStartedGames(response.locals.user.id)
     .then(startedGames =>
       MainLobbyDB.findOpenLobbies().then(openLobbies =>
-        response.json({ result: startedGames.concat(openLobbies) })
+        response.json({ result: runningGames.concat(startedGames).concat(openLobbies) })
       )
     )
-    .then(error => response.json({ error }))
+  ).catch(error => response.json({ error }))
 );
 
 router.post('/main-lobby/chat', authenticateUser, (request, response) => {

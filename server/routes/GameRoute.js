@@ -3,13 +3,27 @@ const authenticateUser = require('./middlewares/authenticateUser');
 const authenticatePlayer = require('./middlewares/authenticatePlayer');
 const authenticateHost = require('./middlewares/authenticateHost');
 const sendUserIdUserNameAndHostStatus = require('./middlewares/sendUserIdUserNameAndHostStatus');
-const { Game } = require('../sockets');
+const { Game: GameSockets } = require('../sockets');
+const { Game: GameDB } = require('../database/api');
+
 
 router.get(
   '/game/:gameId',
   authenticateUser,
   authenticatePlayer,
   sendUserIdUserNameAndHostStatus
+);
+
+router.get(
+  '/api/game/:gameId/status',
+  authenticateUser,
+  authenticatePlayer,
+  (request, response) => {
+    const { gameId } = request.params;
+    GameDB.getStatus(gameId)
+    .then(result => response.json({ result }))
+    .catch(error => response.json({ error }))
+  }
 );
 
 router.post(
@@ -20,7 +34,7 @@ router.post(
     const { gameId } = request.params;
     const { id, name } = response.locals.user;
     const { message } = request.body;
-    Game.chat(gameId, `[${id}]:${name}:${message}`);
+    GameSockets.chat(gameId, `[${id}]:${name}:${message}`);
     response.sendStatus(204);
   }
 );
@@ -33,7 +47,7 @@ router.post(
     const { gameId } = request.params;
     const { id } = response.locals.user;
     const { clickInput } = request.body;
-    Game.click(gameId, id, clickInput);
+    GameSockets.click(gameId, id, clickInput);
     response.sendStatus(204);
   }
 );
@@ -45,7 +59,7 @@ router.post(
   (request, response) => {
     const { gameId } = request.params;
     const { id } = response.locals.user;
-    Game.endTurn(gameId, id);
+    GameSockets.endTurn(gameId, id);
     response.sendStatus(204);
   }
 );
@@ -57,7 +71,7 @@ router.post(
   (request, response) => {
     const { gameId } = request.params;
     const { id } = response.locals.user;
-    Game.forfeit(gameId, id);
+    GameSockets.forfeit(gameId, id);
     response.sendStatus(204);
   }
 );
@@ -69,7 +83,7 @@ router.post(
   (request, response) => {
     const { gameId } = request.params;
     const { id } = response.locals.user;
-    Game.join(gameId, id);
+    GameSockets.join(gameId, id);
     response.sendStatus(204);
   }
 );
@@ -81,7 +95,7 @@ router.post(
   authenticateHost,
   (request, response) => {
     const { gameId } = request.params;
-    Game.startGame(gameId);
+    GameSockets.startGame(gameId);
     response.sendStatus(204);
   }
 );
@@ -93,7 +107,7 @@ router.post(
   (request, response) => {
     const { gameId } = request.params;
     const { id } = response.locals.user;
-    Game.update(gameId, id);
+    GameSockets.update(gameId, id);
     response.sendStatus(204);
   }
 );
