@@ -5,7 +5,6 @@ import Level from 'react-bulma-components/lib/components/level';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
-import Hero from 'react-bulma-components/lib/components/hero';
 
 import NavigationBar from '../../../components/NavigationBar';
 import Chat from '../../../components/Chat';

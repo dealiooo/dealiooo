@@ -8,13 +8,13 @@ const notAuthenticated = require('./middlewares/notAuthenticated');
 const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
 const { Auth } = require('../database/api');
 
-router.get('/register', authenticateUser, sendUserIdAndUserName);
-router.get('/login', authenticateUser, sendUserIdAndUserName);
-router.get('/forgot-password', authenticateUser, sendUserIdAndUserName);
-router.get('/new-password', authenticateUser, sendUserIdAndUserName);
-router.get('/logout', authenticateUser, sendUserIdAndUserName);
+router.get('/api/register', authenticateUser, sendUserIdAndUserName);
+router.get('/api/login', authenticateUser, sendUserIdAndUserName);
+router.get('/api/forgot-password', authenticateUser, sendUserIdAndUserName);
+router.get('/api/new-password', authenticateUser, sendUserIdAndUserName);
+router.get('/api/logout', authenticateUser, sendUserIdAndUserName);
 
-router.post('/register', emptyStringsToNull, (request, response) => {
+router.post('/api/register', emptyStringsToNull, (request, response) => {
   const { name, email, password } = request.body;
   return Auth.insertUser(name, email, password)
     .then(user =>
@@ -29,7 +29,7 @@ router.post('/register', emptyStringsToNull, (request, response) => {
 });
 
 router.post(
-  '/forgot-password',
+  '/api/forgot-password',
   notAuthenticated,
   emptyStringsToNull,
   (request, response) => {
@@ -98,7 +98,7 @@ router.post(
 );
 
 router.post(
-  '/new-password/:sessionId',
+  '/api/new-password/:sessionId',
   notAuthenticated,
   emptyStringsToNull,
   (request, response) => {
@@ -135,7 +135,7 @@ router.post(
   }
 );
 
-router.post('/login', emptyStringsToNull, (request, response) => {
+router.post('/api/login', emptyStringsToNull, (request, response) => {
   const { email, password } = request.body;
   return Auth.findUserByEmail(email)
     .then(user => {
@@ -160,7 +160,7 @@ router.post('/login', emptyStringsToNull, (request, response) => {
     .catch(error => response.json({ error }));
 });
 
-router.post('/logout', (request, response) => {
+router.post('/api/logout', (request, response) => {
   request.logout();
   response.sendStatus(200);
   return null;
