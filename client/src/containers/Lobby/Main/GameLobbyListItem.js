@@ -29,38 +29,41 @@ class GameLobbyListItem extends Component {
   render() {
     if (this.props.gameLobby.playerList) {
       let hasJoined = false;
-      let playerList = this.props.gameLobby.playerList.map((player, i) => {
-        if (this.props.userId === player.id) {
-          hasJoined = true;
-        }
-        return (
-          <li key={i}>
-            <Tag>{player.name}</Tag>
-          </li>
-        );
-      });
+      let playerList = (
+        <Tag.Group>
+          {this.props.gameLobby.playerList.map((player, i) => {
+            if (this.props.userId === player.id) {
+              hasJoined = true;
+            }
+            return (
+              <Tag>
+                [{player.id}]{player.name}
+              </Tag>
+            );
+          })}
+        </Tag.Group>
+      );
       let actionButton;
       if (hasJoined) {
         actionButton = (
-          <Button onClick={this.onEnter} className="is-large">
+          <Button className="is-fullwidth" onClick={this.onEnter}>
             Enter
           </Button>
         );
       } else {
         actionButton = (
-          <Button onClick={this.onJoin} className="is-large">
+          <Button className="is-fullwidth" onClick={this.onJoin}>
             Join
           </Button>
         );
       }
       return (
         <Box>
-          {this.props.gameLobby.id}
           <Columns>
             <Columns.Column>
-              <p className="is-size-4">
-                {this.props.gameLobby.playerNum} /{' '}
-                {this.props.gameLobby.playerCap}
+              <p>
+                #{this.props.gameLobby.id} ({this.props.gameLobby.playerNum} /{' '}
+                {this.props.gameLobby.playerCap})
               </p>
             </Columns.Column>
             <Columns.Column>{playerList}</Columns.Column>

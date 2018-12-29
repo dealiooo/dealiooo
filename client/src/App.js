@@ -3,6 +3,8 @@ import { ToastContainer } from 'react-toastify';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import routes from './routes';
+
+import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { NotificationProvider } from './contexts/NotificationContext';

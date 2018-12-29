@@ -1,13 +1,13 @@
-html > body > div#root > div.box > div.columns > .main-lobby-chat > div.box.ps {
+.main-lobby-chat > div.box.ps {
   position: relative;
-  min-height: 500px;
-  max-height: 500px;
+  min-height: 1000px;
+  max-height: 1000px;
   overflow: auto;
 }
 
 html > body > div#root > div > div.columns > div.column > div.box.ps {
   position: relative;
-  min-height: 500px;
-  max-height: 500px;
+  min-height: 600px;
+  max-height: 600px;
   overflow: auto;
 }

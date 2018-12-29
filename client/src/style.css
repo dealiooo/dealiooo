@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
 /*! bulma.io v0.7.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
@@ -380,7 +381,7 @@ button,
 input,
 select,
 textarea {
-  font-family: 'Georgia';
+  font-family: 'Mukta';
 }
 
 code,

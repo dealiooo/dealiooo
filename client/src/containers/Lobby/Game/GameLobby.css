@@ -1,13 +1,6 @@
-html
-  > body
-  > div#root
-  > div.box
-  > section.section
-  > div.columns.is-multiline
-  > .game-lobby-chat
-  > div.box.ps {
+.game-lobby-chat > div.box.ps {
   position: relative;
-  min-height: 400px;
-  max-height: 400px;
+  min-height: 450px;
+  max-height: 450px;
   overflow: auto;
 }
