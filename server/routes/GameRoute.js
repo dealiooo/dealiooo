@@ -6,14 +6,14 @@ const sendUserIdUserNameAndHostStatus = require('./middlewares/sendUserIdUserNam
 const { Game } = require('../sockets');
 
 router.get(
-  '/game/:gameId',
+  '/api/game/:gameId',
   authenticateUser,
   authenticatePlayer,
   sendUserIdUserNameAndHostStatus
 );
 
 router.post(
-  '/game/:gameId/chat',
+  '/api/game/:gameId/chat',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
@@ -26,7 +26,7 @@ router.post(
 );
 
 router.post(
-  '/game/:gameId/click',
+  '/api/game/:gameId/click',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
@@ -39,7 +39,7 @@ router.post(
 );
 
 router.post(
-  '/game/:gameId/endTurn',
+  '/api/game/:gameId/endTurn',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
@@ -51,7 +51,7 @@ router.post(
 );
 
 router.post(
-  '/game/:gameId/forfeit',
+  '/api/game/:gameId/forfeit',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
@@ -63,7 +63,7 @@ router.post(
 );
 
 router.post(
-  '/game/:gameId/join',
+  '/api/game/:gameId/join',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
@@ -75,7 +75,7 @@ router.post(
 );
 
 router.post(
-  '/game/:gameId/startGame',
+  '/api/game/:gameId/startGame',
   authenticateUser,
   authenticatePlayer,
   authenticateHost,
@@ -87,7 +87,7 @@ router.post(
 );
 
 router.post(
-  '/game/:gameId/update',
+  '/api/game/:gameId/update',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
