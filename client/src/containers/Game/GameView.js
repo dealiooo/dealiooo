@@ -29,42 +29,44 @@ const getPileTitle = (cards, type) =>
   } $${getTotalValue(cards)}`;
 
 const renderPileViewComponents = (cards, type) => {
-  console.log(cards);
   let PileView;
+
   if (type === 'property_cards') {
-    PileView = cards.map(card => {
-      return (
-        <Card>
-          <Card.Header>
-            <Card.Header.Title>{card.length}</Card.Header.Title>
-          </Card.Header>
-          <Card.Content className={card[0].mainColor}>P</Card.Content>
-        </Card>
-      );
+    PileView = cards.map((stack, i) => {
+      if (stack.length) {
+        return (
+          <Card key={i}>
+            <Card.Header>
+              <Card.Header.Title>{stack.length}</Card.Header.Title>
+            </Card.Header>
+            <Card.Content className={stack[0].mainColor}>P</Card.Content>
+          </Card>
+        );
+      } else {
+        return <div>[]</div>;
+      }
     });
   } else if (type === 'building_cards') {
     const cardFrequencies = { house: 0, hotel: 0 };
     // calculate frequencies for each card
     cards.map(c => cardFrequencies[c.name]++);
     const keys = Object.keys(cardFrequencies);
-    PileView = keys.map(key => {
-      if (cardFrequencies[key] > 0) {
+    PileView = keys.map((key, i) => {
         return (
-          <Card>
+          <Card key={i}>
             <Card.Header>
               <Card.Header.Title>{cardFrequencies[key]}</Card.Header.Title>
             </Card.Header>
             <Card.Content>{key}</Card.Content>
           </Card>
         );
-      }
     });
   } else if (type === 'action_cards') {
     PileView =
       cards.length === 0
         ? []
-        : cards.map(card => (
-            <Card>
+        : cards.map((card, i) => (
+            <Card key={i}>
               <Card.Header>
                 <Card.Header.Title>{card.name}</Card.Header.Title>
               </Card.Header>
@@ -74,11 +76,9 @@ const renderPileViewComponents = (cards, type) => {
   } else if (type === 'bank_cards') {
     const frequencies = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 10: 0 };
     cards.map(c => frequencies[c.value]++);
-    const valueCards = Object.keys(frequencies).filter(
-      key => frequencies[key] > 0
-    );
-    PileView = valueCards.map(card => (
-      <Card>
+    const valueCards = Object.keys(frequencies);
+    PileView = valueCards.map((card, i) => (
+      <Card key={i}>
         <Card.Header>
           <Card.Header.Title>{frequencies[card]}</Card.Header.Title>
         </Card.Header>
@@ -95,8 +95,8 @@ const renderCardsModalView = cards => {
     <div>
       {cards.map(set => (
         <div>
-          {set.map(card => (
-            <Image
+          {set.map((card, i) => (
+            <Image key = {i}
               src={
                 process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
               }
@@ -108,8 +108,8 @@ const renderCardsModalView = cards => {
     </div>
   ) : (
     <div>
-      {cards.map(card => (
-        <Image
+      {cards.map((card, i) => (
+        <Image key={i}
           src={process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`}
           alt="card"
         />
@@ -137,8 +137,8 @@ const renderStack = (cards, type) => {
         </Level>
         <Card style={{ overflowX: 'auto' }}>
           <Tile>
-            {renderPileViewComponents(cards, type).map(card => (
-              <Tile style={{ paddingRight: 8 }}>{card}</Tile>
+            {renderPileViewComponents(cards, type).map((card, i) => (
+              <Tile key={i} style={{ paddingRight: 8 }}>{card}</Tile>
             ))}
           </Tile>
         </Card>
@@ -146,10 +146,20 @@ const renderStack = (cards, type) => {
     </Tile>
   );
 };
+/*
+const displayHandCount = cards => {
+  return (
+    <Tile kind="child" size={0.5}>
+      <Card style={{ overflowX: 'auto' }}>Hand: {cards.length}</Card>
+    </Tile>
+  );
+};
+*/
 
 const PlayerField = ({ player_info }) => {
   return (
     <Tile kind="parent" size={12}>
+      {/* {displayHandCount(player_info.hand)} */}
       {renderStack(player_info.bank_cards, 'bank_cards')}
       {renderStack(player_info.property_cards, 'property_cards')}
       {renderStack(player_info.action_cards, 'action_cards')}
@@ -158,15 +168,15 @@ const PlayerField = ({ player_info }) => {
   );
 };
 
-const PlayerHand = ({ hand }) => {
+const PlayerHand = ({ hand, handleClick }) => {
   let HandView;
   if (Array.isArray(hand)) {
-    HandView = hand.map(card => {
+    HandView = hand.map((card, i) => {
       return (
-        <Tile kind="child" size={1}>
+        <Tile key={i} kind="child" size={1}>
           <h1>{card.id}</h1>
           <Image
-            onClick={() => {}}
+            onClick={() => handleClick(card)}
             src={
               process.env.PUBLIC_URL + `/cards/${card.type}/${card.name}.jpg`
             }
@@ -186,8 +196,7 @@ const PlayerHand = ({ hand }) => {
   );
 };
 
-const PlayerView = ({ player_info, showHand = false }) => {
-  console.log(player_info);
+const PlayerView = ({ player_info, showHand = false, handleClick }) => {
   return (
     <div>
       <Tile kind="ancestor">
@@ -195,7 +204,7 @@ const PlayerView = ({ player_info, showHand = false }) => {
       </Tile>
       {showHand ? (
         <Tile kind="ancestor">
-          <PlayerHand hand={player_info.hand} />
+          <PlayerHand hand={player_info.hand} handleClick={handleClick} />
         </Tile>
       ) : null}
     </div>
@@ -210,21 +219,29 @@ const PlayerViews = ({ players_info, userId }) => {
     4: [6, 6, 10],
     5: [6, 6, 6, 6]
   };
-  const numPlayers = players_info.length;
+
+  console.log(players_info);
+  let i = 0;
+
   return (
     <Columns>
-      {players_info.map((player_info, i) => {
-        // TODO:
-        if (i === userId)
-          return (
-            <Columns.Column
-              size={ColumnSizes[numPlayers][i]}
-              style={{ margin: '0 auto' }}
-            >
-              <PlayerView player_info={player_info} />
-            </Columns.Column>
-          );
-      })}
+      {
+        players_info.map((player_info, j) => {
+          if (!(player_info.id === userId)) {
+            return (
+              <Columns.Column
+                key={j}
+                size={ColumnSizes[players_info.length][i++]}
+                style={{ margin: '0 auto' }}
+              >
+                <PlayerView player_info={player_info} />
+              </Columns.Column>
+            );
+          } else {
+            return null;
+          }
+        }).filter(e => null !== e)
+      }
     </Columns>
   );
 };
@@ -258,15 +275,16 @@ const MiddleFieldView = ({ deckCount, discard }) => {
 };
 
 class GameView extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
-    const { players_info, general_info, userId } = this.props;
-    // TODO:
+    const {
+      userId,
+      players_info,
+      general_info,
+      onHandCardClicked
+    } = this.props;
     const me = players_info.filter(player => player.id === userId)[0];
-    console.log('me', me);
+
     return (
       <div
         className="has-background-white-ter"
@@ -284,7 +302,11 @@ class GameView extends Component {
           deckCount={general_info.deckCount}
           discard={general_info.discard}
         />
-        <PlayerView player_info={me} showHand={true} />
+        <PlayerView
+          player_info={me}
+          showHand={true}
+          handleClick={onHandCardClicked}
+        />
       </div>
     );
   }

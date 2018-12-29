@@ -1,9 +1,8 @@
 var router = require('express').Router();
 var path = require('path');
 
-router.all('*', (_, response) => {
-  response.sendFile(path.join(__dirname + '../../../client/public/index.html'));
-  return null;
+router.all('*', function(_, response) {
+  response.sendFile(path.resolve(__dirname, '../../client/build', 'index.html'));
 });
 
 module.exports = router;

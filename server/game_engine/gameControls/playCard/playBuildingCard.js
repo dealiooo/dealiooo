@@ -6,10 +6,10 @@ const playAsMoney = (player, card, callback) => {
   callback(null, card);
 };
 
-const playAsProperty = (player, card, callback) => {
+const playAsProperty = (Game, player, card, callback) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
-  ](player, card, player.hand);
+  ](Game, player, card, player.hand);
   if (destinations.length) {
     userActions.pickOption(Game, {
       player,
@@ -43,7 +43,7 @@ module.exports = (Game, player, card, callback) => {
         if ('bank' === option) {
           playAsMoney(player, card, callback);
         } else {
-          playAsProperty(player, card, callback);
+          playAsProperty(Game, player, card, callback);
         }
       }
     }

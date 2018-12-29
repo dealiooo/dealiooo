@@ -11,7 +11,8 @@ import ChatLog from '../../../components/Chat/ChatLog';
 import ChatInput from '../../../components/Chat/ChatInput';
 import PlayerStatus from './PlayerStatus';
 
-import api from '../../../api';
+import { socket, GameLobby as GameLobbyAPI } from '../../../api';
+import { toast } from 'react-toastify';
 
 import './GameLobby.css';
 
@@ -35,33 +36,35 @@ class GameLobby extends Component {
       userId: null,
       userName: null,
       playersStatus: null,
-      socket: api.socket
+      socket: socket
     };
-    api.postGameLobbyEnter(gameId);
-    api.socket.on(`game-lobby:${gameId}:enter-game`, this.onEnterGame);
-    api.socket.on(`game-lobby:${gameId}:leave-game`, this.onLeaveGame);
-    api.socket.on(`game-lobby:${gameId}:player-ready`, this.onPlayerReady);
-    api.socket.on(`game-lobby:${gameId}:player-unready`, this.onPlayerUnready);
-    api.socket.on(`game-lobby:${gameId}:start-game`, this.onStartGame);
+    GameLobbyAPI.postGameLobbyEnter(gameId);
+    socket.on(`game-lobby:${gameId}:enter-game`, this.onEnterGame);
+    socket.on(`game-lobby:${gameId}:leave-game`, this.onLeaveGame);
+    socket.on(`game-lobby:${gameId}:player-ready`, this.onPlayerReady);
+    socket.on(`game-lobby:${gameId}:player-unready`, this.onPlayerUnready);
+    socket.on(`game-lobby:${gameId}:start-game`, this.onStartGame);
   }
 
   componentDidMount() {
-    api.getGameLobby(this.state.gameId).then(response => {
+    GameLobbyAPI.getGameLobby(this.state.gameId).then(response => {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
           this.setState({ userId: body.id });
           this.setState({ userName: body.name });
-          api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
-            status.result.map(playerStatus => {
-              if (this.state.userId === playerStatus.id) {
-                this.setState({ host: playerStatus.Players[0].host });
-              }
-              return (playerStatus.ready = playerStatus.Players[0].ready);
-            });
-            this.setState({ playersStatus: status.result });
-            this.setState({ startRender: true });
-          });
+          GameLobbyAPI.getGameLobbyPlayersStatus(this.state.gameId).then(
+            status => {
+              status.result.map(playerStatus => {
+                if (this.state.userId === playerStatus.id) {
+                  this.setState({ host: playerStatus.Players[0].host });
+                }
+                return (playerStatus.ready = playerStatus.Players[0].ready);
+              });
+              this.setState({ playersStatus: status.result });
+              this.setState({ startRender: true });
+            }
+          );
         });
       } else {
         window.location = '/main-lobby';
@@ -71,7 +74,7 @@ class GameLobby extends Component {
 
   onEnterGame(event) {
     if (this.state.gameId === event) {
-      api.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
+      GameLobbyAPI.getGameLobbyPlayersStatus(this.state.gameId).then(status => {
         status.result.map(
           playerStatus => (playerStatus.ready = playerStatus.Players[0].ready)
         );
@@ -89,9 +92,7 @@ class GameLobby extends Component {
         )
       });
       if (this.state.userId === event.userId) {
-        api
-          .post_delete_game(this.state.gameId)
-          .then(result => (window.location = '/main-lobby'));
+        window.location = '/main-lobby';
       }
     }
   }
@@ -120,31 +121,34 @@ class GameLobby extends Component {
     this.setState({ playerStatus: temp });
   }
 
-  onStartGame(event) {
-    // TODO:
+  onStartGame(_) {
     window.location = `/game/${this.state.gameId}`;
   }
 
-  onStart(event) {
-    // TODO
-    api.postGameLobbyStart(this.state.gameId);
+  onStart(_) {
+    GameLobbyAPI.postGameLobbyStart(this.state.gameId).then(result => {
+      if (result.message) {
+        toast(result.message);
+      }
+    });
   }
 
   onReady(_) {
-    // TODO
-    api.postGameLobbyTogglePlayerReady(this.state.gameId).then(result => {});
+    GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId).then(
+      result => {}
+    );
   }
 
   onExit(_) {
-    api
-      .postGameLobbyLeave(this.state.gameId)
-      .then(_ => (window.location = '/main-lobby'));
+    GameLobbyAPI.postGameLobbyLeave(this.state.gameId).then(
+      _ => (window.location = '/main-lobby')
+    );
   }
 
   render() {
     if (this.state.startRender) {
       return (
-        <Box className="boxcolor">
+        <Box className="has-background-grey-lighter">
           <NavigationBar title={this.state.lobbyName} />
           <Section>
             <Columns>
@@ -158,7 +162,10 @@ class GameLobby extends Component {
                 />
               </Columns.Column>
             </Columns>
-            <ChatInput roomId={this.state.gameId} api={api.postGameLobbyChat} />
+            <ChatInput
+              roomId={this.state.gameId}
+              api={GameLobbyAPI.postGameLobbyChat}
+            />
           </Section>
           <Section>
             <Level>

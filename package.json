@@ -1,35 +1,35 @@
 {
   "name": "term-project-team-h",
   "version": "1.0.0",
-  "description": "Fall 2018 CSC 667: team-h: term-project: monopoly deal",
-  "main": "index.js",
+  "description": "term-project-team-h",
+  "main": "app.js",
   "scripts": {
-    "start": "BLUEBIRD_WARNINGS=0 node ./bin/www",
-    "start:game": "cd game && npm start",
-    "start:dev": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server\"",
-    "start:dev:windows": "concurrently \"npm:start:dev:client\" \"npm:start:dev:server:windows\"",
-    "start:dev:client": "cd client && npm run start",
-    "start:dev:server": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
-    "start:dev:server:windows": "SET NODE_ENV=development& SET DEBUG=MonopolyDeal:*& nodemon ./bin/www",
-    "db:create:migration": "sequelize migration:generate --name",
+    "start": "BLUEBIRD_WARNINGS=0 npm run start:server",
+    "start:dev": "BLUEBIRD_WARNINGS=0 NODE_ENV=development npm run heroku-postbuild && npm run start:dev:server",
+    "start:dev:windows": "SET BLUEBIRD_WARNINGS=0& SET NODE_ENV=development& npm run heroku-postbuild & npm run start:dev:server:windows",
+    "start:server": "DEBUG=MonopolyDeal:* node ./bin/www",
+    "start:server:windows": "SET DEBUG=MonopolyDeal:*& node ./bin/www",
+    "start:dev:server": "DEBUG=MonopolyDeal:* nodemon ./bin/www",
+    "start:dev:server:windows": "SET DEBUG=MonopolyDeal:*& nodemon ./bin/www",
+    "db:create:migration": "sequelize migration:generate --name ",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo",
     "postinstall": "sequelize db:migrate",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
-  "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
+  "cacheDirectories": [
+    "./node_modules",
+    "./client/node_modules"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sfsu-csc-667-fall-2018/term-project-team-h.git"
   },
-  "author": "",
-  "license": "MIT",
+  "keywords": [
+    "term-project-team-h"
+  ],
+  "author": "CSC 667 Students",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/sfsu-csc-667-fall-2018/term-project-team-h/issues"
   },
@@ -48,6 +48,7 @@
     "nodemailer": "^4.7.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "pg": "^7.7.1",
     "pg-promise": "^8.5.4",
     "sequelize": "^4.41.0",
     "sequelize-cli": "^5.3.0",
@@ -55,14 +56,6 @@
     "yup": "^0.26.6"
   },
   "devDependencies": {
-    "husky": "^1.2.1",
-    "lint-staged": "^8.0.4",
-    "nodemon": "^1.18.9",
-    "prettier": "1.14.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "nodemon": "^1.18.9"
   }
 }

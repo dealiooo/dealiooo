@@ -12,7 +12,7 @@ html > body > div#root > div > div.columns > div.column > div.box.ps {
   overflow: auto;
 }
 
-html {
+.back-color {
   background-color: hsl(133, 76%, 72%);
 }
 

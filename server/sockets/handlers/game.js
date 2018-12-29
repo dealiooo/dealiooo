@@ -33,6 +33,10 @@ const forfeit = sockets => (gameId, userId) => {
       sockets.get(gameId).forEach((value, key, map) => {
         let data = gameEngine.getVars(gameGlobals.get(gameId), key);
         value.emit(`game:${gameId}:game-update`, data);
+        value.emit(
+          `game:${gameId}:game-forfeit`,
+          `${userId} has left the game`
+        );
       });
     });
   }

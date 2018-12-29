@@ -7,14 +7,17 @@ import NavigationBar from '../../../components/NavigationBar';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
-import api from '../../../api';
+import {
+  socket,
+  MainLobby as MainLobbyAPI,
+  GameLobby as GameLobbyAPI
+} from '../../../api';
 import {
   Control,
   Field,
   Label,
   Select
 } from 'react-bulma-components/lib/components/form';
-
 import './MainLobby.css';
 
 class MainLobby extends Component {
@@ -32,27 +35,27 @@ class MainLobby extends Component {
       userId: null,
       userName: null,
       lobbies: [],
-      socket: api.socket
+      socket: socket
     };
-    api.socket.on('main-lobby:create-game', this.onCreateGame);
-    api.socket.on('main-lobby:end-game', this.onEndGame);
-    api.socket.on('main-lobby:join-game', this.onJoinGame);
-    api.socket.on('main-lobby:leave-game', this.onLeaveGame);
-    api.socket.on('main-lobby:start-game', this.onStartGame);
+    socket.on('main-lobby:create-game', this.onCreateGame);
+    socket.on('main-lobby:end-game', this.onEndGame);
+    socket.on('main-lobby:join-game', this.onJoinGame);
+    socket.on('main-lobby:leave-game', this.onLeaveGame);
+    socket.on('main-lobby:start-game', this.onStartGame);
   }
 
   componentDidMount() {
-    api.getMainLobby().then(response => {
+    MainLobbyAPI.getMainLobby().then(response => {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
           this.setState({ userId: body.id });
           this.setState({ userName: body.name });
           this.setState({ startRender: true });
-          api.postMainLobby().then(promise => {
+          MainLobbyAPI.postMainLobby().then(promise => {
             var baseState = promise.result;
             baseState.map((game, i) =>
-              api.getGameLobbyInfo(game.id).then(info => {
+              GameLobbyAPI.getGameLobbyInfo(game.id).then(info => {
                 baseState[i].id = game.id;
                 baseState[i].playerList = info.result;
                 baseState[i].playerNum = info.result.length;
@@ -76,7 +79,7 @@ class MainLobby extends Component {
       playerCap: event.playerCap,
       status: 'open'
     };
-    api.getGameLobbyInfo(event.gameId).then(info => {
+    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(info => {
       newRoom.playerList = info.result;
       newRoom.playerNum = info.result.length;
       baseState = baseState.concat(newRoom);
@@ -98,7 +101,7 @@ class MainLobby extends Component {
         break;
       }
     }
-    api.getGameLobbyInfo(event.gameId).then(info => {
+    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(info => {
       var baseState = this.state.lobbies;
       baseState[index].playerList = info.result;
       baseState[index].playerNum = info.result.length;
@@ -116,7 +119,7 @@ class MainLobby extends Component {
         break;
       }
     }
-    api.getGameLobbyInfo(event.gameId).then(info => {
+    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(info => {
       var baseState = this.state.lobbies;
       if (info.result.length) {
         baseState[index].playerList = info.result;
@@ -144,9 +147,12 @@ class MainLobby extends Component {
   }
 
   onCreate = event => {
-    api
-      .postMainLobbyCreateGame(this.state.playerCapacity)
-      .then(result => (window.location = `/game-lobby/${result.result.id}`));
+    event.preventDefault();
+    MainLobbyAPI.postMainLobbyCreateGame(this.state.playerCapacity).then(
+      result => {
+        window.location = `/game-lobby/${result.result.id}`;
+      }
+    );
   };
 
   onPlayerCapacityChange = event => {
@@ -191,7 +197,7 @@ class MainLobby extends Component {
             </Columns.Column>
             <Columns.Column className="main-lobby-chat is-two-fifths">
               <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />
-              <ChatInput roomId={null} api={api.postMainLobbyChat} />
+              <ChatInput roomId={null} api={MainLobbyAPI.postMainLobbyChat} />
             </Columns.Column>
           </Columns>
         </div>

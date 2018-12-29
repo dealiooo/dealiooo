@@ -1,8 +1,9 @@
-const gameActions = require('./');
+const getPropertySetValue = require('./getPropertySetValue');
+const getDoubleTheRentStatus = require('./getDoubleTheRentStatus');
 
 module.exports = (Game, player, property_set) => {
   return (
-    gameActions.getPropertySetValue(Game, property_set) *
-    Math.pow(2, gameActions.getDoubleTheRentStatus(player.field.action_cards))
+    getPropertySetValue(Game, property_set) *
+    Math.pow(2, getDoubleTheRentStatus(player.field.action_cards))
   );
 };

@@ -4,9 +4,9 @@ const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
 const { MainLobby: MainLobbyDB } = require('../database/api');
 const { MainLobby: MainLobbySockets } = require('../sockets');
 
-router.get('/main-lobby', authenticateUser, sendUserIdAndUserName);
+router.get('/api/main-lobby', authenticateUser, sendUserIdAndUserName);
 
-router.post('/main-lobby', authenticateUser, (_, response) =>
+router.post('/api/main-lobby', authenticateUser, (_, response) =>
   MainLobbyDB.findStartedGames(response.locals.user.id)
     .then(startedGames =>
       MainLobbyDB.findOpenLobbies().then(openLobbies =>
@@ -16,14 +16,14 @@ router.post('/main-lobby', authenticateUser, (_, response) =>
     .then(error => response.json({ error }))
 );
 
-router.post('/main-lobby/chat', authenticateUser, (request, response) => {
+router.post('/api/main-lobby/chat', authenticateUser, (request, response) => {
   const { id, name } = response.locals.user;
   const { message } = request.body;
   MainLobbySockets.chat(`[${id}]:${name}:${message}`);
   response.sendStatus(204);
 });
 
-router.post('/main-lobby/create-game', authenticateUser, (request, response) =>
+router.post('/api/main-lobby/create-game', authenticateUser, (request, response) =>
   MainLobbyDB.insertGame(request.user.id, request.body.playerCapacity)
     .then(result => {
       const { id, name } = response.locals.user;

@@ -8,7 +8,7 @@ import {
 } from 'react-bulma-components/lib/components/form';
 import Modal from 'react-bulma-components/lib/components/modal';
 import Section from 'react-bulma-components/lib/components/section';
-import api from '../../../api';
+import { Auth } from '../../../api';
 import Container from 'react-bulma-components/lib/components/container/container';
 import Columns from 'react-bulma-components/lib/components/columns/columns';
 import Heading from 'react-bulma-components/lib/components/heading';
@@ -28,16 +28,18 @@ class Register extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    api
-      .postRegister(this.state.name, this.state.email, this.state.password)
-      .then(result => {
-        if (result.error) {
-          this.setState({ modal_message: result.error.errors[0].message });
-          this.setState({ modal_display: true });
-        } else {
-          window.location = '/main-lobby';
-        }
-      });
+    Auth.postRegister(
+      this.state.name,
+      this.state.email,
+      this.state.password
+    ).then(result => {
+      if (result.error) {
+        this.setState({ modal_message: result.error.errors[0].message });
+        this.setState({ modal_display: true });
+      } else {
+        window.location = '/main-lobby';
+      }
+    });
   };
 
   onModalClick = event => {
@@ -45,7 +47,7 @@ class Register extends Component {
   };
 
   componentWillMount() {
-    api.getRegister().then(response => {
+    Auth.getRegister().then(response => {
       if (response.ok) {
         window.location = '/main-lobby';
       }

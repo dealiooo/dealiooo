@@ -5,7 +5,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 import Tag from 'react-bulma-components/lib/components/tag';
 
-import api from '../../../api';
+import { GameLobby as GameLobbyAPI } from '../../../api';
 
 class GameLobbyListItem extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class GameLobbyListItem extends Component {
   }
 
   onJoin(_) {
-    api.postGameLobbyJoin(this.props.gameId).then(response => {
+    GameLobbyAPI.postGameLobbyJoin(this.props.gameId).then(response => {
       if (response.result) {
         window.location = `/game-lobby/${this.props.gameId}`;
       }

@@ -32,7 +32,7 @@ module.exports = (Game, player, card, callback) => {
     } else {
       let { destinations, destinationIndexes } = gameActions.getDestinations[
         'all'
-      ](pickedPlayer, card, pickedPlayer.field.property_cards);
+      ](Game, pickedPlayer, card, pickedPlayer.field.property_cards);
       userActions.pickOption(Game, {
         player,
         options: destinationIndexes,

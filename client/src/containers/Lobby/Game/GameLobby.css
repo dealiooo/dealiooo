@@ -11,7 +11,3 @@ html
   max-height: 400px;
   overflow: auto;
 }
-
-.boxcolor {
-  background-color: hsl(133, 76%, 72%);
-}

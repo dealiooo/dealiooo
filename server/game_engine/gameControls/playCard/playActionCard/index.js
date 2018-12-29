@@ -25,7 +25,9 @@ module.exports = (Game, player, card, callback) => {
     player,
     options: ['bank', 'action'],
     callback: (error, option) => {
+      console.log('PICK OPTION', option);
       if (error) {
+        console.log('ERROR PICK OPTIONS', error);
         callback(error);
       } else if ('bank' === option) {
         gameActions.moveCard(player.hand, player.field.bank_cards, card);
