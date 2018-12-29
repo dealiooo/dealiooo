@@ -44,10 +44,10 @@ const pickPropertySetToRent = (
     player,
     options: destinationIndexes,
     callback: (error, value) => {
+      gameActions.moveCard(player.hand, player.field.action_cards, card);
       if (error) {
         callback(error);
       } else {
-        gameActions.moveCard(player.hand, player.field.action_cards, card);
         collectRent(Game, player, card, destinations, value, callback);
       }
     }

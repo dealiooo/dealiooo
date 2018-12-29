@@ -7,6 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { NotificationProvider } from './contexts/NotificationContext';
 
+import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { NotificationProvider } from './contexts/NotificationContext';
+
 class App extends Component {
   render() {
     return (

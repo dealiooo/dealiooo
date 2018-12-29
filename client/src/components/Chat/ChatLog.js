@@ -10,7 +10,7 @@ class ChatLog extends Component {
   constructor(props) {
     super(props);
     this.onMessageReceived = this.onMessageReceived.bind(this);
-    this.props.socket.on(this.props.roomId, this.onMessageReceived);
+    this.props.socket.on(this.props.channel, this.onMessageReceived);
     this.state = {
       log: []
     };
@@ -34,7 +34,7 @@ class ChatLog extends Component {
     return (
       <Box>
         {this.state.log.map((message, i) => (
-          <p key={i}> {message} </p>
+          <p key={i}>{message}</p>
         ))}
       </Box>
     );

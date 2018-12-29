@@ -7,7 +7,7 @@ import './banner.css';
 
 const Banner = () => {
   return (
-    <Hero className="is-success is-small">
+    <Hero className="is-small">
       <Hero.Body>
         <Columns className="is-centered">
           <Columns.Column className="is-centered imgSize" offset={null}>

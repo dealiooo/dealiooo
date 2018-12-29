@@ -130,9 +130,13 @@ class Game extends Component {
       } else {
         return (
           <Container>
-            <Button onClick={this.onStartGame}>
-              Waiting for host to start game...
-            </Button>
+            <Columns className="is-centered">
+              <Columns.Column size={2}>
+                <Button onClick={this.onStartGame}>
+                  Waiting for host to start game...
+                </Button>
+              </Columns.Column>
+            </Columns>
           </Container>
         );
       }

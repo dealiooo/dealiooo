@@ -19,12 +19,8 @@ class ForgotPassword extends Component {
     error_message: null
   };
 
-  onChange = evt => {
-    const value =
-      evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
-    this.setState({
-      [evt.target.name]: value
-    });
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   onSubmit = evt => {
@@ -34,7 +30,6 @@ class ForgotPassword extends Component {
         this.setState({
           error_message: 'Invalid email'
         });
-        this.setState({ modal_display: true });
       } else {
         window.location = '/';
       }
@@ -44,41 +39,39 @@ class ForgotPassword extends Component {
   render() {
     const { email, error_message } = this.state;
     return (
-      <Container className="is-fullhd">
+      <Container fluid>
         <Banner />
         <Section>
-          <Container>
-            {error_message ? (
-              <div className="has-text-danger">{error_message}</div>
-            ) : null}
-            <form onSubmit={this.onSubmit}>
-              <Columns className="is-centered">
-                <Columns.Column className="is-two-fifths">
-                  <Box className="has-background-light">
-                    <Field>
-                      <Heading className="has-text-centered has-text-black">
-                        Forgot Password
-                      </Heading>
-                      <Control>
-                        <Input
-                          name="email"
-                          type="email"
-                          onChange={this.onChange}
-                          placeholder="Email"
-                          value={email}
-                        />
-                      </Control>
-                    </Field>
-                    <Field>
-                      <Control className="has-text-centered">
-                        <Button>Submit</Button>
-                      </Control>
-                    </Field>
-                  </Box>
-                </Columns.Column>
-              </Columns>
-            </form>
-          </Container>
+          {error_message ? (
+            <div className="has-text-danger">{error_message}</div>
+          ) : null}
+          <form onSubmit={this.onSubmit}>
+            <Columns className="is-centered">
+              <Columns.Column size={4}>
+                <Box>
+                  <Field>
+                    <Heading className="has-text-centered has-text-black">
+                      Forgot Password
+                    </Heading>
+                    <Control>
+                      <Input
+                        name="email"
+                        type="email"
+                        onChange={this.onChange}
+                        placeholder="Email"
+                        value={email}
+                      />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Control>
+                      <Button className="is-fullwidth">Submit</Button>
+                    </Control>
+                  </Field>
+                </Box>
+              </Columns.Column>
+            </Columns>
+          </form>
         </Section>
       </Container>
     );

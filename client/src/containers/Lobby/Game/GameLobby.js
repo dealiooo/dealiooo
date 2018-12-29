@@ -7,8 +7,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 
 import NavigationBar from '../../../components/NavigationBar';
-import ChatLog from '../../../components/Chat/ChatLog';
-import ChatInput from '../../../components/Chat/ChatInput';
+import Chat from '../../../components/Chat';
 import PlayerStatus from './PlayerStatus';
 
 import { socket, GameLobby as GameLobbyAPI } from '../../../api';
@@ -148,50 +147,51 @@ class GameLobby extends Component {
   render() {
     if (this.state.startRender) {
       return (
-        <Box className="has-background-grey-lighter">
-          <NavigationBar title={this.state.lobbyName} />
-          <Section>
-            <Columns>
-              <Columns.Column className="has-background-black-ter">
-                <PlayerStatus status={this.state.playersStatus} />
-              </Columns.Column>
-              <Columns.Column size="5" className="game-lobby-chat">
-                <ChatLog
-                  socket={this.state.socket}
-                  roomId={`game-lobby:${this.state.gameId}:chat`}
-                />
-              </Columns.Column>
-            </Columns>
-            <ChatInput
-              roomId={this.state.gameId}
-              api={GameLobbyAPI.postGameLobbyChat}
-            />
-          </Section>
-          <Section>
-            <Level>
-              <Level.Item>
-                {this.state.host ? (
-                  <Button onClick={this.onStart} className="is-large">
-                    Start
-                  </Button>
-                ) : (
-                  <div />
-                )}
-              </Level.Item>
-              <Level.Item>
-                <Button onClick={this.onReady} className="is-large">
-                  Ready
-                </Button>
-              </Level.Item>
-              <Level.Item>
-                <Button onClick={this.onExit} className="is-large">
-                  Exit
-                </Button>
-              </Level.Item>
-              <Level.Item />
-            </Level>
-          </Section>
-        </Box>
+        <div>
+          <NavigationBar
+            title={this.state.lobbyName}
+            userName={this.state.userName}
+          />
+          <Columns>
+            <Columns.Column>
+              <Box className="has-background-grey-lighter">
+                <Section>
+                  <Columns>
+                    <Columns.Column>
+                      <PlayerStatus status={this.state.playersStatus} />
+                    </Columns.Column>
+                    <Columns.Column size="5" className="game-lobby-chat">
+                      <Chat
+                        socket={this.state.socket}
+                        api={GameLobbyAPI.postGameLobbyChat}
+                        channel={`game-lobby:${this.state.gameId}:chat`}
+                        roomId={this.state.gameId}
+                      />
+                    </Columns.Column>
+                  </Columns>
+                </Section>
+                <Section>
+                  <Level>
+                    <Level.Item>
+                      {this.state.host ? (
+                        <Button onClick={this.onStart}>Start</Button>
+                      ) : (
+                        <div />
+                      )}
+                    </Level.Item>
+                    <Level.Item>
+                      <Button onClick={this.onReady}>Ready</Button>
+                    </Level.Item>
+                    <Level.Item>
+                      <Button onClick={this.onExit}>Exit</Button>
+                    </Level.Item>
+                    <Level.Item />
+                  </Level>
+                </Section>
+              </Box>
+            </Columns.Column>
+          </Columns>
+        </div>
       );
     }
     return <Box>Loading Page...</Box>;

@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
-import GameLobbyList from './GameLobbyList';
-import ChatLog from '../../../components/Chat/ChatLog';
-import ChatInput from '../../../components/Chat/ChatInput';
-import NavigationBar from '../../../components/NavigationBar';
-
+import {
+  Control,
+  Field,
+  Label,
+  Input,
+  Select
+} from 'react-bulma-components/lib/components/form';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
+
 import {
   socket,
   MainLobby as MainLobbyAPI,
   GameLobby as GameLobbyAPI
 } from '../../../api';
-import {
-  Control,
-  Field,
-  Label,
-  Select
-} from 'react-bulma-components/lib/components/form';
+import GameLobbyList from './GameLobbyList';
+import Chat from '../../../components/Chat';
+import NavigationBar from '../../../components/NavigationBar';
 import './MainLobby.css';
+
+import MakeRoomModal from './MakeRoomModal';
 
 class MainLobby extends Component {
   constructor(props) {
@@ -35,7 +37,9 @@ class MainLobby extends Component {
       userId: null,
       userName: null,
       lobbies: [],
-      socket: socket
+      socket: socket,
+      // TODO: refactor into smaller component
+      gameLobbyName: ''
     };
     socket.on('main-lobby:create-game', this.onCreateGame);
     socket.on('main-lobby:end-game', this.onEndGame);
@@ -161,11 +165,45 @@ class MainLobby extends Component {
     });
   };
 
+  onGameLobbyNameChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
     if (this.state.startRender) {
       return (
-        <div className="boxcolor">
-          <NavigationBar title="Main Lobby" />
+        <div>
+          <MakeRoomModal>
+            <form onSubmit={this.onCreate}>
+              <Label className="is-size-4">Choose Player Capacity:</Label>
+              <Field className="is-grouped">
+                <Control>
+                  <Input
+                    name="gameLobbyName"
+                    type="text"
+                    onChange={this.onGameLobbyNameChange}
+                    placeholder="Game Lobby Name"
+                    value={this.state.gameLobbyName}
+                  />
+                </Control>
+                <Select
+                  onChange={this.onPlayerCapacityChange}
+                  value={this.state.playerCapacity}
+                >
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                </Select>
+                <Control>
+                  <Button className="is-info" type="submit">
+                    Create
+                  </Button>
+                </Control>
+              </Field>
+            </form>
+          </MakeRoomModal>
+          <NavigationBar title="Main Lobby" userName={this.state.userName} />
           <Columns>
             <Columns.Column>
               <GameLobbyList
@@ -173,31 +211,14 @@ class MainLobby extends Component {
                 gameLobbies={this.state.lobbies}
                 userId={this.state.userId}
               />
-              <Box>
-                <form onSubmit={this.onCreate}>
-                  <Label>Choose player capacity:</Label>
-                  <Field className="is-grouped">
-                    <Select
-                      onChange={this.onPlayerCapacityChange}
-                      value={this.state.playerCapacity}
-                    >
-                      <option value={2}>2</option>
-                      <option value={3}>3</option>
-                      <option value={4}>4</option>
-                      <option value={5}>5</option>
-                    </Select>
-                    <Control>
-                      <Button className="is-info" type="submit">
-                        Make a Room
-                      </Button>
-                    </Control>
-                  </Field>
-                </form>
-              </Box>
             </Columns.Column>
             <Columns.Column className="main-lobby-chat is-two-fifths">
-              <ChatLog socket={this.state.socket} roomId={'main-lobby:chat'} />
-              <ChatInput roomId={null} api={MainLobbyAPI.postMainLobbyChat} />
+              <Chat
+                socket={this.state.socket}
+                api={MainLobbyAPI.postMainLobbyChat}
+                channel={'main-lobby:chat'}
+                roomId={null}
+              />
             </Columns.Column>
           </Columns>
         </div>
