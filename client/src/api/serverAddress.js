@@ -1,9 +1,9 @@
-const connectionType = 'http://';
-const website = 'localhost';
-const portNum = ':8000';
+const connectionType = 'http://'
+const website = 'localhost'
+const portNum = ':8000'
 
-const herokuAddress = 'https://team-h.herokuapp.com/';
+const herokuAddress = 'https://dealiooo.herokuapp.com/'
 
-const HEROKU = false;
+const HEROKU = true
 
-module.exports = HEROKU ? herokuAddress : connectionType + website + portNum;
+module.exports = HEROKU ? herokuAddress : connectionType + website + portNum
