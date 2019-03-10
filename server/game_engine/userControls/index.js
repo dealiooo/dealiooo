@@ -4,6 +4,7 @@ const pickCardColor = require('./pickCardColor');
 const pickFieldCard = require('./pickFieldCard');
 const pickHandCard = require('./pickHandCard');
 const pickTargetPlayer = require('./pickTargetPlayer');
+const pickYesOrNo = require('./pickYesOrNo');
 const playHandCard = require('./playHandCard');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   pickFieldCard,
   pickHandCard,
   pickTargetPlayer,
+  pickYesOrNo,
   playHandCard
 };

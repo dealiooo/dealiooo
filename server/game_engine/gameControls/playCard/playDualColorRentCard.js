@@ -4,6 +4,7 @@ const userControls = require('../../userControls');
 
 const playAsMoney = (player, card, callback) => {
   gameActions.moveCard(player.hand, player.field.bank_cards, card);
+  gameActions.onNonCounterCardPlayed(Game);
   callback(null, card);
 };
 
@@ -48,6 +49,7 @@ const pickPropertySetToRent = (
         callback(error);
       } else {
         gameActions.moveCard(player.hand, player.field.action_cards, card);
+        gameActions.onNonCounterCardPlayed(Game);
         collectRent(Game, player, card, destinations, value, callback);
       }
     }
@@ -55,30 +57,39 @@ const pickPropertySetToRent = (
 };
 
 const collectRent = (Game, player, card, destinations, value, callback) => {
-  for (let i = 0; i < Game.players.length; i++) {
-    let done = i => {
-      if (i + 1 === Game.players.length) {
-        callback(null, card);
-      }
-    };
-    if (Game.players[i].id === player.id) {
-      done();
-    } else {
-      gameActions.payRent(
-        Game,
-        Game.players[i],
-        player,
-        gameActions.getRentValue(Game, player, destinations[parseInt(value)]),
-        error => {
-          if (error) {
-            callback(error);
-          } else {
-            done();
-          }
+  var playerActionCounter = i => {
+    if (player.id !== Game.players[i].id) {
+      gameActions.avoidAction(Game, Game.players[i], player, (_, avoid) => {
+        if (avoid) {
+          done(i);
+        } else {
+          gameActions.payRent(
+            Game,
+            Game.players[i],
+            player,
+            gameActions.getRentValue(Game, Game.players[i], player, destinations[parseInt(value)]),
+            error => {
+              if (error) {
+                callback(error);
+              } else {
+                done(i);
+              }
+            }
+          );
         }
-      );
+      });
+    } else {
+      done(i);
     }
   }
+  var done = i => {
+    if (i == Game.players.length) {
+      callback(null, card);
+    } else {
+      playerActionCounter(i + 1);
+    }
+  }
+  playerActionCounter(0);
 };
 
 module.exports = (Game, player, card, callback) => {

@@ -26,18 +26,24 @@ module.exports = (Game, player, _, callback) => {
     if (error) {
       callback(error);
     } else {
-      userControls.pickFieldCard(
-        Game,
-        pickedPlayer,
-        ['property_cards', 'building_cards'],
-        (error, card, source) => {
-          if (error) {
-            callback(error);
-          } else {
-            processSlyDeal(Game, player, pickedPlayer, card, source, callback);
-          }
+      gameActions.avoidAction(Game, targetPlayer, player, (_, avoid) => {
+        if (avoid) {
+          callback(null, _);
+        } else {
+          userControls.pickFieldCard(
+            Game,
+            pickedPlayer,
+            ['property_cards', 'building_cards'],
+            (error, card, source) => {
+              if (error) {
+                callback(error);
+              } else {
+                processSlyDeal(Game, player, pickedPlayer, card, source, callback);
+              }
+            }
+          );
         }
-      );
+      });
     }
   });
 };

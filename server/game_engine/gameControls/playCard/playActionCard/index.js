@@ -21,23 +21,31 @@ module.exports = (Game, player, card, callback) => {
     'sly-deal': playSlyDeal,
     'pass-go': playPassGo
   };
-  userActions.pickOption(Game, {
-    player,
-    options: ['bank', 'action'],
-    callback: (error, option) => {
-      console.log('PICK OPTION', option);
-      if (error) {
-        console.log('ERROR PICK OPTIONS', error);
-        callback(error);
-      } else if ('bank' === option) {
-        gameActions.moveCard(player.hand, player.field.bank_cards, card);
-        callback(null, card);
-      } else {
-        gameActions.moveCard(player.hand, player.field.action_cards, card);
-        play[card.name](Game, player, card, (_, card) => {
+  if ('just-say-no' === card.name) {
+    playJustSayNo(Game, player, card, (_, card) => {
+      callback(null, card);
+    })
+  } else {
+    userActions.pickOption(Game, {
+      player,
+      options: ['bank', 'action'],
+      callback: (error, option) => {
+        console.log('PICK OPTION', option);
+        if (error) {
+          console.log('ERROR PICK OPTIONS', error);
+          callback(error);
+        } else if ('bank' === option) {
+          gameActions.moveCard(player.hand, player.field.bank_cards, card);
+          gameActions.onNonCounterCardPlayed(Game);
           callback(null, card);
-        });
+        } else {
+          gameActions.moveCard(player.hand, player.field.action_cards, card);
+          gameActions.onNonCounterCardPlayed(Game);
+          play[card.name](Game, player, card, (_, card) => {
+            callback(null, card);
+          });
+        }
       }
-    }
-  });
+    });
+  }
 };

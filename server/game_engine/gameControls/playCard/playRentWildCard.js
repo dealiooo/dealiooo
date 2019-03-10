@@ -4,6 +4,7 @@ const userControls = require('../../userControls');
 
 const playAsMoney = (player, card, callback) => {
   gameActions.moveCard(player.hand, player.field.bank_cards, card);
+  gameActions.onNonCounterCardPlayed(Game);
   callback(null, card);
 };
 
@@ -45,6 +46,7 @@ const pickPropertySetToRent = (
     options: destinationIndexes,
     callback: (error, value) => {
       gameActions.moveCard(player.hand, player.field.action_cards, card);
+      gameActions.onNonCounterCardPlayed(Game);
       if (error) {
         callback(error);
       } else {
@@ -55,23 +57,29 @@ const pickPropertySetToRent = (
 };
 
 const collectRent = (Game, player, card, destinations, value, callback) => {
-  userControls.pickTargetPlayer(player, (error, target_player) => {
+  userControls.pickTargetPlayer(player, (error, targetPlayer) => {
     if (error) {
       callback(error);
     } else {
-      gameActions.payRent(
-        Game,
-        target_player,
-        player,
-        gameActions.getRentValue(Game, player, destinations[parseInt(value)]),
-        error => {
-          if (error) {
-            callback(error);
-          } else {
-            callback(null, card);
-          }
+      gameActions.avoidAction(Game, targetPlayer, player, (_, avoid) => {
+        if (avoid) {
+          callback(null, _);
+        } else {
+          gameActions.payRent(
+            Game,
+            targetPlayer,
+            player,
+            gameActions.getRentValue(Game, targetPlayer, player, destinations[parseInt(value)]),
+            error => {
+              if (error) {
+                callback(error);
+              } else {
+                callback(null, card);
+              }
+            }
+          );
         }
-      );
+      });
     }
   });
 };
