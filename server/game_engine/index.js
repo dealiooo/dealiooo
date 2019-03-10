@@ -71,7 +71,7 @@ const game_engine = {
       'End Turn': game_engine.applyEndTurn
     };
     let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.pickBasicOptions(Game, player, ( error, option) => {
+    userControls.pickBasicOptions(Game, player, (error, option) => {
       if (error) {
         game_engine.promptBasicOptions(Game);
       } else {
