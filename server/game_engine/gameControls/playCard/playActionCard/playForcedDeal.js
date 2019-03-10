@@ -1,7 +1,7 @@
 const gameActions = require('../../../gameActions');
 const userControls = require('../../../userControls');
 
-const pickCardToDealBreak = (
+const pickCardToForcedDeal = (
   Game,
   player,
   playerCard,
@@ -17,7 +17,7 @@ const pickCardToDealBreak = (
       if (error) {
         callback(error);
       } else {
-        dealBreak(
+        forcedDeal(
           Game,
           player,
           playerCard,
@@ -32,7 +32,7 @@ const pickCardToDealBreak = (
   );
 };
 
-const dealBreak = (
+const forcedDeal = (
   Game,
   player,
   playerCard,
@@ -69,14 +69,20 @@ module.exports = (Game, player, card, callback) => {
           if (error) {
             callback(error);
           } else {
-            pickCardToDealBreak(
-              Game,
-              player,
-              playerCard,
-              playerSource,
-              targetPlayer,
-              callback
-            );
+            gameActions.avoidAction(Game, targetPlayer, player, (_, avoid) => {
+              if (avoid) {
+                callback(null, card);
+              } else {
+                pickCardToForcedDeal(
+                  Game,
+                  player,
+                  playerCard,
+                  playerSource,
+                  targetPlayer,
+                  callback
+                );
+              }
+            });
           }
         });
       }

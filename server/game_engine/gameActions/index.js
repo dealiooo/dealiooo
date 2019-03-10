@@ -1,3 +1,4 @@
+const avoidAction = require('./avoidAction');
 const drawCard = require('./drawCard');
 const getCanAddHotelToPropertySet = require('./getCanAddHotelToPropertySet');
 const getCanAddHouseToPropertySet = require('./getCanAddHouseToPropertySet');
@@ -20,6 +21,8 @@ const getRentValue = require('./getRentValue');
 const isPileNotEmpty = require('./isPileNotEmpty');
 const moveCard = require('./moveCard');
 const movePile = require('./movePile');
+const onCounterCardPlayed = require('./onCounterCardPlayed');
+const onNonCounterCardPlayed = require('./onNonCounterCardPlayed');
 const payRent = require('./payRent');
 const removeEmptyPropertySets = require('./removeEmptyPropertySets');
 const removePlayer = require('./removePlayer');
@@ -28,6 +31,7 @@ const swapPropertyCards = require('./swapPropertyCards');
 const switchColor = require('./switchColor');
 
 module.exports = {
+  avoidAction,
   drawCard,
   getCanAddHotelToPropertySet,
   getCanAddHouseToPropertySet,
@@ -48,6 +52,8 @@ module.exports = {
   getPropertySetValue,
   getRentValue,
   isPileNotEmpty,
+  onCounterCardPlayed,
+  onNonCounterCardPlayed,
   moveCard,
   movePile,
   payRent,

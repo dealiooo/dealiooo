@@ -18,6 +18,7 @@ module.exports = (Game, player, card, callback) => {
           destinations[parseInt(indexString)],
           card
         );
+        gameActions.onNonCounterCardPlayed(Game);
         gameActions.removeEmptyPropertySets(player);
         callback(null, card);
       }

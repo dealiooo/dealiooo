@@ -2,6 +2,42 @@ const gameActions = require('../../../gameActions');
 const userActions = require('../../../userActions');
 const userControls = require('../../../userControls');
 
+const playDealBreaker = (Game, player, card, callback) => {
+  userControls.pickTargetPlayer(Game, player, (error, pickedPlayer) => {
+    if (error) {
+      callback(error);
+    } else {
+      gameActions.avoidAction(Game, pickedPlayer, player, (_, avoid) => {
+        if (avoid) {
+          callback(null, card);
+        } else {
+          let { destinations, destinationIndexes } = gameActions.getDestinations[
+            'all'
+          ](Game, pickedPlayer, card, pickedPlayer.field.property_cards);
+          userActions.pickOption(Game, {
+            player,
+            options: destinationIndexes,
+            callback: (error, indexString) => {
+              if (error) {
+                callback(error);
+              } else {
+                processPropertySet(
+                  Game,
+                  player,
+                  card,
+                  destinations,
+                  indexString,
+                  callback
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+};
+
 const processPropertySet = (
   Game,
   player,
@@ -21,36 +57,8 @@ const processPropertySet = (
     gameActions.removeEmptyPropertySets(pickedPlayer);
     callback(null, card);
   } else {
-    playDealBreaker(player, card, callback);
+    playDealBreaker(Game, player, card, callback);
   }
 };
 
-module.exports = (Game, player, card, callback) => {
-  userControls.pickTargetPlayer(Game, player, (error, pickedPlayer) => {
-    if (error) {
-      callback(error);
-    } else {
-      let { destinations, destinationIndexes } = gameActions.getDestinations[
-        'all'
-      ](Game, pickedPlayer, card, pickedPlayer.field.property_cards);
-      userActions.pickOption(Game, {
-        player,
-        options: destinationIndexes,
-        callback: (error, indexString) => {
-          if (error) {
-            callback(error);
-          } else {
-            processPropertySet(
-              Game,
-              player,
-              card,
-              destinations,
-              indexString,
-              callback
-            );
-          }
-        }
-      });
-    }
-  });
-};
+module.exports = playDealBreaker;

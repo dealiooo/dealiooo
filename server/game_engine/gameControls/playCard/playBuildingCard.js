@@ -3,6 +3,7 @@ const userActions = require('../../userActions');
 
 const playAsMoney = (player, card, callback) => {
   gameActions.moveCard(player.hand, player.field.bank_cards, card);
+  gameActions.onNonCounterCardPlayed(Game);
   callback(null, card);
 };
 
@@ -23,6 +24,7 @@ const playAsProperty = (Game, player, card, callback) => {
             destinations[parseInt(value)],
             card
           );
+          gameActions.onNonCounterCardPlayed(Game);
           callback(null, card);
         }
       }

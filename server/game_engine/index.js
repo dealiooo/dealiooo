@@ -133,15 +133,14 @@ const game_engine = {
   },
   applyPlayCard: (Game, card) => {
     let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.playCard(Game, player, card, (error, card) => {
+    gameControls.playCard(Game, player, card, (error, _) => {
       if (error) {
         game_engine.promptBasicOptions(Game);
       } else {
-        gameControls.onCardPlayed(Game, card);
         if (gameControls.computeWinCondition(Game)) {
           return game_engine.applyPlayerWon(Game);
         } else {
-          if (3 <= Game.cards_played) {
+          if (gameControls.forcePlayerEndTurn(Game)) {
             game_engine.applyEndTurn(Game);
           } else {
             game_engine.promptBasicOptions(Game);
