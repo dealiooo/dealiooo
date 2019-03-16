@@ -62,7 +62,7 @@ class GameLobbyListItem extends Component {
           <Columns>
             <Columns.Column>
               <p>
-                #{this.props.gameLobby.id} ({this.props.gameLobby.playerNum} /{' '}
+                #{this.props.gameLobby.id} {this.props.gameLobby.roomName} ({this.props.gameLobby.playerNum} /{' '}
                 {this.props.gameLobby.playerCap})
               </p>
             </Columns.Column>

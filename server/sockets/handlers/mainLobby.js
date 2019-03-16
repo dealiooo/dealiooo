@@ -3,12 +3,13 @@ const chat = sockets => message =>
     client_socket.emit('main-lobby:chat', message)
   );
 
-const createGame = sockets => (gameId, userId, userName, playerCap) =>
+const createGame = sockets => (gameId, userId, userName, roomName, playerCap) =>
   sockets.forEach(client_socket =>
     client_socket.emit('main-lobby:create-game', {
       gameId,
       userId,
       userName,
+      roomName,
       playerCap
     })
   );

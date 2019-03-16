@@ -25,10 +25,10 @@ router.post('/api/main-lobby/chat', authenticateUser, (request, response) => {
 });
 
 router.post('/api/main-lobby/create-game', authenticateUser, (request, response) =>
-  MainLobbyDB.insertGame(request.user.id, request.body.playerCapacity)
+  MainLobbyDB.insertGame(request.user.id, request.body.roomName, request.body.playerCapacity)
     .then(result => {
       const { id, name } = response.locals.user;
-      MainLobbySockets.createGame(result.id, id, name, result.player_cap);
+      MainLobbySockets.createGame(result.id, id, name, result.room_name, result.player_cap);
       return response.json({ result });
     })
     .catch(error => response.json({ error }))

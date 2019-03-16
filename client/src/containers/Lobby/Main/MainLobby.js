@@ -39,7 +39,7 @@ class MainLobby extends Component {
       userName: null,
       lobbies: [],
       socket: socket,
-      gameLobbyName: ''
+      roomName: ''
     };
     socket.on('main-lobby:create-game', this.onCreateGame);
     socket.on('main-lobby:end-game', this.onEndGame);
@@ -63,6 +63,7 @@ class MainLobby extends Component {
                 baseState[i].id = game.id;
                 baseState[i].playerList = info.result;
                 baseState[i].playerNum = info.result.length;
+                baseState[i].roomName = game.room_name;
                 baseState[i].playerCap = game.player_cap;
                 baseState[i].status = game.status;
                 this.setState({ lobbies: baseState });
@@ -80,6 +81,7 @@ class MainLobby extends Component {
     var baseState = this.state.lobbies;
     var newRoom = {
       id: event.gameId,
+      roomName: event.roomName,
       playerCap: event.playerCap,
       status: 'open'
     };
@@ -152,17 +154,11 @@ class MainLobby extends Component {
 
   onCreate = event => {
     event.preventDefault();
-    MainLobbyAPI.postMainLobbyCreateGame(this.state.playerCapacity).then(
+    MainLobbyAPI.postMainLobbyCreateGame(this.state.roomName, this.state.playerCapacity).then(
       result => {
         window.location = `/game-lobby/${result.result.id}`;
       }
     );
-  };
-
-  onPlayerCapacityChange = event => {
-    this.setState({
-      playerCapacity: event.target.value
-    });
   };
 
   onChange = event => {
@@ -179,11 +175,11 @@ class MainLobby extends Component {
               <Field className="is-grouped">
                 <Control>
                   <Input
-                    name="gameLobbyName"
+                    name="roomName"
                     type="text"
                     onChange={this.onChange}
-                    placeholder="Game Lobby Name"
-                    value={this.state.gameLobbyName}
+                    placeholder="Room Name"
+                    value={this.state.roomName}
                   />
                 </Control>
                 <Select

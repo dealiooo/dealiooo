@@ -13,6 +13,10 @@ module.exports = (sequelize, Sequelize) => {
         values: ['open', 'started', 'running', 'ended'],
         allowNull: false
       },
+      room_name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       player_cap: {
         type: Sequelize.INTEGER,
         allowNull: false,
