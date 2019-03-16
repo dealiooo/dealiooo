@@ -14,7 +14,6 @@ class ChatLog extends Component {
     this.state = {
       log: []
     };
-    this.ref = React.createRef()
   }
 
   componentDidMount() {
@@ -34,7 +33,7 @@ class ChatLog extends Component {
 
   render() {
     return (
-      <Box ref={this.ref}>
+      <Box>
         {this.state.log.map((message, i) => (
           <p key={i}>{message}</p>
         ))}
