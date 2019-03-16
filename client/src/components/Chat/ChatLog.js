@@ -14,6 +14,7 @@ class ChatLog extends Component {
     this.state = {
       log: []
     };
+    this.ref = React.createRef()
   }
 
   componentDidMount() {
@@ -21,6 +22,7 @@ class ChatLog extends Component {
   }
 
   componentDidUpdate(_) {
+    ReactDOM.findDOMNode(this).scrollTop = ReactDOM.findDOMNode(this).scrollHeight;
     this.ps.update();
   }
 
@@ -32,7 +34,7 @@ class ChatLog extends Component {
 
   render() {
     return (
-      <Box>
+      <Box ref={this.ref}>
         {this.state.log.map((message, i) => (
           <p key={i}>{message}</p>
         ))}
