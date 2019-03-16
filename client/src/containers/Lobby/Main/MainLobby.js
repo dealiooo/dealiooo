@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Box from 'react-bulma-components/lib/components/box';
 import Columns from 'react-bulma-components/lib/components/columns';
+import Section from 'react-bulma-components/lib/components/section';
 
 import {
   socket,
@@ -160,6 +161,7 @@ class MainLobby extends Component {
       return (
         <div>
           <NavigationBar title="Main Lobby" userName={this.state.userName} />
+          <Section>
           <Columns>
             <Columns.Column>
               <GameLobbyList
@@ -181,6 +183,7 @@ class MainLobby extends Component {
               />
             </Columns.Column>
           </Columns>
+          </Section>
         </div>
       );
     }
