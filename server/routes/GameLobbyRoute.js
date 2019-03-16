@@ -97,14 +97,14 @@ router.post(
     const { id, name } = response.locals.user;
     return GameLobbyDB.getGameReady(gameId).then(
       result => {
-        if (result) {
+        if (result.ready) {
           return GameLobbyDB.startGame(gameId).then(result => {
             MainLobbySockets.startGame(gameId, id, name);
             GameLobbySockets.startGame(gameId, id, name);
-            return response.json({ result });
+            return response.json({message: result.status});
           })
         } else {
-          return response.json({message:'not all players are ready'});
+          return response.json({message: result.status});
         }
       }
     ).catch(error => response.json({ error }));

@@ -56,8 +56,32 @@ const getGameReady = db => id =>
     .findOne({ where: { id } })
     .then(game =>
       game
-        .getPlayers({ where: { ready: true } })
-        .then(players => game.player_cap === players.length)
+        .getPlayers()
+        .then(players => {
+          if (players.length < game.player_cap) {
+            return {
+              ready: false,
+              status: 'there are not enough players'
+            }
+          }
+          let ready = 0;
+          for (let player in players) {
+            if (player.ready) {
+              ready++;
+            }
+          }
+          if (game.player_cap === ready) {
+            return {
+              ready: true,
+              status: 'game is ready to start'
+            }
+          } else {
+            return {
+              ready: false,
+              status: 'not all players are ready'
+            }
+          }
+        })
     );
 
 const getPlayerReady = db => (th_game_id, th_user_id) =>
