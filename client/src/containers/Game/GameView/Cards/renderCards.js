@@ -40,16 +40,17 @@ export function renderCardPhotos(cards) {
 }
 
 export function renderHandCards(cards, onClick) {
-  return cards.map(card => {
-    return (
-      <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
-        <Tile key={card.id} kind="child" size={1}>
-          <h1>{card.name}</h1>
-          <HandCard card={card} onClick={() => onClick(card)} />
-        </Tile>
-      </Tile>
-    );
-  });
+  return (
+    <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
+      {cards.map(card => {
+        return (
+          <Tile key={card.id} kind="child" size={1} style={{ padding: "2px" }}>
+            <HandCard card={card} onClick={() => onClick(card)} />
+          </Tile>
+        );
+      })}
+    </Tile>
+  );
 }
 
 export function renderHiddenHand(cardCount) {
