@@ -1,9 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import Card from 'react-bulma-components/lib/components/card';
-import Tile from 'react-bulma-components/lib/components/tile';
-import Image from 'react-bulma-components/lib/components/image';
-import { CARD_STACK_TYPES } from '../utils';
+import Card from "react-bulma-components/lib/components/card";
+import Tile from "react-bulma-components/lib/components/tile";
+import Image from "react-bulma-components/lib/components/image";
 
 export const PropertyCard = ({ card }) => (
   <Card key={card.id}>
@@ -19,7 +18,7 @@ export const ActionCard = ({ card }) => (
     <Card.Header>
       <Card.Header.Title>{card.name}</Card.Header.Title>
     </Card.Header>
-    <Card.Content>{card.mainColor || '_'}</Card.Content>
+    <Card.Content>{card.mainColor || "_"}</Card.Content>
   </Card>
 );
 
@@ -56,7 +55,7 @@ export const HandCard = ({ card, onClick }) => (
 );
 
 export const HiddenHand = ({ handCount }) => (
-  <Tile kind="parent" size={12} style={{ justifyContent: 'center' }}>
+  <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
     <Tile kind="child" size={12}>
       <div>
         <h1>Cards: {handCount}</h1>
@@ -67,8 +66,8 @@ export const HiddenHand = ({ handCount }) => (
 
 const SPAWNED_CARD = {
   id: 99999,
-  name: 'spawned',
-  type: 'auxilary'
+  name: "spawned",
+  type: "auxilary"
 };
 
 export const EmptyCardPhoto = () => <CardPhoto card={SPAWNED_CARD} />;

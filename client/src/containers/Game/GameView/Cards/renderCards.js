@@ -1,5 +1,5 @@
-import React from 'react';
-import Tile from 'react-bulma-components/lib/components/tile';
+import React from "react";
+import Tile from "react-bulma-components/lib/components/tile";
 
 import {
   ActionCard,
@@ -9,7 +9,7 @@ import {
   CardPhoto,
   HandCard,
   HiddenHand
-} from './cards';
+} from "./cards";
 
 export function renderActionCards(cards) {
   return cards.map(card => <ActionCard card={card} />);
@@ -40,19 +40,21 @@ export function renderCardPhotos(cards) {
 }
 
 export function renderHandCards(cards, onClick) {
-  return cards.map(card => (
-    <Tile kind="parent" size={12} style={{ justifyContent: 'center' }}>
-      <Tile key={card.id} kind="child" size={1}>
-        <h1>{card.name}</h1>
-        <HandCard onClick={() => onClick(card)} />
+  return cards.map(card => {
+    return (
+      <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
+        <Tile key={card.id} kind="child" size={1}>
+          <h1>{card.name}</h1>
+          <HandCard card={card} onClick={() => onClick(card)} />
+        </Tile>
       </Tile>
-    </Tile>
-  ));
+    );
+  });
 }
 
 export function renderHiddenHand(cardCount) {
   return (
-    <Tile kind="parent" size={12} style={{ justifyContent: 'center' }}>
+    <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
       <Tile kind="child" size={12}>
         <HiddenHand cardCount={cardCount} />;
       </Tile>

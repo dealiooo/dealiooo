@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Box from 'react-bulma-components/lib/components/box';
-import Button from 'react-bulma-components/lib/components/button';
+import Button from "react-bulma-components/lib/components/button";
 import {
   Control,
   Field,
   Input
-} from 'react-bulma-components/lib/components/form';
+} from "react-bulma-components/lib/components/form";
 
 class ChatInput extends Component {
   constructor(props) {
@@ -14,13 +13,13 @@ class ChatInput extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
-      message: ''
+      message: ""
     };
   }
 
   onChange = evt => {
     const value =
-      evt.target.type === 'checkbox' ? evt.target.checked : evt.target.value;
+      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
     this.setState({
       [evt.target.name]: value
     });
@@ -29,7 +28,7 @@ class ChatInput extends Component {
   onSubmit = evt => {
     evt.preventDefault();
     this.props.api({ roomId: this.props.roomId, message: this.state.message });
-    this.setState({ message: '' });
+    this.setState({ message: "" });
   };
 
   render() {

@@ -1,18 +1,17 @@
-import React from 'react';
-import Navbar from 'react-bulma-components/lib/components/navbar';
-import Heading from 'react-bulma-components/lib/components/heading';
-import Image from 'react-bulma-components/lib/components/image';
-import header_logo from './header_logo.png';
-import { Auth } from './../../api';
+import React from "react";
+import Navbar from "react-bulma-components/lib/components/navbar";
+import Heading from "react-bulma-components/lib/components/heading";
+import header_logo from "./header_logo.png";
+import { Auth } from "./../../api";
 
 const NavigationBar = ({ title, userName }) => {
   const logout = () => {
     Auth.postLogout().then(result => {
       if (result.error) {
-        console.log('error on logout');
+        console.log("error on logout");
       }
       if (result.ok) {
-        window.location = '/login';
+        window.location = "/login";
       }
     });
   };

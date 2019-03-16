@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import Button from 'react-bulma-components/lib/components/button';
-import Section from 'react-bulma-components/lib/components/section';
+import React, { Component } from "react";
+import Button from "react-bulma-components/lib/components/button";
+import Section from "react-bulma-components/lib/components/section";
 import {
   Control,
   Field,
   Label,
   Select
-} from 'react-bulma-components/lib/components/form';
+} from "react-bulma-components/lib/components/form";
 
-import './Cards/cards';
-import { CardPhoto, EmptyCardPhoto } from './Cards/cards';
+import "./Cards/cards";
+import { CardPhoto, EmptyCardPhoto } from "./Cards/cards";
 
 class GameSideDisplay extends Component {
   constructor(props) {
@@ -49,17 +49,18 @@ class GameSideDisplay extends Component {
             <EmptyCardPhoto />
           )}
         </Section>
-        <Section style={{ padding: '12px' }}>
+        <Section style={{ padding: "12px" }}>
           <GeneralInfo {...generalInfo} />
         </Section>
-        <Section style={{ padding: '12px' }}>
+        <Section style={{ padding: "12px" }}>
           <Prompt
             promptsInfo={promptsInfo}
             value={this.state.option}
             onChange={this.handleOptionChanged}
+            onPromptSubmit={this.onPromptSubmit}
           />
         </Section>
-        <Section style={{ padding: '12px' }}>
+        <Section style={{ padding: "12px" }}>
           <Button onClick={onEndTurn}>End Turn</Button>
           <Button onClick={onForfeit}>Forfeit</Button>
         </Section>
@@ -77,12 +78,12 @@ const GeneralInfo = ({ turnCount, currentPlayer, cardsPlayed, deckCount }) => (
   </>
 );
 
-const Prompt = ({ promptsInfo, value, onChange }) => (
+const Prompt = ({ promptsInfo, value, onChange, onPromptSubmit }) => (
   <>
     <p>Prompt</p>
     <p>{promptsInfo.promptMessage}</p>
     <p>{promptsInfo.promptPlayer.id}</p>
-    <form onSubmit={this.onPromptSubmit}>
+    <form onSubmit={onPromptSubmit}>
       <Field>
         <Label>Options:</Label>
         {promptsInfo.options ? (
@@ -94,7 +95,7 @@ const Prompt = ({ promptsInfo, value, onChange }) => (
             ))}
           </Select>
         ) : (
-          <input onChange={this.handleOptionChanged} />
+          <input onChange={onChange} />
         )}
         <Field>
           <Control>
