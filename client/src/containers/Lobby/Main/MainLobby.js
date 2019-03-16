@@ -31,6 +31,7 @@ class MainLobby extends Component {
     this.onLeaveGame = this.onLeaveGame.bind(this);
     this.onStartGame = this.onStartGame.bind(this);
     this.onCreate = this.onCreate.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
       startRender: false,
       playerCapacity: 2,
@@ -38,7 +39,6 @@ class MainLobby extends Component {
       userName: null,
       lobbies: [],
       socket: socket,
-      // TODO: refactor into smaller component
       gameLobbyName: ''
     };
     socket.on('main-lobby:create-game', this.onCreateGame);
@@ -48,7 +48,7 @@ class MainLobby extends Component {
     socket.on('main-lobby:start-game', this.onStartGame);
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     MainLobbyAPI.getMainLobby().then(response => {
       if (response.ok) {
         response.text().then(body => {
@@ -76,7 +76,7 @@ class MainLobby extends Component {
     });
   }
 
-  onCreateGame(event) {
+  onCreateGame = event => {
     var baseState = this.state.lobbies;
     var newRoom = {
       id: event.gameId,
@@ -91,11 +91,11 @@ class MainLobby extends Component {
     });
   }
 
-  onEndGame(event) {
+  onEndGame = event => {
     // todo
   }
 
-  onJoinGame(event) {
+  onJoinGame = event => {
     // todo: convert this array operation to a dictionary operation
     var length = this.state.lobbies.length;
     var index = 0;
@@ -113,7 +113,7 @@ class MainLobby extends Component {
     });
   }
 
-  onLeaveGame(event) {
+  onLeaveGame = event => {
     // todo: convert this array operation to a dictionary operation
     var length = this.state.lobbies.length;
     var index = 0;
@@ -135,7 +135,7 @@ class MainLobby extends Component {
     });
   }
 
-  onStartGame(event) {
+  onStartGame = event => {
     // todo: convert this array operation to a dictionary operation
     var length = this.state.lobbies.length;
     var index = 0;
@@ -165,11 +165,11 @@ class MainLobby extends Component {
     });
   };
 
-  onGameLobbyNameChange = event => {
+  onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  render() {
+  render = () => {
     if (this.state.startRender) {
       return (
         <div>
@@ -181,13 +181,14 @@ class MainLobby extends Component {
                   <Input
                     name="gameLobbyName"
                     type="text"
-                    onChange={this.onGameLobbyNameChange}
+                    onChange={this.onChange}
                     placeholder="Game Lobby Name"
                     value={this.state.gameLobbyName}
                   />
                 </Control>
                 <Select
-                  onChange={this.onPlayerCapacityChange}
+                  name="playerCapacity"
+                  onChange={this.onChange}
                   value={this.state.playerCapacity}
                 >
                   <option value={2}>2</option>
