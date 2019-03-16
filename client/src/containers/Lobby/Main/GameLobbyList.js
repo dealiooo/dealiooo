@@ -5,14 +5,6 @@ import GameLobbyListItem from './GameLobbyListItem';
 import MakeRoomModal from './MakeRoomModal';
 
 import Box from 'react-bulma-components/lib/components/box';
-import {
-  Control,
-  Field,
-  Label,
-  Input,
-  Select
-} from 'react-bulma-components/lib/components/form';
-import Button from 'react-bulma-components/lib/components/button';
 
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
@@ -25,22 +17,22 @@ class GameLobbyList extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps = props => {
     this.setState({
       roomName: props.roomName,
       playerCapacity: props.playerCapacity
     })
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
   }
 
-  componentDidUpdate(_) {
+  componentDidUpdate = _ => {
     this.ps.update();
   }
 
-  render() {
+  render = () => {
     let gameLobbyListItems;
     if (this.props.gameLobbies) {
       gameLobbyListItems = this.props.gameLobbies.map(gameLobby => {
@@ -55,37 +47,12 @@ class GameLobbyList extends Component {
       });
     }
     return <Box>
-    <MakeRoomModal>
-            <form onSubmit={this.props.onCreate}>
-              <Label className="is-size-4">Choose Player Capacity:</Label>
-              <Field className="is-grouped">
-                <Control>
-                  <Input
-                    name="roomName"
-                    type="text"
-                    onChange={this.props.onChange}
-                    placeholder="Room Name"
-                    value={this.state.roomName}
-                  />
-                </Control>
-                <Select
-                  name="playerCapacity"
-                  onChange={this.props.onChange}
-                  value={this.state.playerCapacity}
-                >
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                </Select>
-                <Control>
-                  <Button className="is-info" type="submit">
-                    Create
-                  </Button>
-                </Control>
-              </Field>
-            </form>
-          </MakeRoomModal>
+    <MakeRoomModal
+      roomName={this.state.roomName}
+      playerCapacity={this.state.playerCapacity}
+      onCreate={this.props.onCreate}
+      onChange={this.props.onChange}
+    />
     {gameLobbyListItems}
     </Box>;
   }
