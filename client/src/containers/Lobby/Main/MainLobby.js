@@ -156,7 +156,7 @@ class MainLobby extends Component {
     event.preventDefault();
     MainLobbyAPI.postMainLobbyCreateGame(this.state.roomName, this.state.playerCapacity).then(
       result => {
-        window.location = `/game-lobby/${result.result.id}`;
+        window.location = `/game-lobby/${result.th_game_id}`;
       }
     );
   };

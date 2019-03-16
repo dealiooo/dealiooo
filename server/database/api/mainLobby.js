@@ -1,11 +1,11 @@
 const findRunningGames = db => id =>
 db.th_users
-  .findById(id)
+  .findByPk(id)
   .then(user => user.getGames({ where: { status: 'running' } }));
 
 const findStartedGames = db => id =>
   db.th_users
-    .findById(id)
+    .findByPk(id)
     .then(user => user.getGames({ where: { status: 'started' } }));
 
 const findOpenLobbies = db => () =>

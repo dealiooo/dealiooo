@@ -29,7 +29,7 @@ router.post('/api/main-lobby/create-game', authenticateUser, (request, response)
     .then(result => {
       const { id, name } = response.locals.user;
       MainLobbySockets.createGame(result.id, id, name, result.room_name, result.player_cap);
-      return response.json({ result });
+      return response.json(result);
     })
     .catch(error => response.json({ error }))
 );

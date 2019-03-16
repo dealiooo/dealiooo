@@ -1,6 +1,6 @@
 const getUsersNames = db => id =>
   db.th_games
-    .findById(id)
+    .findByPk(id)
     .then(game => game.getUsers({ attributes: ['id', 'name'] }));
 
 const getPlayersStatus = db => th_game_id =>
@@ -17,7 +17,7 @@ const getPlayersStatus = db => th_game_id =>
   });
 
 const joinGame = db => (th_game_id, th_user_id) =>
-  db.th_games.findById(th_game_id).then(game =>
+  db.th_games.findByPk(th_game_id).then(game =>
     game.getPlayers().then(players => {
       if (game.player_cap > players.length) {
         return db.th_players.create({

@@ -1,14 +1,14 @@
 const getUserIds = db => id =>
-  db.th_games.findById(id).then(game => game.getUsers({ attributes: ['id'] }));
+  db.th_games.findByPk(id).then(game => game.getUsers({ attributes: ['id'] }));
 
 const removePlayer = db => (th_game_id, th_user_id) =>
   db.th_games
-    .findById(th_game_id)
+    .findByPk(th_game_id)
     .then(game => game.decrement('player_cap'))
     .then(_ => db.th_players.destroy({ where: { th_game_id, th_user_id } }));
 
 const startGame = db => id =>
-  db.th_games.findById(id).then(
+  db.th_games.findByPk(id).then(
     game => {
       if ('started' !== game.status) {
         return Promise.reject(new Error(`cannot run game ${id}, status: ${game.status}`));
@@ -22,7 +22,7 @@ const endGame = db => id =>
   db.th_games.update({ status: 'ended' }, { where: { id } });
 
 const getStatus = db => id =>
-    db.th_games.findById(id).then(game => game.status)
+    db.th_games.findByPk(id).then(game => game.status)
 
 module.exports = db => ({
   getUserIds: getUserIds(db),
