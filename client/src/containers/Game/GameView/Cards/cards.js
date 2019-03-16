@@ -54,15 +54,17 @@ export const HandCard = ({ card, onClick }) => (
   <CardPhoto card={card} onClick={() => onClick(card)} />
 );
 
-export const HiddenHand = ({ handCount }) => (
-  <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
-    <Tile kind="child" size={12}>
-      <div>
-        <h1>Cards: {handCount}</h1>
-      </div>
+export const HiddenHand = ({ cardCount }) => {
+  return (
+    <Tile kind="parent" size={12} style={{ justifyContent: "center" }}>
+      <Tile kind="child" size={12}>
+        <div>
+          <h1>Cards: {cardCount}</h1>
+        </div>
+      </Tile>
     </Tile>
-  </Tile>
-);
+  );
+};
 
 const SPAWNED_CARD = {
   id: 99999,

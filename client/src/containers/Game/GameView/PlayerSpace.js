@@ -1,8 +1,8 @@
-import React from 'react';
-import Level from 'react-bulma-components/lib/components/level';
-import Box from 'react-bulma-components/lib/components/box';
-import Tile from 'react-bulma-components/lib/components/tile';
-import Card from 'react-bulma-components/lib/components/card';
+import React from "react";
+import Level from "react-bulma-components/lib/components/level";
+import Box from "react-bulma-components/lib/components/box";
+import Tile from "react-bulma-components/lib/components/tile";
+import Card from "react-bulma-components/lib/components/card";
 
 import {
   CARD_STACK_TYPES,
@@ -10,13 +10,13 @@ import {
   getCssColumnStackSpace,
   cardsTotalValue,
   getCardStackIcon
-} from './utils';
+} from "./utils";
 import {
   renderHandCards,
   renderHiddenHand,
   renderCardsAsModal
-} from './Cards/renderCards';
-import ZoomModal from '../ZoomModal';
+} from "./Cards/renderCards";
+import ZoomModal from "../ZoomModal";
 
 const CardStack = ({ cards, stackType }) => {
   return (
@@ -34,9 +34,7 @@ const CardStack = ({ cards, stackType }) => {
             </Level.Item>
           </Level.Side>
         </Level>
-        <Card style={{ overflowX: 'auto' }}>
-          <Tile>{renderCardStack(cards, stackType)}</Tile>
-        </Card>
+        <Tile>{renderCardStack(cards, stackType)}</Tile>
       </Box>
     </Tile>
   );
