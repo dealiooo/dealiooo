@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Control,
-  Field,
-  Label,
-  Input,
-  Select
-} from 'react-bulma-components/lib/components/form';
 import Box from 'react-bulma-components/lib/components/box';
-import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
 
 import {
@@ -19,8 +11,6 @@ import GameLobbyList from './GameLobbyList';
 import Chat from '../../../components/Chat';
 import NavigationBar from '../../../components/NavigationBar';
 import './MainLobby.css';
-
-import MakeRoomModal from './MakeRoomModal';
 
 class MainLobby extends Component {
   constructor(props) {
@@ -169,37 +159,6 @@ class MainLobby extends Component {
     if (this.state.startRender) {
       return (
         <div>
-          <MakeRoomModal>
-            <form onSubmit={this.onCreate}>
-              <Label className="is-size-4">Choose Player Capacity:</Label>
-              <Field className="is-grouped">
-                <Control>
-                  <Input
-                    name="roomName"
-                    type="text"
-                    onChange={this.onChange}
-                    placeholder="Room Name"
-                    value={this.state.roomName}
-                  />
-                </Control>
-                <Select
-                  name="playerCapacity"
-                  onChange={this.onChange}
-                  value={this.state.playerCapacity}
-                >
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                </Select>
-                <Control>
-                  <Button className="is-info" type="submit">
-                    Create
-                  </Button>
-                </Control>
-              </Field>
-            </form>
-          </MakeRoomModal>
           <NavigationBar title="Main Lobby" userName={this.state.userName} />
           <Columns>
             <Columns.Column>
@@ -207,6 +166,10 @@ class MainLobby extends Component {
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
                 userId={this.state.userId}
+                roomName={this.state.roomName}
+                playerCapacity={this.state.playerCapacity}
+                onCreate={this.onCreate}
+                onChange={this.onChange}
               />
             </Columns.Column>
             <Columns.Column className="main-lobby-chat is-two-fifths">
