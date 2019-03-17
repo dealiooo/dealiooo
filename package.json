@@ -11,7 +11,7 @@
     "start:server:windows": "SET DEBUG=MonopolyDeal:*& node ./bin/www",
     "start:dev:client": "cd client && REACT_APP_LOCAL_SERVER=local npm run start",
     "start:dev:client:windows": "cd client && SET REACT_APP_LOCAL_SERVER=local& npm run start",
-    "start:dev:server": "DEBUG=MonopolyDeal:* nodemon ./bin/www",
+    "start:dev:server": "NODE_ENV=development DEBUG=MonopolyDeal:* nodemon ./bin/www",
     "start:dev:server:windows": "SET DEBUG=MonopolyDeal:*& nodemon ./bin/www",
     "db:create:migration": "sequelize migration:generate --name ",
     "db:migrate": "sequelize db:migrate",
