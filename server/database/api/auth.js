@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
 const insertUser = db => (name, email, hash_me) =>
@@ -21,15 +21,15 @@ const updatePassword = db => (email, new_password) =>
     .then(hash => db.th_users.update({ password: hash }, { where: { email } }));
 
 const insertSession = db => (sid, sess, expire) =>
-  db.session.create({
+  db.sessions.create({
     sid,
     sess,
     expire
   });
 
-const deleteSession = db => sid => db.session.destroy({ where: { sid } });
+const deleteSession = db => sid => db.sessions.destroy({ where: { sid } });
 
-const findSessionBySid = db => sid => db.session.findOne({ where: { sid } });
+const findSessionBySid = db => sid => db.sessions.findOne({ where: { sid } });
 
 const findPlayer = db => (th_game_id, th_user_id) =>
   db.th_players.findOne({
