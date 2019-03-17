@@ -1,8 +1,8 @@
-import NewPassword from './NewPassword';
+import NewPassword from "./NewPassword";
 
 const NewPasswordRoute = [
   {
-    path: '/new-password',
+    path: "/new-password/:sid",
     exact: true,
     component: NewPassword
   }
