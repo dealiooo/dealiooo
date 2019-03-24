@@ -3,7 +3,7 @@ import Container from 'react-bulma-components/lib/components/container';
 
 import routes from '../../routes';
 
-class Home extends Component {
+class Index extends Component {
   render() {
     return (
       <Container>
@@ -22,4 +22,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Index;
