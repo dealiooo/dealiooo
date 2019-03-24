@@ -17,8 +17,8 @@ router.get(
 );
 
 router.get('/api/game-lobby/:gameId/info', authenticateUser, (request, response) =>
-  GameLobbyDB.getUsersNames(request.params.gameId)
-    .then(result => response.json({ result }))
+  GameLobbyDB.getPlayers(request.params.gameId)
+    .then(result => response.json( result ))
     .catch(error => response.json({ error }))
 );
 

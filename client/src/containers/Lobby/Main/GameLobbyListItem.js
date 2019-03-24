@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Box from 'react-bulma-components/lib/components/box';
 import Button from 'react-bulma-components/lib/components/button';
 import Columns from 'react-bulma-components/lib/components/columns';
-import Tag from 'react-bulma-components/lib/components/tag';
 
 import { GameLobby as GameLobbyAPI } from '../../../api';
 
@@ -28,21 +27,7 @@ class GameLobbyListItem extends Component {
 
   render() {
     if (this.props.gameLobby.playerList) {
-      let hasJoined = false;
-      let playerList = (
-        <Tag.Group>
-          {this.props.gameLobby.playerList.map((player, i) => {
-            if (this.props.userId === player.id) {
-              hasJoined = true;
-            }
-            return (
-              <Tag>
-                [{player.id}]{player.name}
-              </Tag>
-            );
-          })}
-        </Tag.Group>
-      );
+      let hasJoined = this.props.gameLobby.playerList.filter(player => player.User.id === this.props.userId).length === 1;
       let actionButton;
       if (hasJoined) {
         actionButton = (
@@ -58,18 +43,14 @@ class GameLobbyListItem extends Component {
         );
       }
       return (
-        <Box>
           <Columns>
-            <Columns.Column>
-              <p>
-                #{this.props.gameLobby.id} {this.props.gameLobby.roomName} ({this.props.gameLobby.playerNum} /{' '}
-                {this.props.gameLobby.playerCap})
-              </p>
-            </Columns.Column>
-            <Columns.Column>{playerList}</Columns.Column>
-            <Columns.Column>{actionButton}</Columns.Column>
+            <Columns.Column className="is-4">#{this.props.gameLobby.id} {this.props.gameLobby.roomName}</Columns.Column>
+            <Columns.Column className="is-2">[{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}</Columns.Column>
+            <Columns.Column className="is-2">({this.props.gameLobby.playerNum} /{' '}{this.props.gameLobby.playerCap})</Columns.Column>
+            <Columns.Column className="is-2">{this.props.gameLobby.status}</Columns.Column>
+            <Columns.Column className="is-1">{actionButton}</Columns.Column>
+            <Columns.Column className="is-1"></Columns.Column>
           </Columns>
-        </Box>
       );
     }
     return (

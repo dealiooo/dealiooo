@@ -1,61 +1,38 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import PerfectScrollbar from 'perfect-scrollbar';
-import GameLobbyListItem from './GameLobbyListItem';
-import MakeRoomModal from './MakeRoomModal';
 
-import Box from 'react-bulma-components/lib/components/box';
-
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import GameLobbyListHeader from './GameLobbyListHeader';
+import GameLobbyListItemContainer from './GameLobbyListItemContainer';
 
 class GameLobbyList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomName: this.props.roomName,
-      playerCapacity: this.props.playerCapacity
+        userId: this.props.userId,
+      lobbies: this.props.gameLobbies
     }
   }
 
   componentWillReceiveProps = props => {
     this.setState({
-      roomName: props.roomName,
-      playerCapacity: props.playerCapacity
+        userId: props.userId,
+        lobbies: props.gameLobbies
     })
   }
 
-  componentDidMount = () => {
-    this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
-  }
-
-  componentDidUpdate = _ => {
-    this.ps.update();
-  }
-
-  render = () => {
-    let gameLobbyListItems;
-    if (this.props.gameLobbies) {
-      gameLobbyListItems = this.props.gameLobbies.map(gameLobby => {
-        return (
-          <GameLobbyListItem
-            key={gameLobby.id}
-            gameLobby={gameLobby}
-            userId={this.props.userId}
-            gameId={gameLobby.id}
-          />
-        );
-      });
-    }
-    return <Box>
-    <MakeRoomModal
-      roomName={this.state.roomName}
-      playerCapacity={this.state.playerCapacity}
-      onCreate={this.props.onCreate}
-      onChange={this.props.onChange}
-    />
-    {gameLobbyListItems}
-    </Box>;
-  }
+  render = () => (
+      <div>
+        <GameLobbyListHeader />
+        <hr style={{
+            marginTop:'0', 
+            height:'2px',
+            background:'black'
+        }}/>
+        <GameLobbyListItemContainer
+            userId={this.state.userId}
+            lobbies={this.state.lobbies}
+        />
+    </div>
+    );
 }
 
 export default GameLobbyList;

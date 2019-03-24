@@ -8,7 +8,7 @@ import {
   MainLobby as MainLobbyAPI,
   GameLobby as GameLobbyAPI
 } from '../../../api';
-import GameLobbyList from './GameLobbyList';
+import GameLobbyMessage from './GameLobbyMessage';
 import Chat from '../../../components/Chat';
 import NavigationBar from '../../../components/NavigationBar';
 import './MainLobby.css';
@@ -50,13 +50,20 @@ class MainLobby extends Component {
           MainLobbyAPI.postMainLobby().then(promise => {
             var baseState = promise.result;
             baseState.map((game, i) =>
-              GameLobbyAPI.getGameLobbyInfo(game.id).then(info => {
-                baseState[i].id = game.id;
-                baseState[i].playerList = info.result;
-                baseState[i].playerNum = info.result.length;
-                baseState[i].roomName = game.room_name;
-                baseState[i].playerCap = game.player_cap;
-                baseState[i].status = game.status;
+              GameLobbyAPI.getGameLobbyInfo(game.id).then(gameInfo => {
+                baseState[i].id = gameInfo.id;
+                baseState[i].playerList = gameInfo.Players;
+                baseState[i].playerNum = gameInfo.Players.length;
+                baseState[i].roomName = gameInfo.room_name;
+                baseState[i].playerCap = gameInfo.player_cap;
+                baseState[i].status = gameInfo.status;
+                gameInfo.Players.filter(player => player.host).map(
+                  player => {
+                    baseState[i].hostId = player.User.id;
+                    baseState[i].hostName = player.User.name;
+                    return player;
+                  }
+                )
                 this.setState({ lobbies: baseState });
               })
             );
@@ -76,9 +83,9 @@ class MainLobby extends Component {
       playerCap: event.playerCap,
       status: 'open'
     };
-    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(info => {
-      newRoom.playerList = info.result;
-      newRoom.playerNum = info.result.length;
+    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
+      newRoom.playerList = gameInfo.Players;
+      newRoom.playerNum = gameInfo.Players.length;
       baseState = baseState.concat(newRoom);
       this.setState({ lobbies: baseState });
     });
@@ -98,10 +105,10 @@ class MainLobby extends Component {
         break;
       }
     }
-    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(info => {
+    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
       var baseState = this.state.lobbies;
-      baseState[index].playerList = info.result;
-      baseState[index].playerNum = info.result.length;
+      baseState[index].playerList = gameInfo.Players;
+      baseState[index].playerNum = gameInfo.Players.length;
       this.setState({ lobbies: baseState });
     });
   }
@@ -116,11 +123,11 @@ class MainLobby extends Component {
         break;
       }
     }
-    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(info => {
+    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
       var baseState = this.state.lobbies;
-      if (info.result.length) {
-        baseState[index].playerList = info.result;
-        baseState[index].playerNum = info.result.length;
+      if (gameInfo.Players.length) {
+        baseState[index].playerList = gameInfo.Players;
+        baseState[index].playerNum = gameInfo.Players.length;
       } else {
         baseState.splice(index, 1);
       }
@@ -164,7 +171,7 @@ class MainLobby extends Component {
           <Section>
           <Columns>
             <Columns.Column>
-              <GameLobbyList
+              <GameLobbyMessage
                 key="gameLobbies"
                 gameLobbies={this.state.lobbies}
                 userId={this.state.userId}

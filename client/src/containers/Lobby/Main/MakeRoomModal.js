@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Button from 'react-bulma-components/lib/components/button';
+import Columns from 'react-bulma-components/lib/components/columns';
 import {
   Control,
   Field,
@@ -6,7 +8,6 @@ import {
   Input,
   Select
 } from 'react-bulma-components/lib/components/form';
-import Button from 'react-bulma-components/lib/components/button';
 import Modal from 'react-bulma-components/lib/components/modal';
 
 class MakeRoomModal extends Component {
@@ -31,17 +32,26 @@ class MakeRoomModal extends Component {
   open = () => this.setState({ show: true });
   close = () => this.setState({ show: false });
 
-  render = () => {
-    return (
-      <div>
-        <Modal
-          show={this.state.show}
-          onClose={this.close}
-        >
-          <form onSubmit={this.props.onCreate}>
-              <Label className="is-size-4">Choose Player Capacity:</Label>
+  render = () => (
+    <div>
+      <Modal  
+        show={this.state.show}
+        onClose={this.close}
+        closeOnBlur={true}
+      >
+        <Modal.Card>
+          <Modal.Card.Body style={{borderRadius: '0.5em'}}>
+            <form onSubmit={this.props.onCreate}>
+              <Columns>
+                <Columns.Column>
+                  <Label>Choose Player Capacity:</Label>
+                </Columns.Column>
+                <Columns.Column className="is-1">
+                <button className="delete" onClick={this.close}/>
+                </Columns.Column>
+              </Columns>
               <Field className="is-grouped">
-                <Control>
+                <Control className="is-expanded">
                   <Input
                     name="roomName"
                     type="text"
@@ -67,11 +77,12 @@ class MakeRoomModal extends Component {
                 </Control>
               </Field>
             </form>
-        </Modal>
-        <Button onClick={this.open}>Make a Room</Button>
-      </div>
-    );
-  }
+          </Modal.Card.Body>
+        </Modal.Card>
+      </Modal>
+      <Button onClick={this.open}>Make a Room</Button>
+    </div>
+  );
 }
 
 export default MakeRoomModal;

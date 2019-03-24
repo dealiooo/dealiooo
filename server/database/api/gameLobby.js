@@ -1,7 +1,21 @@
-const getUsersNames = db => id =>
+const getPlayers = db => id =>
   db.th_games
-    .findByPk(id)
-    .then(game => game.getUsers({ attributes: ['id', 'name'] }));
+    .findByPk(id, {
+      include: [
+        {
+          model: db.th_players,
+          as: 'Players',
+          attributes: ['host'],
+          include: [
+            {
+              model: db.th_users,
+              as: 'User',
+              attributes: ['id', 'name']
+            }
+          ]
+        } 
+      ]
+    });
 
 const getPlayersStatus = db => th_game_id =>
   db.th_users.findAll({
@@ -109,7 +123,7 @@ const togglePlayerReady = db => (th_game_id, th_user_id) =>
   );
 
 module.exports = db => ({
-  getUsersNames: getUsersNames(db),
+  getPlayers: getPlayers(db),
   getPlayersStatus: getPlayersStatus(db),
   joinGame: joinGame(db),
   leaveGame: leaveGame(db),
