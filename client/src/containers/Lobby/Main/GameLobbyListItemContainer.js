@@ -16,7 +16,7 @@ class GameLobbyMessage extends Component {
   
   componentWillReceiveProps = props => {
     this.setState({
-        lobbies: props.lobbies
+      lobbies: props.lobbies
     })
   }
 
@@ -43,11 +43,10 @@ class GameLobbyMessage extends Component {
         );
       });
     }
-
     return (
       <div>
         {gameLobbyListItems}
-        </div>
+      </div>
     );
   }
 }

@@ -32,27 +32,27 @@ class GameLobbyMessageAction extends Component {
       <Columns.Column className="is-two-thirds">
       <Field className="has-addons">
       <Control>
-          <Button className="is-fullwidth is-info">
+        <Button className="is-fullwidth is-info">
           <span role="img" aria-label="magnifier" aria-labelledby="">🔍</span>
-          </Button>
-          </Control>
-          <Control className="is-expanded">
-          <Input
-              name='searchRoomName'
-              type='text'
-              onChange={this.props.onSearch}
-              value={this.state.searchRoomName}
-              placeholder="Find a room"
-          />
-          </Control>
+        </Button>
+      </Control>
+      <Control className="is-expanded">
+        <Input
+          name='searchRoomName'
+          type='text'
+          onChange={this.props.onSearch}
+          value={this.state.searchRoomName}
+          placeholder="Find a room"
+        />
+      </Control>
       </Field>
       </Columns.Column>
       <Columns.Column className="has-text-right">
           <MakeRoomModal
-          roomName={this.state.roomName}
-          playerCapacity={this.state.playerCapacity}
-          onCreate={this.props.onCreate}
-          onChange={this.props.onChange}
+            roomName={this.state.roomName}
+            playerCapacity={this.state.playerCapacity}
+            onCreate={this.props.onCreate}
+            onChange={this.props.onChange}
           />
       </Columns.Column>
     </Columns>

@@ -169,27 +169,27 @@ class MainLobby extends Component {
         <div>
           <NavigationBar title="Main Lobby" userName={this.state.userName} />
           <Section>
-          <Columns>
-            <Columns.Column>
-              <GameLobbyMessage
-                key="gameLobbies"
-                gameLobbies={this.state.lobbies}
-                userId={this.state.userId}
-                roomName={this.state.roomName}
-                playerCapacity={this.state.playerCapacity}
-                onCreate={this.onCreate}
-                onChange={this.onChange}
-              />
-            </Columns.Column>
-            <Columns.Column className="main-lobby-chat is-two-fifths">
-              <Chat
-                socket={this.state.socket}
-                api={MainLobbyAPI.postMainLobbyChat}
-                channel={'main-lobby:chat'}
-                roomId={null}
-              />
-            </Columns.Column>
-          </Columns>
+            <Columns>
+              <Columns.Column>
+                <GameLobbyMessage
+                  key="gameLobbies"
+                  gameLobbies={this.state.lobbies}
+                  userId={this.state.userId}
+                  roomName={this.state.roomName}
+                  playerCapacity={this.state.playerCapacity}
+                  onCreate={this.onCreate}
+                  onChange={this.onChange}
+                />
+              </Columns.Column>
+              <Columns.Column className="main-lobby-chat is-two-fifths">
+                <Chat
+                  socket={this.state.socket}
+                  api={MainLobbyAPI.postMainLobbyChat}
+                  channel={'main-lobby:chat'}
+                  roomId={null}
+                />
+              </Columns.Column>
+            </Columns>
           </Section>
         </div>
       );

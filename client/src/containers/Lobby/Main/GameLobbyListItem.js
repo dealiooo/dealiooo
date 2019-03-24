@@ -13,11 +13,11 @@ class GameLobbyListItem extends Component {
     this.onJoin = this.onJoin.bind(this);
   }
 
-  onEnter(_) {
+  onEnter = _ => {
     window.location = `/game-lobby/${this.props.gameId}`;
   }
 
-  onJoin(_) {
+  onJoin = _ => {
     GameLobbyAPI.postGameLobbyJoin(this.props.gameId).then(response => {
       if (response.result) {
         window.location = `/game-lobby/${this.props.gameId}`;
@@ -25,7 +25,7 @@ class GameLobbyListItem extends Component {
     });
   }
 
-  render() {
+  render = () => {
     if (this.props.gameLobby.playerList) {
       let hasJoined = this.props.gameLobby.playerList.filter(player => player.User.id === this.props.userId).length === 1;
       let actionButton;
@@ -43,14 +43,14 @@ class GameLobbyListItem extends Component {
         );
       }
       return (
-          <Columns>
-            <Columns.Column className="is-4">#{this.props.gameLobby.id} {this.props.gameLobby.roomName}</Columns.Column>
-            <Columns.Column className="is-2">[{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}</Columns.Column>
-            <Columns.Column className="is-2">({this.props.gameLobby.playerNum} /{' '}{this.props.gameLobby.playerCap})</Columns.Column>
-            <Columns.Column className="is-2">{this.props.gameLobby.status}</Columns.Column>
-            <Columns.Column className="is-1">{actionButton}</Columns.Column>
-            <Columns.Column className="is-1"></Columns.Column>
-          </Columns>
+        <Columns>
+          <Columns.Column className="is-4">#{this.props.gameLobby.id} {this.props.gameLobby.roomName}</Columns.Column>
+          <Columns.Column className="is-2">[{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}</Columns.Column>
+          <Columns.Column className="is-2">({this.props.gameLobby.playerNum} /{' '}{this.props.gameLobby.playerCap})</Columns.Column>
+          <Columns.Column className="is-2">{this.props.gameLobby.status}</Columns.Column>
+          <Columns.Column className="is-1">{actionButton}</Columns.Column>
+          <Columns.Column className="is-1"></Columns.Column>
+        </Columns>
       );
     }
     return (

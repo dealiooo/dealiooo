@@ -18,8 +18,8 @@ class GameLobbyMessage extends Component {
 
   componentWillReceiveProps = props => {
     this.setState({
-      userId: this.props.userId,
-      gameLobbies: this.props.gameLobbies,
+      userId: props.userId,
+      gameLobbies: props.gameLobbies,
       roomName: props.roomName,
       playerCapacity: props.playerCapacity
     })
@@ -40,31 +40,29 @@ class GameLobbyMessage extends Component {
     }
   }
 
-  render = () => {
-    return (
-      <Message className="is-dark">
-        <Message.Header>
-        <p/>
-        <p>Current Rooms</p>
-        <p/>
-        </Message.Header>
-        <Message.Body>
-          <GameLobbyMessageAction
-            roomName={this.state.roomName}
-            playerCapacity={this.state.playerCapacity}
-            searchRoomName={this.state.searchRoomName}
-            onCreate={this.props.onCreate}
-            onChange={this.props.onChange}
-            onSearch={this.onSearch}
-          />
-          <GameLobbyList
-            userId={this.state.userId}
-            gameLobbies={this.state.gameLobbies}
-          />
-        </Message.Body>
-      </Message>
-    );
-  }
+  render = () => (
+    <Message className="is-dark">
+      <Message.Header>
+      <p/>
+      <p>Current Rooms</p>
+      <p/>
+      </Message.Header>
+      <Message.Body>
+        <GameLobbyMessageAction
+          roomName={this.state.roomName}
+          playerCapacity={this.state.playerCapacity}
+          searchRoomName={this.state.searchRoomName}
+          onCreate={this.props.onCreate}
+          onChange={this.props.onChange}
+          onSearch={this.onSearch}
+        />
+        <GameLobbyList
+          userId={this.state.userId}
+          gameLobbies={this.state.gameLobbies}
+        />
+      </Message.Body>
+    </Message>
+  );
 }
 
 export default GameLobbyMessage;
