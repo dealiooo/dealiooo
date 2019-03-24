@@ -44,7 +44,7 @@ class Register extends Component {
 
   componentWillMount() {
     Auth.getRegister().then(response => {
-      if (response.ok) {
+      if (!response.ok) {
         window.location = '/main-lobby';
       }
     });
