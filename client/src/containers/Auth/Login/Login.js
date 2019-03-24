@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Button from 'react-bulma-components/lib/components/button';
+import Button from "react-bulma-components/lib/components/button";
 import {
   Control,
   Field,
   Input
-} from 'react-bulma-components/lib/components/form';
-import Section from 'react-bulma-components/lib/components/section';
-import Columns from 'react-bulma-components/lib/components/columns/columns';
-import Container from 'react-bulma-components/lib/components/container';
-import Heading from 'react-bulma-components/lib/components/heading';
-import Box from 'react-bulma-components/lib/components/box';
-import Banner from '../../../components/Banner';
-import { Auth } from '../../../api';
+} from "react-bulma-components/lib/components/form";
+import Section from "react-bulma-components/lib/components/section";
+import Columns from "react-bulma-components/lib/components/columns/columns";
+import Container from "react-bulma-components/lib/components/container";
+import Heading from "react-bulma-components/lib/components/heading";
+import Box from "react-bulma-components/lib/components/box";
+import Banner from "../../../components/Banner";
+import { Auth } from "../../../api";
 
 class Login extends Component {
   state = {
-    email: '',
-    password: '',
-    error_message: ''
+    email: "",
+    password: "",
+    error_message: ""
   };
 
   onChange = event => {
@@ -30,18 +30,18 @@ class Login extends Component {
     Auth.postLogin(this.state.email, this.state.password).then(result => {
       if (result.error) {
         this.setState({
-          error_message: 'Invalid email & password combination'
+          error_message: "Invalid email & password combination"
         });
       } else {
-        window.location = '/main-lobby';
+        window.location = "/main-lobby";
       }
     });
   };
 
   componentWillMount() {
     Auth.getLogin().then(response => {
-      if (response.ok) {
-        window.location = '/main-lobby';
+      if (!response.ok) {
+        window.location = "/main-lobby";
       }
     });
   }

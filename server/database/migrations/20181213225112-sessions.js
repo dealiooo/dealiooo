@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('session', {
+    return queryInterface.createTable("sessions", {
       sid: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -19,6 +19,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('session');
+    return queryInterface.dropTable("sessions");
   }
 };
