@@ -1,9 +1,8 @@
-import NotFound from "./NotFound";
+import NotFound from './NotFound';
 
 const ErrorRoute = [
   {
-    path: "/404",
-    exact: true,
+    exact: false,
     component: NotFound
   }
 ];
