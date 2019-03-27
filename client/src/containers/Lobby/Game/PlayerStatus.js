@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Box from 'react-bulma-components/lib/components/box';
-import Columns from 'react-bulma-components/lib/components/columns';
-import Tag from 'react-bulma-components/lib/components/tag';
+import Box from "react-bulma-components/lib/components/box";
+import Columns from "react-bulma-components/lib/components/columns";
+import Tag from "react-bulma-components/lib/components/tag";
+import Container from "react-bulma-components/lib/components/container";
 
 class PlayerStatus extends Component {
   render() {
@@ -11,20 +12,23 @@ class PlayerStatus extends Component {
         <Tag.Group>
           {this.props.status.map((player, i) => {
             return (
-              <Tag key={i}>
-                [{player.id}]{player.name} -{' '}
-                {player.ready ? 'Ready' : 'Not Ready'}
+              <Tag
+                className="is-medium has-background-grey-light has-text-white"
+                key={i}
+              >
+                [{player.id}]{player.name} -{" "}
+                {player.ready ? "Ready" : "Not Ready"}
               </Tag>
             );
           })}
         </Tag.Group>
       );
       return (
-        <Box>
+        <Container>
           <Columns>
             <Columns.Column>{list}</Columns.Column>
-          </Columns>
-        </Box>
+          </Columns>{" "}
+        </Container>
       );
     }
     return <Box>Loading Player Status...</Box>;

@@ -1,19 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Section from 'react-bulma-components/lib/components/section';
-import Level from 'react-bulma-components/lib/components/level';
-import Box from 'react-bulma-components/lib/components/box';
-import Button from 'react-bulma-components/lib/components/button';
-import Columns from 'react-bulma-components/lib/components/columns';
+import Section from "react-bulma-components/lib/components/section";
+import Level from "react-bulma-components/lib/components/level";
+import Box from "react-bulma-components/lib/components/box";
+import Button from "react-bulma-components/lib/components/button";
+import Columns from "react-bulma-components/lib/components/columns";
+import Container from "react-bulma-components/lib/components/container";
+import Heading from "react-bulma-components/lib/components/heading";
 
-import NavigationBar from '../../../components/NavigationBar';
-import Chat from '../../../components/Chat';
-import PlayerStatus from './PlayerStatus';
+import NavigationBar from "../../../components/NavigationBar";
+import Chat from "../../../components/Chat";
+import PlayerStatus from "./PlayerStatus";
 
-import { socket, GameLobby as GameLobbyAPI } from '../../../api';
-import { toast } from 'react-toastify';
+import { socket, GameLobby as GameLobbyAPI } from "../../../api";
+import { toast } from "react-toastify";
 
-import './GameLobby.css';
+import "./GameLobby.css";
 
 class GameLobby extends Component {
   constructor(props) {
@@ -66,7 +68,7 @@ class GameLobby extends Component {
           );
         });
       } else {
-        window.location = '/main-lobby';
+        window.location = "/main-lobby";
       }
     });
   }
@@ -91,7 +93,7 @@ class GameLobby extends Component {
         )
       });
       if (this.state.userId === event.userId) {
-        window.location = '/main-lobby';
+        window.location = "/main-lobby";
       }
     }
   }
@@ -140,7 +142,7 @@ class GameLobby extends Component {
 
   onExit(_) {
     GameLobbyAPI.postGameLobbyLeave(this.state.gameId).then(
-      _ => (window.location = '/main-lobby')
+      _ => (window.location = "/main-lobby")
     );
   }
 
@@ -154,13 +156,38 @@ class GameLobby extends Component {
           />
           <Columns>
             <Columns.Column>
-              <Box className="has-background-grey-lighter">
+              <Container className="">
                 <Section>
                   <Columns>
-                    <Columns.Column>
-                      <PlayerStatus status={this.state.playersStatus} />
+                    <Columns.Column size="three-fifths">
+                      <Box className="box-room-name">
+                        <Heading className="has-text-white">
+                          {this.state.lobbyName}
+                        </Heading>
+                      </Box>
+                      <Section>
+                        <PlayerStatus status={this.state.playersStatus} />
+                      </Section>
+                      <Section>
+                        <Level>
+                          <Level.Item>
+                            {this.state.host ? (
+                              <Button onClick={this.onStart}>Start</Button>
+                            ) : (
+                              <div />
+                            )}
+                          </Level.Item>
+                          <Level.Item>
+                            <Button onClick={this.onReady}>Ready</Button>
+                          </Level.Item>
+                          <Level.Item>
+                            <Button onClick={this.onExit}>Exit</Button>
+                          </Level.Item>
+                          <Level.Item />
+                        </Level>
+                      </Section>
                     </Columns.Column>
-                    <Columns.Column size="5" className="game-lobby-chat">
+                    <Columns.Column className="game-lobby-chat">
                       <Chat
                         socket={this.state.socket}
                         api={GameLobbyAPI.postGameLobbyChat}
@@ -170,25 +197,7 @@ class GameLobby extends Component {
                     </Columns.Column>
                   </Columns>
                 </Section>
-                <Section>
-                  <Level>
-                    <Level.Item>
-                      {this.state.host ? (
-                        <Button onClick={this.onStart}>Start</Button>
-                      ) : (
-                        <div />
-                      )}
-                    </Level.Item>
-                    <Level.Item>
-                      <Button onClick={this.onReady}>Ready</Button>
-                    </Level.Item>
-                    <Level.Item>
-                      <Button onClick={this.onExit}>Exit</Button>
-                    </Level.Item>
-                    <Level.Item />
-                  </Level>
-                </Section>
-              </Box>
+              </Container>
             </Columns.Column>
           </Columns>
         </div>
