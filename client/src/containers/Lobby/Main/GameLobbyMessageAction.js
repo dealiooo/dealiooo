@@ -6,7 +6,10 @@ import {
   Field,
   Input
 } from "react-bulma-components/lib/components/form";
+
 import Icon from "react-bulma-components/lib/components/icon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import MakeRoomModal from "./MakeRoomModal";
 
@@ -34,7 +37,9 @@ class GameLobbyMessageAction extends Component {
         <Field className="has-addons">
           <Control>
             <Button className="is-fullwidth">
-              <Icon icon="search" color="info" />
+              <Icon>
+                <FontAwesomeIcon icon={faSearch} />
+              </Icon>
             </Button>
           </Control>
           <Control className="is-expanded">
