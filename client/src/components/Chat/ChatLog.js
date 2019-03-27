@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import PerfectScrollbar from 'perfect-scrollbar';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-import Box from 'react-bulma-components/lib/components/box';
+import PerfectScrollbar from "perfect-scrollbar";
+import Box from "react-bulma-components/lib/components/box";
 
-import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 class ChatLog extends Component {
   constructor(props) {
@@ -21,7 +21,9 @@ class ChatLog extends Component {
   }
 
   componentDidUpdate(_) {
-    ReactDOM.findDOMNode(this).scrollTop = ReactDOM.findDOMNode(this).scrollHeight;
+    ReactDOM.findDOMNode(this).scrollTop = ReactDOM.findDOMNode(
+      this
+    ).scrollHeight;
     this.ps.update();
   }
 
@@ -33,7 +35,7 @@ class ChatLog extends Component {
 
   render() {
     return (
-      <Box>
+      <Box style={{ wordWrap: "break-word" }}>
         {this.state.log.map((message, i) => (
           <p key={i}>{message}</p>
         ))}
