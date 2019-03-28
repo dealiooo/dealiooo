@@ -12,8 +12,19 @@ class ChatLog extends Component {
     this.onMessageReceived = this.onMessageReceived.bind(this);
     this.props.socket.on(this.props.channel, this.onMessageReceived);
     this.state = {
+      // 36 = chatInput
+      // 52 = navBar
+      // 15 = componentPaddings
+      // 2 = smoother
+      height: props.height  - 36 - 15 - 52 - 2,
       log: []
     };
+  }
+
+  componentWillReceiveProps = props => {
+    this.setState({
+      height: props.height  - 36 - 15 - 52 - 2
+    })
   }
 
   componentDidMount() {
@@ -35,7 +46,11 @@ class ChatLog extends Component {
 
   render() {
     return (
-      <Box style={{ wordWrap: "break-word" }}>
+      <Box style={{ 
+        wordWrap: "break-word", 
+        minHeight:`${this.state.height}px`,
+        maxHeight:`${this.state.height}px`
+      }}>
         {this.state.log.map((message, i) => (
           <p key={i}>{message}</p>
         ))}

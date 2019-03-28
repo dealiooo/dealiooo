@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Box from 'react-bulma-components/lib/components/box';
 import Columns from 'react-bulma-components/lib/components/columns';
-import Section from 'react-bulma-components/lib/components/section';
 
 import {
   socket,
@@ -23,7 +22,9 @@ class MainLobby extends Component {
     this.onStartGame = this.onStartGame.bind(this);
     this.onCreate = this.onCreate.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
     this.state = {
+      contentHeight: window.innerHeight * 87 / 100,
       startRender: false,
       playerCapacity: 2,
       userId: null,
@@ -37,6 +38,7 @@ class MainLobby extends Component {
     socket.on('main-lobby:join-game', this.onJoinGame);
     socket.on('main-lobby:leave-game', this.onLeaveGame);
     socket.on('main-lobby:start-game', this.onStartGame);
+    
   }
 
   componentDidMount = () => {
@@ -73,6 +75,7 @@ class MainLobby extends Component {
         window.location = '/login';
       }
     });
+    window.addEventListener("resize", this.updateDimensions);
   }
 
   onCreateGame = event => {
@@ -163,12 +166,20 @@ class MainLobby extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  updateDimensions = () => {
+    this.setState({
+      contentHeight: window.innerHeight * 87 / 100
+    });
+  }
+
   render = () => {
     if (this.state.startRender) {
       return (
         <div>
           <NavigationBar title="Main Lobby" userName={this.state.userName} />
-          <Section>
+          <section className="hero is-fullheight-with-navbar" style={{
+            padding:'3vh 2vh 3vh 2vh'
+          }}>
             <Columns>
               <Columns.Column>
                 <GameLobbyMessage
@@ -179,6 +190,7 @@ class MainLobby extends Component {
                   playerCapacity={this.state.playerCapacity}
                   onCreate={this.onCreate}
                   onChange={this.onChange}
+                  height={this.state.contentHeight}
                 />
               </Columns.Column>
               <Columns.Column className="main-lobby-chat is-two-fifths">
@@ -187,10 +199,11 @@ class MainLobby extends Component {
                   api={MainLobbyAPI.postMainLobbyChat}
                   channel={'main-lobby:chat'}
                   roomId={null}
+                  height={this.state.contentHeight}
                 />
               </Columns.Column>
             </Columns>
-          </Section>
+          </section>
         </div>
       );
     }

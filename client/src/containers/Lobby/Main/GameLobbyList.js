@@ -8,15 +8,17 @@ class GameLobbyList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.userId,
-      lobbies: this.props.gameLobbies
+      userId: props.userId,
+      lobbies: props.gameLobbies,
+      height: props.height
     };
   }
 
   componentWillReceiveProps = props => {
     this.setState({
       userId: props.userId,
-      lobbies: props.gameLobbies
+      lobbies: props.gameLobbies,
+      height: props.height
     });
   };
 
@@ -38,6 +40,7 @@ class GameLobbyList extends Component {
       <GameLobbyListItemContainer
         userId={this.state.userId}
         lobbies={this.state.lobbies}
+        height={this.state.height}
       />
     </div>
   );
