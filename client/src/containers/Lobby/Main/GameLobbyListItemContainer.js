@@ -12,13 +12,23 @@ class GameLobbyMessage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lobbies: this.props.lobbies
+      lobbies: props.lobbies,
+      // 52 = navBar
+      // 54 = message header
+      // 67.5 = message action
+      // 44 = item header
+      // 45 = paddings
+      // 2 = smoother
+      // -------------------- +
+      // -261.5
+      height: props.height - 264.5
     };
   }
 
   componentWillReceiveProps = props => {
     this.setState({
-      lobbies: props.lobbies
+      lobbies: props.lobbies,
+      height: props.height - 264.5
     });
   };
 
@@ -36,7 +46,9 @@ class GameLobbyMessage extends Component {
     if (this.state.lobbies) {
       gameLobbyListItems = this.state.lobbies.map(lobby => {
         return (
-          <Box style={{
+          <Box 
+          key={lobby.id}
+          style={{
             backgroundColor:'rgba(255, 0, 0, 0)',
             boxShadow: '0 0 0 rgba(255, 0, 0, 0), 0 0 0 0 rgba(255, 0, 0, 0)',
             paddingTop:'0',
@@ -56,7 +68,12 @@ class GameLobbyMessage extends Component {
     } else {
       gameLobbyListItems = <Heading>No Rooms Avaliable.</Heading>;
     }
-    return <div>{gameLobbyListItems}</div>;
+    return <div 
+      style={{
+        minHeight:`${this.state.height}px`,
+        maxHeight:`${this.state.height}px`
+      }}
+    >{gameLobbyListItems}</div>;
   };
 }
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Message from "react-bulma-components/lib/components/message";
-import Heading from "react-bulma-components/lib/components/heading";
 
 import GameLobbyList from "./GameLobbyList";
 import GameLobbyMessageAction from "./GameLobbyMessageAction";
@@ -9,11 +8,12 @@ class GameLobbyMessage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.userId,
-      gameLobbies: this.props.gameLobbies,
-      roomName: this.props.roomName,
-      playerCapacity: this.props.playerCapacity,
-      searchRoomName: ""
+      userId: props.userId,
+      gameLobbies: props.gameLobbies,
+      roomName: props.roomName,
+      playerCapacity: props.playerCapacity,
+      searchRoomName: "",
+      height: props.height
     };
   }
 
@@ -22,7 +22,8 @@ class GameLobbyMessage extends Component {
       userId: props.userId,
       gameLobbies: props.gameLobbies,
       roomName: props.roomName,
-      playerCapacity: props.playerCapacity
+      playerCapacity: props.playerCapacity,
+      height: props.height
     });
   };
 
@@ -63,6 +64,7 @@ class GameLobbyMessage extends Component {
         <GameLobbyList
           userId={this.state.userId}
           gameLobbies={this.state.gameLobbies}
+          height={this.state.height}
         />
       </Message.Body>
     </Message>
