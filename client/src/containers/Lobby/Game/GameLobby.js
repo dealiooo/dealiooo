@@ -150,10 +150,7 @@ class GameLobby extends Component {
     if (this.state.startRender) {
       return (
         <div>
-          <NavigationBar
-            title={this.state.lobbyName}
-            userName={this.state.userName}
-          />
+          <NavigationBar userName={this.state.userName} />
           <Columns>
             <Columns.Column>
               <Container className="">

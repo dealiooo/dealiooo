@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "react-bulma-components/lib/components/navbar";
 import Heading from "react-bulma-components/lib/components/heading";
-import logo from "./logo.png";
 import { Auth } from "./../../api";
 
 const NavigationBar = ({ title, userName }) => {
@@ -19,8 +18,13 @@ const NavigationBar = ({ title, userName }) => {
   return (
     <Navbar>
       <Navbar.Brand>
-        <Navbar.Item renderAs="a" href="/login">
-          <img src={logo} alt="logo" width="112" height="28" />
+        <Navbar.Item renderAs="a" href="/main-lobby">
+          <img
+            src={process.env.PUBLIC_URL + `/logo.png`}
+            alt="logo"
+            width="112"
+            height="28"
+          />
         </Navbar.Item>
       </Navbar.Brand>
       <Navbar.Menu>
