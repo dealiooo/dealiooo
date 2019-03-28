@@ -6,11 +6,11 @@ import {
   socket,
   MainLobby as MainLobbyAPI,
   GameLobby as GameLobbyAPI
-} from '../../../api';
-import GameLobbyMessage from './GameLobbyMessage';
-import Chat from '../../../components/Chat';
-import NavigationBar from '../../../components/NavigationBar';
-import './MainLobby.css';
+} from "../../../api";
+import GameLobbyMessage from "./GameLobbyMessage";
+import Chat from "../../../components/Chat";
+import NavigationBar from "../../../components/NavigationBar";
+import "./MainLobby.css";
 
 class MainLobby extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class MainLobby extends Component {
       userName: null,
       lobbies: [],
       socket: socket,
-      roomName: ''
+      roomName: ""
     };
     socket.on('main-lobby:create-game', this.onCreateGame);
     socket.on('main-lobby:end-game', this.onEndGame);
@@ -59,20 +59,18 @@ class MainLobby extends Component {
                 baseState[i].roomName = gameInfo.room_name;
                 baseState[i].playerCap = gameInfo.player_cap;
                 baseState[i].status = gameInfo.status;
-                gameInfo.Players.filter(player => player.host).map(
-                  player => {
-                    baseState[i].hostId = player.User.id;
-                    baseState[i].hostName = player.User.name;
-                    return player;
-                  }
-                )
+                gameInfo.Players.filter(player => player.host).map(player => {
+                  baseState[i].hostId = player.User.id;
+                  baseState[i].hostName = player.User.name;
+                  return player;
+                });
                 this.setState({ lobbies: baseState });
               })
             );
           });
         });
       } else {
-        window.location = '/login';
+        window.location = "/login";
       }
     });
     window.addEventListener("resize", this.updateDimensions);
@@ -84,7 +82,7 @@ class MainLobby extends Component {
       id: event.gameId,
       roomName: event.roomName,
       playerCap: event.playerCap,
-      status: 'open'
+      status: "open"
     };
     GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
       newRoom.playerList = gameInfo.Players;
@@ -92,11 +90,11 @@ class MainLobby extends Component {
       baseState = baseState.concat(newRoom);
       this.setState({ lobbies: baseState });
     });
-  }
+  };
 
   onEndGame = event => {
     // todo
-  }
+  };
 
   onJoinGame = event => {
     // todo: convert this array operation to a dictionary operation
@@ -114,7 +112,7 @@ class MainLobby extends Component {
       baseState[index].playerNum = gameInfo.Players.length;
       this.setState({ lobbies: baseState });
     });
-  }
+  };
 
   onLeaveGame = event => {
     // todo: convert this array operation to a dictionary operation
@@ -136,7 +134,7 @@ class MainLobby extends Component {
       }
       this.setState({ lobbies: baseState });
     });
-  }
+  };
 
   onStartGame = event => {
     // todo: convert this array operation to a dictionary operation
@@ -151,15 +149,16 @@ class MainLobby extends Component {
     var baseState = this.state.lobbies;
     baseState.splice(index, 1);
     this.setState({ lobbies: baseState });
-  }
+  };
 
   onCreate = event => {
     event.preventDefault();
-    MainLobbyAPI.postMainLobbyCreateGame(this.state.roomName, this.state.playerCapacity).then(
-      result => {
-        window.location = `/game-lobby/${result.th_game_id}`;
-      }
-    );
+    MainLobbyAPI.postMainLobbyCreateGame(
+      this.state.roomName,
+      this.state.playerCapacity
+    ).then(result => {
+      window.location = `/game-lobby/${result.th_game_id}`;
+    });
   };
 
   onChange = event => {
@@ -176,7 +175,7 @@ class MainLobby extends Component {
     if (this.state.startRender) {
       return (
         <div>
-          <NavigationBar title="Main Lobby" userName={this.state.userName} />
+          <NavigationBar userName={this.state.userName} />
           <section className="hero is-fullheight-with-navbar" style={{
             padding:'3vh 2vh 3vh 2vh'
           }}>
@@ -197,7 +196,7 @@ class MainLobby extends Component {
                 <Chat
                   socket={this.state.socket}
                   api={MainLobbyAPI.postMainLobbyChat}
-                  channel={'main-lobby:chat'}
+                  channel={"main-lobby:chat"}
                   roomId={null}
                   height={this.state.contentHeight}
                 />
@@ -208,7 +207,7 @@ class MainLobby extends Component {
       );
     }
     return <Box>Loading Page...</Box>;
-  }
+  };
 }
 
 export default MainLobby;

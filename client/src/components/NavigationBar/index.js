@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "react-bulma-components/lib/components/navbar";
 import Heading from "react-bulma-components/lib/components/heading";
-import header_logo from "./header_logo.png";
+import logo from "./logo.png";
 import { Auth } from "./../../api";
 
 const NavigationBar = ({ title, userName }) => {
@@ -19,14 +19,11 @@ const NavigationBar = ({ title, userName }) => {
   return (
     <Navbar>
       <Navbar.Brand>
-        <Navbar.Item className="is-paddingless" renderAs="a" href="/login">
-          <img src={header_logo} alt="logo" />
+        <Navbar.Item renderAs="a" href="/login">
+          <img src={logo} alt="logo" width="112" height="28" />
         </Navbar.Item>
       </Navbar.Brand>
       <Navbar.Menu>
-        <Navbar.Container>
-          <Navbar.Item href="#">Dealiooo</Navbar.Item>
-        </Navbar.Container>
         <Navbar.Container>
           <Navbar.Item renderAs="div">
             <Heading size={3}>{title}</Heading>
