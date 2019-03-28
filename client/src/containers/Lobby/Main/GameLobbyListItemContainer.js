@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PerfectScrollbar from "perfect-scrollbar";
+import Box from "react-bulma-components/lib/components/box";
 import Heading from "react-bulma-components/lib/components/heading";
 
 import GameLobbyListItem from "./GameLobbyListItem";
+
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 class GameLobbyMessage extends Component {
@@ -34,12 +36,14 @@ class GameLobbyMessage extends Component {
     if (this.state.lobbies) {
       gameLobbyListItems = this.state.lobbies.map(lobby => {
         return (
-          <GameLobbyListItem
-            key={lobby.id}
-            gameLobby={lobby}
-            userId={this.props.userId}
-            gameId={lobby.id}
-          />
+          <Box>
+            <GameLobbyListItem
+              key={lobby.id}
+              gameLobby={lobby}
+              userId={this.props.userId}
+              gameId={lobby.id}
+            />
+          </Box>
         );
       });
     } else {

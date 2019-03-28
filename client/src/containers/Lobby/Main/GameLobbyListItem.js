@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Box from 'react-bulma-components/lib/components/box';
-import Button from 'react-bulma-components/lib/components/button';
-import Columns from 'react-bulma-components/lib/components/columns';
+import Box from "react-bulma-components/lib/components/box";
+import Button from "react-bulma-components/lib/components/button";
+import Columns from "react-bulma-components/lib/components/columns";
 
-import { GameLobby as GameLobbyAPI } from '../../../api';
+import { GameLobby as GameLobbyAPI } from "../../../api";
 
 class GameLobbyListItem extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class GameLobbyListItem extends Component {
 
   onEnter = _ => {
     window.location = `/game-lobby/${this.props.gameId}`;
-  }
+  };
 
   onJoin = _ => {
     GameLobbyAPI.postGameLobbyJoin(this.props.gameId).then(response => {
@@ -23,11 +23,14 @@ class GameLobbyListItem extends Component {
         window.location = `/game-lobby/${this.props.gameId}`;
       }
     });
-  }
+  };
 
   render = () => {
     if (this.props.gameLobby.playerList) {
-      let hasJoined = this.props.gameLobby.playerList.filter(player => player.User.id === this.props.userId).length === 1;
+      let hasJoined =
+        this.props.gameLobby.playerList.filter(
+          player => player.User.id === this.props.userId
+        ).length === 1;
       let actionButton;
       if (hasJoined) {
         actionButton = (
@@ -44,12 +47,20 @@ class GameLobbyListItem extends Component {
       }
       return (
         <Columns>
-          <Columns.Column className="is-4">#{this.props.gameLobby.id} {this.props.gameLobby.roomName}</Columns.Column>
-          <Columns.Column className="is-2">[{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}</Columns.Column>
-          <Columns.Column className="is-2">({this.props.gameLobby.playerNum} /{' '}{this.props.gameLobby.playerCap})</Columns.Column>
-          <Columns.Column className="is-2">{this.props.gameLobby.status}</Columns.Column>
-          <Columns.Column className="is-1">{actionButton}</Columns.Column>
-          <Columns.Column className="is-1"></Columns.Column>
+          <Columns.Column className="is-4">
+            #{this.props.gameLobby.id} {this.props.gameLobby.roomName}
+          </Columns.Column>
+          <Columns.Column className="is-2">
+            [{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}
+          </Columns.Column>
+          <Columns.Column className="is-2">
+            ({this.props.gameLobby.playerNum} / {this.props.gameLobby.playerCap}
+            )
+          </Columns.Column>
+          <Columns.Column className="is-2">
+            {this.props.gameLobby.status}
+          </Columns.Column>
+          <Columns.Column className="is-2">{actionButton}</Columns.Column>
         </Columns>
       );
     }
@@ -59,7 +70,7 @@ class GameLobbyListItem extends Component {
         's info
       </Box>
     );
-  }
+  };
 }
 
 export default GameLobbyListItem;

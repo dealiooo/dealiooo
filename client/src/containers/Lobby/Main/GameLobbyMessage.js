@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import Message from 'react-bulma-components/lib/components/message';
+import React, { Component } from "react";
+import Message from "react-bulma-components/lib/components/message";
+import Heading from "react-bulma-components/lib/components/heading";
 
-import GameLobbyList from './GameLobbyList';
-import GameLobbyMessageAction from './GameLobbyMessageAction';
+import GameLobbyList from "./GameLobbyList";
+import GameLobbyMessageAction from "./GameLobbyMessageAction";
 
 class GameLobbyMessage extends Component {
   constructor(props) {
@@ -12,8 +13,8 @@ class GameLobbyMessage extends Component {
       gameLobbies: this.props.gameLobbies,
       roomName: this.props.roomName,
       playerCapacity: this.props.playerCapacity,
-      searchRoomName: ''
-    }
+      searchRoomName: ""
+    };
   }
 
   componentWillReceiveProps = props => {
@@ -22,8 +23,8 @@ class GameLobbyMessage extends Component {
       gameLobbies: props.gameLobbies,
       roomName: props.roomName,
       playerCapacity: props.playerCapacity
-    })
-  }
+    });
+  };
 
   onSearch = event => {
     this.setState({
@@ -33,19 +34,22 @@ class GameLobbyMessage extends Component {
   };
 
   filterCase = (lobbies, filter) => {
-    if ('' === filter) {
+    if ("" === filter) {
       return lobbies;
     } else {
-      return lobbies.filter(lobby => lobby.roomName.includes(filter) || lobby.hostName.includes(filter));
+      return lobbies.filter(
+        lobby =>
+          lobby.roomName.includes(filter) || lobby.hostName.includes(filter)
+      );
     }
-  }
+  };
 
   render = () => (
     <Message className="is-dark">
       <Message.Header>
-      <p/>
-      <p>Current Rooms</p>
-      <p/>
+        <p />
+        <p className="is-size-4">Main Lobby</p>
+        <p />
       </Message.Header>
       <Message.Body>
         <GameLobbyMessageAction

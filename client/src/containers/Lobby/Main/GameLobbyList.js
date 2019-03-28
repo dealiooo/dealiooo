@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Box from "react-bulma-components/lib/components/box";
 
-import GameLobbyListHeader from './GameLobbyListHeader';
-import GameLobbyListItemContainer from './GameLobbyListItemContainer';
+import GameLobbyListHeader from "./GameLobbyListHeader";
+import GameLobbyListItemContainer from "./GameLobbyListItemContainer";
 
 class GameLobbyList extends Component {
   constructor(props) {
@@ -9,29 +10,26 @@ class GameLobbyList extends Component {
     this.state = {
       userId: this.props.userId,
       lobbies: this.props.gameLobbies
-    }
+    };
   }
 
   componentWillReceiveProps = props => {
     this.setState({
       userId: props.userId,
       lobbies: props.gameLobbies
-    })
-  }
+    });
+  };
 
   render = () => (
     <div>
-      <GameLobbyListHeader />
-      <hr style={{
-        marginTop:'0', 
-        height:'2px',
-        background:'black'
-      }}/>
+      <Box>
+        <GameLobbyListHeader />
+      </Box>
       <GameLobbyListItemContainer
         userId={this.state.userId}
         lobbies={this.state.lobbies}
       />
-  </div>
+    </div>
   );
 }
 
