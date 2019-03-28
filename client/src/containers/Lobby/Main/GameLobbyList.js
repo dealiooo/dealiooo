@@ -22,9 +22,19 @@ class GameLobbyList extends Component {
 
   render = () => (
     <div>
-      <Box>
+      <Box style={{
+        backgroundColor:'rgba(255, 0, 0, 0)',
+        boxShadow: '0 0 0 rgba(255, 0, 0, 0), 0 0 0 0 rgba(255, 0, 0, 0)',
+        paddingBottom:'0',
+        margin:'0'
+      }}>
         <GameLobbyListHeader />
       </Box>
+      <hr style={{
+        marginTop:'0', 
+        height:'2px',
+        background:'black'
+      }}/>
       <GameLobbyListItemContainer
         userId={this.state.userId}
         lobbies={this.state.lobbies}

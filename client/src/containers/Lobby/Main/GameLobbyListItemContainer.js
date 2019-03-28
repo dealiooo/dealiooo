@@ -36,7 +36,14 @@ class GameLobbyMessage extends Component {
     if (this.state.lobbies) {
       gameLobbyListItems = this.state.lobbies.map(lobby => {
         return (
-          <Box>
+          <Box style={{
+            backgroundColor:'rgba(255, 0, 0, 0)',
+            boxShadow: '0 0 0 rgba(255, 0, 0, 0), 0 0 0 0 rgba(255, 0, 0, 0)',
+            paddingTop:'0',
+            paddingBottom:'0',
+            margin:'0'
+          }}
+          >
             <GameLobbyListItem
               key={lobby.id}
               gameLobby={lobby}
