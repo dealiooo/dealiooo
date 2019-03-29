@@ -13,7 +13,6 @@ import Chat from "../../../components/Chat";
 import PlayerStatus from "./PlayerStatus";
 
 import { socket, GameLobby as GameLobbyAPI } from "../../../api";
-import { toast } from "react-toastify";
 
 import "./GameLobby.css";
 
@@ -129,7 +128,6 @@ class GameLobby extends Component {
   onStart(_) {
     GameLobbyAPI.postGameLobbyStart(this.state.gameId).then(result => {
       if (result.message) {
-        toast(result.message);
       }
     });
   }

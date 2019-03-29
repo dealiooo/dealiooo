@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Columns from 'react-bulma-components/lib/components/columns';
-import Container from 'react-bulma-components/lib/components/box';
-import Button from 'react-bulma-components/lib/components/button';
-import { toast } from 'react-toastify';
+import Columns from "react-bulma-components/lib/components/columns";
+import Container from "react-bulma-components/lib/components/box";
+import Button from "react-bulma-components/lib/components/button";
 
-import GameView from './GameView';
-import { socket, Game as GameAPI } from '../../api';
+import GameView from "./GameView";
+import { socket, Game as GameAPI } from "../../api";
 
-import './styles/cardColors.css';
-import './styles/gameChat.css';
+import "./styles/cardColors.css";
+import "./styles/gameChat.css";
 
 class Game extends Component {
   constructor(props) {
@@ -49,7 +48,7 @@ class Game extends Component {
           });
         });
       } else {
-        window.location = '/login';
+        window.location = "/login";
       }
     });
   };
@@ -60,9 +59,7 @@ class Game extends Component {
     }
   };
 
-  onGameForfeit = message => {
-    toast(message);
-  };
+  onGameForfeit = message => {};
 
   onStartGame = _ => {
     GameAPI.postGameStartGame(this.props.match.params.id).then(_ =>
@@ -80,7 +77,7 @@ class Game extends Component {
 
   handleForfeit = _ => {
     GameAPI.postGameForfeit(this.props.match.params.id);
-    window.location = '/main-lobby';
+    window.location = "/main-lobby";
   };
 
   handleEndTurn = _ => {
