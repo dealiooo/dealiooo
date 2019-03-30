@@ -10,8 +10,6 @@ import {
 } from "react-bulma-components/lib/components/form";
 import Modal from "react-bulma-components/lib/components/modal";
 
-import "./MainLobby.css";
-
 class MakeRoomModal extends Component {
   constructor(props) {
     super(props);
@@ -78,9 +76,7 @@ class MakeRoomModal extends Component {
           </Modal.Card.Body>
         </Modal.Card>
       </Modal>
-      <Button className="make-a-room-btn" onClick={this.open}>
-        Make a Room
-      </Button>
+      <Button onClick={this.open}>Make a Room</Button>
     </div>
   );
 }

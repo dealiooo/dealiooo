@@ -34,7 +34,7 @@ const game_engine = {
       Game.players[Game.turn_count % Game.player_count].id;
     data.general_info.cardsPlayed = Game.cards_played;
     data.general_info.deckCount = Game.deck.length;
-    data.general_info.discardCount = Game.discard.length;
+    data.general_info.discard = Game.discard;
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
