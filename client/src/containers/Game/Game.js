@@ -4,11 +4,10 @@ import Columns from "react-bulma-components/lib/components/columns";
 import Container from "react-bulma-components/lib/components/box";
 import Button from "react-bulma-components/lib/components/button";
 
-import GameView from "./GameView";
+import GameDisplay from "./GameDisplay";
 import { socket, Game as GameAPI } from "../../api";
 
 import "./styles/cardColors.css";
-import "./styles/gameChat.css";
 
 class Game extends Component {
   constructor(props) {
@@ -92,7 +91,7 @@ class Game extends Component {
     } else {
       if (startGame && data) {
         return (
-          <GameView
+          <GameDisplay
             userId={userId}
             gameId={gameId}
             data={data}
@@ -103,7 +102,7 @@ class Game extends Component {
         );
       } else if (host) {
         return (
-          <Container>
+          <Container className="has-text-centered">
             <Button onClick={this.onStartGame}>Start Game</Button>
           </Container>
         );

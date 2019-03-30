@@ -519,7 +519,7 @@ const action_cards = [
 const property_wildcards = [
   {
     id: 65,
-    name: "wildbg",
+    name: "wild-bg",
     value: 4,
     type: "property_wildcard",
     mainColor: "",
@@ -527,7 +527,7 @@ const property_wildcards = [
   },
   {
     id: 66,
-    name: "wildlbbr",
+    name: "wild-lbbr",
     value: 1,
     type: "property_wildcard",
     mainColor: "",
@@ -535,7 +535,7 @@ const property_wildcards = [
   },
   {
     id: 67,
-    name: "wildop",
+    name: "wild-op",
     value: 2,
     type: "property_wildcard",
     mainColor: "",
@@ -543,7 +543,7 @@ const property_wildcards = [
   },
   {
     id: 68,
-    name: "wildop",
+    name: "wild-op",
     value: 2,
     type: "property_wildcard",
     mainColor: "",
@@ -551,7 +551,7 @@ const property_wildcards = [
   },
   {
     id: 69,
-    name: "wildgt",
+    name: "wild-gt",
     value: 4,
     type: "property_wildcard",
     mainColor: "",
@@ -559,7 +559,7 @@ const property_wildcards = [
   },
   {
     id: 70,
-    name: "wildlbt",
+    name: "wild-lbt",
     value: 4,
     type: "property_wildcard",
     mainColor: "",
@@ -567,7 +567,7 @@ const property_wildcards = [
   },
   {
     id: 71,
-    name: "wildut",
+    name: "wild-ut",
     value: 2,
     type: "property_wildcard",
     mainColor: "",
@@ -575,7 +575,7 @@ const property_wildcards = [
   },
   {
     id: 72,
-    name: "wildry",
+    name: "wild-ry",
     value: 3,
     type: "property_wildcard",
     mainColor: "",
@@ -583,7 +583,7 @@ const property_wildcards = [
   },
   {
     id: 73,
-    name: "wildry",
+    name: "wild-ry",
     value: 3,
     type: "property_wildcard",
     mainColor: "",
@@ -632,7 +632,7 @@ const property_wildcards = [
 const rent_cards = [
   {
     id: 76,
-    name: "rentbg",
+    name: "rent-bg",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -640,7 +640,7 @@ const rent_cards = [
   },
   {
     id: 77,
-    name: "rentbg",
+    name: "rent-bg",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -648,7 +648,7 @@ const rent_cards = [
   },
   {
     id: 78,
-    name: "rentlbbr",
+    name: "rent-lbbr",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -656,7 +656,7 @@ const rent_cards = [
   },
   {
     id: 79,
-    name: "rentlbbr",
+    name: "rent-lbbr",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -664,7 +664,7 @@ const rent_cards = [
   },
   {
     id: 80,
-    name: "rentop",
+    name: "rent-op",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -672,7 +672,7 @@ const rent_cards = [
   },
   {
     id: 81,
-    name: "rentop",
+    name: "rent-op",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -680,7 +680,7 @@ const rent_cards = [
   },
   {
     id: 82,
-    name: "rentut",
+    name: "rent-ut",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -688,7 +688,7 @@ const rent_cards = [
   },
   {
     id: 83,
-    name: "rentut",
+    name: "rent-ut",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -696,7 +696,7 @@ const rent_cards = [
   },
   {
     id: 84,
-    name: "rentry",
+    name: "rent-ry",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -704,7 +704,7 @@ const rent_cards = [
   },
   {
     id: 85,
-    name: "rentry",
+    name: "rent-ry",
     value: 1,
     type: "rent",
     mainColor: "",
@@ -715,7 +715,7 @@ const rent_cards = [
 const rent_wildcards = [
   {
     id: 86,
-    name: "rentwild",
+    name: "rent_wildcard",
     value: 3,
     type: "rent_wildcard",
     mainColor: "",
@@ -734,7 +734,7 @@ const rent_wildcards = [
   },
   {
     id: 87,
-    name: "rentwild",
+    name: "rent_wildcard",
     value: 3,
     type: "rent_wildcard",
     mainColor: "",
@@ -753,7 +753,7 @@ const rent_wildcards = [
   },
   {
     id: 88,
-    name: "rentwild",
+    name: "rent_wildcard",
     value: 3,
     type: "rent_wildcard",
     mainColor: "",
@@ -775,7 +775,7 @@ const rent_wildcards = [
 const money_cards = [
   {
     id: 89,
-    name: "1-million",
+    name: "1-dollar",
     value: 1,
     type: "money",
     mainColor: "",
@@ -783,7 +783,7 @@ const money_cards = [
   },
   {
     id: 90,
-    name: "1-million",
+    name: "1-dollar",
     value: 1,
     type: "money",
     mainColor: "",
@@ -791,7 +791,7 @@ const money_cards = [
   },
   {
     id: 91,
-    name: "1-million",
+    name: "1-dollar",
     value: 1,
     type: "money",
     mainColor: "",
@@ -799,7 +799,7 @@ const money_cards = [
   },
   {
     id: 92,
-    name: "1-million",
+    name: "1-dollar",
     value: 1,
     type: "money",
     mainColor: "",
@@ -807,7 +807,7 @@ const money_cards = [
   },
   {
     id: 93,
-    name: "1-million",
+    name: "1-dollar",
     value: 1,
     type: "money",
     mainColor: "",
@@ -815,7 +815,7 @@ const money_cards = [
   },
   {
     id: 94,
-    name: "1-million",
+    name: "1-dollar",
     value: 1,
     type: "money",
     mainColor: "",
@@ -823,7 +823,7 @@ const money_cards = [
   },
   {
     id: 95,
-    name: "2-million",
+    name: "2-dollar",
     value: 2,
     type: "money",
     mainColor: "",
@@ -831,7 +831,7 @@ const money_cards = [
   },
   {
     id: 96,
-    name: "2-million",
+    name: "2-dollar",
     value: 2,
     type: "money",
     mainColor: "",
@@ -839,7 +839,7 @@ const money_cards = [
   },
   {
     id: 97,
-    name: "2-million",
+    name: "2-dollar",
     value: 2,
     type: "money",
     mainColor: "",
@@ -847,7 +847,7 @@ const money_cards = [
   },
   {
     id: 98,
-    name: "2-million",
+    name: "2-dollar",
     value: 2,
     type: "money",
     mainColor: "",
@@ -855,7 +855,7 @@ const money_cards = [
   },
   {
     id: 99,
-    name: "2-million",
+    name: "2-dollar",
     value: 2,
     type: "money",
     mainColor: "",
@@ -863,7 +863,7 @@ const money_cards = [
   },
   {
     id: 100,
-    name: "3-million",
+    name: "3-dollar",
     value: 3,
     type: "money",
     mainColor: "",
@@ -871,7 +871,7 @@ const money_cards = [
   },
   {
     id: 101,
-    name: "3-million",
+    name: "3-dollar",
     value: 3,
     type: "money",
     mainColor: "",
@@ -879,7 +879,7 @@ const money_cards = [
   },
   {
     id: 102,
-    name: "3-million",
+    name: "3-dollar",
     value: 3,
     type: "money",
     mainColor: "",
@@ -887,7 +887,7 @@ const money_cards = [
   },
   {
     id: 103,
-    name: "4-million",
+    name: "4-dollar",
     value: 4,
     type: "money",
     mainColor: "",
@@ -895,7 +895,7 @@ const money_cards = [
   },
   {
     id: 104,
-    name: "4-million",
+    name: "4-dollar",
     value: 4,
     type: "money",
     mainColor: "",
@@ -903,7 +903,7 @@ const money_cards = [
   },
   {
     id: 105,
-    name: "4-million",
+    name: "4-dollar",
     value: 4,
     type: "money",
     mainColor: "",
@@ -911,7 +911,7 @@ const money_cards = [
   },
   {
     id: 106,
-    name: "5-million",
+    name: "5-dollar",
     value: 5,
     type: "money",
     mainColor: "",
@@ -919,7 +919,7 @@ const money_cards = [
   },
   {
     id: 107,
-    name: "5-million",
+    name: "5-dollar",
     value: 5,
     type: "money",
     mainColor: "",
@@ -927,7 +927,7 @@ const money_cards = [
   },
   {
     id: 108,
-    name: "10-million",
+    name: "10-dollar",
     value: 10,
     type: "money",
     mainColor: "",

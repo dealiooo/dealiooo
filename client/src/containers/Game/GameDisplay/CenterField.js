@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import Tile from 'react-bulma-components/lib/components/tile';
+import Tile from "react-bulma-components/lib/components/tile";
 
-import { CardPhoto, EmptyCardPhoto } from './Cards/cards';
+import { CardPhoto, EmptyCardPhoto } from "./Cards/cards";
 
 const CenterField = ({ lastDiscard }) => {
   return (
@@ -10,8 +10,8 @@ const CenterField = ({ lastDiscard }) => {
       kind="ancestor"
       className="has-background-grey-darker"
       style={{
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         marginLeft: 0,
         marginRight: 0
       }}

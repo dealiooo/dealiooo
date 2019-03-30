@@ -1,3 +1,8 @@
+html > body > div#root > div > section > div > div > div.box.ps {
+  position: relative;
+  overflow-y: auto;
+}
+
 html
   > body
   > div#root
@@ -5,22 +10,22 @@ html
   > section
   > div
   > div
-  > div.box.ps {
+  > article
+  > div
+  > div
+  > div.ps {
   position: relative;
   overflow-y: auto;
 }
 
-html 
-  > body 
-  > div#root 
-  > div 
-  > section 
-  > div 
-  > div 
-  > article 
-  > div 
-  > div 
-  > div.ps {
-  position: relative;
-  overflow-y: auto;
+.make-a-room-btn {
+  border: 1px solid #363636;
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.make-a-room-btn:hover {
+  color: #fff;
+  background: #363636;
+  border-color: #363636;
 }

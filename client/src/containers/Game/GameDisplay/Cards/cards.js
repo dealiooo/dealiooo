@@ -4,21 +4,21 @@ import Card from "react-bulma-components/lib/components/card";
 import Tile from "react-bulma-components/lib/components/tile";
 import Image from "react-bulma-components/lib/components/image";
 
-export const PropertyCard = ({ card }) => (
-  <Card key={card.id}>
-    <Card.Header>
-      <Card.Header.Title>{card.name}</Card.Header.Title>
-    </Card.Header>
-    <Card.Content className={card.mainColor}>_</Card.Content>
-  </Card>
-);
-
 export const ActionCard = ({ card }) => (
   <Card key={card.id}>
     <Card.Header>
       <Card.Header.Title>{card.name}</Card.Header.Title>
     </Card.Header>
     <Card.Content>{card.mainColor || "_"}</Card.Content>
+  </Card>
+);
+
+export const BankCard = ({ name, frequency }) => (
+  <Card key={name}>
+    <Card.Header>
+      <Card.Header.Title>{frequency}</Card.Header.Title>
+    </Card.Header>
+    <Card.Content>{name}</Card.Content>
   </Card>
 );
 
@@ -31,12 +31,12 @@ export const BuildingCard = ({ name, frequency }) => (
   </Card>
 );
 
-export const BankCard = ({ name, frequency }) => (
-  <Card key={name}>
+export const PropertyCard = ({ card }) => (
+  <Card key={card.id}>
     <Card.Header>
-      <Card.Header.Title>{frequency}</Card.Header.Title>
+      <Card.Header.Title>{card.name}</Card.Header.Title>
     </Card.Header>
-    <Card.Content>{name}</Card.Content>
+    <Card.Content className={card.mainColor}>_</Card.Content>
   </Card>
 );
 
@@ -50,6 +50,7 @@ export const CardPhoto = ({ card, onClick }) => {
     />
   );
 };
+
 export const HandCard = ({ card, onClick }) => (
   <CardPhoto card={card} onClick={() => onClick(card)} />
 );

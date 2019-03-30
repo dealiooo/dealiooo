@@ -1,5 +1,5 @@
-const gameControls = require('./gameControls');
-const userControls = require('./userControls');
+const gameControls = require("./gameControls");
+const userControls = require("./userControls");
 
 const game_engine = {
   start: playerIds => {
@@ -9,14 +9,14 @@ const game_engine = {
   },
   input: (Game, user_input, player_id) => {
     Game.user_input = user_input;
-    let returnValue = '';
+    let returnValue = "";
     let pending = Game.pending_for_user_input;
     if (pending) {
       returnValue = pending.function(Game, pending.arguments, player_id);
     } else if (null !== Game.winner) {
       returnValue = game_engine.applyPlayerWon(Game);
     } else {
-      returnValue = '\ngame is not running :(';
+      returnValue = "\ngame is not running :(";
     }
     return returnValue;
   },
@@ -34,7 +34,7 @@ const game_engine = {
       Game.players[Game.turn_count % Game.player_count].id;
     data.general_info.cardsPlayed = Game.cards_played;
     data.general_info.deckCount = Game.deck.length;
-    data.general_info.discard = Game.discard;
+    data.general_info.discardCount = Game.discard.length;
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
@@ -66,9 +66,9 @@ const game_engine = {
   },
   promptBasicOptions: Game => {
     let applyBasicOptions = {
-      'Play Hand Card': game_engine.promptPlayHandCard,
-      'Move Card Around': game_engine.promptMoveCardAround,
-      'End Turn': game_engine.applyEndTurn
+      "Play Hand Card": game_engine.promptPlayHandCard,
+      "Move Card Around": game_engine.promptMoveCardAround,
+      "End Turn": game_engine.applyEndTurn
     };
     let player = Game.players[Game.turn_count % Game.player_count];
     userControls.pickBasicOptions(Game, player, (error, option) => {
@@ -81,8 +81,8 @@ const game_engine = {
   },
   promptPlayHandCard: Game => {
     let applyPlayHandCard = {
-      'Pick Card Id': game_engine.promptHandCardId,
-      'Go Back': game_engine.promptBasicOptions
+      "Pick Card Id": game_engine.promptHandCardId,
+      "Go Back": game_engine.promptBasicOptions
     };
     let player = Game.players[Game.turn_count % Game.player_count];
     userControls.playHandCard(Game, player, (error, option) => {
@@ -95,8 +95,8 @@ const game_engine = {
   },
   promptMoveCardAround: Game => {
     let applyMoveCardAround = {
-      'Pick Source and Destination': game_engine.promptSourceAndDestination,
-      'Go Back': game_engine.promptBasicOptions
+      "Pick Source and Destination": game_engine.promptSourceAndDestination,
+      "Go Back": game_engine.promptBasicOptions
     };
     let player = Game.players[Game.turn_count % Game.player_count];
     userControls.moveCardAround(Game, player, (error, option) => {
@@ -180,7 +180,7 @@ const game_engine = {
     if (null !== pending) {
       if (pending.arguments.options) {
         if (
-          pending.arguments.options.filter(option => 'End Turn' === option)
+          pending.arguments.options.filter(option => "End Turn" === option)
             .length
         ) {
           if (player.id === playerId) {
