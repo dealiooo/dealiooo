@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 import PerfectScrollbar from "perfect-scrollbar";
-import Box from "react-bulma-components/lib/components/box";
 
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 
@@ -16,16 +15,16 @@ class ChatLog extends Component {
       // 52 = navBar
       // 15 = componentPaddings
       // 2 = smoother
-      height: props.height  - 36 - 15 - 52 - 2,
+      height: props.height - 36 - 15 - 52 - 2,
       log: []
     };
   }
 
   componentWillReceiveProps = props => {
     this.setState({
-      height: props.height  - 36 - 15 - 52 - 2
-    })
-  }
+      height: props.height - 36 - 15 - 52 - 2
+    });
+  };
 
   componentDidMount() {
     this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
@@ -46,15 +45,18 @@ class ChatLog extends Component {
 
   render() {
     return (
-      <Box style={{ 
-        wordWrap: "break-word", 
-        minHeight:`${this.state.height}px`,
-        maxHeight:`${this.state.height}px`
-      }}>
+      <div
+        className="box"
+        style={{
+          wordWrap: "break-word",
+          minHeight: `${this.state.height}px`,
+          maxHeight: `${this.state.height}px`
+        }}
+      >
         {this.state.log.map((message, i) => (
           <p key={i}>{message}</p>
         ))}
-      </Box>
+      </div>
     );
   }
 }

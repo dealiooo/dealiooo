@@ -1,17 +1,6 @@
 import React, { Component } from "react";
-import {
-  Field,
-  Control,
-  Input
-} from "react-bulma-components/lib/components/form";
-import Section from "react-bulma-components/lib/components/section";
-import Button from "react-bulma-components/lib/components/button";
-import Box from "react-bulma-components/lib/components/box";
-import Columns from "react-bulma-components/lib/components/columns";
-import Container from "react-bulma-components/lib/components/container";
-import Banner from "../../../components/Banner";
-import Heading from "react-bulma-components/lib/components/heading";
 
+import Banner from "../../../components/Banner";
 import { Auth } from "../../../api";
 
 class NewPassword extends Component {
@@ -27,7 +16,7 @@ class NewPassword extends Component {
     });
 
     const { sid } = this.props.match.params;
-    console.log(sid);
+
     Auth.getNewPassword(sid).then(result => {
       if (!result.ok) {
         window.location = "/login";
@@ -60,41 +49,40 @@ class NewPassword extends Component {
       return <>...Loading</>;
     } else {
       return (
-        <Container fluid>
+        <div className="container is-fluid">
           <Banner />
-          <Section>
+          <div>
             {error_message ? (
-              <div className="has-text-danger">{error_message}</div>
+              <h1 className="has-text-danger">{error_message}</h1>
             ) : null}
-            <Columns className="is-centered">
-              <Columns.Column size={4}>
-                <Box>
+            <div className="columns is-centered">
+              <div className="column is-6">
+                <div className="box">
                   <form onSubmit={this.onSubmit}>
-                    <Field>
-                      <Heading className="has-text-centered has-text-black">
+                    <div className="field">
+                      <h1 className="title has-text-centered has-text-black">
                         New Password
-                      </Heading>
-                      <Control>
-                        <Input
+                      </h1>
+                      <div className="control">
+                        <input
+                          className="input"
                           name="password"
                           type="password"
                           onChange={this.onChange}
                           value={password}
                           placeholder="New Password"
                         />
-                      </Control>
-                    </Field>
-                    <Field>
-                      <Control>
-                        <Button className="is-fullwidth">Submit</Button>
-                      </Control>
-                    </Field>
+                      </div>
+                    </div>
+                    <div className="control">
+                      <button className="button is-fullwidth">Submit</button>
+                    </div>
                   </form>
-                </Box>
-              </Columns.Column>
-            </Columns>
-          </Section>
-        </Container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       );
     }
   }

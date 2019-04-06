@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 
-import Box from "react-bulma-components/lib/components/box";
-import Button from "react-bulma-components/lib/components/button";
-import Columns from "react-bulma-components/lib/components/columns";
-
 import { GameLobby as GameLobbyAPI } from "../../../api";
 
 class GameLobbyListItem extends Component {
@@ -34,41 +30,37 @@ class GameLobbyListItem extends Component {
       let actionButton;
       if (hasJoined) {
         actionButton = (
-          <Button className="is-fullwidth" onClick={this.onEnter}>
+          <button className="button is-fullwidth" onClick={this.onEnter}>
             Enter
-          </Button>
+          </button>
         );
       } else {
         actionButton = (
-          <Button className="is-fullwidth" onClick={this.onJoin}>
+          <button className="button is-fullwidth" onClick={this.onJoin}>
             Join
-          </Button>
+          </button>
         );
       }
       return (
-        <Columns>
-          <Columns.Column className="is-4">
+        <div className="columns">
+          <div className="column is-4">
             #{this.props.gameLobby.id} {this.props.gameLobby.roomName}
-          </Columns.Column>
-          <Columns.Column className="is-2">
+          </div>
+          <div className="column is-2">
             [{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}
-          </Columns.Column>
-          <Columns.Column className="is-2">
+          </div>
+          <div className="column is-2">
             ({this.props.gameLobby.playerNum} / {this.props.gameLobby.playerCap}
             )
-          </Columns.Column>
-          <Columns.Column className="is-2">
-            {this.props.gameLobby.status}
-          </Columns.Column>
-          <Columns.Column className="is-2">{actionButton}</Columns.Column>
-        </Columns>
+          </div>
+          <div className="column is-2">{this.props.gameLobby.status}</div>
+          <div className="column is-2">{actionButton}</div>
+        </div>
       );
     }
+
     return (
-      <Box>
-        Loading Lobby #{this.props.gameLobby.id}
-        's info
-      </Box>
+      <div className="box">Loading Lobby #{this.props.gameLobby.id}'s info</div>
     );
   };
 }

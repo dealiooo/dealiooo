@@ -1,16 +1,5 @@
 import React, { Component } from "react";
 
-import Button from "react-bulma-components/lib/components/button";
-import {
-  Control,
-  Field,
-  Input
-} from "react-bulma-components/lib/components/form";
-import Section from "react-bulma-components/lib/components/section";
-import Columns from "react-bulma-components/lib/components/columns/columns";
-import Container from "react-bulma-components/lib/components/container";
-import Heading from "react-bulma-components/lib/components/heading";
-import Box from "react-bulma-components/lib/components/box";
 import Banner from "../../../components/Banner";
 import { Auth } from "../../../api";
 
@@ -49,55 +38,55 @@ class Login extends Component {
   render() {
     const { email, password, error_message } = this.state;
     return (
-      <Container fluid>
+      <div className="container is-fluid">
         <Banner />
-        <Section>
-          <Columns className="is-centered">
-            <Columns.Column size={4}>
+        <section className="section">
+          <div className="columns is-centered">
+            <div className="column is-6">
               {error_message ? (
-                <div className="has-text-danger">{error_message}</div>
+                <h1 className="has-text-danger">{error_message}</h1>
               ) : null}
-              <Box>
+              <div className="box">
                 <form onSubmit={this.onSubmit}>
-                  <Heading className="has-text-centered">Login</Heading>
-                  <Field>
-                    <Control>
-                      <Input
+                  <h1 className="title has-text-centered">Login</h1>
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input"
                         name="email"
                         type="email"
                         onChange={this.onChange}
                         value={email}
                         placeholder="Email"
                       />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Input
+                    </div>
+                  </div>
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input"
                         name="password"
                         type="password"
                         onChange={this.onChange}
                         value={password}
                         placeholder="Password"
                       />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Button className="is-fullwidth">Login</Button>
-                    </Control>
-                  </Field>
-                  <div className="has-text-right">
-                    <a href="/register">Register</a>
-                    &nbsp;|&nbsp;
-                    <a href="/forgot-password">Forgot Password?</a>
+                    </div>
+                  </div>
+                  <div className="control">
+                    <button className="button is-fullwidth">Login</button>
                   </div>
                 </form>
-              </Box>
-            </Columns.Column>
-          </Columns>
-        </Section>
-      </Container>
+                <div className="has-text-right" style={{ marginTop: "20px" }}>
+                  <a href="/register">Register</a>
+                  &nbsp;|&nbsp;
+                  <a href="/forgot-password">Forgot Password?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     );
   }
 }

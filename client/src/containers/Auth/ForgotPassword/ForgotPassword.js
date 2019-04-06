@@ -1,21 +1,11 @@
-import React, { Component } from 'react';
-import {
-  Field,
-  Control,
-  Input
-} from 'react-bulma-components/lib/components/form';
-import Section from 'react-bulma-components/lib/components/section';
-import Button from 'react-bulma-components/lib/components/button';
-import Columns from 'react-bulma-components/lib/components/columns';
-import Container from 'react-bulma-components/lib/components/container';
-import Banner from '../../../components/Banner';
-import Heading from 'react-bulma-components/lib/components/heading';
-import Box from 'react-bulma-components/lib/components/box';
-import { Auth } from '../../../api';
+import React, { Component } from "react";
+
+import Banner from "../../../components/Banner";
+import { Auth } from "../../../api";
 
 class ForgotPassword extends Component {
   state = {
-    email: '',
+    email: "",
     error_message: null
   };
 
@@ -23,15 +13,15 @@ class ForgotPassword extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onSubmit = evt => {
-    evt.preventDefault();
+  onSubmit = event => {
+    event.preventDefault();
     Auth.postForgotPassword(this.state.email).then(result => {
       if (result.error) {
         this.setState({
-          error_message: 'Invalid email'
+          error_message: "Invalid email"
         });
       } else {
-        window.location = '/';
+        window.location = "/";
       }
     });
   };
@@ -39,41 +29,38 @@ class ForgotPassword extends Component {
   render() {
     const { email, error_message } = this.state;
     return (
-      <Container fluid>
+      <div className="container is-fluid">
         <Banner />
-        <Section>
+        <section className="section">
           {error_message ? (
-            <div className="has-text-danger">{error_message}</div>
+            <h1 className="has-text-danger">{error_message}</h1>
           ) : null}
           <form onSubmit={this.onSubmit}>
-            <Columns className="is-centered">
-              <Columns.Column size={4}>
-                <Box>
-                  <Field>
-                    <Heading className="has-text-centered has-text-black">
-                      Forgot Password
-                    </Heading>
-                    <Control>
-                      <Input
+            <div className="columns is-centered">
+              <div className="column is-6">
+                <div className="box">
+                  <div className="field">
+                    <h1 className="has-text-centered title">Forgot Password</h1>
+                    <div className="control">
+                      <input
+                        className="input"
                         name="email"
                         type="email"
                         onChange={this.onChange}
                         placeholder="Email"
                         value={email}
                       />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Button className="is-fullwidth">Submit</Button>
-                    </Control>
-                  </Field>
-                </Box>
-              </Columns.Column>
-            </Columns>
+                    </div>
+                  </div>
+                  <div className="control">
+                    <button className="button is-fullwidth">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
-        </Section>
-      </Container>
+        </section>
+      </div>
     );
   }
 }

@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-import Box from 'react-bulma-components/lib/components/box';
-import Columns from 'react-bulma-components/lib/components/columns';
+import React, { Component } from "react";
 
 import {
   socket,
@@ -24,7 +22,7 @@ class MainLobby extends Component {
     this.onChange = this.onChange.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
     this.state = {
-      contentHeight: window.innerHeight * 87 / 100,
+      contentHeight: (window.innerHeight * 87) / 100,
       startRender: false,
       playerCapacity: 2,
       userId: null,
@@ -33,12 +31,11 @@ class MainLobby extends Component {
       socket: socket,
       roomName: ""
     };
-    socket.on('main-lobby:create-game', this.onCreateGame);
-    socket.on('main-lobby:end-game', this.onEndGame);
-    socket.on('main-lobby:join-game', this.onJoinGame);
-    socket.on('main-lobby:leave-game', this.onLeaveGame);
-    socket.on('main-lobby:start-game', this.onStartGame);
-    
+    socket.on("main-lobby:create-game", this.onCreateGame);
+    socket.on("main-lobby:end-game", this.onEndGame);
+    socket.on("main-lobby:join-game", this.onJoinGame);
+    socket.on("main-lobby:leave-game", this.onLeaveGame);
+    socket.on("main-lobby:start-game", this.onStartGame);
   }
 
   componentDidMount = () => {
@@ -46,9 +43,11 @@ class MainLobby extends Component {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
-          this.setState({ userId: body.id });
-          this.setState({ userName: body.name });
-          this.setState({ startRender: true });
+          this.setState({
+            userId: body.id,
+            userName: body.name,
+            startRender: true
+          });
           MainLobbyAPI.postMainLobby().then(promise => {
             var baseState = promise.result;
             baseState.map((game, i) =>
@@ -64,6 +63,7 @@ class MainLobby extends Component {
                   baseState[i].hostName = player.User.name;
                   return player;
                 });
+                // TODO: call setstate after all the data is loaded
                 this.setState({ lobbies: baseState });
               })
             );
@@ -74,6 +74,10 @@ class MainLobby extends Component {
       }
     });
     window.addEventListener("resize", this.updateDimensions);
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   onCreateGame = event => {
@@ -167,20 +171,23 @@ class MainLobby extends Component {
 
   updateDimensions = () => {
     this.setState({
-      contentHeight: window.innerHeight * 87 / 100
+      contentHeight: (window.innerHeight * 87) / 100
     });
-  }
+  };
 
   render = () => {
     if (this.state.startRender) {
       return (
         <div>
           <NavigationBar userName={this.state.userName} />
-          <section className="hero is-fullheight-with-navbar" style={{
-            padding:'3vh 2vh 3vh 2vh'
-          }}>
-            <Columns>
-              <Columns.Column>
+          <section
+            className="hero is-fullheight-with-navbar"
+            style={{
+              padding: "3vh 2vh 3vh 2vh"
+            }}
+          >
+            <div className="columns">
+              <div className="column">
                 <GameLobbyMessage
                   key="gameLobbies"
                   gameLobbies={this.state.lobbies}
@@ -191,8 +198,8 @@ class MainLobby extends Component {
                   onChange={this.onChange}
                   height={this.state.contentHeight}
                 />
-              </Columns.Column>
-              <Columns.Column className="main-lobby-chat is-two-fifths">
+              </div>
+              <div className="column main-lobby-chat is-two-fifths">
                 <Chat
                   socket={this.state.socket}
                   api={MainLobbyAPI.postMainLobbyChat}
@@ -200,13 +207,13 @@ class MainLobby extends Component {
                   roomId={null}
                   height={this.state.contentHeight}
                 />
-              </Columns.Column>
-            </Columns>
+              </div>
+            </div>
           </section>
         </div>
       );
     }
-    return <Box>Loading Page...</Box>;
+    return <div>Loading...</div>;
   };
 }
 

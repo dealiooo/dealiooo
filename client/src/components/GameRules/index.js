@@ -1,11 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import Box from 'react-bulma-components/lib/components/box';
-import Section from 'react-bulma-components/lib/components/section';
-import Modal from 'react-bulma-components/lib/components/modal';
-import Heading from 'react-bulma-components/lib/components/heading';
-import Button from 'react-bulma-components/lib/components/button';
+import React, { Component } from "react";
 
-import rules from './rules';
+import rules from "./rules";
 
 class ModalWithToggle extends React.Component {
   state = {
@@ -17,14 +12,17 @@ class ModalWithToggle extends React.Component {
   render() {
     return (
       <div>
-        <Button onClick={this.toggle}>{this.props.toggleName}</Button>
-        <Modal
+        <button className="button" onClick={this.toggle}>
+          {this.props.toggleName}
+        </button>
+        <div
+          class="modal"
           show={this.state.toggled}
           onClose={this.toggle}
           {...this.props.modal}
         >
           {this.props.children}
-        </Modal>
+        </div>
       </div>
     );
   }
@@ -37,21 +35,21 @@ class GameRules extends Component {
         toggleName="Game Rules"
         modal={{ closeOnBlur: true, showClose: false }}
       >
-        <Modal.Content className="has-background-light">
-          <Section>
-            <Heading className="has-text-centered">Game Rules</Heading>
+        <div className="modal-content" className="has-background-light">
+          <section className="section">
+            <h1 className="title has-text-centered">Game Rules</h1>
             {Object.keys(rules).map(rule => (
-              <Box>
-                <Heading subtitle>{rule}</Heading>
+              <div>
+                <h2 className="subtitle">{rule}</h2>
                 <ul>
                   {rules[rule].map(value => (
                     <li>{value}</li>
                   ))}
                 </ul>
-              </Box>
+              </div>
             ))}
-          </Section>
-        </Modal.Content>
+          </section>
+        </div>
       </ModalWithToggle>
     );
   }

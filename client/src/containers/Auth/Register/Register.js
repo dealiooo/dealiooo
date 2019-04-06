@@ -1,25 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import {
-  Control,
-  Field,
-  Input
-} from 'react-bulma-components/lib/components/form';
-import Button from 'react-bulma-components/lib/components/button';
-import Box from 'react-bulma-components/lib/components/box';
-import Section from 'react-bulma-components/lib/components/section';
-import Container from 'react-bulma-components/lib/components/container/container';
-import Columns from 'react-bulma-components/lib/components/columns/columns';
-import Heading from 'react-bulma-components/lib/components/heading';
-
-import Banner from '../../../components/Banner';
-import { Auth } from '../../../api';
+import Banner from "../../../components/Banner";
+import { Auth } from "../../../api";
 
 class Register extends Component {
   state = {
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
     error_message: null
   };
 
@@ -37,7 +25,7 @@ class Register extends Component {
       if (result.error) {
         this.setState({ error_message: result.error.errors[0].message });
       } else {
-        window.location = '/main-lobby';
+        window.location = "/main-lobby";
       }
     });
   };
@@ -45,67 +33,67 @@ class Register extends Component {
   componentWillMount() {
     Auth.getRegister().then(response => {
       if (!response.ok) {
-        window.location = '/main-lobby';
+        window.location = "/main-lobby";
       }
     });
   }
 
   render() {
+    const { name, email, password } = this.state;
     return (
-      <Container className="is-fullhd">
+      <div className="container is-fluid">
         <Banner />
-        <Section>
-          <Columns className="is-centered">
-            <Columns.Column size={4}>
-              <Box>
+        <section>
+          <div className="columns is-centered">
+            <div className="column is-6">
+              <div className="box">
                 <form onSubmit={this.onSubmit}>
-                  <Heading className="has-text-centered has-text-black">
-                    Register
-                  </Heading>
-                  <Field>
-                    <Control className="control-padding-vertical">
-                      <Input
+                  <h1 className="title has-text-centered">Register</h1>
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input"
                         name="name"
-                        type="text"
+                        type="name"
                         onChange={this.onChange}
-                        value={this.state.name}
+                        value={name}
                         placeholder="Enter a name"
                       />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Input
+                    </div>
+                  </div>
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input"
                         name="email"
                         type="email"
                         onChange={this.onChange}
-                        value={this.state.email}
+                        value={email}
                         placeholder="Enter a email"
                       />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Input
+                    </div>
+                  </div>
+                  <div className="field">
+                    <div className="control">
+                      <input
+                        className="input"
                         name="password"
                         type="password"
                         onChange={this.onChange}
-                        value={this.state.password}
-                        placeholder="Enter a Password"
+                        value={password}
+                        placeholder="Enter a password"
                       />
-                    </Control>
-                  </Field>
-                  <Field>
-                    <Control>
-                      <Button className="is-fullwidth">Register</Button>
-                    </Control>
-                  </Field>
+                    </div>
+                  </div>
+                  <div className="control">
+                    <button className="button is-fullwidth">Register</button>
+                  </div>
                 </form>
-              </Box>
-            </Columns.Column>
-          </Columns>
-        </Section>
-      </Container>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     );
   }
 }

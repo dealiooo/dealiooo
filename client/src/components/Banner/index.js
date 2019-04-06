@@ -1,31 +1,19 @@
 import React from "react";
-import Heading from "react-bulma-components/lib/components/heading";
-import Columns from "react-bulma-components/lib/components/columns/columns";
-import Hero from "react-bulma-components/lib/components/hero";
-
-import "./banner.css";
 
 const Banner = () => {
   return (
-    <Hero className="is-small">
-      <Hero.Body>
-        <Columns className="is-centered">
-          <Columns.Column
-            className="is-centered has-text-centered"
-            offset={null}
-          >
-            <img
-              src={process.env.PUBLIC_URL + `/logo.png`}
-              alt="logo"
-              width="320"
-            />
-            <Heading className="is-center has-text-centered" subtitle size={3}>
+    <section className="hero is-small">
+      <div className="hero-body">
+        <div className="is-centered columns is-multiline">
+          <div className="is-centered has-text-centered column">
+            <img src="/logo.png" alt="logo" width="320" />
+            <h1 className="is-center has-text-centered subtitle is-3">
               dare to deal
-            </Heading>
-          </Columns.Column>
-        </Columns>
-      </Hero.Body>
-    </Hero>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 
