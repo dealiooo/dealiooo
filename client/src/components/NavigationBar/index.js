@@ -17,14 +17,14 @@ const NavigationBar = ({ title, userName }) => {
   return (
     <nav className="navbar" role="navigation">
       <div className="navbar-brand">
-        <div className="navbar-item" renderAs="a" href="/main-lobby">
+        <a className="navbar-item" href="/main-lobby">
           <img
             src={process.env.PUBLIC_URL + `/logo.png`}
             alt="logo"
             width="112"
             height="28"
           />
-        </div>
+        </a>
       </div>
       <div className="navbar-menu is-active">
         {title != null ? (
