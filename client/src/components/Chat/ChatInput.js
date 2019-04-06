@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class ChatInput extends Component {
   constructor(props) {
@@ -6,7 +6,7 @@ class ChatInput extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
-      message: ""
+      message: ''
     };
   }
 
@@ -17,7 +17,7 @@ class ChatInput extends Component {
   onSubmit = event => {
     event.preventDefault();
     this.props.api({ roomId: this.props.roomId, message: this.state.message });
-    this.setState({ message: "" });
+    this.setState({ message: '' });
   };
 
   render() {
@@ -37,7 +37,7 @@ class ChatInput extends Component {
             />
           </div>
           <div className="control">
-            <button className="button is-fullwidth">Submit</button>
+            <button className="button is-fullwidth">Send</button>
           </div>
         </div>
       </form>

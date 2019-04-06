@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import Modal from "../../../components/Modal/modal";
+import Modal from '../../../components/Modal/modal';
 
 class MakeRoomModal extends Component {
   constructor(props) {
@@ -29,11 +29,11 @@ class MakeRoomModal extends Component {
     const { onChange, onCreate } = this.props;
     return (
       <>
-        <button className="button" onClick={this.openModal}>
-          Make a Room
+        <button className="button is-primary" onClick={this.openModal}>
+          <strong>Make a Room</strong>
         </button>
         <Modal show={showModal} onClose={this.closeModal}>
-          <div className="modal-card" style={{ borderRadius: "0.5em" }}>
+          <div className="modal-card" style={{ borderRadius: '0.5em' }}>
             <header class="modal-card-head has-background-info">
               <h1 class="modal-card-title has-text-centered has-text-white">
                 Make a Room
@@ -68,8 +68,8 @@ class MakeRoomModal extends Component {
                           <input
                             className={`button is-fullwidth ${
                               playerCapacity == playerCapacityValue
-                                ? "has-background-info has-text-white"
-                                : ""
+                                ? 'has-background-info has-text-white'
+                                : ''
                             }`}
                             name="playerCapacity"
                             type="button"

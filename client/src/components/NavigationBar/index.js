@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import { Auth } from "./../../api";
+import { Auth } from './../../api';
 
 const NavigationBar = ({ title, userName }) => {
   const logout = () => {
     Auth.postLogout().then(result => {
       if (result.error) {
-        console.log("error on logout");
+        console.log('error on logout');
       }
       if (result.ok) {
-        window.location = "/login";
+        window.location = '/login';
       }
     });
   };
@@ -37,11 +37,11 @@ const NavigationBar = ({ title, userName }) => {
         <div className="navbar-end">
           <div className="navbar-item has-dropdown is-hoverable">
             <span className="navbar-link">{userName}</span>
-            <span className="navbar-dropdown is-right">
+            <div className="navbar-dropdown is-right">
               <a className="navbar-item" value="item" onClick={logout}>
                 Logout
               </a>
-            </span>
+            </div>
           </div>
         </div>
       </div>
