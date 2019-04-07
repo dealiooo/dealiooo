@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
   socket,
   MainLobby as MainLobbyAPI,
   GameLobby as GameLobbyAPI
-} from "../../../api";
-import GameLobbyMessage from "./GameLobbyMessage";
-import Chat from "../../../components/Chat";
-import NavigationBar from "../../../components/NavigationBar";
-import "./MainLobby.css";
+} from '../../../api';
+import GameLobbyMessage from './GameLobbyMessage';
+import Chat from '../../../components/Chat';
+import NavigationBar from '../../../components/NavigationBar';
+import './MainLobby.css';
 
 class MainLobby extends Component {
   constructor(props) {
@@ -29,13 +29,13 @@ class MainLobby extends Component {
       userName: null,
       lobbies: [],
       socket: socket,
-      roomName: ""
+      roomName: ''
     };
-    socket.on("main-lobby:create-game", this.onCreateGame);
-    socket.on("main-lobby:end-game", this.onEndGame);
-    socket.on("main-lobby:join-game", this.onJoinGame);
-    socket.on("main-lobby:leave-game", this.onLeaveGame);
-    socket.on("main-lobby:start-game", this.onStartGame);
+    socket.on('main-lobby:create-game', this.onCreateGame);
+    socket.on('main-lobby:end-game', this.onEndGame);
+    socket.on('main-lobby:join-game', this.onJoinGame);
+    socket.on('main-lobby:leave-game', this.onLeaveGame);
+    socket.on('main-lobby:start-game', this.onStartGame);
   }
 
   componentDidMount = () => {
@@ -70,14 +70,14 @@ class MainLobby extends Component {
           });
         });
       } else {
-        window.location = "/login";
+        window.location = '/login';
       }
     });
-    window.addEventListener("resize", this.updateDimensions);
+    window.addEventListener('resize', this.updateDimensions);
   };
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions);
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   onCreateGame = event => {
@@ -86,7 +86,7 @@ class MainLobby extends Component {
       id: event.gameId,
       roomName: event.roomName,
       playerCap: event.playerCap,
-      status: "open"
+      status: 'open'
     };
     GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
       newRoom.playerList = gameInfo.Players;
@@ -183,7 +183,7 @@ class MainLobby extends Component {
           <section
             className="hero is-fullheight-with-navbar"
             style={{
-              padding: "3vh 2vh 3vh 2vh"
+              padding: '3vh 2vh 3vh 2vh'
             }}
           >
             <div className="columns">
@@ -203,7 +203,7 @@ class MainLobby extends Component {
                 <Chat
                   socket={this.state.socket}
                   api={MainLobbyAPI.postMainLobbyChat}
-                  channel={"main-lobby:chat"}
+                  channel={'main-lobby:chat'}
                   roomId={null}
                   height={this.state.contentHeight}
                 />

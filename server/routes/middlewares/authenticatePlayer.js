@@ -11,5 +11,7 @@ module.exports = (request, response, next) => {
         return response.sendStatus(404);
       }
     })
-    .catch(error => response.json({ error }));
+    .catch(error => {
+      return response.json({ error });
+    });
 };

@@ -1,21 +1,23 @@
+const serverAddress = require('./serverAddress');
+
 const requestConfiguration = (body = {}, method) => {
-    const config = {
-      method,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-  
-    if (Object.keys(body).length > 0) {
-      config.body = JSON.stringify(body);
+  const config = {
+    method,
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
     }
-    return config;
   };
-  
-  const build_url = endpoint => {
-    return `/api${endpoint}`;
-  };
-  
+
+  if (Object.keys(body).length > 0) {
+    config.body = JSON.stringify(body);
+  }
+  return config;
+};
+
+const build_url = endpoint => {
+  return `${serverAddress}/api${endpoint}`;
+};
+
 module.exports = (endpoint, body, method = 'post') =>
-    fetch(build_url(endpoint), requestConfiguration(body, method));
+  fetch(build_url(endpoint), requestConfiguration(body, method));
