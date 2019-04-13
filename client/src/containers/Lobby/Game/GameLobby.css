@@ -5,7 +5,20 @@
   overflow: auto;
 }
 
-.box-room-name {
+.room-name-header {
   background-color: #546a7b;
+  margin-left: -14px;
+  margin-right: -14px;
+  margin-top: -13px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.left-mid-section {
+  height: 300px;
+}
+
+.left-border {
+  border: 2px solid lightgray;
   margin-left: -50px;
 }
