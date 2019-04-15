@@ -1,37 +1,41 @@
-import React, { Component } from "react";
-
-import Box from "react-bulma-components/lib/components/box";
-import Columns from "react-bulma-components/lib/components/columns";
-import Tag from "react-bulma-components/lib/components/tag";
-import Container from "react-bulma-components/lib/components/container";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 class PlayerStatus extends Component {
   render() {
     if (this.props.status) {
       let list = (
-        <Tag.Group>
+        <spn>
           {this.props.status.map((player, i) => {
             return (
-              <Tag
-                className="is-medium has-background-grey-light has-text-white"
-                key={i}
-              >
-                [{player.id}]{player.name} -{" "}
-                {player.ready ? "Ready" : "Not Ready"}
-              </Tag>
+              <div className="button is-static is-medium">
+                <span className="icon">
+                  {player.ready ? (
+                    <FontAwesomeIcon icon={faCheckSquare} />
+                  ) : (
+                    <FontAwesomeIcon icon={faSquare} />
+                  )}
+                </span>
+                <span className="is-medium " key={i}>
+                  [{player.id}]{player.name}
+                </span>
+              </div>
             );
           })}
-        </Tag.Group>
+        </spn>
       );
       return (
-        <Container>
-          <Columns>
-            <Columns.Column>{list}</Columns.Column>
-          </Columns>{" "}
-        </Container>
+        <div className="container">
+          <div className="columns">
+            <div className="column is-2">{list}</div>
+          </div>
+        </div>
       );
     }
-    return <Box>Loading Player Status...</Box>;
+
+    return <div>Loading...</div>;
   }
 }
 

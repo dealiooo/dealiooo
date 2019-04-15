@@ -1,11 +1,4 @@
-import React, { Component } from "react";
-
-import Button from "react-bulma-components/lib/components/button";
-import {
-  Control,
-  Field,
-  Input
-} from "react-bulma-components/lib/components/form";
+import React, { Component } from 'react';
 
 class ChatInput extends Component {
   constructor(props) {
@@ -13,42 +6,40 @@ class ChatInput extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
-      message: ""
+      message: ''
     };
   }
 
-  onChange = evt => {
-    const value =
-      evt.target.type === "checkbox" ? evt.target.checked : evt.target.value;
-    this.setState({
-      [evt.target.name]: value
-    });
+  onChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
-  onSubmit = evt => {
-    evt.preventDefault();
+  onSubmit = event => {
+    event.preventDefault();
     this.props.api({ roomId: this.props.roomId, message: this.state.message });
-    this.setState({ message: "" });
+    this.setState({ message: '' });
   };
 
   render() {
     const { message } = this.state;
+
     return (
       <form onSubmit={this.onSubmit}>
-        <Field className="has-addons">
-          <Control className="is-expanded">
-            <Input
+        <div className="field has-addons">
+          <div className="control is-expanded">
+            <input
+              className="input"
               name="message"
               type="text"
               onChange={this.onChange}
               value={message}
               placeholder="Message"
             />
-          </Control>
-          <Control>
-            <Button className="is-fullwidth">Submit</Button>
-          </Control>
-        </Field>
+          </div>
+          <div className="control">
+            <button className="button is-fullwidth">Send</button>
+          </div>
+        </div>
       </form>
     );
   }

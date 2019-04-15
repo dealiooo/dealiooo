@@ -1,9 +1,9 @@
-import React from 'react';
-import PlayerSpace from './PlayerSpace';
+import React from "react";
+import PlayerSpace from "./PlayerSpace";
 
-import Columns from 'react-bulma-components/lib/components/columns';
+import Columns from "react-bulma-components/lib/components/columns";
 
-import { getCssColumnOpponentPlayerSpaces } from './utils';
+import { getCssColumnOpponentPlayerSpaces } from "./utils";
 
 const OpponentSpaces = ({ playerInfos }) => (
   <Columns>

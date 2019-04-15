@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Message from "react-bulma-components/lib/components/message";
 
 import GameLobbyList from "./GameLobbyList";
 import GameLobbyMessageAction from "./GameLobbyMessageAction";
@@ -46,13 +45,13 @@ class GameLobbyMessage extends Component {
   };
 
   render = () => (
-    <Message className="is-dark">
-      <Message.Header>
-        <p />
+    <article className="message is-dark">
+      <div className="message-header">
+        <div />
         <p className="is-size-4">Main Lobby</p>
-        <p />
-      </Message.Header>
-      <Message.Body>
+        <div />
+      </div>
+      <div className="message-body">
         <GameLobbyMessageAction
           roomName={this.state.roomName}
           playerCapacity={this.state.playerCapacity}
@@ -66,8 +65,8 @@ class GameLobbyMessage extends Component {
           gameLobbies={this.state.gameLobbies}
           height={this.state.height}
         />
-      </Message.Body>
-    </Message>
+      </div>
+    </article>
   );
 }
 

@@ -1,88 +1,107 @@
 import React, { Component } from 'react';
-import Button from 'react-bulma-components/lib/components/button';
-import Columns from 'react-bulma-components/lib/components/columns';
-import {
-  Control,
-  Field,
-  Label,
-  Input,
-  Select
-} from 'react-bulma-components/lib/components/form';
-import Modal from 'react-bulma-components/lib/components/modal';
+
+import Modal from '../../../components/Modal/modal';
 
 class MakeRoomModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
+      showModal: false,
       roomName: this.props.roomName,
       playerCapacity: this.props.playerCapacity
-    }
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
+    };
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
-  componentWillReceiveProps = (props) => {
+  componentWillReceiveProps = props => {
     this.setState({
       roomName: props.roomName,
       playerCapacity: props.playerCapacity
-    })
+    });
+  };
+
+  openModal = () => this.setState({ showModal: true });
+  closeModal = () => this.setState({ showModal: false });
+
+  render() {
+    const { showModal, roomName, playerCapacity } = this.state;
+    const { onChange, onCreate } = this.props;
+    return (
+      <>
+        <button className="button is-primary" onClick={this.openModal}>
+          <strong>Make a Room</strong>
+        </button>
+        <Modal show={showModal} onClose={this.closeModal}>
+          <div className="modal-card" style={{ borderRadius: '0.5em' }}>
+            <header class="modal-card-head has-background-info">
+              <h1 class="modal-card-title has-text-centered has-text-white">
+                Make a Room
+              </h1>
+              <button
+                class="delete"
+                onClick={this.closeModal}
+                aria-label="close"
+              />
+            </header>
+            <section className="modal-card-body">
+              <form onSubmit={onCreate}>
+                <div className="field">
+                  <div className="control">
+                    <label className="label">Room Name</label>
+                    <input
+                      className="input"
+                      name="roomName"
+                      type="text"
+                      onChange={onChange}
+                      placeholder="Room Name"
+                      value={roomName}
+                    />
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="control">
+                    <label class="label">Player Capacity</label>
+                    <div className="columns is-centered">
+                      {[2, 3, 4, 5].map(playerCapacityValue => (
+                        <div className="control column">
+                          <input
+                            className={`button is-fullwidth ${
+                              playerCapacity == playerCapacityValue
+                                ? 'has-background-info has-text-white'
+                                : ''
+                            }`}
+                            name="playerCapacity"
+                            type="button"
+                            onClick={onChange}
+                            value={playerCapacityValue}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="field">
+                  <div className="control">
+                    <div className="columns is-centered">
+                      <div className="column is-half">
+                        <button
+                          className="button is-info is-fullwidth"
+                          type="submit"
+                        >
+                          Create
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </section>
+          </div>
+        </Modal>
+      </>
+    );
   }
-
-  open = () => this.setState({ show: true });
-  close = () => this.setState({ show: false });
-
-  render = () => (
-    <div>
-      <Modal  
-        show={this.state.show}
-        onClose={this.close}
-        closeOnBlur={true}
-      >
-        <Modal.Card>
-          <Modal.Card.Body style={{borderRadius: '0.5em'}}>
-            <form onSubmit={this.props.onCreate}>
-              <Columns>
-                <Columns.Column>
-                  <Label>Choose Player Capacity:</Label>
-                </Columns.Column>
-                <Columns.Column className="is-1">
-                <button className="delete" onClick={this.close}/>
-                </Columns.Column>
-              </Columns>
-              <Field className="is-grouped">
-                <Control className="is-expanded">
-                  <Input
-                    name="roomName"
-                    type="text"
-                    onChange={this.props.onChange}
-                    placeholder="Room Name"
-                    value={this.state.roomName}
-                  />
-                </Control>
-                <Select
-                  name="playerCapacity"
-                  onChange={this.props.onChange}
-                  value={this.state.playerCapacity}
-                >
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                </Select>
-                <Control>
-                  <Button className="is-info" type="submit">
-                    Create
-                  </Button>
-                </Control>
-              </Field>
-            </form>
-          </Modal.Card.Body>
-        </Modal.Card>
-      </Modal>
-      <Button onClick={this.open}>Make a Room</Button>
-    </div>
-  );
 }
 
 export default MakeRoomModal;

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Columns from 'react-bulma-components/lib/components/columns';
+import Columns from "react-bulma-components/lib/components/columns";
 
-import GameChat from './GameChat';
-import GameMainDisplay from './GameMainDisplay';
-import GameSideDisplay from './GameSideDisplay';
+import GameChat from "./GameChat";
+import GameMainDisplay from "./GameMainDisplay";
+import GameSideDisplay from "./GameSideDisplay";
 
 class GameView extends Component {
   state = {

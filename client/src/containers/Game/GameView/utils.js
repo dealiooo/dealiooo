@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 import {
   renderBankCards,
   renderBuildingCards,
   renderActionCards,
   renderPropertyCards
-} from './Cards/renderCards';
+} from "./Cards/renderCards";
 
 export const cardsTotalValue = cards => {
   return []
@@ -14,24 +14,24 @@ export const cardsTotalValue = cards => {
 };
 
 export const CARD_STACK_TYPES = {
-  bank: 'bank_cards',
-  property: 'property_cards',
-  building: 'building_cards',
-  action: 'action_cards'
+  bank: "bank_cards",
+  property: "property_cards",
+  building: "building_cards",
+  action: "action_cards"
 };
 
 export function getCardStackIcon(stackType) {
   switch (stackType) {
     case CARD_STACK_TYPES.bank:
-      return '🏦';
+      return "🏦";
     case CARD_STACK_TYPES.building:
-      return '🏢';
+      return "🏢";
     case CARD_STACK_TYPES.property:
-      return '🏠';
+      return "🏠";
     case CARD_STACK_TYPES.action:
-      return '🚴‍';
+      return "🚴‍";
     default:
-      return '';
+      return "";
   }
 }
 

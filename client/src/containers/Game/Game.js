@@ -103,21 +103,23 @@ class Game extends Component {
         );
       } else if (host) {
         return (
-          <Container>
-            <Button onClick={this.onStartGame}>Start Game</Button>
-          </Container>
+          <div className="container">
+            <button class="button" onClick={this.onStartGame}>
+              Start Game
+            </button>
+          </div>
         );
       } else {
         return (
-          <Container>
-            <Columns className="is-centered">
-              <Columns.Column size={2}>
+          <div className="container">
+            <div className="columns is-centered">
+              <div className="columns is-size-2">
                 <Button onClick={this.onStartGame}>
                   Waiting for host to start game...
                 </Button>
-              </Columns.Column>
-            </Columns>
-          </Container>
+              </div>
+            </div>
+          </div>
         );
       }
     }

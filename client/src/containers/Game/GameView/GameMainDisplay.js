@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import PlayerSpace from './PlayerSpace';
-import OpponentSpaces from './OpponentSpaces';
-import CenterField from './CenterField';
+import PlayerSpace from "./PlayerSpace";
+import OpponentSpaces from "./OpponentSpaces";
+import CenterField from "./CenterField";
 
 class GameMainDisplay extends Component {
   render() {
@@ -16,11 +16,11 @@ class GameMainDisplay extends Component {
       <div
         className="has-background-white-ter"
         style={{
-          height: '100%',
-          display: 'flex',
-          alignItems: 'stretch',
-          justifyContent: 'center',
-          flexDirection: 'column',
+          height: "100%",
+          display: "flex",
+          alignItems: "stretch",
+          justifyContent: "center",
+          flexDirection: "column",
           padding: 8
         }}
       >

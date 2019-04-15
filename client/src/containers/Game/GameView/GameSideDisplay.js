@@ -19,14 +19,14 @@ class GameSideDisplay extends Component {
     };
   }
 
-  handleOptionChanged = evt => {
+  handleOptionChanged = event => {
     this.setState({
-      option: evt.target.value
+      option: event.target.value
     });
   };
 
-  onPromptSubmit = evt => {
-    evt.preventDefault();
+  onPromptSubmit = event => {
+    event.preventDefault();
     this.props.onPromptSubmit(this.state.option);
     this.setState({ option: 0 });
   };

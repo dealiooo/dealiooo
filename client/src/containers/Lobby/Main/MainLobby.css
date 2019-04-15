@@ -1,3 +1,8 @@
+html > body > div#root > div > section > div > div > div.box.ps {
+  position: relative;
+  overflow-y: auto;
+}
+
 html
   > body
   > div#root
@@ -5,21 +10,9 @@ html
   > section
   > div
   > div
-  > div.box.ps {
-  position: relative;
-  overflow-y: auto;
-}
-
-html 
-  > body 
-  > div#root 
-  > div 
-  > section 
-  > div 
-  > div 
-  > article 
-  > div 
-  > div 
+  > article
+  > div
+  > div
   > div.ps {
   position: relative;
   overflow-y: auto;

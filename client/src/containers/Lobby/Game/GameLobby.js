@@ -1,20 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import Section from "react-bulma-components/lib/components/section";
-import Level from "react-bulma-components/lib/components/level";
-import Box from "react-bulma-components/lib/components/box";
-import Button from "react-bulma-components/lib/components/button";
-import Columns from "react-bulma-components/lib/components/columns";
-import Container from "react-bulma-components/lib/components/container";
-import Heading from "react-bulma-components/lib/components/heading";
+import NavigationBar from '../../../components/NavigationBar';
+import Chat from '../../../components/Chat';
+import PlayerStatus from './PlayerStatus';
 
-import NavigationBar from "../../../components/NavigationBar";
-import Chat from "../../../components/Chat";
-import PlayerStatus from "./PlayerStatus";
+import { socket, GameLobby as GameLobbyAPI } from '../../../api';
 
-import { socket, GameLobby as GameLobbyAPI } from "../../../api";
-
-import "./GameLobby.css";
+import './GameLobby.css';
 
 class GameLobby extends Component {
   constructor(props) {
@@ -67,8 +59,11 @@ class GameLobby extends Component {
           );
         });
       } else {
-        window.location = "/main-lobby";
+        window.location = '/main-lobby';
       }
+    });
+    GameLobbyAPI.getGameLobbyInfo(this.state.gameId).then(gameInfo => {
+      this.setState({ lobbyName: `${gameInfo.room_name} Lobby` });
     });
   }
 
@@ -92,7 +87,7 @@ class GameLobby extends Component {
         )
       });
       if (this.state.userId === event.userId) {
-        window.location = "/main-lobby";
+        window.location = '/main-lobby';
       }
     }
   }
@@ -140,65 +135,79 @@ class GameLobby extends Component {
 
   onExit(_) {
     GameLobbyAPI.postGameLobbyLeave(this.state.gameId).then(
-      _ => (window.location = "/main-lobby")
+      _ => (window.location = '/main-lobby')
     );
   }
 
   render() {
     if (this.state.startRender) {
       return (
-        <div>
+        <>
           <NavigationBar userName={this.state.userName} />
-          <Columns>
-            <Columns.Column>
-              <Container className="">
-                <Section>
-                  <Columns>
-                    <Columns.Column size="three-fifths">
-                      <Box className="box-room-name">
-                        <Heading className="has-text-white">
+          <div className="columns">
+            <div className="column">
+              <div className="container">
+                <section className="section">
+                  <div className="columns">
+                    <div className="column is-three-fifths left-border">
+                      <div className="box room-name-header">
+                        <h1 className="title has-text-white">
                           {this.state.lobbyName}
-                        </Heading>
-                      </Box>
-                      <Section>
+                        </h1>
+                      </div>
+                      <section className="section left-mid-section">
                         <PlayerStatus status={this.state.playersStatus} />
-                      </Section>
-                      <Section>
-                        <Level>
-                          <Level.Item>
+                      </section>
+                      <section className="section">
+                        <div className="level">
+                          <div className="level-item">
                             {this.state.host ? (
-                              <Button onClick={this.onStart}>Start</Button>
+                              <button
+                                className="button is-medium is-fullwidth"
+                                onClick={this.onStart}
+                              >
+                                Start
+                              </button>
                             ) : (
                               <div />
                             )}
-                          </Level.Item>
-                          <Level.Item>
-                            <Button onClick={this.onReady}>Ready</Button>
-                          </Level.Item>
-                          <Level.Item>
-                            <Button onClick={this.onExit}>Exit</Button>
-                          </Level.Item>
-                          <Level.Item />
-                        </Level>
-                      </Section>
-                    </Columns.Column>
-                    <Columns.Column className="game-lobby-chat">
+                          </div>
+                          <div className="level-item">
+                            <button
+                              className="button is-medium is-fullwidth is-success"
+                              onClick={this.onReady}
+                            >
+                              Ready
+                            </button>
+                          </div>
+                          <div className="level-item">
+                            <button
+                              className="button is-medium is-fullwidth is-danger"
+                              onClick={this.onExit}
+                            >
+                              Exit
+                            </button>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                    <div className="column game-lobby-chat">
                       <Chat
                         socket={this.state.socket}
                         api={GameLobbyAPI.postGameLobbyChat}
                         channel={`game-lobby:${this.state.gameId}:chat`}
                         roomId={this.state.gameId}
                       />
-                    </Columns.Column>
-                  </Columns>
-                </Section>
-              </Container>
-            </Columns.Column>
-          </Columns>
-        </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </>
       );
     }
-    return <Box>Loading Page...</Box>;
+    return <>Loading...</>;
   }
 }
 
