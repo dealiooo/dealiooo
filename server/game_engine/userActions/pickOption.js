@@ -6,35 +6,37 @@ const setPending = ({Game, requiredPlayer, options, message, callback}) => {
       options.map((option, i) => `\n${i}: ${option}`).join('')
     ].join('\n');
   }
-  Game.pending_for_user_input = {
+  Game.pendingForUserInput = {
     function: pickOption,
-    arguments: { player: requiredPlayer, options, callback },
+    arguments: { Game, player: requiredPlayer, options, message, callback },
     message
   };
 };
 
 const pickOption = (
-  Game,
-  { player: requiredPlayer, options, message, callback },
-  player_id = null
+  { Game, player: requiredPlayer, playerId, options, message, cancelled, forced, callback }
 ) => {
-  if (player_id && requiredPlayer.id !== player_id) {
+  if (playerId && requiredPlayer.id !== playerId) {
     return;
   }
   if (options.length) {
-    if ('' === Game.user_input) {
+    if (cancelled) {
+      callback({cancelled});
+    } else if (forced) {
+      callback({option:options[0], forced});
+    } else if ('' === Game.userInput) {
       setPending({Game, requiredPlayer, options, message, callback});
     } else {
-      let option = parseInt(Game.user_input);
+      let option = parseInt(Game.userInput);
       if (-1 < option && option < options.length) {
-        Game.user_input = '';
-        Game.pending_for_user_input = null;
-        callback(null, options[option]);
+        Game.userInput = '';
+        Game.pendingForUserInput = null;
+        callback({option:options[option]});
         return `\nYou picked:  \n ◾ ${option}: ${options[option]}`;
       }
     }
   } else {
-    callback('empty options');
+    callback({error:'empty options'});
   }
 };
 

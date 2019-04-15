@@ -1,4 +1,4 @@
 const getNumberFullPropertySets = require('./getNumberFullPropertySets');
 
-module.exports = (Game, player_id) =>
-  3 <= getNumberFullPropertySets(Game, player_id);
+module.exports = ({Game, playerId}) =>
+  3 <= getNumberFullPropertySets({Game, playerId});

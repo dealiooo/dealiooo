@@ -1,31 +1,31 @@
 const gameActions = require('../gameActions');
 
-const discardPlayerCards = (Game, player) => {
-  if (gameActions.isPileNotEmpty(player.hand)) {
-    gameActions.movePile(player.hand, Game.discard, player.hand);
+const discardPlayerCards = ({Game, player}) => {
+  if (gameActions.isPileNotEmpty({pile: player.hand})) {
+    gameActions.movePile({source: player.hand, destination: Game.discard});
   }
-  if (gameActions.isPileNotEmpty(player.field.action_cards)) {
-    gameActions.movePile(player.field.action_cards, Game.discard);
+  if (gameActions.isPileNotEmpty({pile: player.field.actionCards})) {
+    gameActions.movePile({source: player.field.actionCards, destination: Game.discard});
   }
-  if (gameActions.isPileNotEmpty(player.field.bank_cards)) {
-    gameActions.movePile(player.field.bank_cards, Game.discard);
+  if (gameActions.isPileNotEmpty({pile: player.field.bankCards})) {
+    gameActions.movePile({source: player.field.bankCards, destination: Game.discard});
   }
-  for (let i = 0; i < player.field.property_cards.length; i++) {
-    if (gameActions.isPileNotEmpty(player.field.property_cards[i])) {
-      gameActions.movePile(player.field.property_cards[i], Game.discard);
+  for (let i = 0; i < player.field.propertyCards.length; i++) {
+    if (gameActions.isPileNotEmpty({pile: player.field.propertyCards[i]})) {
+      gameActions.movePile({source: player.field.propertyCards[i], destination: Game.discard});
     }
   }
 };
 
-module.exports = (Game, player) => {
-  Game.player_count--;
-  discardPlayerCards(Game, player);
-  gameActions.removePlayer(Game, player);
-  const turn_player = Game.turn_count % Game.player_count;
+module.exports = ({Game, player}) => {
+  Game.playerCount--;
+  discardPlayerCards({Game, player});
+  gameActions.removePlayer({Game, player});
+  const turnPlayer = Game.turnCount % Game.playerCount;
   for (let i = 0; i < Game.players.length; i++) {
     if (Game.players[i].id === player.id) {
-      if (turn_player === i) {
-        Game.turn_count++;
+      if (turnPlayer === i) {
+        Game.turnCount++;
       }
     }
   }

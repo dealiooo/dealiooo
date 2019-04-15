@@ -1,15 +1,26 @@
 const gameActions = require('../../../gameActions');
 
-module.exports = (Game, player, card, callback) => {
+module.exports = ({Game, player, card, callback}) => {
+  gameActions.moveCard({source: player.hand, destination: player.field.actionCards, card});
+  gameActions.onNonCounterCardPlayed({Game, card});
   var playerActionCounter = i => {
     if (player.id !== Game.players[i].id) {
-      gameActions.avoidAction(Game, Game.players[i], player, (_, avoid) => {
-        if (avoid) {
-          done(i);
-        } else {
-          gameActions.payRent(Game, Game.players[i], player, 2, _ =>
-            done(i)
-          );
+      gameActions.avoidAction({
+        Game, 
+        player: Game.players[i], 
+        sourcePlayer: player, 
+        callback: ({avoid, forced}) => {
+          if (avoid || forced) {
+            done(i);
+          } else {
+            gameActions.payRent({
+              Game, 
+              payee: Game.players[i], 
+              player, 
+              amount: 2, 
+              callback: _ => done(i)
+            });
+          }
         }
       });
     } else {
@@ -18,7 +29,7 @@ module.exports = (Game, player, card, callback) => {
   }
   var done = i => {
     if (i == Game.players.length) {
-      callback(null, card);
+      callback({card});
     } else {
       playerActionCounter(i + 1);
     }

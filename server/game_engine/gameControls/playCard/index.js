@@ -6,17 +6,17 @@ const playPropertyWildCard = require('./playPropertyWildCard');
 const playDualColorRentCard = require('./playDualColorRentCard');
 const playRentWildCard = require('./playRentWildCard');
 
-const playCard = (Game, player, card, callback) => {
+const playCard = ({Game, player, card, callback}) => {
   const play = {
     action: playActionCard,
     building: playBuildingCard,
     money: playMoneyCard,
     property: playPropertyCard,
-    property_wildcard: playPropertyWildCard,
+    propertyWildcard: playPropertyWildCard,
     rent: playDualColorRentCard,
-    rent_wildcard: playRentWildCard
+    rentWildCard: playRentWildCard
   };
-  play[card.type](Game, player, card, callback);
+  play[card.type]({Game, player, card, callback});
 };
 
 module.exports = playCard;

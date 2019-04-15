@@ -1,1 +1,1 @@
-module.exports = pile => 0 === pile.length;
+module.exports = ({pile}) => 0 === pile.length;

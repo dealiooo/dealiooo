@@ -1,12 +1,14 @@
 const userActions = require('./../userActions');
 
-module.exports = (Game, player, callback) => {
+module.exports = ({Game, player, forced, callback}) => {
   let options = [];
   options.push('Pick Card Id');
   options.push('Go Back');
-  userActions.pickOption(Game, {
+  userActions.pickOption({
+    Game,
     player,
     options,
+    forced,
     callback
   });
 };

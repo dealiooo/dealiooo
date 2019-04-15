@@ -1,23 +1,69 @@
 const gameActions = require('../../../gameActions');
 const userControls = require('../../../userControls');
 
-const pickCardToForcedDeal = (
+const playForcedDeal = ({Game, player, card, callback}) => {
+  userControls.pickFieldCard({
+    Game,
+    player,
+    pileNames: ['propertyCards', 'buildingCards'],
+    callback: ({error, card: playerCard, source: playerSource, cancelled, forced}) => {
+      if (error || cancelled || forced) {
+        callback({error, cancelled, forced});
+      } else {
+        userControls.pickTargetPlayer({
+          player, 
+          callback: ({error, targetPlayer, cancelled, forced}) => {
+          if (error || forced) {
+            callback({error, forced});
+          } else if (cancelled) {
+            playForcedDeal({Game, player, card, callback});
+          } else {
+            gameActions.moveCard({source: player.hand, destination: player.field.actionCards, card});
+            gameActions.onNonCounterCardPlayed({Game, card});
+            gameActions.avoidAction({
+              Game, 
+              player: targetPlayer, 
+              sourcePlayer: player, 
+              callback: ({avoid, forced}) => {
+              if (avoid || forced) {
+                callback({card, forced});
+              } else {
+                pickCardToForcedDeal({
+                  Game,
+                  player,
+                  playerCard,
+                  playerSource,
+                  targetPlayer,
+                  callback
+                });
+              }
+            }});
+          }
+        }});
+      }
+    }
+  });
+};
+
+const pickCardToForcedDeal = ({
   Game,
   player,
   playerCard,
   playerSource,
   targetPlayer,
   callback
-) => {
-  userControls.pickFieldCard(
+}) => {
+  userControls.pickFieldCard({
     Game,
-    targetPlayer,
-    ['property_cards', 'building_cards'],
-    (error, targetPlayerCard, targetPlayerSource) => {
+    player: targetPlayer,
+    pileNames: ['propertyCards', 'buildingCards'],
+    callback: ({error, card: targetPlayerCard, source: targetPlayerSource, cancelled, forced}) => {
       if (error) {
-        callback(error);
+        callback({error});
+      } else if (cancelled) {
+        pickCardToForcedDeal(Game, player, playerCard, playerSource, targetPlayer, callback);
       } else {
-        forcedDeal(
+        forcedDeal({
           Game,
           player,
           playerCard,
@@ -25,14 +71,14 @@ const pickCardToForcedDeal = (
           targetPlayer,
           targetPlayerCard,
           targetPlayerSource
-        );
-        callback(null, card);
+        });
+        callback({card});
       }
     }
-  );
+  });
 };
 
-const forcedDeal = (
+const forcedDeal = ({
   Game,
   player,
   playerCard,
@@ -40,52 +86,20 @@ const forcedDeal = (
   targetPlayer,
   targetPlayerCard,
   targetPlayerSource
-) => {
+}) => {
   if (
-    !gameActions.getPropertySetStatus(Game, playerSource.pile) &&
-    !gameActions.getPropertySetStatus(Game, targetPlayerSource.pile)
+    !gameActions.getPropertySetStatus({Game, propertySet: playerSource.pile}) &&
+    !gameActions.getPropertySetStatus({Game, propertySet: targetPlayerSource.pile})
   ) {
-    gameActions.swapPropertyCards(
-      { card: playerCard, pile: playerSource.pile, player },
-      {
+    gameActions.swapPropertyCards({
+      source: { card: playerCard, pile: playerSource.pile, player },
+      destination: {
         card: targetPlayerCard,
         pile: targetPlayerSource.pile,
         player: targetPlayer
       }
-    );
+    });
   }
 };
 
-module.exports = (Game, player, card, callback) => {
-  userControls.pickFieldCard(
-    Game,
-    player,
-    ['property_cards', 'building_cards'],
-    (error, playerCard, playerSource) => {
-      if (error) {
-        callback(error);
-      } else {
-        userControls.pickTargetPlayer(player, (error, targetPlayer) => {
-          if (error) {
-            callback(error);
-          } else {
-            gameActions.avoidAction(Game, targetPlayer, player, (_, avoid) => {
-              if (avoid) {
-                callback(null, card);
-              } else {
-                pickCardToForcedDeal(
-                  Game,
-                  player,
-                  playerCard,
-                  playerSource,
-                  targetPlayer,
-                  callback
-                );
-              }
-            });
-          }
-        });
-      }
-    }
-  );
-};
+module.exports = playForcedDeal;

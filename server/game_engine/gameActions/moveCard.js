@@ -1,4 +1,4 @@
-module.exports = (source, destination, card) => {
+module.exports = ({source, destination, card}) => {
   destination.push(card);
   let stack = [];
   let offset = 0;

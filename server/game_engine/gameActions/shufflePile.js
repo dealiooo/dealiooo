@@ -1,1 +1,1 @@
-module.exports = (Game, source) => Game.shuffle(source);
+module.exports = ({Game, source}) => Game.shuffle(source);

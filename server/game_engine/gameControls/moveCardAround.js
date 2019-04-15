@@ -2,51 +2,82 @@ const gameActions = require('../gameActions');
 const userActions = require('../userActions');
 const userControls = require('../userControls');
 
-const moveCard = (Game, player, card, source, callback) => {
+const moveCardAround = ({Game, player, callback}) => {
+  let pileNames = ['propertyCards', 'buildingCards'];
+  userControls.pickFieldCard({
+    Game, 
+    player, 
+    pileNames, 
+    callback: ({error, cancelled, forced, card, source}) => {
+    if (error) {
+      callback({error});
+    } else if (cancelled || forced) {
+      callback({cancelled, forced});
+    } else {
+      if (card.colors.length) {
+        pickCardColor({Game, player, card, source, callback});
+      } else {
+        moveCard({Game, player, card, source, callback});
+      }
+    }
+  }});
+};
+
+const pickCardColor = ({Game, player, card, source, callback}) => {
+  userControls.pickCardColor({
+    Game, 
+    player, 
+    card, 
+    callback: ({error, cancelled, forced, color}) => {
+      if (error) {
+        callback({error});
+      } else if (cancelled) {
+        moveCardAround({Game, player, callback});
+      } else if (forced) {
+        callback({forced});
+      } else {
+        gameActions.switchColor(card, color);
+        moveCard({Game, player, card, source, callback});
+      }
+    }
+  });
+}
+
+
+const moveCard = ({Game, player, card, source, callback}) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
   ](Game, player, card, source.pile);
   if (destinations.length) {
-    userActions.pickOption(Game, {
+    userActions.pickOption({
+      Game,
       player,
       options: destinationIndexes,
-      callback: (error, value) => {
+      callback: ({error, cancelled, forced, option}) => {
         if (error) {
-          callback(error);
+          callback({error});
+        } else if (cancelled) {
+          if (card.colors.length) {
+            pickCardColor({Game, player, card, source, callback})
+          } else {
+            moveCardAround({Game, player, callback});
+          }
+        } else if (forced) {
+          callback({forced});
         } else {
-          gameActions.moveCard(
-            source.pile,
-            destinations[parseInt(value)],
+          gameActions.moveCard({
+            source: source.pile,
+            destination: destinations[parseInt(option)],
             card
-          );
-          gameActions.removeEmptyPropertySets(player);
-          callback(null);
+          });
+          gameActions.removeEmptyPropertySets({player});
+          callback({});
         }
       }
     });
   } else {
-    callback(null);
+    callback({});
   }
 };
 
-module.exports = (Game, player, callback) => {
-  let pileNames = ['property_cards', 'building_cards'];
-  userControls.pickFieldCard(Game, player, pileNames, (error, card, source) => {
-    if (error) {
-      callback(error);
-    } else {
-      if (card.colors.length) {
-        userControls.pickCardColor(Game, player, card, (error, color) => {
-          if (error) {
-            callback(error);
-          } else {
-            gameActions.switchColor(card, color);
-            moveCard(Game, player, card, source, callback);
-          }
-        });
-      } else {
-        moveCard(Game, player, card, source, callback);
-      }
-    }
-  });
-};
+module.exports = moveCardAround;

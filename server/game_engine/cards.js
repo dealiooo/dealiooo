@@ -1,4 +1,4 @@
-const property_cards = [
+const propertyCards = [
   {
     id: 1,
     name: "baltic-avenue",
@@ -225,7 +225,7 @@ const property_cards = [
   }
 ];
 
-const action_cards = [
+const actionCards = [
   {
     id: 29,
     name: "deal-breaker",
@@ -516,12 +516,12 @@ const action_cards = [
   }
 ];
 
-const property_wildcards = [
+const propertyWildcards = [
   {
     id: 65,
     name: "wildbg",
     value: 4,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["dark-blue", "green"]
   },
@@ -529,7 +529,7 @@ const property_wildcards = [
     id: 66,
     name: "wildlbbr",
     value: 1,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["light-blue", "brown"]
   },
@@ -537,7 +537,7 @@ const property_wildcards = [
     id: 67,
     name: "wildop",
     value: 2,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["orange", "purple"]
   },
@@ -545,7 +545,7 @@ const property_wildcards = [
     id: 68,
     name: "wildop",
     value: 2,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["orange", "purple"]
   },
@@ -553,7 +553,7 @@ const property_wildcards = [
     id: 69,
     name: "wildgt",
     value: 4,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["green", "railroad"]
   },
@@ -561,7 +561,7 @@ const property_wildcards = [
     id: 70,
     name: "wildlbt",
     value: 4,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["light-blue", "railroad"]
   },
@@ -569,7 +569,7 @@ const property_wildcards = [
     id: 71,
     name: "wildut",
     value: 2,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["utility", "railroad"]
   },
@@ -577,7 +577,7 @@ const property_wildcards = [
     id: 72,
     name: "wildry",
     value: 3,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["yellow", "red"]
   },
@@ -585,15 +585,15 @@ const property_wildcards = [
     id: 73,
     name: "wildry",
     value: 3,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: ["yellow", "red"]
   },
   {
     id: 74,
-    name: "property_wildcard",
+    name: "propertyWildcard",
     value: 0,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: [
       "red",
@@ -610,9 +610,9 @@ const property_wildcards = [
   },
   {
     id: 75,
-    name: "property_wildcard",
+    name: "propertyWildcard",
     value: 0,
-    type: "property_wildcard",
+    type: "propertyWildcard",
     mainColor: "",
     colors: [
       "red",
@@ -629,7 +629,7 @@ const property_wildcards = [
   }
 ];
 
-const rent_cards = [
+const rentCards = [
   {
     id: 76,
     name: "rentbg",
@@ -712,12 +712,12 @@ const rent_cards = [
   }
 ];
 
-const rent_wildcards = [
+const rentWildCards = [
   {
     id: 86,
     name: "rentwild",
     value: 3,
-    type: "rent_wildcard",
+    type: "rentWildCard",
     mainColor: "",
     colors: [
       "red",
@@ -736,7 +736,7 @@ const rent_wildcards = [
     id: 87,
     name: "rentwild",
     value: 3,
-    type: "rent_wildcard",
+    type: "rentWildCard",
     mainColor: "",
     colors: [
       "red",
@@ -755,7 +755,7 @@ const rent_wildcards = [
     id: 88,
     name: "rentwild",
     value: 3,
-    type: "rent_wildcard",
+    type: "rentWildCard",
     mainColor: "",
     colors: [
       "red",
@@ -772,7 +772,7 @@ const rent_wildcards = [
   }
 ];
 
-const money_cards = [
+const moneyCards = [
   {
     id: 89,
     name: "1-million",
@@ -936,10 +936,10 @@ const money_cards = [
 ];
 
 module.exports = [
-  ...property_cards,
-  ...property_wildcards,
-  ...action_cards,
-  ...rent_cards,
-  ...rent_wildcards,
-  ...money_cards
+  ...propertyCards,
+  ...propertyWildcards,
+  ...actionCards,
+  ...rentCards,
+  ...rentWildCards,
+  ...moneyCards
 ];
