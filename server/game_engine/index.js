@@ -3,13 +3,26 @@ const userControls = require("./userControls");
 
 const game_engine = {
   start: playerIds => {
-    let Game = gameControls.startGame({playerIds});
+    let Game = gameControls.startGame({ playerIds });
+    Game.ticks = {};
+    playerIds.map(playerId => (Game.ticks[playerId] = 60));
+    setInterval(game_engine.tick, 1000, Game);
     game_engine.applyStartTurn(Game);
     return Game;
   },
+  tick: Game => {
+    if (Game.pendingForUserInput) {
+      let player = Game.pendingForUserInput.arguments.player;
+      Game.ticks[player.id]--;
+      if (0 >= Game.ticks[player.id]) {
+        game_engine.applyForceAction(Game, player.id);
+        Game.ticks[player.id] = 60;
+      }
+    }
+  },
   input: (Game, userInput, playerId) => {
     Game.userInput = userInput;
-    let returnValue = '';
+    let returnValue = "";
     let pending = Game.pendingForUserInput;
     if (pending) {
       pending.arguments.playerId = playerId;
@@ -36,6 +49,7 @@ const game_engine = {
     data.general_info.cardsPlayed = Game.cardsPlayed;
     data.general_info.deckCount = Game.deck.length;
     data.general_info.discard = Game.discard;
+    data.general_info.tick = Game.ticks[data.general_info.currentPlayer];
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
@@ -73,9 +87,9 @@ const game_engine = {
     };
     let player = Game.players[Game.turnCount % Game.playerCount];
     userControls.pickBasicOptions({
-      Game, 
-      player, 
-      callback: ({error, option, cancelled, forced}) => {
+      Game,
+      player,
+      callback: ({ error, option, cancelled, forced }) => {
         if (error || cancelled) {
           game_engine.promptBasicOptions(Game);
         } else if (forced) {
@@ -93,9 +107,9 @@ const game_engine = {
     };
     let player = Game.players[Game.turnCount % Game.playerCount];
     userControls.playHandCard({
-      Game, 
-      player, 
-      callback: ({error, option, cancelled, forced}) => {
+      Game,
+      player,
+      callback: ({ error, option, cancelled, forced }) => {
         if (error || cancelled) {
           game_engine.promptBasicOptions(Game);
         } else if (forced) {
@@ -113,9 +127,9 @@ const game_engine = {
     };
     let player = Game.players[Game.turnCount % Game.playerCount];
     userControls.moveCardAround({
-      Game, 
-      player, 
-      callback: ({error, option, cancelled, forced}) => {
+      Game,
+      player,
+      callback: ({ error, option, cancelled, forced }) => {
         if (error || cancelled) {
           game_engine.promptBasicOptions(Game);
         } else if (forced) {
@@ -125,16 +139,16 @@ const game_engine = {
         }
       }
     });
-    if (gameControls.computeWinCondition({Game, player})) {
+    if (gameControls.computeWinCondition({ Game, player })) {
       return game_engine.applyPlayerWon(Game);
     }
   },
   promptHandCardId: Game => {
     let player = Game.players[Game.turnCount % Game.playerCount];
     userControls.pickHandCard({
-      Game, 
-      player, 
-      callback: ({error, card, cancelled, forced}) => {
+      Game,
+      player,
+      callback: ({ error, card, cancelled, forced }) => {
         if (error) {
           game_engine.promptBasicOptions(Game);
         } else if (cancelled) {
@@ -150,9 +164,9 @@ const game_engine = {
   promptSourceAndDestination: Game => {
     let player = Game.players[Game.turnCount % Game.playerCount];
     gameControls.moveCardAround({
-      Game, 
-      player, 
-      callback: ({error, cancelled, forced}) => {
+      Game,
+      player,
+      callback: ({ error, cancelled, forced }) => {
         if (error) {
           game_engine.promptBasicOptions(Game);
         } else if (cancelled) {
@@ -168,32 +182,35 @@ const game_engine = {
   applyPlayCard: (Game, card) => {
     let player = Game.players[Game.turnCount % Game.playerCount];
     gameControls.playCard({
-      Game, 
-      player, 
-      card, 
-      callback: ({error, cancelled}) => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else if (cancelled) {
-        game_engine.promptHandCardId(Game);
-      } else if (forced) {
-        game_engine.applyForced(Game);
-      } else {
-        if (gameControls.computeWinCondition({Game, player})) {
-          return game_engine.applyPlayerWon(Game);
+      Game,
+      player,
+      card,
+      callback: ({ error, cancelled }) => {
+        if (error) {
+          game_engine.promptBasicOptions(Game);
+        } else if (cancelled) {
+          game_engine.promptHandCardId(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
         } else {
-          if (gameControls.forcePlayerEndTurn({Game})) {
-            game_engine.applyEndTurn(Game);
+          Game.players.map(player => (Game.ticks[player.id] = 60));
+          if (gameControls.computeWinCondition({ Game, player })) {
+            return game_engine.applyPlayerWon(Game);
           } else {
-            game_engine.promptBasicOptions(Game);
+            if (gameControls.forcePlayerEndTurn({ Game })) {
+              game_engine.applyEndTurn(Game);
+            } else {
+              game_engine.promptBasicOptions(Game);
+            }
           }
         }
       }
-    }});
+    });
   },
   applyStartTurn: Game => {
+    Game.players.map(player => (Game.ticks[player.id] = 60));
     let player = Game.players[Game.turnCount % Game.playerCount];
-    gameControls.startTurn({Game, player});
+    gameControls.startTurn({ Game, player });
     game_engine.promptBasicOptions(Game);
   },
   applyPlayerWon: Game => {
@@ -204,7 +221,7 @@ const game_engine = {
   applyEndTurn: Game => {
     if (null === Game.pendingForUserInput) {
       gameControls.endTurn({
-        Game, 
+        Game,
         callback: _ => {
           Game.turnCount++;
           game_engine.applyStartTurn(Game);
@@ -214,21 +231,23 @@ const game_engine = {
     return ``;
   },
   applyLeaveGame: (Game, playerId) => {
+    Game.players.map(player => (Game.ticks[player.id] = 60));
     let player = Game.players[Game.turnCount % Game.playerCount];
     if (player.id === playerId) {
-      gameControls.forfeit({Game, player});
+      gameControls.forfeit({ Game, player });
     }
   },
   applyForced: Game => {
     Game.cardsPlayed++;
-    if (gameControls.forcePlayerEndTurn({Game})) {
+    Game.players.map(player => (Game.ticks[player.id] = 60));
+    if (gameControls.forcePlayerEndTurn({ Game })) {
       game_engine.applyEndTurn(Game);
     } else {
       game_engine.promptBasicOptions(Game);
-    } 
+    }
   },
   applyCancelAction: (Game, playerId) => {
-    let returnValue = '';
+    let returnValue = "";
     let pending = Game.pendingForUserInput;
     if (pending) {
       pending.arguments.playerId = playerId;
@@ -238,7 +257,7 @@ const game_engine = {
     return returnValue;
   },
   applyForceAction: (Game, playerId) => {
-    let returnValue = '';
+    let returnValue = "";
     let pending = Game.pendingForUserInput;
     if (pending) {
       pending.arguments.playerId = playerId;
@@ -272,7 +291,12 @@ const game_engine = {
       nextPlayerIndex--;
     }
     game_engine.applyLeaveGame(Game, playerId);
-    if (gameControls.computeWinCondition({Game, player: Game.players[nextPlayerIndex]})) {
+    if (
+      gameControls.computeWinCondition({
+        Game,
+        player: Game.players[nextPlayerIndex]
+      })
+    ) {
       return game_engine.applyPlayerWon(Game);
     }
     return ``;
