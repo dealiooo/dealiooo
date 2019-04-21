@@ -1,226 +1,226 @@
 const property_cards = [
   {
     id: 1,
-    name: "baltic-avenue",
+    name: 'baltic-avenue',
     value: 1,
-    type: "property",
-    mainColor: "brown",
+    type: 'property',
+    mainColor: 'brown',
     colors: []
   },
   {
     id: 2,
-    name: "mediterranean-avenue",
+    name: 'mediterranean-avenue',
     value: 1,
-    type: "property",
-    mainColor: "brown",
+    type: 'property',
+    mainColor: 'brown',
     colors: []
   },
   {
     id: 3,
-    name: "boardwalk",
+    name: 'boardwalk',
     value: 4,
-    type: "property",
-    mainColor: "dark-blue",
+    type: 'property',
+    mainColor: 'dark-blue',
     colors: []
   },
   {
     id: 4,
-    name: "park-place",
+    name: 'park-place',
     value: 4,
-    type: "property",
-    mainColor: "dark-blue",
+    type: 'property',
+    mainColor: 'dark-blue',
     colors: []
   },
   {
     id: 5,
-    name: "north-carolina-avenue",
+    name: 'north-carolina-avenue',
     value: 4,
-    type: "property",
-    mainColor: "green",
+    type: 'property',
+    mainColor: 'green',
     colors: []
   },
   {
     id: 6,
-    name: "pacific-avenue",
+    name: 'pacific-avenue',
     value: 4,
-    type: "property",
-    mainColor: "green",
+    type: 'property',
+    mainColor: 'green',
     colors: []
   },
   {
     id: 7,
-    name: "pennsylvania-avenue",
+    name: 'pennsylvania-avenue',
     value: 4,
-    type: "property",
-    mainColor: "green",
+    type: 'property',
+    mainColor: 'green',
     colors: []
   },
   {
     id: 8,
-    name: "connecticut-avenue",
+    name: 'connecticut-avenue',
     value: 1,
-    type: "property",
-    mainColor: "light-blue",
+    type: 'property',
+    mainColor: 'light-blue',
     colors: []
   },
   {
     id: 9,
-    name: "oriental-avenue",
+    name: 'oriental-avenue',
     value: 1,
-    type: "property",
-    mainColor: "light-blue",
+    type: 'property',
+    mainColor: 'light-blue',
     colors: []
   },
   {
     id: 10,
-    name: "vermont-avenue",
+    name: 'vermont-avenue',
     value: 1,
-    type: "property",
-    mainColor: "light-blue",
+    type: 'property',
+    mainColor: 'light-blue',
     colors: []
   },
   {
     id: 11,
-    name: "new-york-avenue",
+    name: 'new-york-avenue',
     value: 2,
-    type: "property",
-    mainColor: "orange",
+    type: 'property',
+    mainColor: 'orange',
     colors: []
   },
   {
     id: 12,
-    name: "st.james-place",
+    name: 'st.james-place',
     value: 2,
-    type: "property",
-    mainColor: "orange",
+    type: 'property',
+    mainColor: 'orange',
     colors: []
   },
   {
     id: 13,
-    name: "tennessee-avenue",
+    name: 'tennessee-avenue',
     value: 2,
-    type: "property",
-    mainColor: "orange",
+    type: 'property',
+    mainColor: 'orange',
     colors: []
   },
   {
     id: 14,
-    name: "st.charles-place",
+    name: 'st.charles-place',
     value: 2,
-    type: "property",
-    mainColor: "purple",
+    type: 'property',
+    mainColor: 'purple',
     colors: []
   },
   {
     id: 15,
-    name: "virginia-avenue",
+    name: 'virginia-avenue',
     value: 2,
-    type: "property",
-    mainColor: "purple",
+    type: 'property',
+    mainColor: 'purple',
     colors: []
   },
   {
     id: 16,
-    name: "states-avenue",
+    name: 'states-avenue',
     value: 2,
-    type: "property",
-    mainColor: "purple",
+    type: 'property',
+    mainColor: 'purple',
     colors: []
   },
   {
     id: 17,
-    name: "short-line",
+    name: 'short-line',
     value: 2,
-    type: "property",
-    mainColor: "railroad",
+    type: 'property',
+    mainColor: 'railroad',
     colors: []
   },
   {
     id: 18,
-    name: "b.-&-o.-railroad",
+    name: 'b.-&-o.-railroad',
     value: 2,
-    type: "property",
-    mainColor: "railroad",
+    type: 'property',
+    mainColor: 'railroad',
     colors: []
   },
   {
     id: 19,
-    name: "reading-railroad",
+    name: 'reading-railroad',
     value: 2,
-    type: "property",
-    mainColor: "railroad",
+    type: 'property',
+    mainColor: 'railroad',
     colors: []
   },
   {
     id: 20,
-    name: "pennsylvania-railroad",
+    name: 'pennsylvania-railroad',
     value: 2,
-    type: "property",
-    mainColor: "railroad",
+    type: 'property',
+    mainColor: 'railroad',
     colors: []
   },
   {
     id: 21,
-    name: "kentucky-avenue",
+    name: 'kentucky-avenue',
     value: 3,
-    type: "property",
-    mainColor: "red",
+    type: 'property',
+    mainColor: 'red',
     colors: []
   },
   {
     id: 22,
-    name: "indiana-avenue",
+    name: 'indiana-avenue',
     value: 3,
-    type: "property",
-    mainColor: "red",
+    type: 'property',
+    mainColor: 'red',
     colors: []
   },
   {
     id: 23,
-    name: "illinois-avenue",
+    name: 'illinois-avenue',
     value: 3,
-    type: "property",
-    mainColor: "red",
+    type: 'property',
+    mainColor: 'red',
     colors: []
   },
   {
     id: 24,
-    name: "water-works",
+    name: 'water-works',
     value: 2,
-    type: "property",
-    mainColor: "utility",
+    type: 'property',
+    mainColor: 'utility',
     colors: []
   },
   {
     id: 25,
-    name: "electric-company",
+    name: 'electric-company',
     value: 2,
-    type: "property",
-    mainColor: "utility",
+    type: 'property',
+    mainColor: 'utility',
     colors: []
   },
   {
     id: 26,
-    name: "ventnor-avenue",
+    name: 'ventnor-avenue',
     value: 3,
-    type: "property",
-    mainColor: "yellow",
+    type: 'property',
+    mainColor: 'yellow',
     colors: []
   },
   {
     id: 27,
-    name: "marvin-gardens",
+    name: 'marvin-gardens',
     value: 3,
-    type: "property",
-    mainColor: "yellow",
+    type: 'property',
+    mainColor: 'yellow',
     colors: []
   },
   {
     id: 28,
-    name: "atlantic-avenue",
+    name: 'atlantic-avenue',
     value: 3,
-    type: "property",
-    mainColor: "yellow",
+    type: 'property',
+    mainColor: 'yellow',
     colors: []
   }
 ];
@@ -228,290 +228,290 @@ const property_cards = [
 const action_cards = [
   {
     id: 29,
-    name: "deal-breaker",
+    name: 'deal-breaker',
     value: 5,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 30,
-    name: "deal-breaker",
+    name: 'deal-breaker',
     value: 5,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 31,
-    name: "debt-collector",
+    name: 'debt-collector',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 32,
-    name: "debt-collector",
+    name: 'debt-collector',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 33,
-    name: "debt-collector",
+    name: 'debt-collector',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 34,
-    name: "double-the-rent",
+    name: 'double-the-rent',
     value: 0,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 35,
-    name: "double-the-rent",
+    name: 'double-the-rent',
     value: 0,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 36,
-    name: "forced-deal",
+    name: 'forced-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 37,
-    name: "forced-deal",
+    name: 'forced-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 38,
-    name: "forced-deal",
+    name: 'forced-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 39,
-    name: "forced-deal",
+    name: 'forced-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 40,
-    name: "hotel",
+    name: 'hotel',
     value: 4,
-    type: "building",
-    mainColor: "",
+    type: 'building',
+    mainColor: '',
     colors: []
   },
   {
     id: 41,
-    name: "hotel",
+    name: 'hotel',
     value: 4,
-    type: "building",
-    mainColor: "",
+    type: 'building',
+    mainColor: '',
     colors: []
   },
   {
     id: 42,
-    name: "hotel",
+    name: 'hotel',
     value: 4,
-    type: "building",
-    mainColor: "",
+    type: 'building',
+    mainColor: '',
     colors: []
   },
   {
     id: 43,
-    name: "house",
+    name: 'house',
     value: 3,
-    type: "building",
-    mainColor: "",
+    type: 'building',
+    mainColor: '',
     colors: []
   },
   {
     id: 44,
-    name: "house",
+    name: 'house',
     value: 3,
-    type: "building",
-    mainColor: "",
+    type: 'building',
+    mainColor: '',
     colors: []
   },
   {
     id: 45,
-    name: "house",
+    name: 'house',
     value: 3,
-    type: "building",
-    mainColor: "",
+    type: 'building',
+    mainColor: '',
     colors: []
   },
   {
     id: 46,
-    name: "its-my-birthday",
+    name: 'its-my-birthday',
     value: 2,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 47,
-    name: "its-my-birthday",
+    name: 'its-my-birthday',
     value: 2,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 48,
-    name: "its-my-birthday",
+    name: 'its-my-birthday',
     value: 2,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 49,
-    name: "just-say-no",
+    name: 'just-say-no',
     value: 4,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 50,
-    name: "just-say-no",
+    name: 'just-say-no',
     value: 4,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 51,
-    name: "just-say-no",
+    name: 'just-say-no',
     value: 4,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 52,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 53,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 54,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 55,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 56,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 57,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 58,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 59,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 60,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 61,
-    name: "pass-go",
+    name: 'pass-go',
     value: 1,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 62,
-    name: "sly-deal",
+    name: 'sly-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 63,
-    name: "sly-deal",
+    name: 'sly-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   },
   {
     id: 64,
-    name: "sly-deal",
+    name: 'sly-deal',
     value: 3,
-    type: "action",
-    mainColor: "",
+    type: 'action',
+    mainColor: '',
     colors: []
   }
 ];
@@ -519,112 +519,112 @@ const action_cards = [
 const property_wildcards = [
   {
     id: 65,
-    name: "wildbg",
+    name: 'wild-bg',
     value: 4,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["dark-blue", "green"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['dark-blue', 'green']
   },
   {
     id: 66,
-    name: "wildlbbr",
+    name: 'wild-lbbr',
     value: 1,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["light-blue", "brown"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['light-blue', 'brown']
   },
   {
     id: 67,
-    name: "wildop",
+    name: 'wild-op',
     value: 2,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["orange", "purple"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['orange', 'purple']
   },
   {
     id: 68,
-    name: "wildop",
+    name: 'wild-op',
     value: 2,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["orange", "purple"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['orange', 'purple']
   },
   {
     id: 69,
-    name: "wildgt",
+    name: 'wild-gt',
     value: 4,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["green", "railroad"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['green', 'railroad']
   },
   {
     id: 70,
-    name: "wildlbt",
+    name: 'wild-lbt',
     value: 4,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["light-blue", "railroad"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['light-blue', 'railroad']
   },
   {
     id: 71,
-    name: "wildut",
+    name: 'wild-ut',
     value: 2,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["utility", "railroad"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['utility', 'railroad']
   },
   {
     id: 72,
-    name: "wildry",
+    name: 'wild-ry',
     value: 3,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["yellow", "red"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['yellow', 'red']
   },
   {
     id: 73,
-    name: "wildry",
+    name: 'wild-ry',
     value: 3,
-    type: "property_wildcard",
-    mainColor: "",
-    colors: ["yellow", "red"]
+    type: 'property_wildcard',
+    mainColor: '',
+    colors: ['yellow', 'red']
   },
   {
     id: 74,
-    name: "property_wildcard",
+    name: 'property_wildcard',
     value: 0,
-    type: "property_wildcard",
-    mainColor: "",
+    type: 'property_wildcard',
+    mainColor: '',
     colors: [
-      "red",
-      "green",
-      "dark-blue",
-      "light-blue",
-      "utility",
-      "yellow",
-      "orange",
-      "brown",
-      "purple",
-      "railroad"
+      'red',
+      'green',
+      'dark-blue',
+      'light-blue',
+      'utility',
+      'yellow',
+      'orange',
+      'brown',
+      'purple',
+      'railroad'
     ]
   },
   {
     id: 75,
-    name: "property_wildcard",
+    name: 'property_wildcard',
     value: 0,
-    type: "property_wildcard",
-    mainColor: "",
+    type: 'property_wildcard',
+    mainColor: '',
     colors: [
-      "red",
-      "green",
-      "dark-blue",
-      "light-blue",
-      "utility",
-      "yellow",
-      "orange",
-      "brown",
-      "purple",
-      "railroad"
+      'red',
+      'green',
+      'dark-blue',
+      'light-blue',
+      'utility',
+      'yellow',
+      'orange',
+      'brown',
+      'purple',
+      'railroad'
     ]
   }
 ];
@@ -632,142 +632,142 @@ const property_wildcards = [
 const rent_cards = [
   {
     id: 76,
-    name: "rentbg",
+    name: 'rent-bg',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["green", "dark-blue"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['green', 'dark-blue']
   },
   {
     id: 77,
-    name: "rentbg",
+    name: 'rent-bg',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["green", "dark-blue"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['green', 'dark-blue']
   },
   {
     id: 78,
-    name: "rentlbbr",
+    name: 'rentlbbr',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["brown", "light-blue"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['brown', 'light-blue']
   },
   {
     id: 79,
-    name: "rentlbbr",
+    name: 'rent-lbbr',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["brown", "light-blue"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['brown', 'light-blue']
   },
   {
     id: 80,
-    name: "rentop",
+    name: 'rent-op',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["purple", "orange"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['purple', 'orange']
   },
   {
     id: 81,
-    name: "rentop",
+    name: 'rent-op',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["purple", "orange"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['purple', 'orange']
   },
   {
     id: 82,
-    name: "rentut",
+    name: 'rent-ut',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["railroad", "utility"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['railroad', 'utility']
   },
   {
     id: 83,
-    name: "rentut",
+    name: 'rent-ut',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["railroad", "utility"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['railroad', 'utility']
   },
   {
     id: 84,
-    name: "rentry",
+    name: 'rent-ry',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["red", "yellow"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['red', 'yellow']
   },
   {
     id: 85,
-    name: "rentry",
+    name: 'rent-ry',
     value: 1,
-    type: "rent",
-    mainColor: "",
-    colors: ["red", "yellow"]
+    type: 'rent',
+    mainColor: '',
+    colors: ['red', 'yellow']
   }
 ];
 
 const rent_wildcards = [
   {
     id: 86,
-    name: "rentwild",
+    name: 'rent_wildcard',
     value: 3,
-    type: "rent_wildcard",
-    mainColor: "",
+    type: 'rent_wildcard',
+    mainColor: '',
     colors: [
-      "red",
-      "green",
-      "dark-blue",
-      "light-blue",
-      "utility",
-      "yellow",
-      "orange",
-      "brown",
-      "purple",
-      "railroad"
+      'red',
+      'green',
+      'dark-blue',
+      'light-blue',
+      'utility',
+      'yellow',
+      'orange',
+      'brown',
+      'purple',
+      'railroad'
     ]
   },
   {
     id: 87,
-    name: "rentwild",
+    name: 'rent_wildcard',
     value: 3,
-    type: "rent_wildcard",
-    mainColor: "",
+    type: 'rent_wildcard',
+    mainColor: '',
     colors: [
-      "red",
-      "green",
-      "dark-blue",
-      "light-blue",
-      "utility",
-      "yellow",
-      "orange",
-      "brown",
-      "purple",
-      "railroad"
+      'red',
+      'green',
+      'dark-blue',
+      'light-blue',
+      'utility',
+      'yellow',
+      'orange',
+      'brown',
+      'purple',
+      'railroad'
     ]
   },
   {
     id: 88,
-    name: "rentwild",
+    name: 'rent_wildcard',
     value: 3,
-    type: "rent_wildcard",
-    mainColor: "",
+    type: 'rent_wildcard',
+    mainColor: '',
     colors: [
-      "red",
-      "green",
-      "dark-blue",
-      "light-blue",
-      "utility",
-      "yellow",
-      "orange",
-      "brown",
-      "purple",
-      "railroad"
+      'red',
+      'green',
+      'dark-blue',
+      'light-blue',
+      'utility',
+      'yellow',
+      'orange',
+      'brown',
+      'purple',
+      'railroad'
     ]
   }
 ];
@@ -775,162 +775,162 @@ const rent_wildcards = [
 const money_cards = [
   {
     id: 89,
-    name: "1-million",
+    name: '1-dollar',
     value: 1,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 90,
-    name: "1-million",
+    name: '1-dollar',
     value: 1,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 91,
-    name: "1-million",
+    name: '1-dollar',
     value: 1,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 92,
-    name: "1-million",
+    name: '1-dollar',
     value: 1,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 93,
-    name: "1-million",
+    name: '1-dollar',
     value: 1,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 94,
-    name: "1-million",
+    name: '1-dollar',
     value: 1,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 95,
-    name: "2-million",
+    name: '2-dollar',
     value: 2,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 96,
-    name: "2-million",
+    name: '2-dollar',
     value: 2,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 97,
-    name: "2-million",
+    name: '2-dollar',
     value: 2,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 98,
-    name: "2-million",
+    name: '2-dollar',
     value: 2,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 99,
-    name: "2-million",
+    name: '2-dollar',
     value: 2,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 100,
-    name: "3-million",
+    name: '3-dollar',
     value: 3,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 101,
-    name: "3-million",
+    name: '3-dollar',
     value: 3,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 102,
-    name: "3-million",
+    name: '3-dollar',
     value: 3,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 103,
-    name: "4-million",
+    name: '4-dollar',
     value: 4,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 104,
-    name: "4-million",
+    name: '4-dollar',
     value: 4,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 105,
-    name: "4-million",
+    name: '4-dollar',
     value: 4,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 106,
-    name: "5-million",
+    name: '5-dollar',
     value: 5,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 107,
-    name: "5-million",
+    name: '5-dollar',
     value: 5,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   },
   {
     id: 108,
-    name: "10-million",
+    name: '10-dollar',
     value: 10,
-    type: "money",
-    mainColor: "",
+    type: 'money',
+    mainColor: '',
     colors: []
   }
 ];
