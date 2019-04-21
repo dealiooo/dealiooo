@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import rules from "./rules";
+import rules from './rules';
 
 class ModalWithToggle extends React.Component {
   state = {
@@ -16,7 +16,7 @@ class ModalWithToggle extends React.Component {
           {this.props.toggleName}
         </button>
         <div
-          class="modal"
+          className="modal"
           show={this.state.toggled}
           onClose={this.toggle}
           {...this.props.modal}

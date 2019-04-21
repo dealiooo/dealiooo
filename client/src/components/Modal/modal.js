@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class Modal extends Component {
   constructor(props) {
@@ -7,11 +7,11 @@ class Modal extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("keydown", this.handleEscapeKey);
+    window.addEventListener('keydown', this.handleEscapeKey);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.handleEscapeKey);
+    window.removeEventListener('keydown', this.handleEscapeKey);
   }
 
   handleEscapeKey(event) {
@@ -26,8 +26,8 @@ class Modal extends Component {
     const { show } = this.props;
     if (show) {
       return (
-        <div className={`modal ${show ? "is-active" : ""}`}>
-          <div class="modal-background" />
+        <div className={`modal ${show ? 'is-active' : ''}`}>
+          <div className="modal-background" />
           {this.props.children}
         </div>
       );
