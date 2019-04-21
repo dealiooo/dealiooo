@@ -117,7 +117,7 @@ class Game extends Component {
       } else if (host) {
         return (
           <div className="container">
-            <button class="button" onClick={this.onStartGame}>
+            <button className="button" onClick={this.onStartGame}>
               Start Game
             </button>
           </div>
