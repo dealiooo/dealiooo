@@ -32,6 +32,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "node-sass-tilde-importer": "^1.0.2"
   }
 }
