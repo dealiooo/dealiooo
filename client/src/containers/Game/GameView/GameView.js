@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import PlayerListNavigationBar from './PlayerListNavigationBar';
-import PlayerCardStackList from './PlayerCardStackList';
-import GeneralInfoView from './GeneralInfoView';
+import GeneralInfoField from './GeneralInfoField';
+import PlayerPlayArea from './PlayerPlayArea';
+import PlayerField from './PlayerField';
 
 class GameView extends Component {
   constructor(props) {
@@ -11,12 +11,14 @@ class GameView extends Component {
     const selectedOpponentId = this.getDefaultSelectedOpponentId(props);
 
     this.state = {
-      activeHandCard: null,
       selectedOpponentId: selectedOpponentId
     };
+
+    this.handleOpponentClicked = this.handleOpponentClicked.bind(this);
+    this.handleOpponentHover = this.handleOpponentHover.bind(this);
   }
 
-  getDefaultSelectedOpponentId(props) {
+  getDefaultSelectedOpponentId() {
     const {
       userId,
       data: {
@@ -29,68 +31,88 @@ class GameView extends Component {
       player => player.id === userId
     )[0];
 
-    const opponentPlayerInfos = playerInfos.filter(
-      player => player.id !== userId
-    );
+    const opponentInfos = playerInfos.filter(player => player.id !== userId);
 
     let selectedOpponentId;
 
-    if (currentPlayer != userPlayerInfo.id) {
+    if (currentPlayer !== userPlayerInfo.id) {
       selectedOpponentId = currentPlayer;
     } else {
-      selectedOpponentId = opponentPlayerInfos[0].id;
+      selectedOpponentId = opponentInfos[0].id;
     }
 
     return selectedOpponentId;
   }
 
-  handleHandCardClicked = handCard => {
-    this.setState({ activeHandCard: handCard });
+  handleOpponentHover = ({ data }) => {
+    this.setState({
+      selectedOpponentId: data.hoverPlayerId
+    });
   };
 
-  handlePlayerHover = playerId => {};
-
-  handlePlayerClicked = event => {
-    const playerId = event.target.id;
+  handleOpponentClicked = event => {
+    const playerId = parseInt(event.target.getAttribute('value'));
+    this.setState({ selectedOpponentId: playerId });
   };
 
   render() {
-    const { activeHandCard, selectedOpponentId } = this.state;
+    const { selectedOpponentId } = this.state;
     const {
       userId,
       gameId,
       data: {
         general_info: generalInfo,
         prompts_info: promptsInfo,
-        players_info: playersInfo
+        players_info: playersInfo,
+        game_log: gameLog
       },
       onPromptSubmit,
+      onHandCardClicked,
+      onCancelClicked,
       onEndTurn,
       onForfeit
     } = this.props;
 
-    const userPlayerInfo = playersInfo.filter(
-      player => player.id === userId
-    )[0];
+    console.log(generalInfo);
 
-    const opponentPlayerInfos = playersInfo.filter(
-      player => player.id !== userId
-    );
+    const userInfo = playersInfo.filter(player => player.id === userId)[0];
 
-    const selectedOpponentPlayerInfo = opponentPlayerInfos.filter(
+    const opponentInfos = playersInfo.filter(player => player.id !== userId);
+
+    const selectedOpponentInfo = opponentInfos.filter(
       player => player.id === selectedOpponentId
     )[0];
 
     return (
-      <div className="container is-fluid" style={{ minHeight: '100vh' }}>
-        <PlayerListNavigationBar
-          playerInfos={opponentPlayerInfos}
-          selectedPlayerId={selectedOpponentId}
-          onPlayerHover={this.handlePlayerHover}
-          onPlayerClick={this.handlePlayerClicked}
-        />
-        <PlayerCardStackList playerInfo={selectedOpponentPlayerInfo} />
-        <GeneralInfoView generalInfo={generalInfo} />
+      <div style={{ margin: '0 1.0vw' }}>
+        <div style={{ minHeight: '24vh' }}>
+          <PlayerField playerInfo={selectedOpponentInfo} />
+        </div>
+        <div style={{ minHeight: '16vh' }}>
+          <GeneralInfoField
+            generalInfo={generalInfo}
+            opponentInfos={opponentInfos}
+            selectedOpponentId={selectedOpponentId}
+            onOpponentClicked={this.handleOpponentClicked}
+            onOpponentHover={this.handleOpponentHover}
+          />
+        </div>
+        <div style={{ minHeight: '24vh' }}>
+          <PlayerField playerInfo={userInfo} />
+        </div>
+        <div style={{ minHeight: '36vh' }}>
+          <PlayerPlayArea
+            gameId={gameId}
+            promptsInfo={promptsInfo}
+            gameLog={gameLog}
+            handCards={userInfo.hand_cards}
+            onHandCardClicked={onHandCardClicked}
+            onCancelClicked={onCancelClicked}
+            onEndTurn={onEndTurn}
+            onForfeit={onForfeit}
+            onPromptSubmit={onPromptSubmit}
+          />
+        </div>
       </div>
     );
   }

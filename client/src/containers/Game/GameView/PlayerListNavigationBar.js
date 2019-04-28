@@ -1,29 +1,6 @@
 import React, { Component } from 'react';
 
-class Hoverable extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isMouseInside: false
-    };
-  }
-
-  mouseEnter = () => {
-    this.setState({ isMouseInside: true });
-  };
-
-  mouseLeave = () => {
-    this.setState({ isMouseInside: false });
-  };
-
-  render() {
-    return this.props.children(
-      this.state.isMouseInside,
-      this.mouseEnter,
-      this.mouseLeave
-    );
-  }
-}
+import Hoverable from '../../../components/Hover/hoverable';
 
 class PlayerListNavigationBar extends Component {
   constructor(props) {
@@ -34,37 +11,37 @@ class PlayerListNavigationBar extends Component {
     const {
       playerInfos,
       selectedPlayerId,
-      onPlayerHover,
-      onPlayerClick
+      onPlayerClick,
+      onPlayerHover
     } = this.props;
 
     return (
-      <div className="columns">
-        {playerInfos.map(playerInfo => (
-          <Hoverable>
-            {(isMouseInside, mouseEnter, mouseLeave) => {
-              if (isMouseInside) {
-                onPlayerHover(playerInfo.id);
-              }
-              return (
-                <div className="column">
-                  <button
-                    id={playerInfo.id}
-                    className={`button is-fullwidth has-text-centered ${
-                      playerInfo.id == selectedPlayerId ? 'is-primary' : ''
-                    }`}
-                    onClick={onPlayerClick}
-                    onMouseEnter={mouseEnter}
-                    onMouseLeave={mouseLeave}
-                  >
-                    {playerInfo.id}
-                  </button>
-                </div>
-              );
-            }}
-          </Hoverable>
-        ))}
-      </div>
+      <aside className="menu">
+        <ul className="menu-list">
+          {playerInfos.map(playerInfo => (
+            <li
+              className={`${
+                selectedPlayerId === playerInfo.id ? 'is-active' : ''
+              }`}
+            >
+              <Hoverable
+                data={{ hoverPlayerId: playerInfo.id }}
+                onEnter={onPlayerHover}
+              >
+                <button
+                  className={`button is-fullwidth has-text-centered ${
+                    playerInfo.id === selectedPlayerId ? 'is-primary' : ''
+                  }`}
+                  value={playerInfo.id}
+                  onClick={onPlayerClick}
+                >
+                  {playerInfo.id}
+                </button>
+              </Hoverable>
+            </li>
+          ))}
+        </ul>
+      </aside>
     );
   }
 }

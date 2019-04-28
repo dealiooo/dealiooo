@@ -23,6 +23,7 @@ class Game extends Component {
     this.onGameUpdate = this.onGameUpdate.bind(this);
     this.handleEndTurn = this.handleEndTurn.bind(this);
     this.handleForfeit = this.handleForfeit.bind(this);
+    this.handleHandCardClicked = this.handleHandCardClicked.bind(this);
   }
 
   componentDidMount = () => {
@@ -96,6 +97,15 @@ class Game extends Component {
     GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
+  /// TODO:
+  handleHandCardClicked = event => {
+    const cardId = parseInt(event.target.getAttribute('id'));
+    GameAPI.postGameClick(this.props.match.params.id, cardId);
+  };
+
+  /// TODO:
+  handleCancelClicked = event => {};
+
   render() {
     const { id: gameId } = this.props.match.params;
     const { userId, startGame, load, host, data } = this.state;
@@ -110,6 +120,8 @@ class Game extends Component {
             gameId={gameId}
             data={data}
             onPromptSubmit={this.handlePromptSubmit}
+            onCancelClicked={this.handleCancelClicked}
+            onHandCardClicked={this.handleHandCardClicked}
             onEndTurn={this.handleEndTurn}
             onForfeit={this.handleForfeit}
           />

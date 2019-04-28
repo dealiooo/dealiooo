@@ -34,7 +34,7 @@ const game_engine = {
       Game.players[Game.turn_count % Game.player_count].id;
     data.general_info.cardsPlayed = Game.cards_played;
     data.general_info.deckCount = Game.deck.length;
-    data.general_info.discardCount = Game.discard.length;
+    data.general_info.discard = Game.discard;
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
@@ -42,9 +42,9 @@ const game_engine = {
       let tempPlayer = {};
       tempPlayer.id = player.id;
       if (player.id === playerId) {
-        tempPlayer.hand = player.hand;
+        tempPlayer.hand_cards = player.hand;
       } else {
-        tempPlayer.hand = player.hand.length;
+        tempPlayer.hand_cards = player.hand.length;
       }
       tempPlayer.action_cards = player.field.action_cards;
       tempPlayer.bank_cards = player.field.bank_cards;
