@@ -1,6 +1,6 @@
-.gamechat .box.ps {
+.gameChat .box.ps {
   position: relative;
-  min-height: 200px;
-  max-height: 200px;
+  min-height: 150px;
+  max-height: 150px;
   overflow: auto;
 }

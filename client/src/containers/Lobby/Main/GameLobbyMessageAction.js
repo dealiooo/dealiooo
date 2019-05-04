@@ -1,9 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
-import MakeRoomModal from "./MakeRoomModal";
+import MakeRoomModal from './MakeRoomModal';
 
 class GameLobbyMessageAction extends Component {
   constructor(props) {
@@ -31,7 +28,7 @@ class GameLobbyMessageAction extends Component {
             <div className="control">
               <button className="button is-fullwidth">
                 <span className="icon">
-                  <FontAwesomeIcon icon={faSearch} />
+                  <i className="fa fa-search" />
                 </span>
               </button>
             </div>

@@ -1,5 +1,5 @@
-const gameEngine = require("./../../game_engine");
-const { Game } = require("./../../database/api");
+const gameEngine = require('./../../game_engine');
+const { Game } = require('./../../database/api');
 
 const gameGlobals = new Map();
 
@@ -67,7 +67,7 @@ const startGame = sockets => gameId => {
           gameEngine.start(userIds.map(userId => userId.id))
         );
         sockets.get(gameId).forEach((value, key, _) => {
-          value.emit(`game:${gameId}:start-game`, "game is started");
+          value.emit(`game:${gameId}:start-game`, 'game is started');
           setInterval(
             (value, key, gameId) => {
               let data = gameEngine.getVars(gameGlobals.get(gameId), key);

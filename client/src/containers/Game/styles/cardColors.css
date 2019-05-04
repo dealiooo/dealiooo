@@ -1,39 +1,39 @@
 .red {
-  background-color: red;
-}
-
-.green {
-  background-color: green;
+  background-color: #f32407;
 }
 
 .dark-blue {
-  background-color: darkblue;
+  background-color: #0085ff;
 }
 
-.light-blue {
-  background-color: lightblue;
-}
-
-.utility {
-  background-color: lightcyan;
-}
-
-.railroad {
-  background-color: black;
+.green {
+  background-color: #70c45c;
 }
 
 .yellow {
-  background-color: yellow;
+  background-color: #fffa7e;
 }
 
 .orange {
-  background-color: orange;
-}
-
-.brown {
-  background-color: brown;
+  background-color: #f87618;
 }
 
 .purple {
-  background-color: purple;
+  background-color: #814bf3;
+}
+
+.light-blue {
+  background-color: #7cc7df;
+}
+
+.brown {
+  background-color: #603a40;
+}
+
+.railroad {
+  background-color: #1a191d;
+}
+
+.utility {
+  background-color: #c3d9b2;
 }

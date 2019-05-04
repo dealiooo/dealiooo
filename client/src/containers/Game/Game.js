@@ -1,14 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import Columns from "react-bulma-components/lib/components/columns";
-import Container from "react-bulma-components/lib/components/box";
-import Button from "react-bulma-components/lib/components/button";
+import './styles/cardColors.css';
+import './styles/gameChat.css';
 
-import GameView from "./GameView";
-import { socket, Game as GameAPI } from "../../api";
-
-import "./styles/cardColors.css";
-import "./styles/gameChat.css";
+import GameView from './GameView/GameView';
+import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
 
 class Game extends Component {
   constructor(props) {
@@ -23,19 +19,20 @@ class Game extends Component {
       data: null
     };
 
+    this.onStartGame = this.onStartGame.bind(this);
+    this.onGameUpdate = this.onGameUpdate.bind(this);
+    this.handleEndTurn = this.handleEndTurn.bind(this);
+    this.handleForfeit = this.handleForfeit.bind(this);
+    this.handleHandCardClicked = this.handleHandCardClicked.bind(this);
+  }
+
+  componentDidMount = () => {
     const { id: gameId } = this.props.match.params;
     GameAPI.postGameJoin(gameId);
     socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
     socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
     socket.on(`game:${gameId}:game-forfeit`, this.onGameForfeit);
 
-    this.onStartGame = this.onStartGame.bind(this);
-    this.onGameUpdate = this.onGameUpdate.bind(this);
-    this.handleEndTurn = this.handleEndTurn.bind(this);
-    this.handleForfeit = this.handleForfeit.bind(this);
-  }
-
-  componentDidMount = () => {
     GameAPI.getGame(this.props.match.params.id).then(response => {
       if (response.ok) {
         response.text().then(body => {
@@ -43,12 +40,28 @@ class Game extends Component {
           this.setState({
             userId: body.id,
             userName: body.name,
-            host: body.host,
-            load: false
+            host: body.host
+          });
+          GameAPI.postGameJoin(this.props.match.params.id).then(_ => {
+            GameLobbyAPI.getGameLobbyInfo(this.props.match.params.id).then(
+              gameInfo => {
+                if ('running' === gameInfo.status) {
+                  GameAPI.postGameUpdate(this.props.match.params.id);
+                  this.setState({
+                    startGame: true,
+                    load: false
+                  });
+                } else {
+                  this.setState({
+                    load: false
+                  });
+                }
+              }
+            );
           });
         });
       } else {
-        window.location = "/login";
+        window.location = '/login';
       }
     });
   };
@@ -77,16 +90,26 @@ class Game extends Component {
 
   handleForfeit = _ => {
     GameAPI.postGameForfeit(this.props.match.params.id);
-    window.location = "/main-lobby";
+    window.location = '/main-lobby';
   };
 
   handleEndTurn = _ => {
     GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
+  /// TODO:
+  handleHandCardClicked = event => {
+    const cardId = parseInt(event.target.getAttribute('id'));
+    GameAPI.postGameClick(this.props.match.params.id, cardId);
+  };
+
+  /// TODO:
+  handleCancelClicked = event => {};
+
   render() {
     const { id: gameId } = this.props.match.params;
     const { userId, startGame, load, host, data } = this.state;
+
     if (load) {
       return <div>Loading...</div>;
     } else {
@@ -97,6 +120,8 @@ class Game extends Component {
             gameId={gameId}
             data={data}
             onPromptSubmit={this.handlePromptSubmit}
+            onCancelClicked={this.handleCancelClicked}
+            onHandCardClicked={this.handleHandCardClicked}
             onEndTurn={this.handleEndTurn}
             onForfeit={this.handleForfeit}
           />
@@ -104,7 +129,7 @@ class Game extends Component {
       } else if (host) {
         return (
           <div className="container">
-            <button class="button" onClick={this.onStartGame}>
+            <button className="button" onClick={this.onStartGame}>
               Start Game
             </button>
           </div>
@@ -114,9 +139,9 @@ class Game extends Component {
           <div className="container">
             <div className="columns is-centered">
               <div className="columns is-size-2">
-                <Button onClick={this.onStartGame}>
+                <button className="button" onClick={this.onStartGame}>
                   Waiting for host to start game...
-                </Button>
+                </button>
               </div>
             </div>
           </div>

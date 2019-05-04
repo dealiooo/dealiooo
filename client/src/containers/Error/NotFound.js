@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import "./NotFound.css";
+import './NotFound.css';
 
 class NotFound extends Component {
   render() {
     return (
       <>
         <section className="hero is-fullheight">
-          <div class="hero-head" />
-          <div class="hero-body">
-            <div class="container has-text-centered">
+          <div className="hero-head" />
+          <div className="hero-body">
+            <div className="container">
               <h1 className="title x-large-f-size">404</h1>
               <h1 className="subtitle is-size-3">Page Not Found</h1>
               <a href="/main-lobby">
@@ -17,7 +17,7 @@ class NotFound extends Component {
               </a>
             </div>
           </div>
-          <div class="hero-foot" />
+          <div className="hero-foot" />
         </section>
       </>
     );

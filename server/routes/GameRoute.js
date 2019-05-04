@@ -6,7 +6,6 @@ const sendUserIdUserNameAndHostStatus = require('./middlewares/sendUserIdUserNam
 const { Game: GameSockets } = require('../sockets');
 const { Game: GameDB } = require('../database/api');
 
-
 router.get(
   '/api/game/:gameId',
   authenticateUser,
@@ -21,8 +20,10 @@ router.get(
   (request, response) => {
     const { gameId } = request.params;
     GameDB.getStatus(gameId)
-    .then(result => response.json({ result }))
-    .catch(error => response.json({ error }))
+      .then(result => response.json({ result }))
+      .catch(error => {
+        return response.json({ error });
+      });
   }
 );
 

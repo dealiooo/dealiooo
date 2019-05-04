@@ -27,6 +27,7 @@ class MakeRoomModal extends Component {
   render() {
     const { showModal, roomName, playerCapacity } = this.state;
     const { onChange, onCreate } = this.props;
+
     return (
       <>
         <button className="button is-primary" onClick={this.openModal}>
@@ -34,12 +35,12 @@ class MakeRoomModal extends Component {
         </button>
         <Modal show={showModal} onClose={this.closeModal}>
           <div className="modal-card" style={{ borderRadius: '0.5em' }}>
-            <header class="modal-card-head has-background-info">
-              <h1 class="modal-card-title has-text-centered has-text-white">
+            <header className="modal-card-head has-background-info">
+              <h1 className="modal-card-title has-text-centered has-text-white">
                 Make a Room
               </h1>
               <button
-                class="delete"
+                className="delete"
                 onClick={this.closeModal}
                 aria-label="close"
               />
@@ -61,13 +62,13 @@ class MakeRoomModal extends Component {
                 </div>
                 <div className="field">
                   <div className="control">
-                    <label class="label">Player Capacity</label>
+                    <label className="label">Player Capacity</label>
                     <div className="columns is-centered">
                       {[2, 3, 4, 5].map(playerCapacityValue => (
                         <div className="control column">
                           <input
                             className={`button is-fullwidth ${
-                              playerCapacity == playerCapacityValue
+                              parseInt(playerCapacity) === playerCapacityValue
                                 ? 'has-background-info has-text-white'
                                 : ''
                             }`}
