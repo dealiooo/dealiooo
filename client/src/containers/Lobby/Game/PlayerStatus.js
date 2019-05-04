@@ -1,19 +1,27 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 class PlayerStatus extends Component {
   render() {
     if (this.props.status) {
       let list = (
-        <spn className="tags">
+        <spn>
           {this.props.status.map((player, i) => {
             return (
-              <span
-                className="tag is-medium has-background-grey-light has-text-white"
-                key={i}
-              >
-                [{player.id}]{player.name} -{" "}
-                {player.ready ? "Ready" : "Not Ready"}
-              </span>
+              <div className="button is-static is-medium">
+                <span className="icon">
+                  {player.ready ? (
+                    <FontAwesomeIcon icon={faCheckSquare} />
+                  ) : (
+                    <FontAwesomeIcon icon={faSquare} />
+                  )}
+                </span>
+                <span className="is-medium " key={i}>
+                  [{player.id}]{player.name}
+                </span>
+              </div>
             );
           })}
         </spn>
@@ -21,7 +29,7 @@ class PlayerStatus extends Component {
       return (
         <div className="container">
           <div className="columns">
-            <div className="column">{list}</div>
+            <div className="column is-2">{list}</div>
           </div>
         </div>
       );

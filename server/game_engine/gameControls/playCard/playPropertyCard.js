@@ -1,26 +1,29 @@
 const gameActions = require('../../gameActions');
 const userActions = require('../../userActions');
 
-module.exports = (Game, player, card, callback) => {
-  player.field.property_cards.push([]);
+module.exports = ({Game, player, card, callback}) => {
+  player.field.propertyCards.push([]);
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
-  ](Game, player, card, player.field.property_cards);
-  userActions.pickOption(Game, {
+  ]({Game, player, card, source: player.field.propertyCards});
+  userActions.pickOption({
+    Game,
     player,
     options: destinationIndexes,
-    callback: (error, indexString) => {
+    callback: ({error, option, cancelled, forced}) => {
       if (error) {
-        callback(error);
+        callback({error});
+      } else if (cancelled) {
+        callback({cancelled});
       } else {
-        gameActions.moveCard(
-          player.hand,
-          destinations[parseInt(indexString)],
+        gameActions.moveCard({
+          source: player.hand,
+          destination: destinations[parseInt(option)],
           card
-        );
-        gameActions.onNonCounterCardPlayed(Game);
-        gameActions.removeEmptyPropertySets(player);
-        callback(null, card);
+        });
+        gameActions.onNonCounterCardPlayed({Game, card});
+        gameActions.removeEmptyPropertySets({player});
+        callback({card, forced});
       }
     }
   });

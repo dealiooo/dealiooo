@@ -1,8 +1,8 @@
 const gameActions = require('../gameActions');
 
-module.exports = (Game, player = null) => {
+module.exports = ({Game, player}) => {
   if (null !== player) {
-    if (gameActions.getHasThreeFullPropertySets(player)) {
+    if (gameActions.getHasThreeFullPropertySets({Game, playerId: player.id})) {
       Game.winner = player;
       return true;
     }

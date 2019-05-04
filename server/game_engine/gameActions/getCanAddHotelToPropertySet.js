@@ -1,16 +1,16 @@
 const getHotelStatus = require('./getHotelStatus');
 const getHouseStatus = require('./getHouseStatus');
 
-module.exports = (Game, property_set) => {
-  if (getHotelStatus(Game, property_set)) {
+module.exports = ({Game, propertySet}) => {
+  if (getHotelStatus({Game, propertySet})) {
     return 0;
   }
-  if (!getHouseStatus(Game, property_set)) {
+  if (!getHouseStatus({Game, propertySet})) {
     return 0;
   }
   if (
-    property_set[0].mainColor === 'railroad' ||
-    property_set[0].mainColor === 'utility'
+    propertySet[0].mainColor === 'railroad' ||
+    propertySet[0].mainColor === 'utility'
   ) {
     return 0;
   }

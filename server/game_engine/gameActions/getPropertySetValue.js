@@ -1,13 +1,13 @@
 const getHotelStatus = require('./getHotelStatus');
 const getHouseStatus = require('./getHouseStatus');
 
-module.exports = (Game, property_set) => {
+module.exports = ({Game, propertySet}) => {
   let offset =
-    getHouseStatus(Game, property_set) +
-    getHotelStatus(Game, property_set);
+    getHouseStatus({Game, propertySet}) +
+    getHotelStatus({Game, propertySet});
   return (
-    Game.rent_values[property_set[0].mainColor].rentValues[
-      property_set.length - offset
+    Game.rentValues[propertySet[0].mainColor].rentValues[
+      propertySet.length - offset
     ] +
     offset * 2
   );

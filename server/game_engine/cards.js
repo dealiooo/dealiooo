@@ -1,4 +1,4 @@
-const property_cards = [
+const propertyCards = [
   {
     id: 1,
     name: 'baltic-avenue',
@@ -225,7 +225,7 @@ const property_cards = [
   }
 ];
 
-const action_cards = [
+const actionCards = [
   {
     id: 29,
     name: 'deal-breaker',
@@ -516,7 +516,7 @@ const action_cards = [
   }
 ];
 
-const property_wildcards = [
+const propertyWildcards = [
   {
     id: 65,
     name: 'wild-bg',
@@ -629,7 +629,7 @@ const property_wildcards = [
   }
 ];
 
-const rent_cards = [
+const rentCards = [
   {
     id: 76,
     name: 'rent-bg',
@@ -712,7 +712,7 @@ const rent_cards = [
   }
 ];
 
-const rent_wildcards = [
+const rentWildCards = [
   {
     id: 86,
     name: 'rent_wildcard',
@@ -772,7 +772,7 @@ const rent_wildcards = [
   }
 ];
 
-const money_cards = [
+const moneyCards = [
   {
     id: 89,
     name: '1-dollar',
@@ -936,10 +936,10 @@ const money_cards = [
 ];
 
 module.exports = [
-  ...property_cards,
-  ...property_wildcards,
-  ...action_cards,
-  ...rent_cards,
-  ...rent_wildcards,
-  ...money_cards
+  ...propertyCards,
+  ...propertyWildcards,
+  ...actionCards,
+  ...rentCards,
+  ...rentWildCards,
+  ...moneyCards
 ];

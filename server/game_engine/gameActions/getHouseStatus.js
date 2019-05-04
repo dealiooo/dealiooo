@@ -1,6 +1,6 @@
-module.exports = (Game, property_set) => {
+module.exports = ({Game, propertySet}) => {
   return (
-    property_set.length ===
-    Game.rent_values[property_set[0].mainColor].maxSetSize + 1
+    propertySet.length ===
+    Game.rentValues[propertySet[0].mainColor].maxSetSize + 1
   );
 };

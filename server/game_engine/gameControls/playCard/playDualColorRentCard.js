@@ -2,108 +2,144 @@ const gameActions = require('../../gameActions');
 const userActions = require('../../userActions');
 const userControls = require('../../userControls');
 
-const playAsMoney = (player, card, callback) => {
-  gameActions.moveCard(player.hand, player.field.bank_cards, card);
-  gameActions.onNonCounterCardPlayed(Game);
-  callback(null, card);
+const playDualColorRentCard = ({Game, player, card, callback}) => {
+  userActions.pickOption({
+    Game,
+    player,
+    options: ['bank', 'action'],
+    callback: ({error, option, cancelled, forced}) => {
+      if (error) {
+        callback({error});
+      } else if (cancelled) {
+        callback({cancelled});
+      } else if ('bank' === option) {
+        playAsMoney({player, card, forced, callback});
+      } else {
+        playAsAction({Game, player, card, forced, callback});
+      }
+    }
+  });
 };
 
-const playAsAction = (Game, player, card, callback) => {
-  userControls.pickCardColor(Game, player, card, (error, color) => {
+const playAsMoney = ({player, card, forced, callback}) => {
+  gameActions.moveCard({
+    source: player.hand, 
+    destination: player.field.bankCards, 
+    card
+  });
+  gameActions.onNonCounterCardPlayed({Game, card});
+  callback({card, forced});
+};
+
+const playAsAction = ({Game, player, card, callback}) => {
+  userControls.pickCardColor({
+    Game, 
+    player, 
+    card, 
+    callback: ({error, option: newColor, cancelled, forced}) => {
     if (error) {
-      callback(error);
+      callback({error});
+    } else if (cancelled) {
+      playDualColorRentCard({Game, player, card, callback});
     } else {
-      gameActions.switchColor(card, color);
+      gameActions.switchColor({card, newColor});
       let { destinations, destinationIndexes } = gameActions.getDestinations[
         card.type
-      ](Game, player, card, player.hand);
+      ]({Game, player, card, source: player.hand});
       if (destinations.length) {
-        pickPropertySetToRent(
+        pickPropertySetToRent({
           Game,
           player,
           card,
           destinations,
           destinationIndexes,
+          forced,
           callback
-        );
+        });
       } else {
-        callback('cannot play rent: no property set with matching color');
+        callback({error:'cannot play rent: no property set with matching color'});
       }
     }
-  });
+  }});
 };
 
-const pickPropertySetToRent = (
+const pickPropertySetToRent = ({
   Game,
   player,
   card,
   destinations,
   destinationIndexes,
+  forced,
   callback
-) => {
-  userActions.pickOption(Game, {
+}) => {
+  userActions.pickOption({
+    Game,
     player,
     options: destinationIndexes,
-    callback: (error, value) => {
+    forced,
+    callback: ({error, option: destinationIndex, cancelled, forced}) => {
       if (error) {
-        callback(error);
+        callback({error});
+      } else if (cancelled) {
+        playAsAction({Game, player, card, callback});
       } else {
-        gameActions.moveCard(player.hand, player.field.action_cards, card);
-        gameActions.onNonCounterCardPlayed(Game);
-        collectRent(Game, player, card, destinations, value, callback);
+        gameActions.moveCard({
+          source: player.hand, 
+          destination: player.field.actionCards, 
+          card
+        });
+        gameActions.onNonCounterCardPlayed({Game, card});
+        collectRent({Game, player, card, destinations, destinationIndex, forced, callback});
       }
     }
   });
 };
 
-const collectRent = (Game, player, card, destinations, value, callback) => {
-  var playerActionCounter = i => {
-    if (player.id !== Game.players[i].id) {
-      gameActions.avoidAction(Game, Game.players[i], player, (_, avoid) => {
-        if (avoid) {
-          done(i);
-        } else {
-          gameActions.payRent(
-            Game,
-            Game.players[i],
-            player,
-            gameActions.getRentValue(Game, Game.players[i], player, destinations[parseInt(value)]),
-            error => {
-              if (error) {
-                callback(error);
-              } else {
-                done(i);
+const collectRent = ({Game, player, card, destinations, destinationIndex, forced, callback}) => {
+  let playerActionCounter = ({index, forced}) => {
+    if (player.id !== Game.players[index].id) {
+      gameActions.avoidAction({
+        Game, 
+        player: Game.players[index], 
+        sourcePlayer: player,
+        forced,
+        callback: ({avoid, forced}) => {
+          if (avoid) {
+            done({index, forced});
+          } else {
+            gameActions.payRent({
+              Game,
+              payee: Game.players[index],
+              player,
+              amount: gameActions.getRentValue({
+                Game, 
+                targetPlayer: Game.players[index], 
+                player, 
+                propertySet: destinations[parseInt(destinationIndex)]
+              }),
+              callback: ({error, forced}) => {
+                if (error) {
+                  callback({error});
+                } else {
+                  done({index, forced});
+                }
               }
-            }
-          );
+            });
+          }
         }
       });
     } else {
-      done(i);
+      done({index});
     }
   }
-  var done = i => {
-    if (i == Game.players.length) {
-      callback(null, card);
+  var done = ({index, forced}) => {
+    if (index == Game.players.length) {
+      callback({card, forced});
     } else {
-      playerActionCounter(i + 1);
+      playerActionCounter(({index:index + 1, forced}));
     }
   }
-  playerActionCounter(0);
+  playerActionCounter(({index:0, forced}));
 };
 
-module.exports = (Game, player, card, callback) => {
-  userActions.pickOption(Game, {
-    player,
-    options: ['bank', 'action'],
-    callback: (error, option) => {
-      if (error) {
-        callback(error);
-      } else if ('bank' === option) {
-        playAsMoney(player, card, callback);
-      } else {
-        playAsAction(Game, player, card, callback);
-      }
-    }
-  });
-};
+module.exports = playDualColorRentCard;

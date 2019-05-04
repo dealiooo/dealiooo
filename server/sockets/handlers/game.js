@@ -66,18 +66,24 @@ const startGame = sockets => gameId => {
           gameId,
           gameEngine.start(userIds.map(userId => userId.id))
         );
-        sockets
-          .get(gameId)
-          .forEach(client_socket =>
-            client_socket.emit(`game:${gameId}:start-game`, 'game is started')
+        sockets.get(gameId).forEach((value, key, _) => {
+          value.emit(`game:${gameId}:start-game`, 'game is started');
+          setInterval(
+            (value, key, gameId) => {
+              let data = gameEngine.getVars(gameGlobals.get(gameId), key);
+              value.emit(`game:${gameId}:game-update`, data);
+            },
+            1000,
+            (value, key, gameId)
           );
+        });
       })
     )
     .catch(error => console.log(error));
 };
 
-const update = sockets => (gameId, userId) => {
-  sockets.get(gameId).forEach((value, key, map) => {
+const update = sockets => (gameId, _) => {
+  sockets.get(gameId).forEach((value, key, _) => {
     let data = gameEngine.getVars(gameGlobals.get(gameId), key);
     value.emit(`game:${gameId}:game-update`, data);
   });

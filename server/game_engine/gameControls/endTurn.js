@@ -1,30 +1,33 @@
 const gameActions = require('../gameActions');
 const userControls = require('../userControls');
 
-const endTurn = (Game, callback) => {
-  Game.cards_played = 0;
-  Game.cards_played_list = [];
-
-  const player = Game.players[Game.turn_count % Game.player_count];
-  if (gameActions.getHasSevenOrLessCards(player)) {
-    Game.players.map(player =>
-      gameActions.movePile(
-        player.field.action_cards,
-        Game.discard,
-        player.field.action_cards
-      )
-    );
-    callback(null);
-  } else {
-    userControls.pickHandCard(Game, player, (error, card) => {
-      if (error) {
-        callback(error);
-      } else {
-        gameActions.moveCard(player.hand, Game.discard, card);
-        endTurn(Game, callback);
-      }
-    });
-  }
+const endTurn = ({Game, forced, callback}) => {
+  Game.cardsPlayed = 0;
+  Game.cardsPlayedList = [];
+  Game.players.map(player =>
+    gameActions.movePile({
+      source: player.field.actionCards,
+      destination: Game.discard
+    })
+  );
+  const player = Game.players[Game.turnCount % Game.playerCount];
+  discardExcessHandCard({Game, player, forced, callback});
 };
+
+const discardExcessHandCard = ({Game, player, forced, callback}) => {
+  if (gameActions.getHasSevenOrLessCards({player})) {
+    callback({forced});
+  } else {
+    userControls.pickHandCard({
+      Game,
+      player,
+      forced,
+      callback: ({forced, card}) => {
+        gameActions.moveCard({source: player.hand, destination: Game.discard, card});
+        discardExcessHandCard({Game, player, forced, callback});
+      }
+    })
+  }
+}
 
 module.exports = endTurn;

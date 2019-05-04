@@ -3,16 +3,30 @@ const userControls = require('./userControls');
 
 const game_engine = {
   start: playerIds => {
-    let Game = gameControls.startGame(playerIds);
+    let Game = gameControls.startGame({ playerIds });
+    Game.ticks = {};
+    playerIds.map(playerId => (Game.ticks[playerId] = 60));
+    setInterval(game_engine.tick, 1000, Game);
     game_engine.applyStartTurn(Game);
     return Game;
   },
-  input: (Game, user_input, player_id) => {
-    Game.user_input = user_input;
+  tick: Game => {
+    if (Game.pendingForUserInput) {
+      let player = Game.pendingForUserInput.arguments.player;
+      Game.ticks[player.id]--;
+      if (0 >= Game.ticks[player.id]) {
+        game_engine.applyForceAction(Game, player.id);
+        Game.ticks[player.id] = 60;
+      }
+    }
+  },
+  input: (Game, userInput, playerId) => {
+    Game.userInput = userInput;
     let returnValue = '';
-    let pending = Game.pending_for_user_input;
+    let pending = Game.pendingForUserInput;
     if (pending) {
-      returnValue = pending.function(Game, pending.arguments, player_id);
+      pending.arguments.playerId = playerId;
+      returnValue = pending.function(pending.arguments);
     } else if (null !== Game.winner) {
       returnValue = game_engine.applyPlayerWon(Game);
     } else {
@@ -29,12 +43,13 @@ const game_engine = {
   },
   getGeneralInfo: (Game, data) => {
     data.general_info = {};
-    data.general_info.turnCount = Game.turn_count;
+    data.general_info.turnCount = Game.turnCount;
     data.general_info.currentPlayer =
-      Game.players[Game.turn_count % Game.player_count].id;
-    data.general_info.cardsPlayed = Game.cards_played;
+      Game.players[Game.turnCount % Game.playerCount].id;
+    data.general_info.cardsPlayed = Game.cardsPlayed;
     data.general_info.deckCount = Game.deck.length;
     data.general_info.discard = Game.discard;
+    data.general_info.tick = Game.ticks[data.general_info.currentPlayer];
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
@@ -46,16 +61,16 @@ const game_engine = {
       } else {
         tempPlayer.hand_cards = player.hand.length;
       }
-      tempPlayer.action_cards = player.field.action_cards;
-      tempPlayer.bank_cards = player.field.bank_cards;
-      tempPlayer.building_cards = player.field.building_cards;
-      tempPlayer.property_cards = player.field.property_cards;
+      tempPlayer.actionCards = player.field.actionCards;
+      tempPlayer.bankCards = player.field.bankCards;
+      tempPlayer.buildingCards = player.field.buildingCards;
+      tempPlayer.propertyCards = player.field.propertyCards;
       data.players_info.push(tempPlayer);
     });
   },
   getOptionsInfo: (Game, data) => {
     data.prompts_info = {};
-    let pending = Game.pending_for_user_input;
+    let pending = Game.pendingForUserInput;
     if (pending) {
       data.prompts_info.promptPlayer = pending.arguments.player;
       data.prompts_info.promptMessage = pending.message;
@@ -70,12 +85,18 @@ const game_engine = {
       'Move Card Around': game_engine.promptMoveCardAround,
       'End Turn': game_engine.applyEndTurn
     };
-    let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.pickBasicOptions(Game, player, (error, option) => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else {
-        applyBasicOptions[option](Game);
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    userControls.pickBasicOptions({
+      Game,
+      player,
+      callback: ({ error, option, cancelled, forced }) => {
+        if (error || cancelled) {
+          game_engine.promptBasicOptions(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
+        } else {
+          applyBasicOptions[option](Game);
+        }
       }
     });
   },
@@ -84,12 +105,18 @@ const game_engine = {
       'Pick Card Id': game_engine.promptHandCardId,
       'Go Back': game_engine.promptBasicOptions
     };
-    let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.playHandCard(Game, player, (error, option) => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else {
-        applyPlayHandCard[option](Game);
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    userControls.playHandCard({
+      Game,
+      player,
+      callback: ({ error, option, cancelled, forced }) => {
+        if (error || cancelled) {
+          game_engine.promptBasicOptions(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
+        } else {
+          applyPlayHandCard[option](Game);
+        }
       }
     });
   },
@@ -98,60 +125,92 @@ const game_engine = {
       'Pick Source and Destination': game_engine.promptSourceAndDestination,
       'Go Back': game_engine.promptBasicOptions
     };
-    let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.moveCardAround(Game, player, (error, option) => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else {
-        applyMoveCardAround[option](Game);
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    userControls.moveCardAround({
+      Game,
+      player,
+      callback: ({ error, option, cancelled, forced }) => {
+        if (error || cancelled) {
+          game_engine.promptBasicOptions(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
+        } else {
+          applyMoveCardAround[option](Game);
+        }
       }
     });
-
-    if (gameControls.computeWinCondition(Game)) {
+    if (gameControls.computeWinCondition({ Game, player })) {
       return game_engine.applyPlayerWon(Game);
     }
   },
   promptHandCardId: Game => {
-    let player = Game.players[Game.turn_count % Game.player_count];
-    userControls.pickHandCard(Game, player, (error, card) => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else {
-        game_engine.applyPlayCard(Game, card);
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    userControls.pickHandCard({
+      Game,
+      player,
+      callback: ({ error, card, cancelled, forced }) => {
+        if (error) {
+          game_engine.promptBasicOptions(Game);
+        } else if (cancelled) {
+          game_engine.promptPlayHandCard(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
+        } else {
+          game_engine.applyPlayCard(Game, card);
+        }
       }
     });
   },
   promptSourceAndDestination: Game => {
-    let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.moveCardAround(Game, player, error => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else if (!gameControls.computeWinCondition(Game, player)) {
-        game_engine.promptBasicOptions(Game);
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    gameControls.moveCardAround({
+      Game,
+      player,
+      callback: ({ error, cancelled, forced }) => {
+        if (error) {
+          game_engine.promptBasicOptions(Game);
+        } else if (cancelled) {
+          game_engine.promptMoveCardAround(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
+        } else if (!gameControls.computeWinCondition(Game, player)) {
+          game_engine.promptBasicOptions(Game);
+        }
       }
     });
   },
   applyPlayCard: (Game, card) => {
-    let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.playCard(Game, player, card, (error, _) => {
-      if (error) {
-        game_engine.promptBasicOptions(Game);
-      } else {
-        if (gameControls.computeWinCondition(Game)) {
-          return game_engine.applyPlayerWon(Game);
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    gameControls.playCard({
+      Game,
+      player,
+      card,
+      callback: ({ error, cancelled }) => {
+        if (error) {
+          game_engine.promptBasicOptions(Game);
+        } else if (cancelled) {
+          game_engine.promptHandCardId(Game);
+        } else if (forced) {
+          game_engine.applyForced(Game);
         } else {
-          if (gameControls.forcePlayerEndTurn(Game)) {
-            game_engine.applyEndTurn(Game);
+          Game.players.map(player => (Game.ticks[player.id] = 60));
+          if (gameControls.computeWinCondition({ Game, player })) {
+            return game_engine.applyPlayerWon(Game);
           } else {
-            game_engine.promptBasicOptions(Game);
+            if (gameControls.forcePlayerEndTurn({ Game })) {
+              game_engine.applyEndTurn(Game);
+            } else {
+              game_engine.promptBasicOptions(Game);
+            }
           }
         }
       }
     });
   },
   applyStartTurn: Game => {
-    let player = Game.players[Game.turn_count % Game.player_count];
-    gameControls.startTurn(Game, player);
+    Game.players.map(player => (Game.ticks[player.id] = 60));
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    gameControls.startTurn({ Game, player });
     game_engine.promptBasicOptions(Game);
   },
   applyPlayerWon: Game => {
@@ -160,23 +219,56 @@ const game_engine = {
     }) won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
   applyEndTurn: Game => {
-    if (null === Game.pending_for_user_input) {
-      gameControls.endTurn(Game, _ => {
-        Game.turn_count++;
-        game_engine.applyStartTurn(Game);
+    if (null === Game.pendingForUserInput) {
+      gameControls.endTurn({
+        Game,
+        callback: _ => {
+          Game.turnCount++;
+          game_engine.applyStartTurn(Game);
+        }
       });
     }
     return ``;
   },
   applyLeaveGame: (Game, playerId) => {
-    let player = Game.players[Game.turn_count % Game.player_count];
+    Game.players.map(player => (Game.ticks[player.id] = 60));
+    let player = Game.players[Game.turnCount % Game.playerCount];
     if (player.id === playerId) {
-      gameControls.forfeit(Game, player);
+      gameControls.forfeit({ Game, player });
     }
   },
+  applyForced: Game => {
+    Game.cardsPlayed++;
+    Game.players.map(player => (Game.ticks[player.id] = 60));
+    if (gameControls.forcePlayerEndTurn({ Game })) {
+      game_engine.applyEndTurn(Game);
+    } else {
+      game_engine.promptBasicOptions(Game);
+    }
+  },
+  applyCancelAction: (Game, playerId) => {
+    let returnValue = '';
+    let pending = Game.pendingForUserInput;
+    if (pending) {
+      pending.arguments.playerId = playerId;
+      pending.arguments.cancelled = true;
+      returnValue = pending.function(pending.arguments);
+    }
+    return returnValue;
+  },
+  applyForceAction: (Game, playerId) => {
+    let returnValue = '';
+    let pending = Game.pendingForUserInput;
+    if (pending) {
+      pending.arguments.playerId = playerId;
+      pending.arguments.forced = true;
+      returnValue = pending.function(pending.arguments);
+    }
+    return returnValue;
+  },
   onEndTurn: (Game, playerId) => {
-    let player = Game.players[Game.turn_count % Game.player_count];
-    let pending = Game.pending_for_user_input;
+    let player = Game.players[Game.turnCount % Game.playerCount];
+    let pending = Game.pendingForUserInput;
     if (null !== pending) {
       if (pending.arguments.options) {
         if (
@@ -184,7 +276,7 @@ const game_engine = {
             .length
         ) {
           if (player.id === playerId) {
-            Game.pending_for_user_input = null;
+            Game.pendingForUserInput = null;
             game_engine.applyEndTurn(Game);
             return `\nEnding Turn...`;
           }
@@ -193,12 +285,27 @@ const game_engine = {
     }
     return `\nEnd Turn is not available`;
   },
-  onLeaveGame: (Game, player_id) => {
-    game_engine.applyLeaveGame(Game, player_id);
-    if (gameControls.computeWinCondition(Game)) {
+  onLeaveGame: (Game, playerId) => {
+    let nextPlayerIndex = (Game.turnCount + 1) % Game.playerCount;
+    if (0 !== nextPlayerIndex) {
+      nextPlayerIndex--;
+    }
+    game_engine.applyLeaveGame(Game, playerId);
+    if (
+      gameControls.computeWinCondition({
+        Game,
+        player: Game.players[nextPlayerIndex]
+      })
+    ) {
       return game_engine.applyPlayerWon(Game);
     }
     return ``;
+  },
+  onCancelAction: (Game, playerId) => {
+    game_engine.applyCancelAction(Game, playerId);
+  },
+  onForceAction: (Game, playerId) => {
+    game_engine.applyForceAction(Game, playerId);
   }
 };
 

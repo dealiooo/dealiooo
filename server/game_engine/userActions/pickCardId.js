@@ -1,24 +1,26 @@
 const pickCardId = (
-  Game,
-  { player: requiredPlayer, callback },
-  player_id = null
+  { Game, player: requiredPlayer, playerId, cancelled, forced, callback }
 ) => {
-  if (player_id && requiredPlayer.id !== player_id) {
+  if (playerId && requiredPlayer.id !== playerId) {
     return;
   }
-  if ('' === Game.user_input) {
+  if (cancelled) {
+    callback({cancelled});
+  } else if (forced) {
+    callback({forced});
+  } else if ('' === Game.userInput) {
     let message = `Player id:${requiredPlayer.id}\nPick Card Id:`;
-    Game.pending_for_user_input = {
+    Game.pendingForUserInput = {
       function: pickCardId,
-      arguments: { player: requiredPlayer, callback },
+      arguments: { Game, player: requiredPlayer, callback },
       message
     };
   } else {
-    let card_id = parseInt(Game.user_input);
-    Game.user_input = '';
-    Game.pending_for_user_input = null;
-    callback(null, card_id);
-    return `\nYou picked card id:${card_id}`;
+    let cardId = parseInt(Game.userInput);
+    Game.userInput = '';
+    Game.pendingForUserInput = null;
+    callback({cardId});
+    return `\nYou picked card id:${cardId}`;
   }
 };
 

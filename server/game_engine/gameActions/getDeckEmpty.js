@@ -1,1 +1,1 @@
-module.exports = Game => !Game.deck.length;
+module.exports = ({Game}) => !Game.deck.length;

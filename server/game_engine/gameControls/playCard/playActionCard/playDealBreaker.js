@@ -2,62 +2,79 @@ const gameActions = require('../../../gameActions');
 const userActions = require('../../../userActions');
 const userControls = require('../../../userControls');
 
-const playDealBreaker = (Game, player, card, callback) => {
-  userControls.pickTargetPlayer(Game, player, (error, pickedPlayer) => {
-    if (error) {
-      callback(error);
+const playDealBreaker = ({Game, player, card, callback}) => {
+  userControls.pickTargetPlayer({
+    Game, 
+    player, 
+    callback: ({error, targetPlayer, cancelled, forced}) => {
+    if (error || cancelled || forced) {
+      callback({error, cancelled, forced});
     } else {
-      gameActions.avoidAction(Game, pickedPlayer, player, (_, avoid) => {
-        if (avoid) {
-          callback(null, card);
+      gameActions.moveCard({source: player.hand, destination: player.field.actionCards, card});
+      gameActions.onNonCounterCardPlayed({Game, card});
+      gameActions.avoidAction({
+        Game, 
+        player: targetPlayer, 
+        sourcePlayer: player, 
+        callback: ({avoid, forced}) => {
+        if (avoid || forced) {
+          callback({card});
         } else {
           let { destinations, destinationIndexes } = gameActions.getDestinations[
             'all'
-          ](Game, pickedPlayer, card, pickedPlayer.field.property_cards);
-          userActions.pickOption(Game, {
-            player,
-            options: destinationIndexes,
-            callback: (error, indexString) => {
-              if (error) {
-                callback(error);
-              } else {
-                processPropertySet(
-                  Game,
-                  player,
-                  card,
-                  destinations,
-                  indexString,
-                  callback
-                );
-              }
-            }
-          });
+          ]({Game, player: targetPlayer, card, source: targetPlayer.field.propertyCards});
+          selectPropertySet({Game, player, card, destinations, destinationIndexes, callback});
         }
-      });
+      }});
     }
-  });
+  }});
 };
 
-const processPropertySet = (
+const selectPropertySet = ({Game, player, card, destinations, destinationIndexes, callback}) => {
+  userActions.pickOption({
+    Game,
+    player,
+    options: destinationIndexes,
+    callback: ({error, option, cancelled, forced}) => {
+      if (error) {
+        callback({error});
+      } else if (cancelled) {
+        console.log('dealbreaker - cant cancel this one');
+        selectPropertySet({Game, player, card, destinations, destinationIndexes, callback});
+      } else {
+        processPropertySet({
+          Game,
+          player,
+          card,
+          destinations,
+          option,
+          callback
+        });
+      }
+    }
+  });
+}
+
+const processPropertySet = ({
   Game,
   player,
   card,
   destinations,
   indexString,
   callback
-) => {
+}) => {
   if (
-    gameActions.getPropertySetStatus(Game, destinations[parseInt(indexString)])
+    gameActions.getPropertySetStatus({Game, propertySet: destinations[parseInt(indexString)]})
   ) {
-    player.field.property_cards.push([]);
-    gameActions.movePile(
-      destinations[parseInt(indexString)],
-      player.field.property_cards[player.field.property_cards.length - 1]
-    );
-    gameActions.removeEmptyPropertySets(pickedPlayer);
-    callback(null, card);
+    player.field.propertyCards.push([]);
+    gameActions.movePile({
+      source: destinations[parseInt(indexString)],
+      destination: player.field.propertyCards[player.field.propertyCards.length - 1]
+    });
+    gameActions.removeEmptyPropertySets({player: pickedPlayer});
+    callback({card});
   } else {
-    playDealBreaker(Game, player, card, callback);
+    playDealBreaker({Game, player, card, callback});
   }
 };
 

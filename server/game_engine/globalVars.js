@@ -9,12 +9,12 @@ const initGlobalVars = playerIds => {
 };
 
 const initGameVariables = (Game, playerIds) => {
-  Game.turn_count = 0;
-  Game.cards_played = 0;
-  Game.cards_played_list = [];
-  Game.rent_values = rentValues;
+  Game.turnCount = 0;
+  Game.cardsPlayed = 0;
+  Game.cardsPlayedList = [];
+  Game.rentValues = rentValues;
   Game.discard = [];
-  Game.player_count = playerIds.length || random(2, 5);
+  Game.playerCount = playerIds.length || random(2, 5);
   initDeck(Game);
   initPlayers(Game, playerIds);
 };
@@ -42,10 +42,10 @@ const initPlayers = (Game, playerIds) => {
       id: playerIds[i],
       hand: [],
       field: {
-        action_cards: [],
-        property_cards: [],
-        bank_cards: [],
-        building_cards: []
+        actionCards: [],
+        propertyCards: [],
+        bankCards: [],
+        buildingCards: []
       }
     };
     players.push(player);
@@ -56,8 +56,8 @@ const initPlayers = (Game, playerIds) => {
 const initGameUtility = Game => {
   Game.random = random;
   Game.shuffle = shuffle;
-  Game.user_input = '';
-  Game.pending_for_user_input = null;
+  Game.userInput = '';
+  Game.pendingForUserInput = null;
   Game.winner = null;
 };
 

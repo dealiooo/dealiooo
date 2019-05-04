@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import NavigationBar from "../../../components/NavigationBar";
-import Chat from "../../../components/Chat";
-import PlayerStatus from "./PlayerStatus";
+import NavigationBar from '../../../components/NavigationBar';
+import Chat from '../../../components/Chat';
+import PlayerStatus from './PlayerStatus';
 
-import { socket, GameLobby as GameLobbyAPI } from "../../../api";
+import { socket, GameLobby as GameLobbyAPI } from '../../../api';
 
-import "./GameLobby.css";
+import './GameLobby.css';
 
 class GameLobby extends Component {
   constructor(props) {
@@ -59,8 +59,11 @@ class GameLobby extends Component {
           );
         });
       } else {
-        window.location = "/main-lobby";
+        window.location = '/main-lobby';
       }
+    });
+    GameLobbyAPI.getGameLobbyInfo(this.state.gameId).then(gameInfo => {
+      this.setState({ lobbyName: `${gameInfo.room_name} Lobby` });
     });
   }
 
@@ -84,7 +87,7 @@ class GameLobby extends Component {
         )
       });
       if (this.state.userId === event.userId) {
-        window.location = "/main-lobby";
+        window.location = '/main-lobby';
       }
     }
   }
@@ -132,7 +135,7 @@ class GameLobby extends Component {
 
   onExit(_) {
     GameLobbyAPI.postGameLobbyLeave(this.state.gameId).then(
-      _ => (window.location = "/main-lobby")
+      _ => (window.location = '/main-lobby')
     );
   }
 
@@ -146,20 +149,23 @@ class GameLobby extends Component {
               <div className="container">
                 <section className="section">
                   <div className="columns">
-                    <div className="column is-three-fifths">
-                      <div className="box box-room-name">
+                    <div className="column is-three-fifths left-border">
+                      <div className="box room-name-header">
                         <h1 className="title has-text-white">
                           {this.state.lobbyName}
                         </h1>
                       </div>
-                      <section className="section">
+                      <section className="section left-mid-section">
                         <PlayerStatus status={this.state.playersStatus} />
                       </section>
                       <section className="section">
                         <div className="level">
                           <div className="level-item">
                             {this.state.host ? (
-                              <button className="button" onClick={this.onStart}>
+                              <button
+                                className="button is-medium is-fullwidth"
+                                onClick={this.onStart}
+                              >
                                 Start
                               </button>
                             ) : (
@@ -167,12 +173,18 @@ class GameLobby extends Component {
                             )}
                           </div>
                           <div className="level-item">
-                            <button className="button" onClick={this.onReady}>
+                            <button
+                              className="button is-medium is-fullwidth is-success"
+                              onClick={this.onReady}
+                            >
                               Ready
                             </button>
                           </div>
                           <div className="level-item">
-                            <button className="button" onClick={this.onExit}>
+                            <button
+                              className="button is-medium is-fullwidth is-danger"
+                              onClick={this.onExit}
+                            >
                               Exit
                             </button>
                           </div>

@@ -1,1 +1,1 @@
-module.exports = (card, newColor) => (card.mainColor = newColor);
+module.exports = ({card, newColor}) => (card.mainColor = newColor);

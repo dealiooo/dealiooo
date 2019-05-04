@@ -1,48 +1,72 @@
 const { pickYesOrNo } = require('./../userControls');
 const moveCard = require('./moveCard');
 
-const sourcePlayerAvoid = (Game, player, targetPlayer, callback) => {
-    pickYesOrNo(Game, player, "Play just say no?", (_, play) => {
-        if (play) {
-            let found = false;
-            for (let i = 0; i < player.hand.length; i++) {
-                if ("just-say-no" === player.hand[i].name) {
-                    Game.cards_played_list.push(player.hand[i]);
-                    moveCard(player.hand, player.field.action_cards, player.hand[i]);
-                    targetPlayerAvoid(Game, targetPlayer, player, callback);
-                    found = true;
-                    break;
+const sourcePlayerAvoid = ({Game, player, targetPlayer, callback}) => {
+    pickYesOrNo({
+        Game, 
+        player, 
+        question: "Play just say no?", 
+        callback:({error, play, forced}) => {
+            if (error) {
+                callback({avoid: true});
+            } else if (forced) {
+                callback({avoid: true, forced});
+            } else if (play) {
+                let found = false;
+                for (let i = 0; i < player.hand.length; i++) {
+                    if ("just-say-no" === player.hand[i].name) {
+                        Game.cardsPlayedList.push(player.hand[i]);
+                        moveCard(player.hand, player.field.actionCards, player.hand[i]);
+                        found = true;
+                        break;
+                    }
                 }
+                if (!found) {
+                    callback({avoid: true});
+                } else {
+                    targetPlayerAvoid({Game, player: targetPlayer, sourcePlayer: player, callback});
+                }
+            } else {
+                callback({avoid: true});
             }
-            if (!found) {
-                callback(null, true);
-            }
-        } else {
-            callback(null, true);
         }
     })
 }
 
-const targetPlayerAvoid = (Game, player, sourcePlayer, callback) => {
-    pickYesOrNo(Game, player, "Play just say no?", (_, play) => {
-        if (play) {
-            let found = false;
-            for (let i = 0; i < player.hand.length; i++) {
-                if ("just-say-no" === player.hand[i].name) {
-                    Game.cards_played_list.push(player.hand[i]);
-                    moveCard(player.hand, player.field.action_cards, player.hand[i]);
-                    sourcePlayerAvoid(Game, sourcePlayer, player, callback);
-                    found = true;
-                    break;
+const targetPlayerAvoid = ({Game, player, sourcePlayer, forced, callback}) => {
+    if (forced) {
+        callback({avoid: true, forced});
+    } else {
+        pickYesOrNo({
+            Game, 
+            player, 
+            question: "Play just say no?",
+            callback: ({error, play, forced}) => {
+                if (error) {
+                    callback({avoid: false});
+                } else if (forced) {
+                    callback({avoid: false});
+                } else if (play) {
+                    let found = false;
+                    for (let i = 0; i < player.hand.length; i++) {
+                        if ("just-say-no" === player.hand[i].name) {
+                            Game.cardsPlayedList.push(player.hand[i]);
+                            moveCard(player.hand, player.field.actionCards, player.hand[i]);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        callback({avoid: false});
+                    } else {
+                        sourcePlayerAvoid({Game, player: sourcePlayer, targetPlayer: player, callback});
+                    }
+                } else {
+                    callback({avoid: false});
                 }
             }
-            if (!found) {
-                callback(null, false);
-            }
-        } else {
-            callback(null, false);
-        }
-    })
+        })
+    }
 }
 
 module.exports = targetPlayerAvoid;

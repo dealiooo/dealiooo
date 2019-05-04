@@ -1,5 +1,5 @@
-module.exports = player => {
-  player.field.property_cards = player.field.property_cards.filter(
+module.exports = ({player}) => {
+  player.field.propertyCards = player.field.propertyCards.filter(
     set => set.length
   );
 };

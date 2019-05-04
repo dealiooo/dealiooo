@@ -49,43 +49,109 @@ const retrieveFromNonPropertyPile = (player, pileName, id) => {
   return false;
 };
 
-const retrieve_from_pile = {
-  property_cards: retrieveFromPropertyPile,
-  bank_cards: retrieveFromNonPropertyPile,
-  building_cards: retrieveFromNonPropertyPile
+const retrieveFromPile = {
+  propertyCards: retrieveFromPropertyPile,
+  bankCards: retrieveFromNonPropertyPile,
+  buildingCards: retrieveFromNonPropertyPile
 };
 
-pickCard = (Game, player, pileNames, pileName, callback) =>
-  userActions.pickCardId(Game, {
+const forceRetrieveFromPropertyPile = (player, pileName) => {
+  let size1 = player.field[pileName].length;
+  for (let i = 0; i < size1; i++) {
+    let size2 = player.field[pileName][i].length;
+    for (let j = 0; j < size2; j++) {
+      return {
+        card: player.field[pileName][i][j],
+        source: {
+          pileName,
+          pile: pile.field[pileName][i]
+        }
+      }
+    }
+  }
+  return false;
+}
+
+const forceRetrieveFromNonPropertyPile = (player, pileName) => {
+  for (let i = 0; i < player.field[pileName].length; i++) {
+    return {
+      card: player.field[pileName][i],
+      source: {
+        pileName,
+        pile: player.field[pileName]
+      }
+    }
+  }
+  return false;
+}
+
+const forceRetrieveFromPile = {
+  propertyCards: forceRetrieveFromPropertyPile,
+  bankCards: forceRetrieveFromNonPropertyPile,
+  buildingCards: forceRetrieveFromNonPropertyPile
+}
+
+const pickCard = ({Game, player, pileNames, pileName, forced, callback}) =>
+  userActions.pickCardId({
+    Game,
     player,
-    callback: (error, id) => {
-      if (error) {
-        callback(error);
-      } else {
-        let card_exist = retrieve_from_pile[pileName](player, pileName, id);
-        if (card_exist) {
-          callback(null, card_exist.card, card_exist.source);
+    forced,
+    callback: ({cardId, cancelled, forced}) => {
+      if (cancelled) {
+        pickFieldCard({Game, player, pileNames, callback});
+      } else if (forced) {
+        let cardExist = forceRetrieveFromPile[pileName](player, pileName);
+        if (cardExist) {
+          callback({card:cardExist.card, source:cardExist.source, forced});
         } else {
-          pickFieldCard(Game, player, pileNames, callback);
+          pickFieldCard({Game, player, pileNames, forced, callback});
+        }
+      } else {
+        let cardExist = retrieveFromPile[pileName](player, pileName, cardId);
+        if (cardExist) {
+          callback({card:cardExist.card, source:cardExist.source});
+        } else {
+          pickFieldCard({Game, player, pileNames, callback});
         }
       }
     }
   });
 
-const pickFieldCard = (Game, player, pileNames, callback) => {
-  userActions.pickOption(Game, {
-    player,
-    options: pileNames,
-    callback: (error, pileName) => {
-      if (error) {
-        callback(error);
-      } else if (player.field[pileName].length) {
-        pickCard(Game, player, pileNames, pileName, callback);
-      } else {
-        callback('pile is empty');
+const pickFieldCard = ({Game, player, pileNames, forced, callback}) => {
+  if (forced) {
+    let size = pileNames.length;
+    for (let i = 0; i < size; i++) {
+      if (player.field[pileNames[i]].length) {
+        pickCard({Game, player, pileNames, pileName:pileNames[i], forced, callback});
+        break;
       }
     }
-  });
+  } else {
+    userActions.pickOption({
+      Game,
+      player,
+      options: pileNames,
+      callback: ({error, option:pileName, cancelled, forced}) => {
+        if (error) {
+          callback({error});
+        } else if (cancelled) {
+          callback({cancelled});
+        } else if (forced) {
+          let size = pileNames.length;
+          for (let i = 0; i < size; i++) {
+            if (player.field[pileNames[i]].length) {
+              pickCard({Game, player, pileNames, pileName:pileNames[i], callback, forced});
+              break;
+            }
+          }
+        } else if (player.field[pileName].length) {
+          pickCard({Game, player, pileNames, pileName, callback});
+        } else {
+          callback({error:'pile is empty'});
+        }
+      }
+    });
+  }
 };
 
 module.exports = pickFieldCard;

@@ -10,7 +10,7 @@ const playSlyDeal = require('./playSlyDeal');
 const gameActions = require('../../../gameActions');
 const userActions = require('../../../userActions');
 
-module.exports = (Game, player, card, callback) => {
+module.exports = ({Game, player, card, callback}) => {
   const play = {
     'deal-beaker': playDealBreaker,
     'debt-collector': playDebtCollector,
@@ -22,25 +22,33 @@ module.exports = (Game, player, card, callback) => {
     'pass-go': playPassGo
   };
   if ('just-say-no' === card.name) {
-    playJustSayNo(Game, player, card, (_, card) => {
-      callback(null, card);
+    playJustSayNo({
+      player, 
+      card, 
+      callback: ({card}) => {
+        callback({card});
+      }
     });
   } else {
-    userActions.pickOption(Game, {
+    userActions.pickOption({
+      Game,
       player,
       options: ['bank', 'action'],
-      callback: (error, option) => {
-        if (error) {
-          callback(error);
+      callback: ({error, option, cancelled, forced}) => {
+        if (error || cancelled || forced) {
+          callback({error, cancelled, forced});
         } else if ('bank' === option) {
-          gameActions.moveCard(player.hand, player.field.bank_cards, card);
-          gameActions.onNonCounterCardPlayed(Game);
-          callback(null, card);
+          gameActions.moveCard({source: player.hand, destination: player.field.bankCards, card});
+          gameActions.onNonCounterCardPlayed({Game, card});
+          callback({card});
         } else {
-          gameActions.moveCard(player.hand, player.field.action_cards, card);
-          gameActions.onNonCounterCardPlayed(Game);
-          play[card.name](Game, player, card, (_, card) => {
-            callback(null, card);
+          play[card.name]({
+            Game, 
+            player, 
+            card, 
+            callback: ({error, card, cancelled, forced}) => {
+              callback({error, card, cancelled, forced});
+            }
           });
         }
       }

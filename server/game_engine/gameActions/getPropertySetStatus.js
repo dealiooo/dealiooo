@@ -1,10 +1,10 @@
-module.exports = (Game, property_set) => {
-  let color = property_set[0].mainColor;
-  let wildcard_count = property_set.filter(
+module.exports = ({Game, propertySet}) => {
+  let color = propertySet[0].mainColor;
+  let wildcardCount = propertySet.filter(
     card => 'property-wildcard' === card.type
   ).length;
-  if (wildcard_count === Game.rent_values[color].maxSize) {
+  if (wildcardCount === Game.rentValues[color].maxSize) {
     return false;
   }
-  return property_set.length >= Game.rent_values[color].maxSize;
+  return propertySet.length >= Game.rentValues[color].maxSize;
 };
