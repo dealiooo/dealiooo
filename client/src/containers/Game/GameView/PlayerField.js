@@ -149,7 +149,7 @@ class BankColumn extends Component {
       >
         <h1 className="has-text-centered has-text-weight-bold">Bank</h1>
         <div
-          className="dropdown is-hoverable"
+          className="dropdown is-right is-hoverable"
           style={{ display: 'flex', width: '100%' }}
         >
           <div
@@ -174,7 +174,7 @@ class BankColumn extends Component {
           >
             <div className="dropdown-content">
               <div className="dropdown-item">
-                <table class="table is-fullwidth">
+                <table class="table is-fullwidth is-size-5">
                   <thead>
                     <tr>
                       <th className="has-text-centered">Card</th>

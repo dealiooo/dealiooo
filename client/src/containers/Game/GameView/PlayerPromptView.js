@@ -19,10 +19,21 @@ class PlayerPromptView extends Component {
 
   render() {
     const { selectedOption } = this.state;
-    const { promptsInfo, onPromptSubmit, onCancelClicked } = this.props;
+    const {
+      promptsInfo,
+      onPromptSubmit,
+      onCancelClicked,
+      contentHeight
+    } = this.props;
 
     return (
-      <div className="box">
+      <div
+        className="box"
+        style={{
+          minHeight: `${contentHeight - 20 * 2}px`,
+          maxHeight: `${contentHeight - 20 * 2}px`
+        }}
+      >
         <h1>Select an Option</h1>
         <form onSubmit={onPromptSubmit}>
           <div className="field">

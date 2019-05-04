@@ -25,12 +25,14 @@ class PlayerHandOrPromptView extends Component {
             <PlayerHandView
               handCards={handCards}
               onHandCardClicked={onHandCardClicked}
+              contentHeight={contentHeight}
             />
           ) : (
             <PlayerPromptView
               promptsInfo={promptsInfo}
               onPromptSubmit={onPromptSubmit}
               onCancelClicked={onCancelClicked}
+              contentHeight={contentHeight}
             />
           )}
         </div>

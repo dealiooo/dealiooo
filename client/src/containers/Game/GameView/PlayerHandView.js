@@ -4,10 +4,16 @@ import '../styles/cardHover.css';
 
 class PlayerHandView extends Component {
   render() {
-    const { handCards, onHandCardClicked } = this.props;
+    const { handCards, onHandCardClicked, contentHeight } = this.props;
 
     return (
-      <div className="box">
+      <div
+        className="box"
+        style={{
+          minHeight: `${contentHeight - 20 * 2}px`,
+          maxHeight: `${contentHeight - 20 * 2}px`
+        }}
+      >
         <div className="columns is-centered is-multiline">
           {handCards.map(handCard => (
             <div

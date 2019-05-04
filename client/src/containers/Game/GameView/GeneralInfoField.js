@@ -12,7 +12,8 @@ class GeneralInfoField extends Component {
       selectedOpponentId,
       opponentInfos,
       onOpponentClicked,
-      onOpponentHover
+      onOpponentHover,
+      contentHeight
     } = this.props;
 
     return (
@@ -30,7 +31,11 @@ class GeneralInfoField extends Component {
           <TimerView />
         </div>
         <div className="column is-2">
-          <DeckDiscardView deckCount={deckCount} discard={discard} />
+          <DeckDiscardView
+            deckCount={deckCount}
+            discard={discard}
+            contentHeight={contentHeight}
+          />
         </div>
       </div>
     );

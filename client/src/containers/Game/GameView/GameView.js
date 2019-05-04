@@ -112,6 +112,7 @@ class GameView extends Component {
             selectedOpponentId={selectedOpponentId}
             onOpponentClicked={this.handleOpponentClicked}
             onOpponentHover={this.handleOpponentHover}
+            contentHeight={(screenHeight * 22) / 100}
           />
         </div>
         <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
