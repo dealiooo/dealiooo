@@ -3,10 +3,6 @@ import React, { Component } from 'react';
 import Hoverable from '../../../components/Hover/hoverable';
 
 class PlayerListNavigationBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       playerInfos,

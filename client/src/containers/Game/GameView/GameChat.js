@@ -3,7 +3,7 @@ import React from 'react';
 import Chat from '../.../../../../components/Chat';
 import { socket, Game } from '../../../api';
 
-const GameChat = ({ gameId }) => (
+const GameChat = ({ gameId, contentHeight }) => (
   <div className="gameChat">
     <Chat
       api={Game.postGameChat}

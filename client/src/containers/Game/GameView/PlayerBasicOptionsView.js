@@ -13,9 +13,7 @@ class PlayerBasicOptionsView extends Component {
             End Turn
           </button>
         </div>
-        <div>
-          <div style={{ minHeight: 'calc(36vh - 76px)' }} />
-        </div>
+
         <div>
           <button
             className="button is-rounded is-danger is-fullwidth"

@@ -648,7 +648,7 @@ const rent_cards = [
   },
   {
     id: 78,
-    name: 'rentlbbr',
+    name: 'rent-lbbr',
     value: 1,
     type: 'rent',
     mainColor: '',

@@ -8,14 +8,28 @@ class GameView extends Component {
   constructor(props) {
     super(props);
 
-    const selectedOpponentId = this.getDefaultSelectedOpponentId(props);
-
     this.state = {
-      selectedOpponentId: selectedOpponentId
+      selectedOpponentId: this.getDefaultSelectedOpponentId(props),
+      screenHeight: window.innerHeight
     };
 
+    this.updateDimensions = this.updateDimensions.bind(this);
     this.handleOpponentClicked = this.handleOpponentClicked.bind(this);
     this.handleOpponentHover = this.handleOpponentHover.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions() {
+    this.setState({
+      screenHeight: window.innerHeight
+    });
   }
 
   getDefaultSelectedOpponentId() {
@@ -56,7 +70,7 @@ class GameView extends Component {
   };
 
   render() {
-    const { selectedOpponentId } = this.state;
+    const { selectedOpponentId, screenHeight } = this.state;
     const {
       userId,
       gameId,
@@ -73,8 +87,6 @@ class GameView extends Component {
       onForfeit
     } = this.props;
 
-    console.log(generalInfo);
-
     const userInfo = playersInfo.filter(player => player.id === userId)[0];
 
     const opponentInfos = playersInfo.filter(player => player.id !== userId);
@@ -83,12 +95,17 @@ class GameView extends Component {
       player => player.id === selectedOpponentId
     )[0];
 
+    const playerFieldContentHeight = (screenHeight * 24) / 100;
+
     return (
       <div style={{ margin: '0 1.0vw' }}>
-        <div style={{ minHeight: '24vh' }}>
-          <PlayerField playerInfo={selectedOpponentInfo} />
+        <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
+          <PlayerField
+            playerInfo={selectedOpponentInfo}
+            contentHeight={playerFieldContentHeight}
+          />
         </div>
-        <div style={{ minHeight: '16vh' }}>
+        <div style={{ minHeight: '22vh', maxHeight: '22vh' }}>
           <GeneralInfoField
             generalInfo={generalInfo}
             opponentInfos={opponentInfos}
@@ -97,10 +114,13 @@ class GameView extends Component {
             onOpponentHover={this.handleOpponentHover}
           />
         </div>
-        <div style={{ minHeight: '24vh' }}>
-          <PlayerField playerInfo={userInfo} />
+        <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
+          <PlayerField
+            playerInfo={userInfo}
+            contentHeight={playerFieldContentHeight}
+          />
         </div>
-        <div style={{ minHeight: '36vh' }}>
+        <div style={{ minHeight: '30vh', maxHeight: '30vh' }}>
           <PlayerPlayArea
             gameId={gameId}
             promptsInfo={promptsInfo}
@@ -111,6 +131,7 @@ class GameView extends Component {
             onEndTurn={onEndTurn}
             onForfeit={onForfeit}
             onPromptSubmit={onPromptSubmit}
+            contentHeight={(screenHeight * 30) / 100}
           />
         </div>
       </div>

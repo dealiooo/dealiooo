@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 import generateCards from './generateCards';
@@ -39,16 +38,20 @@ class ActionColumn extends Component {
   componentDidUpdate = _ => this.ps.update();
 
   render() {
-    const { actionCards } = this.props;
+    const { actionCards, contentHeight } = this.props;
 
     return (
-      <div className="box">
-        <h1 className="has-text-centered">Action</h1>
+      <div className="box" style={{ paddingTop: 8 }}>
+        <h1 className="has-text-centered has-text-weight-bold">Action</h1>
 
         <div
           className="columns has-text-centered"
           id={`${this.props.id}-action-column`}
-          style={{ position: 'relative', height: '180px' }}
+          style={{
+            position: 'relative',
+            minHeight: `${contentHeight - 12 - 8 - 24}px`,
+            maxHeight: `${contentHeight - 12 - 8 - 24}px`
+          }}
         >
           <div className="column">
             {actionCards.map(actionCard => (
@@ -77,20 +80,21 @@ class PropertyColumn extends Component {
   componentDidUpdate = _ => this.ps.update();
 
   render() {
-    const { id, propertyCards } = this.props;
+    const { id, propertyCards, contentHeight } = this.props;
 
     return (
-      <div className="box">
-        <h1 className="has-text-centered">Property</h1>
+      <div className="box" style={{ paddingTop: 8 }}>
+        <h1 className="has-text-centered has-text-weight-bold">Property</h1>
         <div
-          className="columns"
+          className="columns is-vcentered"
           id={`${id}-property-column`}
           style={{
             position: 'relative',
             overflowX: 'hidden',
             marginTop: '0px',
-            padding: '8px',
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            minHeight: `${contentHeight - 12 - 8 - 24 - 12}px`,
+            maxHeight: `${contentHeight - 12 - 8 - 24 - 12}px`
           }}
         >
           {propertyCards.map((propertySet, i) => (
@@ -120,7 +124,7 @@ class PropertyColumn extends Component {
 
 class BankColumn extends Component {
   render() {
-    const { bankCards } = this.props;
+    const { bankCards, contentHeight } = this.props;
     const totalValue = computerTotalCardValues(bankCards);
 
     const frequencies = {
@@ -135,8 +139,15 @@ class BankColumn extends Component {
     bankCards.forEach(card => frequencies[card.name]++);
 
     return (
-      <div className="box">
-        <h1 className="has-text-centered">Bank</h1>
+      <div
+        className="box"
+        style={{
+          paddingTop: 8,
+          minHeight: `${contentHeight - 16}px`,
+          maxHeight: `${contentHeight - 16}px`
+        }}
+      >
+        <h1 className="has-text-centered has-text-weight-bold">Bank</h1>
         <div
           className="dropdown is-hoverable"
           style={{ display: 'flex', width: '100%' }}
@@ -174,7 +185,7 @@ class BankColumn extends Component {
                     {Object.keys(frequencies).map(key => (
                       <tr>
                         <td className="has-text-centered">
-                          {cardNameToDisplayName(key)}
+                          {`$${cardNameToDisplayName(key)}`}
                         </td>
                         <td className="has-text-centered">
                           {frequencies[key]}
@@ -194,14 +205,21 @@ class BankColumn extends Component {
 
 class BuildingColumn extends Component {
   render() {
-    const { buildingCards } = this.props;
+    const { buildingCards, contentHeight } = this.props;
     const frequencies = { house: 0, hotel: 0 };
 
     buildingCards.forEach(card => frequencies[card.name]++);
 
     return (
-      <div className="box">
-        <h1 className="has-text-centered">Building</h1>
+      <div
+        className="box"
+        style={{
+          paddingTop: 8,
+          minHeight: `${contentHeight - 16}px`,
+          maxHeight: `${contentHeight - 16}px`
+        }}
+      >
+        <h1 className="has-text-centered has-text-weight-bold">Building</h1>
         <div className="columns" id="building-column">
           <div className="column has-text-centered">
             <div>
@@ -225,7 +243,8 @@ class BuildingColumn extends Component {
 
 class PlayerField extends Component {
   render() {
-    const { playerInfo } = this.props;
+    const { playerInfo, contentHeight } = this.props;
+
     const {
       action_cards: actionCards,
       bank_cards: bankCards,
@@ -233,51 +252,90 @@ class PlayerField extends Component {
       property_cards: propertyCards
     } = playerInfo;
 
-    const debugUi = false;
+    const debugUi = true;
     if (debugUi) {
-      const actionCards = generateCards('action', 10);
+      const actionCards = generateCards('action', 60);
       const bankCards = generateCards('money', 10);
-      const propertyCards = generateCards('property', 10);
+      const propertyCards = generateCards('property', 60);
       const buildingCards = generateCards('building', 5);
 
       return (
-        <div>
-          <div className="columns">
-            <div className="column">
-              <ActionColumn id={playerInfo.id} actionCards={actionCards} />
-            </div>
-            <div className="column is-8">
-              <PropertyColumn
-                id={playerInfo.id}
-                propertyCards={propertyCards}
-              />
-            </div>
-            <div className="column">
-              <BankColumn bankCards={bankCards} />
-            </div>
-            <div className="column">
-              <BuildingColumn buildingCards={buildingCards} />
-            </div>
+        <div className="columns is-marginless">
+          <div
+            className="column"
+            style={{
+              minHeight: `${contentHeight}px`,
+              maxHeight: `${contentHeight}px`
+            }}
+          >
+            <ActionColumn
+              id={playerInfo.id}
+              actionCards={actionCards}
+              contentHeight={contentHeight}
+            />
+          </div>
+          <div
+            className="column is-8"
+            style={{
+              minHeight: `${contentHeight}px`,
+              maxHeight: `${contentHeight}px`
+            }}
+          >
+            <PropertyColumn
+              id={playerInfo.id}
+              propertyCards={propertyCards}
+              contentHeight={contentHeight}
+            />
+          </div>
+          <div className="column">
+            <BankColumn bankCards={bankCards} contentHeight={contentHeight} />
+          </div>
+          <div className="column is-flex">
+            <BuildingColumn
+              buildingCards={buildingCards}
+              contentHeight={contentHeight}
+            />
           </div>
         </div>
       );
     }
 
     return (
-      <div>
-        <div className="columns">
-          <div className="column">
-            <ActionColumn id={playerInfo.id} actionCards={actionCards} />
-          </div>
-          <div className="column is-8">
-            <PropertyColumn id={playerInfo.id} propertyCards={propertyCards} />
-          </div>
-          <div className="column">
-            <BankColumn bankCards={bankCards} />
-          </div>
-          <div className="column">
-            <BuildingColumn buildingCards={buildingCards} />
-          </div>
+      <div className="columns is-marginless">
+        <div
+          className="column"
+          style={{
+            minHeight: `${contentHeight}px`,
+            maxHeight: `${contentHeight}px`
+          }}
+        >
+          <ActionColumn
+            id={playerInfo.id}
+            actionCards={actionCards}
+            contentHeight={contentHeight}
+          />
+        </div>
+        <div
+          className="column is-8"
+          style={{
+            minHeight: `${contentHeight}px`,
+            maxHeight: `${contentHeight}px`
+          }}
+        >
+          <PropertyColumn
+            id={playerInfo.id}
+            propertyCards={propertyCards}
+            contentHeight={contentHeight}
+          />
+        </div>
+        <div className="column">
+          <BankColumn bankCards={bankCards} contentHeight={contentHeight} />
+        </div>
+        <div className="column is-flex">
+          <BuildingColumn
+            buildingCards={buildingCards}
+            contentHeight={contentHeight}
+          />
         </div>
       </div>
     );

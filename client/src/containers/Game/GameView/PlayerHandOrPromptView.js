@@ -14,7 +14,8 @@ class PlayerHandOrPromptView extends Component {
       onHandCardClicked,
       onCancelClicked,
       onEndTurn,
-      onForfeit
+      onForfeit,
+      contentHeight
     } = this.props;
 
     return (

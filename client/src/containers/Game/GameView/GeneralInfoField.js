@@ -16,7 +16,7 @@ class GeneralInfoField extends Component {
     } = this.props;
 
     return (
-      <div className="columns is-vcentered">
+      <div className="columns is-vcentered is-marginless">
         <div className="column is-2">
           <PlayerListNavigationBar
             playerInfos={opponentInfos}
@@ -25,7 +25,7 @@ class GeneralInfoField extends Component {
             onPlayerHover={onOpponentHover}
           />
         </div>
-        <div className="column is-8">
+        <div className="column is-8 ">
           <GameMessageView />
           <TimerView />
         </div>

@@ -50,19 +50,19 @@ class PlayerPlayArea extends Component {
 
     const isActiveClickedIndex1 =
       activeSideMenuItemIndex === 0 && hoverSideMenuIndex == null;
-    if (isActiveClickedIndex1 || hoverSideMenuIndex == 0) {
+    if (isActiveClickedIndex1 || hoverSideMenuIndex === 0) {
       return 0;
     }
 
     const isActiveClickedIndex2 =
       activeSideMenuItemIndex === 1 && hoverSideMenuIndex === null;
-    if (isActiveClickedIndex2 || hoverSideMenuIndex == 1) {
+    if (isActiveClickedIndex2 || hoverSideMenuIndex === 1) {
       return 1;
     }
 
     const isActiveClickedIndex3 =
       activeSideMenuItemIndex === 2 && hoverSideMenuIndex === null;
-    if (isActiveClickedIndex3 || hoverSideMenuIndex == 2) {
+    if (isActiveClickedIndex3 || hoverSideMenuIndex === 2) {
       return 2;
     }
   }
@@ -77,7 +77,8 @@ class PlayerPlayArea extends Component {
       onHandCardClicked,
       onCancelClicked,
       onEndTurn,
-      onForfeit
+      onForfeit,
+      contentHeight
     } = this.props;
     const { activeSideMenuItemIndex } = this.state;
 
@@ -102,16 +103,21 @@ class PlayerPlayArea extends Component {
           onCancelClicked={onCancelClicked}
           onEndTurn={onEndTurn}
           onForfeit={onForfeit}
+          contentHeight={contentHeight}
         />
       );
     } else if (activeIndex === 1) {
-      selectedBottomView = <GameChat gameId={gameId} />;
+      selectedBottomView = (
+        <GameChat gameId={gameId} contentHeight={contentHeight} />
+      );
     } else if (activeIndex === 2) {
-      selectedBottomView = <GameLog gameLog={gameLog} />;
+      selectedBottomView = (
+        <GameLog gameLog={gameLog} contentHeight={contentHeight} />
+      );
     }
 
     return (
-      <div className="columns">
+      <div className="columns is-marginless">
         <div className="column is-1">
           <aside className="menu">
             <ul className="menu-list">

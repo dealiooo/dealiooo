@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 
 class GameLog extends Component {
   render() {
-    const { gameLog = [] } = this.props;
+    const { gameLog = [], contentHeight } = this.props;
 
     return (
-      <div className="box">
+      <div
+        className="box"
+        style={{
+          position: 'relative',
+          minHeight: `${contentHeight - 20 * 2}px`,
+          maxHeight: `${contentHeight - 20 * 2}px`,
+          overflow: 'auto'
+        }}
+      >
         <h1>Game Log</h1>
         <div className="content">
           <ul>

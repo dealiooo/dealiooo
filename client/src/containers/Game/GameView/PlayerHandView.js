@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 
 import '../styles/cardHover.css';
-import Hoverable from '../../../components/Hover/hoverable';
 
 class PlayerHandView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { handCards, onHandCardClicked } = this.props;
 
