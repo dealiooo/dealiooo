@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { faSquare } from '@fortawesome/free-solid-svg-icons';
 
 class PlayerStatus extends Component {
   render() {
     if (this.props.status) {
       let list = (
-        <spn>
+        <span>
           {this.props.status.map((player, i) => {
             return (
               <div className="button is-static is-medium">
                 <span className="icon">
                   {player.ready ? (
-                    <FontAwesomeIcon icon={faCheckSquare} />
+                    <i className="fas fa-check-square" aria-hidden="true" />
                   ) : (
-                    <FontAwesomeIcon icon={faSquare} />
+                    <i className="fas fa-square" aria-hidden="true" />
                   )}
                 </span>
                 <span className="is-medium " key={i}>
@@ -24,7 +21,7 @@ class PlayerStatus extends Component {
               </div>
             );
           })}
-        </spn>
+        </span>
       );
       return (
         <div className="container">
