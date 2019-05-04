@@ -12,7 +12,7 @@
     "start:dev:client": "cd client && REACT_APP_LOCAL_SERVER=local npm run start",
     "start:dev:client:windows": "cd client && SET REACT_APP_LOCAL_SERVER=local& npm run start",
     "start:dev:server": "BLUEBIRD_WARNINGS=0 NODE_ENV=development LOCAL_SERVER=1 DEBUG=MonopolyDeal:* nodemon ./bin/www",
-    "start:dev:server:windows": "SET DEBUG=MonopolyDeal:*& nodemon ./bin/www",
+    "start:dev:server:windows": "SET NODE_ENV=development& SET LOCAL_SERVER=1& SET DEBUG=MonopolyDeal:*& nodemon ./bin/www",
     "db:create:migration": "sequelize migration:generate --name ",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo:all",
