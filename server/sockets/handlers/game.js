@@ -75,6 +75,13 @@ const startGame = sockets => gameId => {
     .catch(error => console.log(error));
 };
 
+const loadGame = sockets => gameId => {
+  sockets.get(gameId).forEach((socket, userId, _) => {
+    socket.emit(`game:${gameId}:start-game`, 'game is started');
+    setInterval(() => tick(socket, userId, gameId), 1000);
+  });
+};
+
 const tick = (socket, userId, gameId) => {
   let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
   socket.emit(`game:${gameId}:game-update`, data);
@@ -94,5 +101,6 @@ module.exports = (globalSockets, sockets) => ({
   forfeit: forfeit(sockets),
   join: join(globalSockets, sockets),
   startGame: startGame(sockets),
+  loadGame: loadGame(sockets),
   update: update(sockets)
 });

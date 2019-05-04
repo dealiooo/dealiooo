@@ -102,6 +102,18 @@ router.post(
 );
 
 router.post(
+  '/api/game/:gameId/loadGame',
+  authenticateUser,
+  authenticatePlayer,
+  authenticateHost,
+  (request, response) => {
+    const { gameId } = request.params;
+    GameSockets.loadGame(gameId);
+    response.sendStatus(204);
+  }
+);
+
+router.post(
   '/api/game/:gameId/update',
   authenticateUser,
   authenticatePlayer,
