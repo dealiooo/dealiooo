@@ -25,11 +25,6 @@
       "client/*"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "**/*.{js,json,css,scss,md}": [
       "prettier --write --single-quote",
@@ -76,8 +71,13 @@
   },
   "devDependencies": {
     "husky": "^1.3.1",
-    "lint-staged": "^8.1.5",
     "nodemon": "^1.18.9",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "pretty-quick": "^1.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
