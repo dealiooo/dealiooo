@@ -1,15 +1,16 @@
 const userActions = require('./../userActions');
 
-const pickHandCard = ({Game, player, forced, callback}) => {
+const pickHandCard = ({ Game, player, forced, callback }) => {
   userActions.pickCardId({
     Game,
-    player,
+    requiredPlayerId: player.id,
+    message: 'picking a hand card',
     forced,
-    callback: ({cardId, cancelled, forced}) => {
+    callback: ({ cardId, cancelled, forced }) => {
       if (cancelled) {
-        callback({cancelled});
+        callback({ cancelled });
       } else if (forced) {
-        callback({card:player.hand[player.hand.length - 1], forced});
+        callback({ card: player.hand[player.hand.length - 1], forced });
       } else {
         let found = false;
         let index = null;
@@ -20,9 +21,9 @@ const pickHandCard = ({Game, player, forced, callback}) => {
           }
         }
         if (found) {
-          callback({card:player.hand[index]});
+          callback({ card: player.hand[index] });
         } else {
-          pickHandCard({Game, player, callback});
+          pickHandCard({ Game, player, callback });
         }
       }
     }

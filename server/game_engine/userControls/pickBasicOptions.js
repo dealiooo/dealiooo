@@ -1,7 +1,8 @@
 const userActions = require('./../userActions');
 
-module.exports = ({Game, player, forced, callback}) => {
+module.exports = ({ Game, player, forced, callback }) => {
   let options = [];
+  let message = 'waiting for player action';
   if (player.hand.length) {
     options.push('Play Hand Card');
   }
@@ -11,7 +12,8 @@ module.exports = ({Game, player, forced, callback}) => {
   options.push('End Turn');
   userActions.pickOption({
     Game,
-    player,
+    requiredPlayerId: player.id,
+    message,
     options,
     forced,
     callback

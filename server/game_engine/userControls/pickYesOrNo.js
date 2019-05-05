@@ -1,19 +1,19 @@
 const userActions = require('../userActions');
 
-module.exports = ({Game, player, question, forced, callback}) =>
+module.exports = ({ Game, player, question, forced, callback }) =>
   userActions.pickOption({
     Game,
-    player,
-    options: ["Yes", "No"],
-    message: question + "\n1. Yes\n2. No",
+    requiredPlayerId: player.id,
+    options: ['Yes', 'No'],
+    message: question + '\n1. Yes\n2. No',
     forced,
-    callback: ({error, option, forced}) => {
+    callback: ({ error, option, forced }) => {
       if (error) {
-        callback({error});
-      } else if ("Yes" === option) {
-        callback({play:true});
+        callback({ error });
+      } else if ('Yes' === option) {
+        callback({ play: true });
       } else {
-        callback({play:false, forced});
+        callback({ play: false, forced });
       }
     }
   });

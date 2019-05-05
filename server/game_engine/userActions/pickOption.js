@@ -1,21 +1,17 @@
-const setPending = ({ Game, requiredPlayer, options, message, callback }) => {
+const setPending = ({ Game, requiredPlayerId, options, message, callback }) => {
   if (!message) {
-    message = [
-      `Player id:${requiredPlayer.id}`,
-      `pick an option:` /*,
-      options.map((option, i) => `\n${i}: ${option}`).join('')*/
-    ].join('\n');
+    message = 'pick an option';
   }
   Game.pendingForUserInput = {
     function: pickOption,
-    arguments: { Game, player: requiredPlayer, options, message, callback },
+    arguments: { Game, requiredPlayerId, options, message, callback },
     message
   };
 };
 
 const pickOption = ({
   Game,
-  player: requiredPlayer,
+  requiredPlayerId,
   playerId,
   options,
   message,
@@ -23,7 +19,7 @@ const pickOption = ({
   forced,
   callback
 }) => {
-  if (playerId && requiredPlayer.id !== playerId) {
+  if (playerId && requiredPlayerId !== playerId) {
     return;
   }
   if (options.length) {
@@ -32,7 +28,7 @@ const pickOption = ({
     } else if (forced) {
       callback({ option: options[0], forced });
     } else if ('' === Game.userInput) {
-      setPending({ Game, requiredPlayer, options, message, callback });
+      setPending({ Game, requiredPlayerId, options, message, callback });
     } else {
       let option = parseInt(Game.userInput);
       if (-1 < option && option < options.length) {

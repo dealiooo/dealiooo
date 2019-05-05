@@ -12,11 +12,11 @@ const game_engine = {
   },
   tick: Game => {
     if (Game.pendingForUserInput) {
-      let player = Game.pendingForUserInput.arguments.player;
-      Game.ticks[player.id]--;
-      if (0 >= Game.ticks[player.id]) {
-        game_engine.applyForceAction(Game, player.id);
-        Game.ticks[player.id] = 60;
+      let playerId = Game.pendingForUserInput.arguments.requiredPlayerId;
+      Game.ticks[playerId]--;
+      if (0 >= Game.ticks[playerId]) {
+        game_engine.applyForceAction(Game, playerId);
+        Game.ticks[playerId] = 60;
       }
     }
   },
@@ -72,7 +72,7 @@ const game_engine = {
     data.prompts_info = {};
     let pending = Game.pendingForUserInput;
     if (pending) {
-      data.prompts_info.promptPlayer = pending.arguments.player;
+      data.prompts_info.promptPlayerId = pending.arguments.requiredPlayerId;
       data.prompts_info.promptMessage = pending.message;
       if (pending.arguments.options) {
         data.prompts_info.options = pending.arguments.options;

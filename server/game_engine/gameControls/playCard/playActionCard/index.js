@@ -10,7 +10,7 @@ const playSlyDeal = require('./playSlyDeal');
 const gameActions = require('../../../gameActions');
 const userActions = require('../../../userActions');
 
-module.exports = ({Game, player, card, callback}) => {
+module.exports = ({ Game, player, card, callback }) => {
   const play = {
     'deal-beaker': playDealBreaker,
     'debt-collector': playDebtCollector,
@@ -23,31 +23,36 @@ module.exports = ({Game, player, card, callback}) => {
   };
   if ('just-say-no' === card.name) {
     playJustSayNo({
-      player, 
-      card, 
-      callback: ({card}) => {
-        callback({card});
+      player,
+      card,
+      callback: ({ card }) => {
+        callback({ card });
       }
     });
   } else {
     userActions.pickOption({
       Game,
-      player,
+      requiredPlayerId: player.id,
+      message: 'play as money or action?',
       options: ['bank', 'action'],
-      callback: ({error, option, cancelled, forced}) => {
+      callback: ({ error, option, cancelled, forced }) => {
         if (error || cancelled || forced) {
-          callback({error, cancelled, forced});
+          callback({ error, cancelled, forced });
         } else if ('bank' === option) {
-          gameActions.moveCard({source: player.hand, destination: player.field.bankCards, card});
-          gameActions.onNonCounterCardPlayed({Game, card});
-          callback({card});
+          gameActions.moveCard({
+            source: player.hand,
+            destination: player.field.bankCards,
+            card
+          });
+          gameActions.onNonCounterCardPlayed({ Game, card });
+          callback({ card });
         } else {
           play[card.name]({
-            Game, 
-            player, 
-            card, 
-            callback: ({error, card, cancelled, forced}) => {
-              callback({error, card, cancelled, forced});
+            Game,
+            player,
+            card,
+            callback: ({ error, card, cancelled, forced }) => {
+              callback({ error, card, cancelled, forced });
             }
           });
         }

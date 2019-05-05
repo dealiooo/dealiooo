@@ -66,11 +66,11 @@ const forceRetrieveFromPropertyPile = (player, pileName) => {
           pileName,
           pile: pile.field[pileName][i]
         }
-      }
+      };
     }
   }
   return false;
-}
+};
 
 const forceRetrieveFromNonPropertyPile = (player, pileName) => {
   for (let i = 0; i < player.field[pileName].length; i++) {
@@ -80,74 +80,90 @@ const forceRetrieveFromNonPropertyPile = (player, pileName) => {
         pileName,
         pile: player.field[pileName]
       }
-    }
+    };
   }
   return false;
-}
+};
 
 const forceRetrieveFromPile = {
   propertyCards: forceRetrieveFromPropertyPile,
   bankCards: forceRetrieveFromNonPropertyPile,
   buildingCards: forceRetrieveFromNonPropertyPile
-}
+};
 
-const pickCard = ({Game, player, pileNames, pileName, forced, callback}) =>
+const pickCard = ({ Game, player, pileNames, pileName, forced, callback }) =>
   userActions.pickCardId({
     Game,
-    player,
+    requiredPlayerId: player.id,
+    message: 'picking a field card',
     forced,
-    callback: ({cardId, cancelled, forced}) => {
+    callback: ({ cardId, cancelled, forced }) => {
       if (cancelled) {
-        pickFieldCard({Game, player, pileNames, callback});
+        pickFieldCard({ Game, player, pileNames, callback });
       } else if (forced) {
         let cardExist = forceRetrieveFromPile[pileName](player, pileName);
         if (cardExist) {
-          callback({card:cardExist.card, source:cardExist.source, forced});
+          callback({ card: cardExist.card, source: cardExist.source, forced });
         } else {
-          pickFieldCard({Game, player, pileNames, forced, callback});
+          pickFieldCard({ Game, player, pileNames, forced, callback });
         }
       } else {
         let cardExist = retrieveFromPile[pileName](player, pileName, cardId);
         if (cardExist) {
-          callback({card:cardExist.card, source:cardExist.source});
+          callback({ card: cardExist.card, source: cardExist.source });
         } else {
-          pickFieldCard({Game, player, pileNames, callback});
+          pickFieldCard({ Game, player, pileNames, callback });
         }
       }
     }
   });
 
-const pickFieldCard = ({Game, player, pileNames, forced, callback}) => {
+const pickFieldCard = ({ Game, player, pileNames, forced, callback }) => {
   if (forced) {
     let size = pileNames.length;
     for (let i = 0; i < size; i++) {
       if (player.field[pileNames[i]].length) {
-        pickCard({Game, player, pileNames, pileName:pileNames[i], forced, callback});
+        pickCard({
+          Game,
+          player,
+          pileNames,
+          pileName: pileNames[i],
+          forced,
+          callback
+        });
         break;
       }
     }
   } else {
     userActions.pickOption({
       Game,
-      player,
+      requiredPlayerId: player.id,
+      message: 'Picking a field pile',
       options: pileNames,
-      callback: ({error, option:pileName, cancelled, forced}) => {
+      callback: ({ error, option: pileName, cancelled, forced }) => {
         if (error) {
-          callback({error});
+          callback({ error });
         } else if (cancelled) {
-          callback({cancelled});
+          callback({ cancelled });
         } else if (forced) {
           let size = pileNames.length;
           for (let i = 0; i < size; i++) {
             if (player.field[pileNames[i]].length) {
-              pickCard({Game, player, pileNames, pileName:pileNames[i], callback, forced});
+              pickCard({
+                Game,
+                player,
+                pileNames,
+                pileName: pileNames[i],
+                callback,
+                forced
+              });
               break;
             }
           }
         } else if (player.field[pileName].length) {
-          pickCard({Game, player, pileNames, pileName, callback});
+          pickCard({ Game, player, pileNames, pileName, callback });
         } else {
-          callback({error:'pile is empty'});
+          callback({ error: 'pile is empty' });
         }
       }
     });

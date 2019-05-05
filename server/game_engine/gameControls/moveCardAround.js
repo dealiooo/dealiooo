@@ -2,75 +2,76 @@ const gameActions = require('../gameActions');
 const userActions = require('../userActions');
 const userControls = require('../userControls');
 
-const moveCardAround = ({Game, player, callback}) => {
+const moveCardAround = ({ Game, player, callback }) => {
   let pileNames = ['propertyCards', 'buildingCards'];
   userControls.pickFieldCard({
-    Game, 
-    player, 
-    pileNames, 
-    callback: ({error, cancelled, forced, card, source}) => {
-    if (error) {
-      callback({error});
-    } else if (cancelled || forced) {
-      callback({cancelled, forced});
-    } else {
-      if (card.colors.length) {
-        pickCardColor({Game, player, card, source, callback});
-      } else {
-        moveCard({Game, player, card, source, callback});
-      }
-    }
-  }});
-};
-
-const pickCardColor = ({Game, player, card, source, callback}) => {
-  userControls.pickCardColor({
-    Game, 
-    player, 
-    card, 
-    callback: ({error, cancelled, forced, color}) => {
+    Game,
+    player,
+    pileNames,
+    callback: ({ error, cancelled, forced, card, source }) => {
       if (error) {
-        callback({error});
-      } else if (cancelled) {
-        moveCardAround({Game, player, callback});
-      } else if (forced) {
-        callback({forced});
+        callback({ error });
+      } else if (cancelled || forced) {
+        callback({ cancelled, forced });
       } else {
-        gameActions.switchColor(card, color);
-        moveCard({Game, player, card, source, callback});
+        if (card.colors.length) {
+          pickCardColor({ Game, player, card, source, callback });
+        } else {
+          moveCard({ Game, player, card, source, callback });
+        }
       }
     }
   });
-}
+};
 
+const pickCardColor = ({ Game, player, card, source, callback }) => {
+  userControls.pickCardColor({
+    Game,
+    player,
+    card,
+    callback: ({ error, cancelled, forced, color }) => {
+      if (error) {
+        callback({ error });
+      } else if (cancelled) {
+        moveCardAround({ Game, player, callback });
+      } else if (forced) {
+        callback({ forced });
+      } else {
+        gameActions.switchColor(card, color);
+        moveCard({ Game, player, card, source, callback });
+      }
+    }
+  });
+};
 
-const moveCard = ({Game, player, card, source, callback}) => {
+const moveCard = ({ Game, player, card, source, callback }) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
   ](Game, player, card, source.pile);
   if (destinations.length) {
     userActions.pickOption({
       Game,
-      player,
+      requiredPlayerId: player.id,
+      message: 'Picking a destination',
       options: destinationIndexes,
-      callback: ({error, cancelled, forced, option}) => {
+      callback: ({ error, cancelled, forced, option }) => {
         if (error) {
-          callback({error});
+          callback({ error });
         } else if (cancelled) {
           if (card.colors.length) {
-            pickCardColor({Game, player, card, source, callback})
+            pickCardColor({ Game, player, card, source, callback });
           } else {
-            moveCardAround({Game, player, callback});
+            moveCardAround({ Game, player, callback });
           }
         } else if (forced) {
-          callback({forced});
+          callback({ forced });
         } else {
           gameActions.moveCard({
             source: source.pile,
             destination: destinations[parseInt(option)],
             card
           });
-          gameActions.removeEmptyPropertySets({player});
+          gameActions.removeEmptyPropertySets({ player });
           callback({});
         }
       }

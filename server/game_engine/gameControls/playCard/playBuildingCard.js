@@ -1,65 +1,67 @@
 const gameActions = require('../../gameActions');
 const userActions = require('../../userActions');
 
-const playBuildingCard = ({Game, player, card, callback}) => {
+const playBuildingCard = ({ Game, player, card, callback }) => {
   userActions.pickOption({
     Game,
-    player,
+    requiredPlayerId: player.id,
+    message: 'play as money or property?',
     options: ['bank', 'properties'],
-    callback: ({error, option, cancelled, forced}) => {
+    callback: ({ error, option, cancelled, forced }) => {
       if (error) {
-        callback({error});
+        callback({ error });
       } else if (cancelled) {
-        callback({cancelled});
+        callback({ cancelled });
       } else {
         if ('bank' === option) {
-          playAsMoney({player, card, forced, callback});
+          playAsMoney({ player, card, forced, callback });
         } else {
-          playAsProperty({Game, player, card, forced, callback});
+          playAsProperty({ Game, player, card, forced, callback });
         }
       }
     }
   });
 };
 
-const playAsMoney = ({player, card, forced, callback}) => {
+const playAsMoney = ({ player, card, forced, callback }) => {
   gameActions.moveCard({
-    source:player.hand, 
-    destination:player.field.bankCards, 
+    source: player.hand,
+    destination: player.field.bankCards,
     card
   });
-  gameActions.onNonCounterCardPlayed({Game, card});
-  callback({card, forced});
+  gameActions.onNonCounterCardPlayed({ Game, card });
+  callback({ card, forced });
 };
 
-const playAsProperty = ({Game, player, card, forced, callback}) => {
+const playAsProperty = ({ Game, player, card, forced, callback }) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
   ](Game, player, card, player.hand);
   if (destinations.length) {
     userActions.pickOption({
       Game,
-      player,
+      requiredPlayerId: player.id,
+      message: 'picking a destination',
       options: destinationIndexes,
       forced,
-      callback: ({error, option, cancelled, forced}) => {
+      callback: ({ error, option, cancelled, forced }) => {
         if (error) {
-          callback({error});
+          callback({ error });
         } else if (cancelled) {
-          playBuildingCard({Game, player, card, callback});
+          playBuildingCard({ Game, player, card, callback });
         } else {
           gameActions.moveCard({
-            source:player.hand,
-            destination:destinations[parseInt(option)],
+            source: player.hand,
+            destination: destinations[parseInt(option)],
             card
           });
-          gameActions.onNonCounterCardPlayed({Game, card});
-          callback({card, forced});
+          gameActions.onNonCounterCardPlayed({ Game, card });
+          callback({ card, forced });
         }
       }
     });
   } else {
-    callback({error:'cannot play that building card: no destination'});
+    callback({ error: 'cannot play that building card: no destination' });
   }
 };
 
