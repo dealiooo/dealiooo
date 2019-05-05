@@ -107,7 +107,13 @@ class PropertyColumn extends Component {
         >
           {propertyCards.map((propertySet, i) => (
             <div
-              className={`column is-4 ${propertySet[0].mainColor}-light-accent`}
+              className={`column is-4 ${
+                propertySet.length
+                  ? `${propertySet[0].mainColor}-light-accent`
+                  : ''
+              }`}
+              propertyIndex={i}
+              onClick={onPropertyCardClicked}
               style={{
                 padding: '8px',
                 marginLeft: `${i === 0 ? '0px' : '12px'}`,
@@ -120,9 +126,9 @@ class PropertyColumn extends Component {
                   <div className="column">
                     <MDCard
                       card={pCard}
-                      optionIndex={optionIndex}
                       propertyIndex={i}
-                      onCardClicked={onPropertyCardClicked}
+                      inPropertyArea={1}
+                      onClick={onPropertyCardClicked}
                     />
                   </div>
                 ))}
@@ -256,12 +262,7 @@ class BuildingColumn extends Component {
 
 class PlayerField extends Component {
   render() {
-    const {
-      playerInfo,
-      optionIndex,
-      onPropertyCardClicked,
-      contentHeight
-    } = this.props;
+    const { playerInfo, onPropertyCardClicked, contentHeight } = this.props;
 
     const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
     return (
@@ -288,10 +289,8 @@ class PlayerField extends Component {
         >
           <PropertyColumn
             id={playerInfo.id}
-            optionIndex={optionIndex}
             propertyCards={propertyCards}
             contentHeight={contentHeight}
-            onPropertyCardClicked={onPropertyCardClicked}
           />
         </div>
         <div className="column">

@@ -5,7 +5,8 @@ class PlayerPromptView extends Component {
     super(props);
 
     this.state = {
-      selectedOption: null
+      selectedOption: null,
+      selectedIndex: null
     };
 
     this.handleOptionSelected = this.handleOptionSelected.bind(this);
@@ -13,12 +14,13 @@ class PlayerPromptView extends Component {
 
   handleOptionSelected = event => {
     this.setState({
-      selectedOption: event.target.value
+      selectedOption: event.target.value,
+      selectedIndex: event.target.getAttribute('optionindex')
     });
   };
 
   render() {
-    const { selectedOption } = this.state;
+    const { selectedOption, selectedIndex } = this.state;
     const {
       promptsInfo,
       onPromptSubmit,
@@ -39,8 +41,8 @@ class PlayerPromptView extends Component {
           <div className="field">
             <div className="control">
               <div className="columns is-centered is-multiline">
-                {promptsInfo.options.map(option => (
-                  <div className="control column">
+                {promptsInfo.options.map((option, i) => (
+                  <div className="control column" key={i}>
                     <input
                       className={`button is-fullwidth is-rounded ${
                         option === selectedOption
@@ -51,6 +53,7 @@ class PlayerPromptView extends Component {
                       type="button"
                       onClick={this.handleOptionSelected}
                       value={option}
+                      optionindex={i}
                     />
                   </div>
                 ))}
@@ -64,6 +67,7 @@ class PlayerPromptView extends Component {
               onClick={onPromptSubmit}
               value={selectedOption}
               disabled={!selectedOption}
+              optionindex={selectedIndex}
             >
               Submit
             </button>

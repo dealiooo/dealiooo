@@ -185,7 +185,7 @@ const game_engine = {
       Game,
       player,
       card,
-      callback: ({ error, cancelled }) => {
+      callback: ({ error, cancelled, forced }) => {
         if (error) {
           game_engine.promptBasicOptions(Game);
         } else if (cancelled) {

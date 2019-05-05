@@ -82,12 +82,7 @@ class PlayerPlayArea extends Component {
     } = this.props;
     const { activeSideMenuItemIndex } = this.state;
 
-    const showHandCard = {
-      'Play Hand Card': true
-    };
-
-    const isPendingUserInput =
-      promptsInfo.options != null && showHandCard[promptsInfo.options[0]];
+    const isPendingUserInput = undefined !== promptsInfo.options;
 
     let selectedBottomView;
     const activeIndex = this.getActiveIndex();

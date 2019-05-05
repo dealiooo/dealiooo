@@ -17,21 +17,20 @@ class PlayerHandOrPromptView extends Component {
       onForfeit,
       contentHeight
     } = this.props;
-
     return (
       <div className="columns">
         <div className="column is-10">
           {isPendingUserInput ? (
-            <PlayerHandView
-              handCards={handCards}
-              onHandCardClicked={onHandCardClicked}
-              contentHeight={contentHeight}
-            />
-          ) : (
             <PlayerPromptView
               promptsInfo={promptsInfo}
               onPromptSubmit={onPromptSubmit}
               onCancelClicked={onCancelClicked}
+              contentHeight={contentHeight}
+            />
+          ) : (
+            <PlayerHandView
+              handCards={handCards}
+              onHandCardClicked={onHandCardClicked}
               contentHeight={contentHeight}
             />
           )}

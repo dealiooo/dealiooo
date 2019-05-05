@@ -30,7 +30,7 @@ class PlayerHandView extends Component {
                       `/cards/basic/${handCard.type}/${handCard.name}.png`
                     }
                     cardId={handCard.id}
-                    inHandArea={true}
+                    inHandArea={0}
                     onClick={onHandCardClicked}
                     alt={`${handCard.name}`}
                   />

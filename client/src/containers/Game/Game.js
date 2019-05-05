@@ -5,6 +5,20 @@ import './styles/cardColors.css';
 import GameView from './GameView/GameView';
 import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
 
+const getAttributeValue = (event, attributeName, defaultValue) => {
+  let attributeValue = event.target.getAttribute(attributeName);
+  if (undefined != attributeValue) {
+    return attributeValue;
+  }
+  return defaultValue;
+};
+
+const getCardId = event => getAttributeValue(event, 'cardid', -1);
+
+const getOptionIndex = event => getAttributeValue(event, 'optionindex', -1);
+
+const getPropertyIndex = event => getAttributeValue(event, 'propertyindex', -1);
+
 const UserInputMap = new Map();
 UserInputMap.set('picking a target player', getOptionIndex);
 UserInputMap.set('picking a color', getOptionIndex);
@@ -24,28 +38,7 @@ UserInputMap.set('picking a property set to rent', getPropertyIndex);
 UserInputMap.set('picking a destination', getPropertyIndex);
 UserInputMap.set('selecting a property set', getPropertyIndex);
 UserInputMap.set('picking a destination', getPropertyIndex);
-UserInputMap.set('waiting for player action', getPlayerAction);
-
-const getCardId = event => getAttributeValue(event, 'cardId', -1);
-
-const getOptionIndex = event => getAttributeValue(event, 'optionIndex', -1);
-
-const getPlayerAction = event =>
-  getAttributeValue(
-    event,
-    'inHandArea',
-    getAttributeValue(event, 'inPropertyArea', -1)
-  );
-
-const getPropertyIndex = event => getAttributeValue(event, 'propertyIndex', -1);
-
-const getAttributeValue = (event, attributeName, defaultValue) => {
-  let attributeValue = event.target.getAttribute(attributeName);
-  if (undefined != attributeValue) {
-    return attributeValue;
-  }
-  return defaultValue;
-};
+UserInputMap.set('waiting for player action', getOptionIndex);
 
 class Game extends Component {
   constructor(props) {
@@ -125,8 +118,23 @@ class Game extends Component {
     this.setState({ startGame: true });
   };
 
-  handlePromptSubmit = value => {
-    GameAPI.postGameClick(this.props.match.params.id, value);
+  handlePromptSubmit = event => {
+    event.preventDefault();
+    console.log(
+      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
+    );
+    console.log(event.target);
+    GameAPI.postGameClick(
+      this.props.match.params.id,
+      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
+    );
+  };
+
+  handlePropertyCardClicked = event => {
+    GameAPI.postGameClick(
+      this.props.match.params.id,
+      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
+    );
   };
 
   handleForfeit = _ => {
@@ -140,9 +148,13 @@ class Game extends Component {
 
   /// TODO:
   handleHandCardClicked = event => {
+    console.log(
+      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
+    );
+    console.log(event.target);
     GameAPI.postGameClick(
       this.props.match.params.id,
-      UserInputMap.get(this.state.data.prompt_info.promptMessage)(event)
+      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
     );
   };
 
@@ -163,6 +175,7 @@ class Game extends Component {
             gameId={gameId}
             data={data}
             onPromptSubmit={this.handlePromptSubmit}
+            onPropertyCardClicked={this.handlePropertyCardClicked}
             onCancelClicked={this.handleCancelClicked}
             onHandCardClicked={this.handleHandCardClicked}
             onEndTurn={this.handleEndTurn}
