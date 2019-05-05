@@ -49,7 +49,7 @@ const game_engine = {
     data.general_info.cardsPlayed = Game.cardsPlayed;
     data.general_info.deckCount = Game.deck.length;
     data.general_info.discard = Game.discard;
-    data.general_info.tick = Game.ticks[data.general_info.currentPlayer];
+    data.general_info.tick = Game.ticks[data.general_info.currentPlayerId];
   },
   getPlayersInfo: (Game, playerId, data) => {
     data.players_info = [];
