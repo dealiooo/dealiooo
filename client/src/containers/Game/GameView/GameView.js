@@ -95,8 +95,11 @@ class GameView extends Component {
       player => player.id === selectedOpponentId
     )[0];
 
-    const playerFieldContentHeight = (screenHeight * 24) / 100;
+    // TODO
+    const optionIndex = null;
 
+    const playerFieldContentHeight = (screenHeight * 24) / 100;
+    onPropertyCardClicked;
     return (
       <div style={{ margin: '0 1.0vw' }}>
         <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
@@ -121,6 +124,8 @@ class GameView extends Component {
         <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
           <PlayerField
             playerInfo={userInfo}
+            optionIndex={optionIndex}
+            onPropertyCardClicked={onPropertyCardClicked}
             contentHeight={playerFieldContentHeight}
           />
         </div>

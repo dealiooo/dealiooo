@@ -9,7 +9,7 @@ import { computerTotalCardValues, cardNameToDisplayName } from './utils';
 
 class MDCard extends Component {
   render() {
-    const { card } = this.props;
+    const { card, propertyIndex, optionIndex, onCardClicked } = this.props;
 
     return (
       <figure className="image">
@@ -18,6 +18,11 @@ class MDCard extends Component {
             process.env.PUBLIC_URL +
             `/cards/basic/${card.type}/${card.name}.png`
           }
+          cardId={card.id}
+          inPropertyArea={true}
+          optionIndex={optionIndex}
+          propertyIndex={propertyIndex}
+          onCardClicked={onCardClicked}
           alt={`${card.name}`}
         />
       </figure>
@@ -78,7 +83,12 @@ class PropertyColumn extends Component {
   componentDidUpdate = _ => this.ps.update();
 
   render() {
-    const { id, propertyCards, contentHeight } = this.props;
+    const {
+      id,
+      propertyCards,
+      contentHeight,
+      onPropertyCardClicked
+    } = this.props;
 
     return (
       <div className="box" style={{ paddingTop: 8 }}>
@@ -108,7 +118,12 @@ class PropertyColumn extends Component {
               <div className="columns">
                 {propertySet.map(pCard => (
                   <div className="column">
-                    <MDCard card={pCard} />
+                    <MDCard
+                      card={pCard}
+                      optionIndex={optionIndex}
+                      propertyIndex={i}
+                      onCardClicked={onPropertyCardClicked}
+                    />
                   </div>
                 ))}
               </div>
@@ -241,7 +256,12 @@ class BuildingColumn extends Component {
 
 class PlayerField extends Component {
   render() {
-    const { playerInfo, contentHeight } = this.props;
+    const {
+      playerInfo,
+      optionIndex,
+      onPropertyCardClicked,
+      contentHeight
+    } = this.props;
 
     const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
     return (
@@ -268,8 +288,10 @@ class PlayerField extends Component {
         >
           <PropertyColumn
             id={playerInfo.id}
+            optionIndex={optionIndex}
             propertyCards={propertyCards}
             contentHeight={contentHeight}
+            onPropertyCardClicked={onPropertyCardClicked}
           />
         </div>
         <div className="column">

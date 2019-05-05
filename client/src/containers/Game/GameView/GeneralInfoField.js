@@ -30,11 +30,15 @@ class GeneralInfoField extends Component {
           />
         </div>
         <div className="column is-8 ">
-          <GameMessageView gameMessage={gameMessage} />
+          <GameMessageView
+            promptPlayerId={promptPlayerId}
+            gameMessage={gameMessage}
+          />
           <TimerView tick={tick} />
         </div>
         <div className="column is-2">
           <DeckDiscardView
+            currentPlayerId={currentPlayerId}
             deckCount={deckCount}
             discard={discard}
             contentHeight={contentHeight}

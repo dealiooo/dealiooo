@@ -29,7 +29,8 @@ class PlayerHandView extends Component {
                       process.env.PUBLIC_URL +
                       `/cards/basic/${handCard.type}/${handCard.name}.png`
                     }
-                    id={handCard.id}
+                    cardId={handCard.id}
+                    inHandArea={true}
                     onClick={onHandCardClicked}
                     alt={`${handCard.name}`}
                   />
