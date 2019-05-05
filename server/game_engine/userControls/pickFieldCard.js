@@ -138,7 +138,7 @@ const pickFieldCard = ({ Game, player, pileNames, forced, callback }) => {
     userActions.pickOption({
       Game,
       requiredPlayerId: player.id,
-      message: 'Picking a field pile',
+      message: 'picking a field pile',
       options: pileNames,
       callback: ({ error, option: pileName, cancelled, forced }) => {
         if (error) {

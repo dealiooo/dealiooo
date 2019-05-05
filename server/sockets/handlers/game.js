@@ -3,6 +3,14 @@ const { Game } = require('./../../database/api');
 
 const gameGlobals = new Map();
 
+const cancel = sockets => (gameId, userId) => {
+  gameEngine.onCancelAction(gameGlobals.get(gameId), userId);
+  sockets.get(gameId).forEach((value, key, map) => {
+    let data = gameEngine.getVars(gameGlobals.get(gameId), key);
+    value.emit(`game:${gameId}:game-update`, data);
+  });
+};
+
 const chat = sockets => (gameId, message) =>
   sockets
     .get(gameId)
@@ -95,6 +103,7 @@ const update = sockets => (gameId, _) => {
 };
 
 module.exports = (globalSockets, sockets) => ({
+  cancel: cancel(sockets),
   chat: chat(sockets),
   click: click(sockets),
   endTurn: endTurn(sockets),

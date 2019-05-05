@@ -2,6 +2,7 @@ const request = require('./request');
 
 module.exports = {
   getGame: gameId => request(`/game/${gameId}`, {}, 'get'),
+  postGameCancel: gameId => request(`/game/${gameId}/cancel`, {}),
   postGameChat: ({ roomId: gameId, message }) =>
     request(`/game/${gameId}/chat`, { message }),
   postGameClick: (gameId, clickInput) =>

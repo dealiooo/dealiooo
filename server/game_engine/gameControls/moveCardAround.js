@@ -52,7 +52,7 @@ const moveCard = ({ Game, player, card, source, callback }) => {
     userActions.pickOption({
       Game,
       requiredPlayerId: player.id,
-      message: 'Picking a destination',
+      message: 'picking a destination',
       options: destinationIndexes,
       callback: ({ error, cancelled, forced, option }) => {
         if (error) {
