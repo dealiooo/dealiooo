@@ -36,7 +36,7 @@ class GameView extends Component {
     const {
       userId,
       data: {
-        general_info: { currentPlayer },
+        general_info: { currentPlayerId },
         players_info: playerInfos
       }
     } = this.props;
@@ -49,8 +49,8 @@ class GameView extends Component {
 
     let selectedOpponentId;
 
-    if (currentPlayer !== userPlayerInfo.id) {
-      selectedOpponentId = currentPlayer;
+    if (currentPlayerId !== userPlayerInfo.id) {
+      selectedOpponentId = currentPlayerId;
     } else {
       selectedOpponentId = opponentInfos[0].id;
     }
@@ -107,6 +107,9 @@ class GameView extends Component {
         </div>
         <div style={{ minHeight: '22vh', maxHeight: '22vh' }}>
           <GeneralInfoField
+            currentPlayerId={generalInfo.currentPlayerId}
+            promptPlayerId={promptsInfo.promptPlayerId}
+            gameMessage={promptsInfo.promptMessage}
             generalInfo={generalInfo}
             opponentInfos={opponentInfos}
             selectedOpponentId={selectedOpponentId}

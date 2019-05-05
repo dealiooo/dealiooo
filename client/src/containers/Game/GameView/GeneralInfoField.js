@@ -8,12 +8,15 @@ import DeckDiscardView from './DeckDiscardView';
 class GeneralInfoField extends Component {
   render() {
     const {
-      generalInfo: { deckCount, discard },
+      generalInfo: { deckCount, discard, tick },
+      promptPlayerId,
+      currentPlayerId,
       selectedOpponentId,
       opponentInfos,
       onOpponentClicked,
       onOpponentHover,
-      contentHeight
+      contentHeight,
+      gameMessage
     } = this.props;
 
     return (
@@ -27,8 +30,8 @@ class GeneralInfoField extends Component {
           />
         </div>
         <div className="column is-8 ">
-          <GameMessageView />
-          <TimerView />
+          <GameMessageView gameMessage={gameMessage} />
+          <TimerView tick={tick} />
         </div>
         <div className="column is-2">
           <DeckDiscardView

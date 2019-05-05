@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import './styles/cardColors.css';
-import './styles/gameChat.css';
 
 import GameView from './GameView/GameView';
 import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
@@ -46,7 +45,7 @@ class Game extends Component {
             GameLobbyAPI.getGameLobbyInfo(this.props.match.params.id).then(
               gameInfo => {
                 if ('running' === gameInfo.status) {
-                  GameAPI.postGameUpdate(this.props.match.params.id);
+                  GameAPI.postGameLoadGame(this.props.match.params.id);
                   this.setState({
                     startGame: true,
                     load: false

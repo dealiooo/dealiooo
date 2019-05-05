@@ -34,7 +34,7 @@ class PlayerPromptView extends Component {
           maxHeight: `${contentHeight - 20 * 2}px`
         }}
       >
-        <h1>Select an Option</h1>
+        <h1>Select a Option</h1>
         <form onSubmit={onPromptSubmit}>
           <div className="field">
             <div className="control">
@@ -42,7 +42,7 @@ class PlayerPromptView extends Component {
                 {promptsInfo.options.map(option => (
                   <div className="control column">
                     <input
-                      className={`button is-fullwidth ${
+                      className={`button is-fullwidth is-rounded ${
                         option === selectedOption
                           ? 'has-background-info has-text-white'
                           : ''
@@ -57,22 +57,26 @@ class PlayerPromptView extends Component {
               </div>
             </div>
           </div>
-          <button
-            className="button is-primary"
-            type="submit"
-            onClick={onPromptSubmit}
-            value={selectedOption}
-            disabled={!selectedOption}
-          >
-            Submit
-          </button>
-          <button
-            className="button is-danger"
-            type="button"
-            onClick={onCancelClicked}
-          >
-            Cancel
-          </button>
+          <div className="control has-text-centered">
+            <button
+              className="button is-primary is-medium is-rounded"
+              type="submit"
+              onClick={onPromptSubmit}
+              value={selectedOption}
+              disabled={!selectedOption}
+            >
+              Submit
+            </button>
+            <div className="control has-text-right">
+              <button
+                className="button is-danger is-rounded"
+                type="button"
+                onClick={onCancelClicked}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     );

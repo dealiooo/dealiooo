@@ -6,8 +6,7 @@ class GameMessageView extends Component {
 
     return (
       <div className="box">
-        <h1>Game Message</h1>
-        <h1>{gameMessage}</h1>
+        <h1 className="subtitle">{gameMessage}</h1>
       </div>
     );
   }

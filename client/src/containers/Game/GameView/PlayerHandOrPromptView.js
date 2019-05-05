@@ -37,7 +37,11 @@ class PlayerHandOrPromptView extends Component {
           )}
         </div>
         <div className="column is-2">
-          <PlayerBasicOptionsView onEndTurn={onEndTurn} onForfeit={onForfeit} />
+          <PlayerBasicOptionsView
+            onEndTurn={onEndTurn}
+            onForfeit={onForfeit}
+            contentHeight={contentHeight}
+          />
         </div>
       </div>
     );

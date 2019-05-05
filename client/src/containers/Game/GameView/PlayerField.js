@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PerfectScrollbar from 'perfect-scrollbar';
 
-import generateCards from './generateCards';
-
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import '../styles/cardColors.css';
 import '../styles/cardColorsLightAccent.css';
@@ -174,7 +172,7 @@ class BankColumn extends Component {
           >
             <div className="dropdown-content">
               <div className="dropdown-item">
-                <table class="table is-fullwidth is-size-5">
+                <table class="table is-fullwidth is-size-6">
                   <thead>
                     <tr>
                       <th className="has-text-centered">Card</th>
@@ -245,61 +243,7 @@ class PlayerField extends Component {
   render() {
     const { playerInfo, contentHeight } = this.props;
 
-    const {
-      action_cards: actionCards,
-      bank_cards: bankCards,
-      building_cards: buildingCards,
-      property_cards: propertyCards
-    } = playerInfo;
-
-    const debugUi = true;
-    if (debugUi) {
-      const actionCards = generateCards('action', 60);
-      const bankCards = generateCards('money', 10);
-      const propertyCards = generateCards('property', 60);
-      const buildingCards = generateCards('building', 5);
-
-      return (
-        <div className="columns is-marginless">
-          <div
-            className="column"
-            style={{
-              minHeight: `${contentHeight}px`,
-              maxHeight: `${contentHeight}px`
-            }}
-          >
-            <ActionColumn
-              id={playerInfo.id}
-              actionCards={actionCards}
-              contentHeight={contentHeight}
-            />
-          </div>
-          <div
-            className="column is-8"
-            style={{
-              minHeight: `${contentHeight}px`,
-              maxHeight: `${contentHeight}px`
-            }}
-          >
-            <PropertyColumn
-              id={playerInfo.id}
-              propertyCards={propertyCards}
-              contentHeight={contentHeight}
-            />
-          </div>
-          <div className="column">
-            <BankColumn bankCards={bankCards} contentHeight={contentHeight} />
-          </div>
-          <div className="column is-flex">
-            <BuildingColumn
-              buildingCards={buildingCards}
-              contentHeight={contentHeight}
-            />
-          </div>
-        </div>
-      );
-    }
-
+    const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
     return (
       <div className="columns is-marginless">
         <div
@@ -331,7 +275,7 @@ class PlayerField extends Component {
         <div className="column">
           <BankColumn bankCards={bankCards} contentHeight={contentHeight} />
         </div>
-        <div className="column is-flex">
+        <div className="column">
           <BuildingColumn
             buildingCards={buildingCards}
             contentHeight={contentHeight}

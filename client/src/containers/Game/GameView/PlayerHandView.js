@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import '../styles/cardHover.css';
+import generateCards from './generateCards';
 
 class PlayerHandView extends Component {
   render() {

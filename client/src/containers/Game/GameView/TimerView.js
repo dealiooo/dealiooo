@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 class TimerView extends Component {
   render() {
-    const { time } = this.props;
+    const { tick } = this.props;
 
     return (
       <div className="box">
-        <h1>{time || 'Timer'}</h1>
+        <h1 className="subtitle">{`${tick} secs`}</h1>
       </div>
     );
   }
