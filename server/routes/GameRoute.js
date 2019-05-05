@@ -28,6 +28,18 @@ router.get(
 );
 
 router.post(
+  '/api/game/:gameId/cancel',
+  authenticateUser,
+  authenticatePlayer,
+  (request, response) => {
+    const { gameId } = request.params;
+    const { id } = response.locals.user;
+    GameSockets.cancel(gameId, id);
+    response.sendStatus(204);
+  }
+);
+
+router.post(
   '/api/game/:gameId/chat',
   authenticateUser,
   authenticatePlayer,
