@@ -7,7 +7,7 @@ module.exports = ({ Game, player, forced, callback }) => {
   userActions.pickOption({
     Game,
     requiredPlayerId: player.id,
-    message: 'Do you want to move a card around?',
+    message: 'do you want to move a card around?',
     options,
     forced,
     callback

@@ -5,7 +5,7 @@ module.exports = ({ Game, player, question, forced, callback }) =>
     Game,
     requiredPlayerId: player.id,
     options: ['Yes', 'No'],
-    message: question + '\n1. Yes\n2. No',
+    message: question,
     forced,
     callback: ({ error, option, forced }) => {
       if (error) {

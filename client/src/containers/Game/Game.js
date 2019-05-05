@@ -5,6 +5,48 @@ import './styles/cardColors.css';
 import GameView from './GameView/GameView';
 import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
 
+const UserInputMap = new Map();
+UserInputMap.set('picking a target player', getOptionIndex);
+UserInputMap.set('picking a color', getOptionIndex);
+UserInputMap.set('do you want to play a hand card?', getOptionIndex);
+UserInputMap.set('do you want to move a card around?', getOptionIndex);
+UserInputMap.set('do you want to play just say no?', getOptionIndex);
+UserInputMap.set('play as money or action?', getOptionIndex);
+UserInputMap.set('play as money or action?', getOptionIndex);
+UserInputMap.set('play as money or property?', getOptionIndex);
+UserInputMap.set('play as money or action?', getOptionIndex);
+UserInputMap.set('picking a hand card', getCardId);
+UserInputMap.set('picking a field card', getCardId);
+UserInputMap.set('picking a field pile', getPropertyIndex);
+UserInputMap.set('picking a property set to rent', getPropertyIndex);
+UserInputMap.set('picking a destination', getPropertyIndex);
+UserInputMap.set('picking a property set to rent', getPropertyIndex);
+UserInputMap.set('picking a destination', getPropertyIndex);
+UserInputMap.set('selecting a property set', getPropertyIndex);
+UserInputMap.set('picking a destination', getPropertyIndex);
+UserInputMap.set('waiting for player action', getPlayerAction);
+
+const getCardId = event => getAttributeValue(event, 'cardId', -1);
+
+const getOptionIndex = event => getAttributeValue(event, 'optionIndex', -1);
+
+const getPlayerAction = event =>
+  getAttributeValue(
+    event,
+    'inHandArea',
+    getAttributeValue(event, 'inPropertyArea', -1)
+  );
+
+const getPropertyIndex = event => getAttributeValue(event, 'propertyIndex', -1);
+
+const getAttributeValue = (event, attributeName, defaultValue) => {
+  let attributeValue = event.target.getAttribute(attributeName);
+  if (undefined != attributeValue) {
+    return attributeValue;
+  }
+  return defaultValue;
+};
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -98,8 +140,10 @@ class Game extends Component {
 
   /// TODO:
   handleHandCardClicked = event => {
-    const cardId = parseInt(event.target.getAttribute('id'));
-    GameAPI.postGameClick(this.props.match.params.id, cardId);
+    GameAPI.postGameClick(
+      this.props.match.params.id,
+      UserInputMap.get(this.state.data.prompt_info.promptMessage)(event)
+    );
   };
 
   /// TODO:
