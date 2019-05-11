@@ -154,7 +154,7 @@ const collectRent = ({
     }
   };
   var done = ({ index, forced }) => {
-    if (index == Game.players.length) {
+    if (index === Game.players.length - 1) {
       callback({ card, forced });
     } else {
       playerActionCounter({ index: index + 1, forced });
