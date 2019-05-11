@@ -6,28 +6,37 @@ const moveCard = require('./moveCard');
 const removeEmptyPropertySets = require('./removeEmptyPropertySets');
 const userControls = require('./../userControls');
 
-const payRent = ({Game, payee, player, amount, forced, callback}) => {
+const payRent = ({ Game, payee, player, amount, forced, callback }) => {
   let pile = [];
-  if (getPropertyPileValue({propertyField: payee.field.propertyCards})) {
+  if (getPropertyPileValue({ propertyField: payee.field.propertyCards })) {
     pile.push('propertyCards');
   }
-  if (getPileValue({pile: payee.field.bankCards})) {
+  if (getPileValue({ pile: payee.field.bankCards })) {
     pile.push('bankCards');
   }
-  if (getPileValue({pile: payee.field.buildingCards})) {
+  if (getPileValue({ pile: payee.field.buildingCards })) {
     pile.push('buildingCards');
   }
   if (pile.length) {
     pickValuableFieldCard({
-      Game, 
-      player: payee, 
-      pileNames: pile, 
+      Game,
+      player: payee,
+      pileNames: pile,
       forced,
-      callback: ({error, card, source, forced}) => {
+      callback: ({ error, card, source, forced }) => {
         if (error) {
-          payRent({Game, payee, player, amount, forced, callback});
+          payRent({ Game, payee, player, amount, forced, callback });
         } else {
-          processCardPayment({Game, payee, player, amount, card, source, forced, callback});
+          processCardPayment({
+            Game,
+            payee,
+            player,
+            amount,
+            card,
+            source,
+            forced,
+            callback
+          });
         }
       }
     });
@@ -36,7 +45,13 @@ const payRent = ({Game, payee, player, amount, forced, callback}) => {
   }
 };
 
-const pickValuableFieldCard = ({Game, player, pileNames, forced, callback}) => {
+const pickValuableFieldCard = ({
+  Game,
+  player,
+  pileNames,
+  forced,
+  callback
+}) => {
   if (forced) {
     let card, source;
     if ('propertyCards' === pileNames[0]) {
@@ -49,7 +64,7 @@ const pickValuableFieldCard = ({Game, player, pileNames, forced, callback}) => {
             source = {
               pileName: pileNames[0],
               pile: player.field[pileNames[0]][i]
-            }
+            };
             break;
           }
         }
@@ -62,21 +77,28 @@ const pickValuableFieldCard = ({Game, player, pileNames, forced, callback}) => {
             pileName: pileNames[0],
             pile: player.field[pileNames[0]]
           }
-        }
+        };
       }
     }
-    callback({card, source, forced});
+    callback({ card, source, forced });
   } else {
     userControls.pickFieldCard({
-      Game, 
-      player, 
-      pileNames, 
-      forced, 
-      callback: ({error, card, source, forced}) => {
+      Game,
+      player,
+      pileNames,
+      forced,
+      callback: ({ error, card, source, forced }) => {
         if (error || 0 === card.value) {
-          pickValuableFieldCard({Game, player, pileNames, forced, forced, callback});
+          pickValuableFieldCard({
+            Game,
+            player,
+            pileNames,
+            forced,
+            forced,
+            callback
+          });
         } else {
-          callback({card, source, forced});
+          callback({ card, source, forced });
         }
       }
     });
@@ -94,28 +116,38 @@ const processCardPayment = ({
   callback
 }) => {
   if ('propertyCards' === source.pileName) {
-    if (getPropertySetStatus({Game, propertySet: source.pile})) {
-      processCardPaymentOnFullSet({Game, payee, player, card, source});
+    if (getPropertySetStatus({ Game, propertySet: source.pile })) {
+      processCardPaymentOnFullSet({ Game, payee, player, card, source });
     } else {
-      processCardPaymentOnNonFullSet();
+      processCardPaymentOnNonFullSet({ payee, player, card, source });
     }
   } else {
     moveCard({
-      source: source.pile, 
-      destination: player.field[source.pileName], 
+      source: source.pile,
+      destination: player.field[source.pileName],
       card
     });
   }
   if (card.value < amount) {
-    payRent({Game, payee, player, amount: amount - card.value, forced, callback});
+    payRent({
+      Game,
+      payee,
+      player,
+      amount: amount - card.value,
+      forced,
+      callback
+    });
   } else {
     callback({});
   }
 };
 
-const processCardPaymentOnFullSet = ({Game, payee, player, card, source}) => {
+const processCardPaymentOnFullSet = ({ Game, payee, player, card, source }) => {
   if ('building' === card.type) {
-    if ('house' === card.name && getHotelStatus({Game, propertySet: source.pile})) {
+    if (
+      'house' === card.name &&
+      getHotelStatus({ Game, propertySet: source.pile })
+    ) {
       moveCard({
         source: source.pile,
         destination: player.field.buildingCards,
@@ -123,8 +155,8 @@ const processCardPaymentOnFullSet = ({Game, payee, player, card, source}) => {
       });
     }
     moveCard({
-      source: source.pile, 
-      destination: player.field.buildingCards, 
+      source: source.pile,
+      destination: player.field.buildingCards,
       card
     });
   } else {
@@ -132,29 +164,30 @@ const processCardPaymentOnFullSet = ({Game, payee, player, card, source}) => {
       .filter(card => 'building' === card.type)
       .map(card =>
         moveCard({
-          source: source.pile, 
-          destination: player.field.buildingCards, 
+          source: source.pile,
+          destination: player.field.buildingCards,
           card
         })
       );
     player.field.propertyCards.push([]);
     moveCard({
       source: source.pile,
-      destination: player.field.propertyCards[player.field.propertyCards.length - 1],
+      destination:
+        player.field.propertyCards[player.field.propertyCards.length - 1],
       card
     });
-    removeEmptyPropertySets({player: payee});
+    removeEmptyPropertySets({ player: payee });
   }
 };
 
-const processCardPaymentOnNonFullSet = () => {
+const processCardPaymentOnNonFullSet = ({ payee, player, card, source }) => {
   player.field.propertyCards.push([]);
   moveCard({
     source: source.pile,
     player: player.field.propertyCards[player.field.propertyCards.length - 1],
     card
   });
-  removeEmptyPropertySets({player: payee});
+  removeEmptyPropertySets({ player: payee });
 };
 
 module.exports = payRent;
