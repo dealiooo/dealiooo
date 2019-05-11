@@ -291,6 +291,7 @@ class PlayerField extends Component {
             id={playerInfo.id}
             propertyCards={propertyCards}
             contentHeight={contentHeight}
+            onPropertyCardClicked={onPropertyCardClicked}
           />
         </div>
         <div className="column">
