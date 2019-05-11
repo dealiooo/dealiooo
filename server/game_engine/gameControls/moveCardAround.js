@@ -47,7 +47,7 @@ const pickCardColor = ({ Game, player, card, source, callback }) => {
 const moveCard = ({ Game, player, card, source, callback }) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
-  ](Game, player, card, source.pile);
+  ]({ Game, player, card, source: source.pile });
   if (destinations.length) {
     userActions.pickOption({
       Game,

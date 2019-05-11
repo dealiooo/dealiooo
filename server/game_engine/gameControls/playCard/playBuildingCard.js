@@ -36,7 +36,7 @@ const playAsMoney = ({ player, card, forced, callback }) => {
 const playAsProperty = ({ Game, player, card, forced, callback }) => {
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
-  ](Game, player, card, player.hand);
+  ]({ Game, player, card, source: player.hand });
   if (destinations.length) {
     userActions.pickOption({
       Game,
