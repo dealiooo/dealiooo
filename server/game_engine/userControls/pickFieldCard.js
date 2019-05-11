@@ -64,7 +64,7 @@ const forceRetrieveFromPropertyPile = (player, pileName) => {
         card: player.field[pileName][i][j],
         source: {
           pileName,
-          pile: pile.field[pileName][i]
+          pile: player.field[pileName][i]
         }
       };
     }

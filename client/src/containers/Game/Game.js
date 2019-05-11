@@ -17,7 +17,7 @@ const getCardId = event => getAttributeValue(event, 'cardid', -1);
 
 const getOptionIndex = event => getAttributeValue(event, 'optionindex', -1);
 
-const getPropertyIndex = event => getAttributeValue(event, 'propertyindex', -1);
+// const getPropertyIndex = event => getAttributeValue(event, 'propertyindex', -1);
 
 const UserInputMap = new Map();
 UserInputMap.set('picking a target player', getOptionIndex);
@@ -31,13 +31,13 @@ UserInputMap.set('play as money or property?', getOptionIndex);
 UserInputMap.set('play as money or action?', getOptionIndex);
 UserInputMap.set('picking a hand card', getCardId);
 UserInputMap.set('picking a field card', getCardId);
-UserInputMap.set('picking a field pile', getPropertyIndex);
-UserInputMap.set('picking a property set to rent', getPropertyIndex);
-UserInputMap.set('picking a destination', getPropertyIndex);
-UserInputMap.set('picking a property set to rent', getPropertyIndex);
-UserInputMap.set('picking a destination', getPropertyIndex);
-UserInputMap.set('selecting a property set', getPropertyIndex);
-UserInputMap.set('picking a destination', getPropertyIndex);
+UserInputMap.set('picking a field pile', getOptionIndex);
+UserInputMap.set('picking a property set to rent', getOptionIndex);
+UserInputMap.set('picking a destination', getOptionIndex);
+UserInputMap.set('picking a property set to rent', getOptionIndex);
+UserInputMap.set('picking a destination', getOptionIndex);
+UserInputMap.set('selecting a property set', getOptionIndex);
+UserInputMap.set('picking a destination', getOptionIndex);
 UserInputMap.set('waiting for player action', getOptionIndex);
 
 class Game extends Component {
@@ -159,7 +159,9 @@ class Game extends Component {
   };
 
   /// TODO:
-  handleCancelClicked = event => {};
+  handleCancelClicked = _ => {
+    GameAPI.postGameCancel(this.props.match.params.id);
+  };
 
   render() {
     const { id: gameId } = this.props.match.params;

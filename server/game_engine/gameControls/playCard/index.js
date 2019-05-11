@@ -14,7 +14,7 @@ const playCard = ({ Game, player, card, callback }) => {
     property: playPropertyCard,
     property_wildcard: playPropertyWildCard,
     rent: playDualColorRentCard,
-    rent_wildCard: playRentWildCard
+    rent_wildcard: playRentWildCard
   };
   play[card.type]({ Game, player, card, callback });
 };

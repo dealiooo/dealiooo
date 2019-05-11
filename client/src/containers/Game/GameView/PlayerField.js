@@ -18,10 +18,10 @@ class MDCard extends Component {
             process.env.PUBLIC_URL +
             `/cards/basic/${card.type}/${card.name}.png`
           }
-          cardId={card.id}
+          cardid={card.id}
           inPropertyArea={true}
-          optionIndex={optionIndex}
-          propertyIndex={propertyIndex}
+          optionindex={optionIndex}
+          propertyindex={propertyIndex}
           onCardClicked={onCardClicked}
           alt={`${card.name}`}
         />

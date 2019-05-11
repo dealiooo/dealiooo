@@ -3,11 +3,11 @@ const rentValues = {
     rentValues: [2, 4, 7],
     maxSetSize: 3
   },
-  dark_blue: {
+  'dark-blue': {
     rentValues: [3, 8],
     maxSetSize: 2
   },
-  light_blue: {
+  'light-blue': {
     rentValues: [1, 2, 3],
     maxSetSize: 3
   },

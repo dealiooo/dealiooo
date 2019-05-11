@@ -148,12 +148,12 @@ const collectRent = ({
                 Game,
                 payee: targetPlayer,
                 player,
-                amount: gameActions.getRentValue(
+                amount: gameActions.getRentValue({
                   Game,
                   targetPlayer,
-                  player,
-                  destinations[parseInt(index)]
-                ),
+                  sourcePlayer: player,
+                  propertySet: destinations[parseInt(index)]
+                }),
                 callback: ({ error }) => {
                   if (error) {
                     callback({ error });
