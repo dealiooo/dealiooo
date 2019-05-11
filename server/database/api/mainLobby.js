@@ -1,7 +1,7 @@
 const findRunningGames = db => id =>
-db.th_users
-  .findByPk(id)
-  .then(user => user.getGames({ where: { status: 'running' } }));
+  db.th_users
+    .findByPk(id)
+    .then(user => user.getGames({ where: { status: 'running' } }));
 
 const findStartedGames = db => id =>
   db.th_users
@@ -16,7 +16,8 @@ const insertGame = db => (th_user_id, room_name, player_cap) =>
     db.th_players.create({
       th_game_id: game.id,
       th_user_id,
-      host: true
+      host: true,
+      ready: true
     })
   );
 

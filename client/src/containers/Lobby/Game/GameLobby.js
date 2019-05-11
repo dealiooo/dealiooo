@@ -149,9 +149,9 @@ class GameLobby extends Component {
               <div className="container">
                 <section className="section">
                   <div className="columns">
-                    <div className="column is-three-fifths left-border">
-                      <div className="box room-name-header">
-                        <h1 className="title has-text-white">
+                    <div className="column is-three-fifths left-border is-paddingless">
+                      <div className="box has-background-grey-dark  ">
+                        <h1 className="title has-text-white has-text-centered">
                           {this.state.lobbyName}
                         </h1>
                       </div>
@@ -163,23 +163,21 @@ class GameLobby extends Component {
                           <div className="level-item">
                             {this.state.host ? (
                               <button
-                                className="button is-medium is-fullwidth"
+                                className="button is-medium is-fullwidth is-success"
                                 onClick={this.onStart}
                               >
                                 Start
                               </button>
                             ) : (
-                              <div />
+                              <button
+                                className="button is-medium is-fullwidth is-success"
+                                onClick={this.onReady}
+                              >
+                                Ready
+                              </button>
                             )}
                           </div>
-                          <div className="level-item">
-                            <button
-                              className="button is-medium is-fullwidth is-success"
-                              onClick={this.onReady}
-                            >
-                              Ready
-                            </button>
-                          </div>
+
                           <div className="level-item">
                             <button
                               className="button is-medium is-fullwidth is-danger"
