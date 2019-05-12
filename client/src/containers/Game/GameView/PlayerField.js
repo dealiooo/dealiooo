@@ -239,7 +239,13 @@ class BankColumn extends Component {
       '10-dollar': 0
     };
 
-    bankCards.forEach(card => frequencies[card.name]++);
+    bankCards.forEach(card => {
+      if (card.type !== `money`) {
+        frequencies[`${card.value}-dollar`]++;
+      } else {
+        frequencies[card.name]++;
+      }
+    });
 
     return (
       <div
