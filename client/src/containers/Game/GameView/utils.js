@@ -8,6 +8,14 @@ export const cardNameToDisplayName = cardName =>
       txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
     );
 
+export const cardTypeToDisplayName = cardType =>
+  cardType
+    .replace(/_/g, ' ')
+    .replace(
+      /\w\S*/g,
+      txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
+
 export const computerTotalCardValues = cards => {
   return []
     .concat(...cards)

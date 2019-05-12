@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import { cardNameToDisplayName } from './utils';
+import { cardNameToDisplayName, cardTypeToDisplayName } from './utils';
+import generateCards from './generateCards';
 
 class DeckDiscardView extends Component {
   render() {
@@ -32,7 +33,7 @@ class DeckDiscardView extends Component {
       >
         <div className="box" style={{ padding: `4px 0px` }}>
           <h1 className="has-text-weight-bold">
-            Current Player: {currentPlayerId}
+            Current Turn: {currentPlayerId}
           </h1>
         </div>
         <div
@@ -56,7 +57,10 @@ class DeckDiscardView extends Component {
             <h1 className="has-text-weight-bold">Discard</h1>
             <div
               className="dropdown is-right is-hoverable"
-              style={{ display: 'flex', width: '100%' }}
+              style={{
+                display: 'flex',
+                width: '100%'
+              }}
             >
               <div
                 className="dropdown-trigger"
@@ -81,17 +85,21 @@ class DeckDiscardView extends Component {
                 <div
                   className="dropdown-content"
                   style={{
-                    overflow: 'auto',
-                    maxHeight: `${contentHeight * 2.2}px`
+                    overflow: 'auto'
                   }}
                 >
                   <div className="dropdown-item">
-                    <table class="table is-fullwidth is-size-5">
+                    <table
+                      class="table is-fullwidth"
+                      style={{
+                        width: `${window.innerWidth / 1.8}px`
+                      }}
+                    >
                       <thead>
                         <tr>
                           {Object.keys(frequencies).map(key => (
                             <th className="has-text-centered">
-                              {cardNameToDisplayName(key)}
+                              {cardTypeToDisplayName(key)}
                             </th>
                           ))}
                         </tr>
@@ -113,7 +121,7 @@ class DeckDiscardView extends Component {
                                   frequencies[cardTypeKey][cardName];
 
                                 return (
-                                  <td>
+                                  <td className="has-text-centered">
                                     {`${cardNameToDisplayName(
                                       cardName
                                     )} (${cardQuantity})`}
