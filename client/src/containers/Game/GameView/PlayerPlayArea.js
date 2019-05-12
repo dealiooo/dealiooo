@@ -70,6 +70,7 @@ class PlayerPlayArea extends Component {
   render() {
     const {
       gameId,
+      userId,
       promptsInfo,
       gameLog,
       handCards,
@@ -82,7 +83,10 @@ class PlayerPlayArea extends Component {
     } = this.props;
     const { activeSideMenuItemIndex } = this.state;
 
-    const isPendingUserInput = undefined !== promptsInfo.options;
+    const isPendingUserInput =
+      undefined !== promptsInfo.options && promptsInfo.promptPlayerId == userId;
+
+    console.log(promptsInfo);
 
     let selectedBottomView;
     const activeIndex = this.getActiveIndex();

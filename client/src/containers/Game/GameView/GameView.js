@@ -129,6 +129,7 @@ class GameView extends Component {
         <div style={{ minHeight: '30vh', maxHeight: '30vh' }}>
           <PlayerPlayArea
             gameId={gameId}
+            userId={userInfo.id}
             promptsInfo={promptsInfo}
             gameLog={gameLog}
             handCards={userInfo.hand_cards}
