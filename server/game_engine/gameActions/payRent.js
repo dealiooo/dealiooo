@@ -184,7 +184,8 @@ const processCardPaymentOnNonFullSet = ({ payee, player, card, source }) => {
   player.field.propertyCards.push([]);
   moveCard({
     source: source.pile,
-    player: player.field.propertyCards[player.field.propertyCards.length - 1],
+    destination:
+      player.field.propertyCards[player.field.propertyCards.length - 1],
     card
   });
   removeEmptyPropertySets({ player: payee });
