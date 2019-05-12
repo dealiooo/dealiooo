@@ -62,7 +62,11 @@ const targetPlayerAvoid = ({
           for (let i = 0; i < player.hand.length; i++) {
             if ('just-say-no' === player.hand[i].name) {
               Game.cardsPlayedList.push(player.hand[i]);
-              moveCard(player.hand, player.field.actionCards, player.hand[i]);
+              moveCard({
+                source: player.hand,
+                destination: player.field.actionCards,
+                card: player.hand[i]
+              });
               found = true;
               break;
             }
