@@ -14,7 +14,7 @@ const playRentWildCard = ({ Game, player, card, callback }) => {
       } else if (cancelled || forced) {
         callback({ cancelled, forced });
       } else if (option === 'bank') {
-        playAsMoney({ player, card, callback });
+        playAsMoney({ Game, player, card, callback });
       } else {
         playAsAction({ Game, player, card, callback });
       }
@@ -22,7 +22,7 @@ const playRentWildCard = ({ Game, player, card, callback }) => {
   });
 };
 
-const playAsMoney = ({ player, card, callback }) => {
+const playAsMoney = ({ Game, player, card, callback }) => {
   gameActions.moveCard({
     source: player.hand,
     destination: player.field.bankCards,
