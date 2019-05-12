@@ -71,5 +71,6 @@ module.exports = {
   property_wildcard: getPropertyDestinations,
   building: getBuildingDestinations,
   rent: getRentDestinations,
+  rent_wildcard: getRentDestinations,
   all: getAllDestinations
 };
