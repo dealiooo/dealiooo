@@ -35,6 +35,10 @@ module.exports = (sequelize, Sequelize) => {
       as: 'Players',
       foreignKey: 'th_game_id'
     });
+    games.hasMany(db.th_logs, {
+      as: 'Logs',
+      foreignKey: 'th_game_id'
+    });
     games.belongsToMany(db.th_users, {
       as: 'Users',
       through: db.th_players,

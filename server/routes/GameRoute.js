@@ -4,7 +4,7 @@ const authenticatePlayer = require('./middlewares/authenticatePlayer');
 const authenticateHost = require('./middlewares/authenticateHost');
 const sendUserIdUserNameAndHostStatus = require('./middlewares/sendUserIdUserNameAndHostStatus');
 const { Game: GameSockets } = require('../sockets');
-const { Game: GameDB } = require('../database/api');
+const { Game: GameDB, Log: LogDB } = require('../database/api');
 
 router.get(
   '/api/game/:gameId',
@@ -47,8 +47,23 @@ router.post(
     const { gameId } = request.params;
     const { id, name } = response.locals.user;
     const { message } = request.body;
-    GameSockets.chat(gameId, `[${id}]:${name}:${message}`);
-    response.sendStatus(204);
+    const formattedMessage = `[${id}]:${name}:${message}`;
+    LogDB.insertChatLog(gameId, formattedMessage).then(_ => {
+      GameSockets.chat(gameId, formattedMessage);
+      response.sendStatus(204);
+    });
+  }
+);
+
+router.get(
+  '/api/game/:gameId/chat',
+  authenticateUser,
+  authenticatePlayer,
+  (request, response) => {
+    const { gameId } = request.params;
+    LogDB.getChatLogs(gameId).then(log => {
+      response.json(log);
+    });
   }
 );
 

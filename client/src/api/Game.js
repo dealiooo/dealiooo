@@ -1,7 +1,11 @@
 const request = require('./request');
 
+const jsonify = response => response.json();
+
 module.exports = {
   getGame: gameId => request(`/game/${gameId}`, {}, 'get'),
+  getGameChat: gameId =>
+    request(`/game/${gameId}/chat`, {}, 'get').then(jsonify),
   postGameCancel: gameId => request(`/game/${gameId}/cancel`, {}),
   postGameChat: ({ roomId: gameId, message }) =>
     request(`/game/${gameId}/chat`, { message }),

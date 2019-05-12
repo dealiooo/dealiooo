@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
-import PerfectScrollbar from "perfect-scrollbar";
+import PerfectScrollbar from 'perfect-scrollbar';
 
-import "perfect-scrollbar/css/perfect-scrollbar.css";
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import { Game as GameAPI } from '../../api';
 
 class ChatLog extends Component {
   constructor(props) {
@@ -20,15 +21,20 @@ class ChatLog extends Component {
     };
   }
 
+  componentDidMount() {
+    this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
+    if (this.props.gameId) {
+      GameAPI.getGameChat(this.props.gameId).then(log => {
+        this.setState({ log: log.map(e => e.message) });
+      });
+    }
+  }
+
   componentWillReceiveProps = props => {
     this.setState({
       height: props.height - 36 - 15 - 52 - 2
     });
   };
-
-  componentDidMount() {
-    this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
-  }
 
   componentDidUpdate(_) {
     ReactDOM.findDOMNode(this).scrollTop = ReactDOM.findDOMNode(
@@ -48,7 +54,7 @@ class ChatLog extends Component {
       <div
         className="box"
         style={{
-          wordWrap: "break-word",
+          wordWrap: 'break-word',
           minHeight: `${this.state.height}px`,
           maxHeight: `${this.state.height}px`
         }}

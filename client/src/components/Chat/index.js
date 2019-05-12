@@ -8,20 +8,25 @@ class Chat extends Component {
     super(props);
     this.state = {
       height: props.height
-    }
+    };
   }
 
   componentWillReceiveProps = props => {
     this.setState({
       height: props.height
-    })
-  }
+    });
+  };
 
   render() {
-    const { socket, api, roomId, channel} = this.props;
+    const { gameId, socket, api, roomId, channel } = this.props;
     return (
       <>
-        <ChatLog socket={socket} channel={channel} height={this.state.height} />
+        <ChatLog
+          gameId={gameId}
+          socket={socket}
+          channel={channel}
+          height={this.state.height}
+        />
         <ChatInput roomId={roomId} api={api} />
       </>
     );

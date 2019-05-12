@@ -62,7 +62,7 @@ class Game extends Component {
 
   componentDidMount = () => {
     const { id: gameId } = this.props.match.params;
-    GameAPI.postGameJoin(gameId);
+    // GameAPI.postGameJoin(gameId);
     socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
     socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
     socket.on(`game:${gameId}:game-forfeit`, this.onGameForfeit);
@@ -80,11 +80,12 @@ class Game extends Component {
             GameLobbyAPI.getGameLobbyInfo(this.props.match.params.id).then(
               gameInfo => {
                 if ('running' === gameInfo.status) {
-                  GameAPI.postGameLoadGame(this.props.match.params.id);
-                  this.setState({
-                    startGame: true,
-                    load: false
-                  });
+                  GameAPI.postGameLoadGame(this.props.match.params.id).then(_ =>
+                    this.setState({
+                      startGame: true,
+                      load: false
+                    })
+                  );
                 } else {
                   this.setState({
                     load: false
@@ -118,7 +119,7 @@ class Game extends Component {
     this.setState({ startGame: true });
   };
 
-  handlePromptSubmit = event => {
+  handlePromptOptionClicked = event => {
     event.preventDefault();
     console.log(
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
@@ -165,7 +166,7 @@ class Game extends Component {
 
   render() {
     const { id: gameId } = this.props.match.params;
-    const { userId, startGame, load, host, data } = this.state;
+    const { userId, startGame, load, host, data, log } = this.state;
 
     if (load) {
       return <div>Loading...</div>;
@@ -176,10 +177,11 @@ class Game extends Component {
             userId={userId}
             gameId={gameId}
             data={data}
-            onPromptSubmit={this.handlePromptSubmit}
+            log={log}
             onPropertyCardClicked={this.handlePropertyCardClicked}
             onCancelClicked={this.handleCancelClicked}
             onHandCardClicked={this.handleHandCardClicked}
+            onPromptOptionClicked={this.handlePromptOptionClicked}
             onEndTurn={this.handleEndTurn}
             onForfeit={this.handleForfeit}
           />
