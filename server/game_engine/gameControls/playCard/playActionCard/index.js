@@ -23,6 +23,7 @@ module.exports = ({ Game, player, card, callback }) => {
   };
   if ('just-say-no' === card.name) {
     playJustSayNo({
+      Game,
       player,
       card,
       callback: ({ card }) => {
