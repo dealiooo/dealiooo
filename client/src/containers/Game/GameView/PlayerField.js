@@ -105,17 +105,29 @@ class PropertyColumn extends Component {
       onPropertyCardClicked
     } = this.props;
 
-    const imageWidth = height * (2 / 3);
-    const contentHeight = `${height - 12 - 8 - 24 - 12}px`;
-    let prevCardCount = 0;
-    let prevSetCount = -1;
-    const setPadding = 8;
+    const borderWidth = 4;
+    const cardGap = 4;
+    const setGap = 6;
+    let prevSetOffsetSum = 0;
+
+    const contentHeight = height - 12 - 8 - 24 - 12;
+    const imageWidth = contentHeight * (2 / 3);
+    const imageHeight = contentHeight - 2 * (cardGap + borderWidth);
+
+    const setMiddleLayerHeight = imageHeight + 2 * cardGap;
+
+    const getSetOffset = i =>
+      2 * (borderWidth + cardGap) +
+      (propertyCards[i].length - 1) * cardGap +
+      propertyCards[i].length * imageWidth;
+    let currentSetOuterWidth = 0;
+    let currentSetMiddleWidth = 0;
+    let currentSetInnerWidth = 0;
 
     return (
-      <div className="box" style={{ paddingTop: 8 }}>
+      <div className="box" style={{ padding: `8px` }}>
         <h1 className="has-text-centered has-text-weight-bold">Property</h1>
         <div
-          className=""
           id={`${id}-property-column`}
           style={{
             position: 'relative',
@@ -127,7 +139,12 @@ class PropertyColumn extends Component {
           }}
         >
           {propertyCards.map((propertySet, i) => {
-            prevSetCount++;
+            if (i > 0) {
+              prevSetOffsetSum += getSetOffset(i - 1);
+            }
+            currentSetOuterWidth = getSetOffset(i);
+            currentSetMiddleWidth = currentSetOuterWidth - 2 * borderWidth;
+            currentSetInnerWidth = currentSetMiddleWidth - 2 * cardGap;
 
             /*<!-- SetOuterLayer -->*/
             return (
@@ -137,45 +154,64 @@ class PropertyColumn extends Component {
                 onClick={onPropertyCardClicked}
                 style={{
                   position: `absolute`,
-                  left: `${prevCardCount * imageWidth +
-                    prevSetCount * setPadding}px`,
+                  left: `${i * setGap + prevSetOffsetSum}px`,
                   minHeight: contentHeight,
                   maxHeight: contentHeight,
-                  minWidth: imageWidth * propertySet.length + 8,
-                  maxWidth: imageWidth * propertySet.length + 8,
-                  padding: '8px',
+                  minWidth: currentSetOuterWidth,
+                  maxWidth: currentSetOuterWidth,
                   borderRadius: '8px'
                 }}
               >
                 {/* <!-- SetMiddleLayer --> */}
-                <div>
+                <div
+                  style={{
+                    position: `absolute`,
+                    backgroundColor: `white`,
+                    top: `${borderWidth}px`,
+                    left: `${borderWidth}px`,
+                    minWidth: `${currentSetMiddleWidth}px`,
+                    maxWidth: `${currentSetMiddleWidth}px`,
+                    minHeight: setMiddleLayerHeight,
+                    maxHeight: setMiddleLayerHeight,
+                    borderRadius: '4px'
+                  }}
+                >
                   {/* <!-- SetInnerLayer --> */}
-                  <div>
+                  <div
+                    style={{
+                      position: `absolute`,
+                      left: `${cardGap}px`,
+                      minWidth: `${currentSetInnerWidth}px`,
+                      maxWidth: `${currentSetInnerWidth}px`,
+                      minHeight: contentHeight,
+                      maxHeight: contentHeight
+                    }}
+                  >
                     {propertySet.map((propertyCard, i) => {
-                      prevCardCount++;
+                      /* <!-- CardLayer --> */
                       return (
-                        <>
-                          {/* <!-- Card --> */}
-                          <MDCard
-                            card={propertyCard}
-                            containerStyle={{
-                              float: `left`,
-                              position: `absolute`,
-                              left: `${i * imageWidth}px`,
-                              minHeight: contentHeight,
-                              maxHeight: contentHeight,
-                              minWidth: imageWidth,
-                              maxWidth: imageWidth
-                            }}
-                            imgStyle={{
-                              minHeight: contentHeight,
-                              maxHeight: contentHeight
-                            }}
-                            propertyIndex={i}
-                            inPropertyArea={1}
-                            onClick={onPropertyCardClicked}
-                          />
-                        </>
+                        <MDCard
+                          card={propertyCard}
+                          containerStyle={{
+                            float: `left`,
+                            position: `absolute`,
+                            top: `${cardGap}px`,
+                            left: `${i * (imageWidth + cardGap)}px`,
+                            minHeight: imageHeight,
+                            maxHeight: imageHeight,
+                            minWidth: imageWidth,
+                            maxWidth: imageWidth
+                          }}
+                          imgStyle={{
+                            minHeight: imageHeight,
+                            maxHeight: imageHeight,
+                            minWidth: imageWidth,
+                            maxWidth: imageWidth
+                          }}
+                          propertyIndex={i}
+                          inPropertyArea={1}
+                          onClick={onPropertyCardClicked}
+                        />
                       );
                     })}
                   </div>
@@ -314,7 +350,6 @@ class PlayerField extends Component {
 
     const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
 
-    const generated_property_cards = generateCards('property', 8);
     return (
       <div className="columns is-marginless">
         <div
@@ -339,7 +374,7 @@ class PlayerField extends Component {
         >
           <PropertyColumn
             id={playerInfo.id}
-            propertyCards={generated_property_cards}
+            propertyCards={propertyCards}
             contentHeight={contentHeight}
             onPropertyCardClicked={onPropertyCardClicked}
           />

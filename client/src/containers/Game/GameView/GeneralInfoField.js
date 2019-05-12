@@ -19,8 +19,10 @@ class GeneralInfoField extends Component {
       gameMessage
     } = this.props;
 
+    const messageViewHeight = (contentHeight - 18 * 2) / 2;
+
     return (
-      <div className="columns is-vcentered is-marginless">
+      <div className="columns is-marginless">
         <div className="column is-2">
           <PlayerListNavigationBar
             playerInfos={opponentInfos}
@@ -29,12 +31,13 @@ class GeneralInfoField extends Component {
             onPlayerHover={onOpponentHover}
           />
         </div>
-        <div className="column is-8 ">
+        <div className="column is-8">
           <GameMessageView
             promptPlayerId={promptPlayerId}
             gameMessage={gameMessage}
+            contentHeight={messageViewHeight}
           />
-          <TimerView tick={tick} />
+          <TimerView tick={tick} contentHeight={messageViewHeight} />
         </div>
         <div className="column is-2">
           <DeckDiscardView

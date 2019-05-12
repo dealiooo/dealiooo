@@ -23,8 +23,29 @@ class DeckDiscardView extends Component {
     );
 
     return (
-      <div className="box has-text-centered">
-        <div className="columns">
+      <div
+        className="box has-text-centered"
+        style={{
+          minHeight: `${contentHeight - 12}px`,
+          maxHeight: `${contentHeight - 12}px`
+        }}
+      >
+        <div className="box" style={{ padding: `4px 0px` }}>
+          <h1 className="has-text-weight-bold">
+            Current Player: {currentPlayerId}
+          </h1>
+        </div>
+        <div
+          className="columns is-vcentered"
+          // 20: height of box padding
+          // 32: height of currentPlayer box
+          // 24: marginBottom of currentPlayer box
+          // 12: height of column padding
+          style={{
+            minHeight: `${contentHeight - 20 - 32 - 24 - 12 * 2}px`,
+            maxHeight: `${contentHeight - 20 - 32 - 24 - 12 * 2}px`
+          }}
+        >
           <div className="column">
             <h1 className="has-text-weight-bold">Deck</h1>
             <h2 class="subtitle" style={{ marginBottom: 0 }}>
@@ -109,11 +130,6 @@ class DeckDiscardView extends Component {
               </div>
             </div>
           </div>
-        </div>
-        <div>
-          <h1 className="has-text-weight-bold">
-            Current Player: {currentPlayerId}
-          </h1>
         </div>
       </div>
     );

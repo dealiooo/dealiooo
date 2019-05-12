@@ -80,12 +80,12 @@ class GameView extends Component {
         players_info: playersInfo,
         game_log: gameLog
       },
-      onPromptSubmit,
       onPropertyCardClicked,
       onHandCardClicked,
       onCancelClicked,
       onEndTurn,
-      onForfeit
+      onForfeit,
+      onPromptOptionClicked
     } = this.props;
 
     const userInfo = playersInfo.filter(player => player.id === userId)[0];
@@ -136,8 +136,8 @@ class GameView extends Component {
             onCancelClicked={onCancelClicked}
             onEndTurn={onEndTurn}
             onForfeit={onForfeit}
-            onPromptSubmit={onPromptSubmit}
             contentHeight={(screenHeight * 30) / 100}
+            onPromptOptionClicked={onPromptOptionClicked}
           />
         </div>
       </div>
