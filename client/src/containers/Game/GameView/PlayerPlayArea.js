@@ -73,12 +73,12 @@ class PlayerPlayArea extends Component {
       promptsInfo,
       gameLog,
       handCards,
-      onPromptSubmit,
       onHandCardClicked,
       onCancelClicked,
       onEndTurn,
       onForfeit,
-      contentHeight
+      contentHeight,
+      onPromptOptionClicked
     } = this.props;
     const { activeSideMenuItemIndex } = this.state;
 
@@ -93,9 +93,9 @@ class PlayerPlayArea extends Component {
           isPendingUserInput={isPendingUserInput}
           handCards={handCards}
           promptsInfo={promptsInfo}
-          onPromptSubmit={onPromptSubmit}
           onHandCardClicked={onHandCardClicked}
           onCancelClicked={onCancelClicked}
+          onPromptOptionClicked={onPromptOptionClicked}
           onEndTurn={onEndTurn}
           onForfeit={onForfeit}
           contentHeight={contentHeight}

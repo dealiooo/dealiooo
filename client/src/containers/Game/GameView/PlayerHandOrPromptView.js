@@ -9,13 +9,13 @@ class PlayerHandOrPromptView extends Component {
     const {
       isPendingUserInput,
       promptsInfo,
-      onPromptSubmit,
       handCards,
       onHandCardClicked,
       onCancelClicked,
       onEndTurn,
       onForfeit,
-      contentHeight
+      contentHeight,
+      onPromptOptionClicked
     } = this.props;
     return (
       <div className="columns">
@@ -23,9 +23,9 @@ class PlayerHandOrPromptView extends Component {
           {isPendingUserInput ? (
             <PlayerPromptView
               promptsInfo={promptsInfo}
-              onPromptSubmit={onPromptSubmit}
               onCancelClicked={onCancelClicked}
               contentHeight={contentHeight}
+              onPromptOptionClicked={onPromptOptionClicked}
             />
           ) : (
             <PlayerHandView
