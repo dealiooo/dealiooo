@@ -5,14 +5,24 @@ import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import '../styles/cardColors.css';
 import '../styles/cardColorsLightAccent.css';
 
+import generateCards from './generateCards';
 import { computerTotalCardValues, cardNameToDisplayName } from './utils';
+
+// TODO: property sets should have ratio for how much left to finish set
 
 class MDCard extends Component {
   render() {
-    const { card, propertyIndex, optionIndex, onCardClicked } = this.props;
+    const {
+      card,
+      propertyIndex,
+      optionIndex,
+      onCardClicked,
+      containerStyle,
+      imgStyle
+    } = this.props;
 
     return (
-      <figure className="image">
+      <figure className="image" style={containerStyle}>
         <img
           src={
             process.env.PUBLIC_URL +
@@ -24,6 +34,7 @@ class MDCard extends Component {
           propertyindex={propertyIndex}
           onCardClicked={onCardClicked}
           alt={`${card.name}`}
+          style={imgStyle}
         />
       </figure>
     );
@@ -82,59 +93,96 @@ class PropertyColumn extends Component {
 
   componentDidUpdate = _ => this.ps.update();
 
+  getPropertySetCssColor(propertySet) {
+    return propertySet.length ? `${propertySet[0].mainColor}-light-accent` : '';
+  }
+
   render() {
     const {
       id,
       propertyCards,
-      contentHeight,
+      contentHeight: height,
       onPropertyCardClicked
     } = this.props;
+
+    const imageWidth = height * (2 / 3);
+    const contentHeight = `${height - 12 - 8 - 24 - 12}px`;
+    let prevCardCount = 0;
+    let prevSetCount = -1;
+    const setPadding = 8;
 
     return (
       <div className="box" style={{ paddingTop: 8 }}>
         <h1 className="has-text-centered has-text-weight-bold">Property</h1>
         <div
-          className="columns is-vcentered"
+          className=""
           id={`${id}-property-column`}
           style={{
             position: 'relative',
-            overflowX: 'hidden',
+            overflowX: 'auto',
             marginTop: '0px',
             backgroundColor: 'white',
-            minHeight: `${contentHeight - 12 - 8 - 24 - 12}px`,
-            maxHeight: `${contentHeight - 12 - 8 - 24 - 12}px`
+            minHeight: contentHeight,
+            maxHeight: contentHeight
           }}
         >
-          {propertyCards.map((propertySet, i) => (
-            <div
-              className={`column is-4 ${
-                propertySet.length
-                  ? `${propertySet[0].mainColor}-light-accent`
-                  : ''
-              }`}
-              propertyIndex={i}
-              onClick={onPropertyCardClicked}
-              style={{
-                padding: '8px',
-                marginLeft: `${i === 0 ? '0px' : '12px'}`,
-                marginRight: '12px',
-                borderRadius: '8px'
-              }}
-            >
-              <div className="columns">
-                {propertySet.map(pCard => (
-                  <div className="column">
-                    <MDCard
-                      card={pCard}
-                      propertyIndex={i}
-                      inPropertyArea={1}
-                      onClick={onPropertyCardClicked}
-                    />
+          {propertyCards.map((propertySet, i) => {
+            prevSetCount++;
+
+            /*<!-- SetOuterLayer -->*/
+            return (
+              <div
+                className={`${this.getPropertySetCssColor(propertySet)}`}
+                propertyIndex={i}
+                onClick={onPropertyCardClicked}
+                style={{
+                  position: `absolute`,
+                  left: `${prevCardCount * imageWidth +
+                    prevSetCount * setPadding}px`,
+                  minHeight: contentHeight,
+                  maxHeight: contentHeight,
+                  minWidth: imageWidth * propertySet.length + 8,
+                  maxWidth: imageWidth * propertySet.length + 8,
+                  padding: '8px',
+                  borderRadius: '8px'
+                }}
+              >
+                {/* <!-- SetMiddleLayer --> */}
+                <div>
+                  {/* <!-- SetInnerLayer --> */}
+                  <div>
+                    {propertySet.map((propertyCard, i) => {
+                      prevCardCount++;
+                      return (
+                        <>
+                          {/* <!-- Card --> */}
+                          <MDCard
+                            card={propertyCard}
+                            containerStyle={{
+                              float: `left`,
+                              position: `absolute`,
+                              left: `${i * imageWidth}px`,
+                              minHeight: contentHeight,
+                              maxHeight: contentHeight,
+                              minWidth: imageWidth,
+                              maxWidth: imageWidth
+                            }}
+                            imgStyle={{
+                              minHeight: contentHeight,
+                              maxHeight: contentHeight
+                            }}
+                            propertyIndex={i}
+                            inPropertyArea={1}
+                            onClick={onPropertyCardClicked}
+                          />
+                        </>
+                      );
+                    })}
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );
@@ -265,6 +313,8 @@ class PlayerField extends Component {
     const { playerInfo, onPropertyCardClicked, contentHeight } = this.props;
 
     const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
+
+    const generated_property_cards = generateCards('property', 8);
     return (
       <div className="columns is-marginless">
         <div
@@ -289,7 +339,7 @@ class PlayerField extends Component {
         >
           <PropertyColumn
             id={playerInfo.id}
-            propertyCards={propertyCards}
+            propertyCards={generated_property_cards}
             contentHeight={contentHeight}
             onPropertyCardClicked={onPropertyCardClicked}
           />
