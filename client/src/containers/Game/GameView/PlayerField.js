@@ -3,7 +3,6 @@ import PerfectScrollbar from 'perfect-scrollbar';
 
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import '../styles/cardColors.css';
-import '../styles/cardColorsLightAccent.css';
 
 import generateCards from './generateCards';
 import { computerTotalCardValues, cardNameToDisplayName } from './utils';
@@ -94,7 +93,7 @@ class PropertyColumn extends Component {
   componentDidUpdate = _ => this.ps.update();
 
   getPropertySetCssColor(propertySet) {
-    return propertySet.length ? `${propertySet[0].mainColor}-light-accent` : '';
+    return propertySet.length ? propertySet[0].mainColor : '';
   }
 
   render() {
