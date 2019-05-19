@@ -5,7 +5,13 @@ import generateCards from './generateCards';
 
 class DeckDiscardView extends Component {
   render() {
-    const { currentPlayerId, deckCount, discard, contentHeight } = this.props;
+    const {
+      currentPlayerId,
+      cardsPlayed,
+      deckCount,
+      discard,
+      contentHeight
+    } = this.props;
 
     const frequencies = {
       property: {},
@@ -33,7 +39,7 @@ class DeckDiscardView extends Component {
       >
         <div className="box" style={{ padding: `4px 0px` }}>
           <h1 className="has-text-weight-bold">
-            Current Turn: {currentPlayerId}
+            {`Current Turn: ${currentPlayerId}\n Cards Played: ${cardsPlayed}`}
           </h1>
         </div>
         <div

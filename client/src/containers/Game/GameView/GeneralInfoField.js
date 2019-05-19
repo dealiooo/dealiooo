@@ -8,7 +8,7 @@ import DeckDiscardView from './DeckDiscardView';
 class GeneralInfoField extends Component {
   render() {
     const {
-      generalInfo: { deckCount, discard, tick },
+      generalInfo: { deckCount, discard, tick, cardsPlayed },
       promptPlayerId,
       currentPlayerId,
       selectedOpponentId,
@@ -42,6 +42,7 @@ class GeneralInfoField extends Component {
         <div className="column is-2">
           <DeckDiscardView
             currentPlayerId={currentPlayerId}
+            cardsPlayed={cardsPlayed}
             deckCount={deckCount}
             discard={discard}
             contentHeight={contentHeight}
