@@ -12,7 +12,7 @@ const userActions = require('../../../userActions');
 
 module.exports = ({ Game, player, card, callback }) => {
   const play = {
-    'deal-beaker': playDealBreaker,
+    'deal-breaker': playDealBreaker,
     'debt-collector': playDebtCollector,
     'double-the-rent': playDoubleTheRent,
     'forced-deal': playForcedDeal,
