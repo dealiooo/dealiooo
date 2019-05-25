@@ -151,7 +151,7 @@ const game_engine = {
           game_engine.promptMoveCardAround(Game);
         } else if (forced) {
           game_engine.applyForced(Game);
-        } else if (!gameControls.computeWinCondition(Game, player)) {
+        } else if (!gameControls.computeWinCondition({ Game, player })) {
           game_engine.promptBasicOptions(Game);
         }
       }
