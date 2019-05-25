@@ -74,7 +74,7 @@ class Game extends Component {
           body = JSON.parse(body);
           this.setState({
             userId: body.id,
-            userName: body.name,
+            userName: body.username,
             host: body.host
           });
           GameAPI.postGameJoin(this.props.match.params.id).then(_ => {

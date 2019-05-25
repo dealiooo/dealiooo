@@ -2,8 +2,8 @@ const gameControls = require('./gameControls');
 const userControls = require('./userControls');
 
 const game_engine = {
-  start: playerIds => {
-    let Game = gameControls.startGame({ playerIds });
+  start: users => {
+    let Game = gameControls.startGame({ users });
     Game.ticks = {};
     game_engine.resetPlayersTick(Game);
     setInterval(game_engine.tick, 1000, Game);
@@ -52,6 +52,8 @@ const game_engine = {
     data.general_info.turnCount = Game.turnCount;
     data.general_info.currentPlayerId =
       Game.players[Game.turnCount % Game.playerCount].id;
+    data.general_info.currentPlayerUsername =
+      Game.players[Game.turnCount % Game.playerCount].username;
     data.general_info.cardsPlayed = Game.cardsPlayed;
     data.general_info.deckCount = Game.deck.length;
     data.general_info.discard = Game.discard;
@@ -62,6 +64,7 @@ const game_engine = {
     return Game.players.map(player => {
       let tempPlayer = {};
       tempPlayer.id = player.id;
+      tempPlayer.username = player.username;
       if (player.id === playerId) {
         tempPlayer.hand_cards = player.hand;
       } else {
@@ -79,6 +82,9 @@ const game_engine = {
     let pending = Game.pendingForUserInput;
     if (pending) {
       data.prompts_info.promptPlayerId = pending.arguments.requiredPlayerId;
+      data.prompts_info.promptPlayerUsername = Game.players.filter(
+        player => player.id === pending.arguments.requiredPlayerId
+      )[0].username;
       data.prompts_info.promptMessage = pending.message;
       if (pending.arguments.options) {
         data.prompts_info.options = pending.arguments.options;

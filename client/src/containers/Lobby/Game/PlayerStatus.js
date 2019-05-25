@@ -18,7 +18,7 @@ class PlayerStatus extends Component {
                   )}
                 </span>
                 <span className="is-medium " key={i}>
-                  [{player.id}]{player.name}
+                  [{player.id}]{player.username}
                 </span>
               </div>
             );
