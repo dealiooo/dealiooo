@@ -20,7 +20,7 @@ module.exports = ({ Game, player, card, callback }) => {
     }
   };
   var done = i => {
-    if (i == Game.players.length - 1) {
+    if (i === Game.players.length - 1) {
       callback({ card });
     } else {
       playerActionCounter(i + 1);
