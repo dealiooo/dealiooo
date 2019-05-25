@@ -121,6 +121,7 @@ class Game extends Component {
 
   handlePromptOptionClicked = event => {
     event.preventDefault();
+    console.log('prompt: ', this.state.data.prompts_info.promptMessage);
     console.log(
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
     );
@@ -132,6 +133,7 @@ class Game extends Component {
   };
 
   handlePropertyCardClicked = event => {
+    console.log('prompt: ', this.state.data.prompts_info.promptMessage);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)

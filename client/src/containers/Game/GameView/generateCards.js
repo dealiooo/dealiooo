@@ -962,7 +962,7 @@ function getRandomInt(max) {
 /// Get a random set of cards of certain type
 /// Types: Money, Property, Action, Building or Random if type is null
 const generateCards = (type = null, count = getRandomInt(cards.length)) => {
-  if (type == null) {
+  if (null === type) {
     return shuffle(cards).slice(0, count);
   }
 

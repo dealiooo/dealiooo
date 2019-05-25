@@ -9,7 +9,7 @@ class PlayerStatus extends Component {
             return (
               <div className="button is-static is-medium">
                 <span className="icon">
-                  {i == 0 ? (
+                  {0 === i ? (
                     <i className="fas fa-crown" aria-hidden="true" />
                   ) : player.ready ? (
                     <i className="fas fa-check-square" aria-hidden="true" />

@@ -49,19 +49,19 @@ class PlayerPlayArea extends Component {
     const { activeSideMenuItemIndex, hoverSideMenuIndex } = this.state;
 
     const isActiveClickedIndex1 =
-      activeSideMenuItemIndex === 0 && hoverSideMenuIndex == null;
+      activeSideMenuItemIndex === 0 && null === hoverSideMenuIndex;
     if (isActiveClickedIndex1 || hoverSideMenuIndex === 0) {
       return 0;
     }
 
     const isActiveClickedIndex2 =
-      activeSideMenuItemIndex === 1 && hoverSideMenuIndex === null;
+      activeSideMenuItemIndex === 1 && null === hoverSideMenuIndex;
     if (isActiveClickedIndex2 || hoverSideMenuIndex === 1) {
       return 1;
     }
 
     const isActiveClickedIndex3 =
-      activeSideMenuItemIndex === 2 && hoverSideMenuIndex === null;
+      activeSideMenuItemIndex === 2 && null === hoverSideMenuIndex;
     if (isActiveClickedIndex3 || hoverSideMenuIndex === 2) {
       return 2;
     }
@@ -84,7 +84,8 @@ class PlayerPlayArea extends Component {
     const { activeSideMenuItemIndex } = this.state;
 
     const isPendingUserInput =
-      undefined !== promptsInfo.options && promptsInfo.promptPlayerId == userId;
+      undefined !== promptsInfo.options &&
+      userId === promptsInfo.promptPlayerId;
 
     console.log(promptsInfo);
 
