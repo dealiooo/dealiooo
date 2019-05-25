@@ -1,42 +1,42 @@
-const router = require("express").Router();
-const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
+const router = require('express').Router();
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
-const emptyStringsToNull = require("./middlewares/emptyStringsToNull");
-const authenticateUser = require("./middlewares/authenticateUser");
-const notAuthenticated = require("./middlewares/notAuthenticated");
-const sendUserIdAndUserName = require("./middlewares/sendUserIdAndUserName");
-const { Auth } = require("../database/api");
+const emptyStringsToNull = require('./middlewares/emptyStringsToNull');
+const authenticateUser = require('./middlewares/authenticateUser');
+const notAuthenticated = require('./middlewares/notAuthenticated');
+const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
+const { Auth } = require('../database/api');
 
-router.get("/api/register", notAuthenticated, (request, response) =>
+router.get('/api/register', notAuthenticated, (request, response) =>
   response.sendStatus(200)
 );
 
-router.get("/api/login", notAuthenticated, (request, response) =>
+router.get('/api/login', notAuthenticated, (request, response) =>
   response.sendStatus(200)
 );
 
-router.get("/api/forgot-password", notAuthenticated, (request, response) =>
+router.get('/api/forgot-password', notAuthenticated, (request, response) =>
   response.sendStatus(200)
 );
 
 router.get(
-  "/api/new-password",
+  '/api/new-password',
   authenticateUser,
   sendUserIdAndUserName,
   (request, response) => response.sendStatus(200)
 );
 
 router.get(
-  "/api/logout",
+  '/api/logout',
   authenticateUser,
   sendUserIdAndUserName,
   (request, response) => response.sendStatus(200)
 );
 
-router.post("/api/register", emptyStringsToNull, (request, response) => {
-  const { name, email, password } = request.body;
-  return Auth.insertUser(name, email, password)
+router.post('/api/register', emptyStringsToNull, (request, response) => {
+  const { username, email, password } = request.body;
+  return Auth.insertUser(username, email, password)
     .then(user =>
       request.login(user, error => {
         if (error) {
@@ -49,7 +49,7 @@ router.post("/api/register", emptyStringsToNull, (request, response) => {
 });
 
 router.post(
-  "/api/forgot-password",
+  '/api/forgot-password',
   notAuthenticated,
   emptyStringsToNull,
   (request, response) => {
@@ -75,7 +75,7 @@ router.post(
               return response.json({ error });
             }
 
-            const sid = hash.replace("/", "-");
+            const sid = hash.replace('/', '-');
             const sess = { sid: sid, email: email };
 
             return Auth.insertSession(sid, sess, expire)
@@ -85,7 +85,7 @@ router.post(
                 }
 
                 let resetPasswordUrl;
-                if (process.env.NODE_ENV === "development") {
+                if (process.env.NODE_ENV === 'development') {
                   resetPasswordUrl = `http://localhost:3000/new-password/${sid}`;
                 } else {
                   resetPasswordUrl = `http://${
@@ -94,7 +94,7 @@ router.post(
                 }
 
                 const transporter = nodemailer.createTransport({
-                  service: "Gmail",
+                  service: 'Gmail',
                   auth: {
                     user: process.env.MAILER_EMAIL,
                     pass: process.env.MAILER_PASSWORD
@@ -104,7 +104,7 @@ router.post(
                 const mailData = {
                   from: process.env.MAILER_EMAIL,
                   to: email,
-                  subject: "Forgot Password",
+                  subject: 'Forgot Password',
                   html: `Click <a href="${resetPasswordUrl}">here</a> to reset your password`
                 };
 
@@ -126,7 +126,7 @@ router.post(
 );
 
 router.get(
-  "/api/new-password/:sessionId",
+  '/api/new-password/:sessionId',
   notAuthenticated,
   emptyStringsToNull,
   (request, response) => {
@@ -143,7 +143,7 @@ router.get(
 );
 
 router.post(
-  "/api/new-password/:sessionId",
+  '/api/new-password/:sessionId',
   notAuthenticated,
   emptyStringsToNull,
   (request, response) => {
@@ -180,7 +180,7 @@ router.post(
   }
 );
 
-router.post("/api/login", emptyStringsToNull, (request, response) => {
+router.post('/api/login', emptyStringsToNull, (request, response) => {
   const { email, password } = request.body;
   return Auth.findUserByEmail(email)
     .then(user => {
@@ -190,7 +190,7 @@ router.post("/api/login", emptyStringsToNull, (request, response) => {
           if (isEqual) {
             return user;
           }
-          return Promise.reject(new Error("Invalid credentials."));
+          return Promise.reject(new Error('Invalid credentials.'));
         })
         .then(user =>
           request.login(user, error => {
@@ -205,7 +205,7 @@ router.post("/api/login", emptyStringsToNull, (request, response) => {
     .catch(error => response.json({ error }));
 });
 
-router.post("/api/logout", (request, response) => {
+router.post('/api/logout', (request, response) => {
   request.logout();
   response.sendStatus(200);
   return null;
