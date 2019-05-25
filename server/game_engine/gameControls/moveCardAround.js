@@ -37,7 +37,7 @@ const pickCardColor = ({ Game, player, card, source, callback }) => {
       } else if (forced) {
         callback({ forced });
       } else {
-        gameActions.switchColor(card, color);
+        gameActions.switchColor({ card, newColor: color });
         moveCard({ Game, player, card, source, callback });
       }
     }
