@@ -81,7 +81,7 @@ const game_engine = {
   },
   promptBasicOptions: Game => {
     let applyBasicOptions = {
-      'Play Hand Card': game_engine.promptPlayHandCard,
+      'Play Hand Card': game_engine.promptHandCardId,
       'Move Card Around': game_engine.promptMoveCardAround,
       'End Turn': game_engine.applyEndTurn
     };
@@ -96,26 +96,6 @@ const game_engine = {
           game_engine.applyForced(Game);
         } else {
           applyBasicOptions[option](Game);
-        }
-      }
-    });
-  },
-  promptPlayHandCard: Game => {
-    let applyPlayHandCard = {
-      'Pick Card Id': game_engine.promptHandCardId,
-      'Go Back': game_engine.promptBasicOptions
-    };
-    let player = Game.players[Game.turnCount % Game.playerCount];
-    userControls.playHandCard({
-      Game,
-      player,
-      callback: ({ error, option, cancelled, forced }) => {
-        if (error || cancelled) {
-          game_engine.promptBasicOptions(Game);
-        } else if (forced) {
-          game_engine.applyForced(Game);
-        } else {
-          applyPlayHandCard[option](Game);
         }
       }
     });
@@ -149,10 +129,8 @@ const game_engine = {
       Game,
       player,
       callback: ({ error, card, cancelled, forced }) => {
-        if (error) {
+        if (error || cancelled) {
           game_engine.promptBasicOptions(Game);
-        } else if (cancelled) {
-          game_engine.promptPlayHandCard(Game);
         } else if (forced) {
           game_engine.applyForced(Game);
         } else {
