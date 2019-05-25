@@ -66,7 +66,6 @@ const selectPropertySet = ({
       if (error) {
         callback({ error });
       } else if (cancelled) {
-        console.log('dealbreaker - cant cancel this one');
         selectPropertySet({
           Game,
           player,
