@@ -73,7 +73,7 @@ class GameLobby extends Component {
         status.result.map(
           playerStatus => (playerStatus.ready = playerStatus.Players[0].ready)
         );
-        this.setState({ players_status: status.result });
+        this.setState({ playersStatus: status.result });
       });
     }
   }
@@ -93,7 +93,6 @@ class GameLobby extends Component {
   }
 
   onPlayerReady(event) {
-    // TODO: refactor this array functionality to a dictionary
     var temp = this.state.playersStatus;
     var size = temp.length;
     for (var i = 0; i < size; i++) {
@@ -105,7 +104,6 @@ class GameLobby extends Component {
   }
 
   onPlayerUnready(event) {
-    // TODO: refactor this array functionality to a dictionary
     var temp = this.state.playersStatus;
     var size = temp.length;
     for (var i = 0; i < size; i++) {
@@ -128,9 +126,7 @@ class GameLobby extends Component {
   }
 
   onReady(_) {
-    GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId).then(
-      result => {}
-    );
+    GameLobbyAPI.postGameLobbyTogglePlayerReady(this.state.gameId);
   }
 
   onExit(_) {
