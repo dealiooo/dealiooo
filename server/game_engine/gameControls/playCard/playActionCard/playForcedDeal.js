@@ -68,7 +68,7 @@ const pickCardToForcedDeal = ({
 }) => {
   userControls.pickFieldCard({
     Game,
-    player: targetPlayer,
+    player,
     pileNames: ['propertyCards', 'buildingCards'],
     callback: ({
       error,
@@ -98,7 +98,7 @@ const pickCardToForcedDeal = ({
           targetPlayerCard,
           targetPlayerSource
         });
-        callback({ card });
+        callback({ card: targetPlayerCard });
       }
     }
   });
