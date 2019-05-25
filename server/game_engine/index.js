@@ -5,10 +5,16 @@ const game_engine = {
   start: playerIds => {
     let Game = gameControls.startGame({ playerIds });
     Game.ticks = {};
-    playerIds.map(playerId => (Game.ticks[playerId] = 60));
+    game_engine.resetPlayersTick(Game);
     setInterval(game_engine.tick, 1000, Game);
     game_engine.applyStartTurn(Game);
     return Game;
+  },
+  resetPlayerTick: (Game, playerId) => {
+    Game.ticks[playerId] = 60;
+  },
+  resetPlayersTick: Game => {
+    Game.players.map(player => game_engine.resetPlayerTick(Game, player.id));
   },
   tick: Game => {
     if (Game.pendingForUserInput) {
@@ -16,7 +22,7 @@ const game_engine = {
       Game.ticks[playerId]--;
       if (0 >= Game.ticks[playerId]) {
         game_engine.applyForceAction(Game, playerId);
-        Game.ticks[playerId] = 60;
+        game_engine.resetPlayerTick(Game, playerId);
       }
     }
   },
@@ -171,7 +177,7 @@ const game_engine = {
         } else if (forced) {
           game_engine.applyForced(Game);
         } else {
-          Game.players.map(player => (Game.ticks[player.id] = 60));
+          game_engine.resetPlayersTick(Game);
           if (gameControls.computeWinCondition({ Game, player })) {
             return game_engine.applyPlayerWon(Game);
           } else {
@@ -186,7 +192,7 @@ const game_engine = {
     });
   },
   applyStartTurn: Game => {
-    Game.players.map(player => (Game.ticks[player.id] = 60));
+    game_engine.resetPlayersTick(Game);
     let player = Game.players[Game.turnCount % Game.playerCount];
     gameControls.startTurn({ Game, player });
     game_engine.promptBasicOptions(Game);
@@ -209,7 +215,7 @@ const game_engine = {
     return ``;
   },
   applyLeaveGame: (Game, playerId) => {
-    Game.players.map(player => (Game.ticks[player.id] = 60));
+    game_engine.resetPlayersTick(Game);
     let player = Game.players[Game.turnCount % Game.playerCount];
     if (player.id === playerId) {
       gameControls.forfeit({ Game, player });
@@ -217,7 +223,7 @@ const game_engine = {
   },
   applyForced: Game => {
     Game.cardsPlayed++;
-    Game.players.map(player => (Game.ticks[player.id] = 60));
+    game_engine.resetPlayersTick(Game);
     if (gameControls.forcePlayerEndTurn({ Game })) {
       game_engine.applyEndTurn(Game);
     } else {
