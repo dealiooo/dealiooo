@@ -202,8 +202,8 @@ const game_engine = {
       Game.winner.id
     }) won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
-  applyEndTurn: Game => {
-    if (null === Game.pendingForUserInput) {
+  applyEndTurn: (Game, force) => {
+    if (null === Game.pendingForUserInput || force) {
       gameControls.endTurn({
         Game,
         callback: _ => {
@@ -225,7 +225,7 @@ const game_engine = {
     Game.cardsPlayed++;
     game_engine.resetPlayersTick(Game);
     if (gameControls.forcePlayerEndTurn({ Game })) {
-      game_engine.applyEndTurn(Game);
+      game_engine.applyEndTurn(Game, true);
     } else {
       game_engine.promptBasicOptions(Game);
     }
