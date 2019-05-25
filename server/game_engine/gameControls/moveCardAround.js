@@ -29,7 +29,7 @@ const pickCardColor = ({ Game, player, card, source, callback }) => {
     Game,
     player,
     card,
-    callback: ({ error, cancelled, forced, color }) => {
+    callback: ({ error, cancelled, forced, option: color }) => {
       if (error) {
         callback({ error });
       } else if (cancelled) {
