@@ -44,7 +44,7 @@ const processSlyDeal = ({
   callback
 }) => {
   if ('propertyCards' === source.pileName) {
-    if (gameActions.getPropertySetStatus({ Game, destination: source.pile })) {
+    if (gameActions.getPropertySetStatus({ Game, propertySet: source.pile })) {
       if (forced) {
         forcedPickFieldCardToSlyDeal({ Game, player, targetPlayer, callback });
       } else {
@@ -92,7 +92,7 @@ const forcedPickFieldCardToSlyDeal = ({
       if (
         gameActions.getPropertySetStatus({
           Game,
-          destination: targetPlayer.field['propertyCards'][i]
+          propertySet: targetPlayer.field['propertyCards'][i]
         })
       ) {
         card = targetPlayer.field['propertyCards'][i][0];
