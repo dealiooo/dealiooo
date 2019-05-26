@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import '../styles/cardHover.css';
-import generateCards from './generateCards';
 
 class PlayerHandView extends Component {
   render() {
@@ -11,8 +10,8 @@ class PlayerHandView extends Component {
       <div
         className="box"
         style={{
-          minHeight: `${contentHeight - 20 * 2}px`,
-          maxHeight: `${contentHeight - 20 * 2}px`
+          minHeight: `${contentHeight - 12 * 2}px`,
+          maxHeight: `${contentHeight - 12 * 2}px`
         }}
       >
         <div className="columns is-centered is-multiline">

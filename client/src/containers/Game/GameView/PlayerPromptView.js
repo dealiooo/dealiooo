@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class PlayerPromptView extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const {
       promptsInfo,
@@ -17,8 +13,8 @@ class PlayerPromptView extends Component {
       <div
         className="box"
         style={{
-          minHeight: `${contentHeight - 20 * 2}px`,
-          maxHeight: `${contentHeight - 20 * 2}px`
+          minHeight: `${contentHeight - 12 * 2}px`,
+          maxHeight: `${contentHeight - 12 * 2}px`
         }}
       >
         <h1>Select a Option</h1>

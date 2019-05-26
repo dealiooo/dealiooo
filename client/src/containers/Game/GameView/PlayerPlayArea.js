@@ -79,7 +79,8 @@ class PlayerPlayArea extends Component {
       onEndTurn,
       onForfeit,
       contentHeight,
-      onPromptOptionClicked
+      onPromptOptionClicked,
+      log
     } = this.props;
     const { activeSideMenuItemIndex } = this.state;
 
@@ -108,7 +109,7 @@ class PlayerPlayArea extends Component {
       );
     } else if (activeIndex === 1) {
       selectedBottomView = (
-        <GameChat gameId={gameId} contentHeight={contentHeight} />
+        <GameChat gameId={gameId} contentHeight={contentHeight} log={log} />
       );
     } else if (activeIndex === 2) {
       selectedBottomView = (
@@ -164,6 +165,20 @@ class PlayerPlayArea extends Component {
                   </li>
                 );
               })}
+
+              <div
+                style={{
+                  // 12: column padding, 36: button height, 2: padding vertical of buttons
+                  minHeight: contentHeight - 12 * 2 - 36 * 4 - 2 * 2,
+                  maxHeight: contentHeight - 12 * 2 - 36 * 4 - 2 * 2
+                }}
+              />
+              <button
+                className="button is-rounded is-danger has-text-right is-fullwidth"
+                onForfeit={onForfeit}
+              >
+                Forfeit
+              </button>
             </ul>
           </aside>
         </div>
