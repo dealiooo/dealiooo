@@ -65,7 +65,7 @@ class MakeRoomModal extends Component {
                     <label className="label">Player Capacity</label>
                     <div className="columns is-centered">
                       {[2, 3, 4, 5].map(playerCapacityValue => (
-                        <div className="control column">
+                        <div className="control column" key={playerCapacity}>
                           <input
                             className={`button is-fullwidth ${
                               parseInt(playerCapacity) === playerCapacityValue
