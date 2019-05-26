@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { GameLobby as GameLobbyAPI } from "../../../api";
+import { GameLobby as GameLobbyAPI } from '../../../api';
 
 class GameLobbyListItem extends Component {
   constructor(props) {
@@ -46,9 +46,7 @@ class GameLobbyListItem extends Component {
           <div className="column is-4">
             #{this.props.gameLobby.id} {this.props.gameLobby.roomName}
           </div>
-          <div className="column is-2">
-            [{this.props.gameLobby.hostId}]{this.props.gameLobby.hostName}
-          </div>
+          <div className="column is-2">{this.props.gameLobby.hostName}</div>
           <div className="column is-2">
             ({this.props.gameLobby.playerNum} / {this.props.gameLobby.playerCap}
             )
