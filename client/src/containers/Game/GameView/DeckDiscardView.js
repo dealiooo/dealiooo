@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { cardNameToDisplayName, cardTypeToDisplayName } from './utils';
-import generateCards from './generateCards';
 
 class DeckDiscardView extends Component {
   render() {
@@ -79,11 +78,7 @@ class DeckDiscardView extends Component {
                 className="dropdown-trigger"
                 style={{ display: 'flex', width: '100%' }}
               >
-                <button
-                  className="button is-fullwidth"
-                  aria-haspopup="true"
-                  aria-4="bank-column-dropdown-menu"
-                >
+                <button className="button is-fullwidth" aria-haspopup="true">
                   <span>{discard.length}</span>
                   <span className="icon is-small">
                     <i className="fas fa-angle-down" aria-hidden="true" />

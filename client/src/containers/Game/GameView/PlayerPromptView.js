@@ -26,7 +26,7 @@ class PlayerPromptView extends Component {
                   <input
                     className={`button is-fullwidth is-rounded ${
                       promptsInfo.promptMessage === `picking a color`
-                        ? option + ` ` + `has-text-white`
+                        ? `${option} has-text-white`
                         : ''
                     }`}
                     name="prompt-option"

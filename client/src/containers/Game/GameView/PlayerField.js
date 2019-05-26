@@ -4,7 +4,6 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import '../styles/cardColors.css';
 
-import generateCards from './generateCards';
 import { computerTotalCardValues, cardNameToDisplayName } from './utils';
 
 // TODO: property sets should have ratio for how much left to finish set
@@ -279,11 +278,7 @@ class BankColumn extends Component {
             className="dropdown-trigger"
             style={{ display: 'flex', width: '100%' }}
           >
-            <button
-              className="button is-fullwidth"
-              aria-haspopup="true"
-              aria-4="bank-column-dropdown-menu"
-            >
+            <button className="button is-fullwidth" aria-haspopup="true">
               <span>{`$${totalValue}`}</span>
               <span className="icon is-small">
                 <i className="fas fa-angle-down" aria-hidden="true" />

@@ -9,6 +9,7 @@ class PlayerStatus extends Component {
             return (
               <div
                 className="button is-static is-medium"
+                key={player.id}
                 style={{ marginBottom: `10px` }}
               >
                 <span className="icon">

@@ -7,7 +7,7 @@ import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
 
 const getAttributeValue = (event, attributeName, defaultValue) => {
   let attributeValue = event.target.getAttribute(attributeName.toLowerCase());
-  if (undefined != attributeValue) {
+  if (undefined !== attributeValue) {
     return attributeValue;
   }
   return defaultValue;

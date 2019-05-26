@@ -38,7 +38,7 @@ const NavigationBar = ({ title, username }) => {
           <div className="navbar-item has-dropdown is-hoverable">
             <span className="navbar-link">{username}</span>
             <div className="navbar-dropdown is-right">
-              <a className="navbar-item" value="item" onClick={logout}>
+              <a className="navbar-item" value="item" href="/" onClick={logout}>
                 Logout
               </a>
             </div>
