@@ -212,7 +212,11 @@ class MainLobby extends Component {
         </div>
       );
     }
-    return <div>Loading...</div>;
+    return (
+      <div style={{ position: `absolute`, top: `50%`, left: `50%` }}>
+        Loading...
+      </div>
+    );
   };
 }
 
