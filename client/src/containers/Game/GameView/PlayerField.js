@@ -297,7 +297,7 @@ class BankColumn extends Component {
           >
             <div className="dropdown-content">
               <div className="dropdown-item">
-                <table class="table is-fullwidth is-bordered is-size-6">
+                <table className="table is-fullwidth is-bordered is-size-6">
                   <thead>
                     <tr>
                       <th className="has-text-centered">Card</th>

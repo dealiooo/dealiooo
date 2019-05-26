@@ -62,7 +62,7 @@ class DeckDiscardView extends Component {
         >
           <div className="column">
             <h1 className="has-text-weight-bold">Deck</h1>
-            <h2 class="subtitle" style={{ marginBottom: 0 }}>
+            <h2 className="subtitle" style={{ marginBottom: 0 }}>
               {deckCount}
             </h2>
           </div>
