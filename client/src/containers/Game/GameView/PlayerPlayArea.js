@@ -88,8 +88,6 @@ class PlayerPlayArea extends Component {
       undefined !== promptsInfo.options &&
       userId === promptsInfo.promptPlayerId;
 
-    console.log(promptsInfo);
-
     let selectedBottomView;
     const activeIndex = this.getActiveIndex();
 
