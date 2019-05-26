@@ -16,7 +16,7 @@
     "db:create:migration": "sequelize migration:generate --name ",
     "db:migrate": "sequelize db:migrate",
     "db:rollback": "sequelize db:migrate:undo:all",
-    "postinstall": "sequelize db:migrate",
+    "postinstall": "npm run db:rollback && npm run db:migrate",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "precommit": "lint-staged"
   },
