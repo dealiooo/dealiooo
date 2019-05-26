@@ -26,7 +26,7 @@ class GameLobby extends Component {
       startRender: false,
       host: false,
       userId: null,
-      userName: null,
+      username: null,
       playersStatus: null,
       socket: socket
     };
@@ -44,7 +44,7 @@ class GameLobby extends Component {
         response.text().then(body => {
           body = JSON.parse(body);
           this.setState({ userId: body.id });
-          this.setState({ userName: body.name });
+          this.setState({ username: body.username });
           GameLobbyAPI.getGameLobbyPlayersStatus(this.state.gameId).then(
             status => {
               status.result.map(playerStatus => {
@@ -139,7 +139,7 @@ class GameLobby extends Component {
     if (this.state.startRender) {
       return (
         <>
-          <NavigationBar userName={this.state.userName} />
+          <NavigationBar username={this.state.username} />
           <div className="columns">
             <div className="column">
               <div className="container">

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Auth } from './../../api';
 
-const NavigationBar = ({ title, userName }) => {
+const NavigationBar = ({ title, username }) => {
   const logout = () => {
     Auth.postLogout().then(result => {
       if (result.error) {
@@ -36,7 +36,7 @@ const NavigationBar = ({ title, userName }) => {
         ) : null}
         <div className="navbar-end">
           <div className="navbar-item has-dropdown is-hoverable">
-            <span className="navbar-link">{userName}</span>
+            <span className="navbar-link">{username}</span>
             <div className="navbar-dropdown is-right">
               <a className="navbar-item" value="item" onClick={logout}>
                 Logout

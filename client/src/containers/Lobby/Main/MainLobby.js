@@ -45,7 +45,7 @@ class MainLobby extends Component {
           body = JSON.parse(body);
           this.setState({
             userId: body.id,
-            userName: body.name,
+            username: body.username,
             startRender: true
           });
           MainLobbyAPI.postMainLobby().then(promise => {
@@ -179,7 +179,7 @@ class MainLobby extends Component {
     if (this.state.startRender) {
       return (
         <div>
-          <NavigationBar userName={this.state.userName} />
+          <NavigationBar username={this.state.username} />
           <section
             className="hero is-fullheight-with-navbar"
             style={{
