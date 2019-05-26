@@ -6,7 +6,7 @@ import GameView from './GameView/GameView';
 import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
 
 const getAttributeValue = (event, attributeName, defaultValue) => {
-  let attributeValue = event.target.getAttribute(attributeName);
+  let attributeValue = event.target.getAttribute(attributeName.toLowerCase());
   if (undefined != attributeValue) {
     return attributeValue;
   }
@@ -50,11 +50,13 @@ class Game extends Component {
       host: false,
       startGame: false,
       load: true,
-      data: null
+      data: null,
+      log: []
     };
 
     this.onStartGame = this.onStartGame.bind(this);
     this.onGameUpdate = this.onGameUpdate.bind(this);
+    this.onChatMessage = this.onChatMessage.bind(this);
     this.handleEndTurn = this.handleEndTurn.bind(this);
     this.handleForfeit = this.handleForfeit.bind(this);
     this.handleHandCardClicked = this.handleHandCardClicked.bind(this);
@@ -66,32 +68,36 @@ class Game extends Component {
     socket.on(`game:${gameId}:start-game`, this.onStartGameNotifyAll);
     socket.on(`game:${gameId}:game-update`, this.onGameUpdate);
     socket.on(`game:${gameId}:game-forfeit`, this.onGameForfeit);
+    socket.on(`game:${gameId}:chat`, this.onChatMessage);
 
-    GameAPI.getGame(this.props.match.params.id).then(response => {
+    GameAPI.getGame(gameId).then(response => {
       if (response.ok) {
         response.text().then(body => {
           body = JSON.parse(body);
-          this.setState({
-            userId: body.id,
-            userName: body.name,
-            host: body.host
-          });
-          GameAPI.postGameJoin(this.props.match.params.id).then(_ => {
-            GameLobbyAPI.getGameLobbyInfo(this.props.match.params.id).then(
-              gameInfo => {
+          GameAPI.postGameJoin(gameId).then(_ => {
+            GameLobbyAPI.getGameLobbyInfo(gameId).then(gameInfo =>
+              GameAPI.getGameChat(gameId).then(log => {
                 if ('running' === gameInfo.status) {
-                  GameAPI.postGameLoadGame(this.props.match.params.id).then(_ =>
+                  GameAPI.postGameLoadGame(gameId).then(_ =>
                     this.setState({
+                      userId: body.id,
+                      userName: body.name,
+                      host: body.host,
                       startGame: true,
-                      load: false
+                      load: false,
+                      log: log.map(e => e.message)
                     })
                   );
                 } else {
                   this.setState({
-                    load: false
+                    userId: body.id,
+                    userName: body.name,
+                    host: body.host,
+                    load: false,
+                    log: log.map(e => e.message)
                   });
                 }
-              }
+              })
             );
           });
         });
@@ -105,6 +111,10 @@ class Game extends Component {
     if (data) {
       this.setState({ data });
     }
+  };
+
+  onChatMessage = message => {
+    this.setState({ log: this.state.log.concat(message) });
   };
 
   onGameForfeit = message => {};
@@ -130,6 +140,21 @@ class Game extends Component {
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
     );
+  };
+
+  handleBankCardClicked = event => {
+    const moneyCardId = getAttributeValue(event, 'moneyCardId', -1);
+    GameAPI.postGameClick(this.props.match.params.id, moneyCardId);
+  };
+
+  handleHouseCardClicked = event => {
+    const houseId = getAttributeValue(event, 'houseId', -1);
+    GameAPI.postGameClick(this.props.match.params.id, houseId);
+  };
+
+  handleHotelCardClicked = event => {
+    const hotelId = getAttributeValue(event, 'hotelId', -1);
+    GameAPI.postGameClick(this.props.match.params.id, hotelId);
   };
 
   handlePropertyCardClicked = event => {
@@ -181,6 +206,9 @@ class Game extends Component {
             data={data}
             log={log}
             onPropertyCardClicked={this.handlePropertyCardClicked}
+            onBankCardClicked={this.handleBankCardClicked}
+            onHouseCardClicked={this.handleHouseCardClicked}
+            onHotelCardClicked={this.handleHotelCardClicked}
             onCancelClicked={this.handleCancelClicked}
             onHandCardClicked={this.handleHandCardClicked}
             onPromptOptionClicked={this.handlePromptOptionClicked}
