@@ -7,12 +7,23 @@ class PlayerStatus extends Component {
         <span>
           {this.props.status.map((player, i) => {
             return (
-              <div className="button is-static is-medium">
+              <div
+                className="button is-static is-medium"
+                style={{ marginBottom: `10px` }}
+              >
                 <span className="icon">
                   {0 === i ? (
-                    <i className="fas fa-crown" aria-hidden="true" />
+                    <i
+                      className="fas fa-crown"
+                      style={{ color: `gold` }}
+                      aria-hidden="true"
+                    />
                   ) : player.ready ? (
-                    <i className="fas fa-check-square" aria-hidden="true" />
+                    <i
+                      className="fas fa-check-square"
+                      style={{ color: `green` }}
+                      aria-hidden="true"
+                    />
                   ) : (
                     <i className="fas fa-square" aria-hidden="true" />
                   )}

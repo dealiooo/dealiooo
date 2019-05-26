@@ -6,8 +6,6 @@ import PlayerStatus from './PlayerStatus';
 
 import { socket, GameLobby as GameLobbyAPI } from '../../../api';
 
-import './GameLobby.css';
-
 class GameLobby extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +17,7 @@ class GameLobby extends Component {
     this.onStart = this.onStart.bind(this);
     this.onReady = this.onReady.bind(this);
     this.onExit = this.onExit.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
     let gameId = this.props.match.params.id;
     this.state = {
       gameId,
@@ -28,7 +27,8 @@ class GameLobby extends Component {
       userId: null,
       username: null,
       playersStatus: null,
-      socket: socket
+      socket: socket,
+      contentHeight: (window.innerHeight * 80) / 100
     };
     GameLobbyAPI.postGameLobbyEnter(gameId);
     socket.on(`game-lobby:${gameId}:enter-game`, this.onEnterGame);
@@ -61,11 +61,23 @@ class GameLobby extends Component {
       } else {
         window.location = '/main-lobby';
       }
+      window.addEventListener('resize', this.updateDimensions);
     });
+
     GameLobbyAPI.getGameLobbyInfo(this.state.gameId).then(gameInfo => {
       this.setState({ lobbyName: `${gameInfo.room_name} Lobby` });
     });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions = () => {
+    this.setState({
+      contentHeight: (window.innerHeight * 80) / 100
+    });
+  };
 
   onEnterGame(event) {
     if (this.state.gameId === event) {
@@ -138,67 +150,95 @@ class GameLobby extends Component {
   render() {
     if (this.state.startRender) {
       return (
-        <>
+        <div>
           <NavigationBar username={this.state.username} />
           <div className="columns">
             <div className="column">
-              <div className="container">
-                <section className="section">
-                  <div className="columns">
-                    <div className="column is-three-fifths left-border is-paddingless">
-                      <div className="box has-background-grey-dark  ">
-                        <h1 className="title has-text-white has-text-centered">
-                          {this.state.lobbyName}
-                        </h1>
+              <section className="section">
+                <div className="columns">
+                  <div className="column is-three-fifths is-paddingless">
+                    <article
+                      className="message is-dark"
+                      style={{
+                        // 20: to fit the chat column
+                        height: `${this.state.contentHeight - 20}px`,
+                        minHeight: `${this.state.contentHeight - 20}px`,
+                        maxHeight: `${this.state.contentHeight - 20}px`
+                      }}
+                    >
+                      <div className="message-header">
+                        <div />
+                        <p className="is-size-4"> {this.state.lobbyName}</p>
+                        <div />
                       </div>
-                      <section className="section left-mid-section">
-                        <PlayerStatus status={this.state.playersStatus} />
-                      </section>
-                      <section className="section">
-                        <div className="level">
-                          <div className="level-item">
-                            {this.state.host ? (
-                              <button
-                                className="button is-medium is-fullwidth is-success"
-                                onClick={this.onStart}
-                              >
-                                Start
-                              </button>
-                            ) : (
-                              <button
-                                className="button is-medium is-fullwidth is-success"
-                                onClick={this.onReady}
-                              >
-                                Ready
-                              </button>
-                            )}
-                          </div>
+                      <div
+                        className="message-body"
+                        style={{ position: 'relative', height: `100%` }}
+                      >
+                        <section className="section">
+                          <PlayerStatus status={this.state.playersStatus} />
+                        </section>
+                        <section
+                          className="section"
+                          style={{
+                            position: 'absolute',
+                            width: `100%`,
+                            bottom: 20,
+                            left: 0
+                          }}
+                        >
+                          <div className="level">
+                            <div className="level-item">
+                              {this.state.host ? (
+                                <button
+                                  className="button is-medium is-fullwidth is-success"
+                                  style={{ marginRight: `10px` }}
+                                  onClick={this.onStart}
+                                >
+                                  Start
+                                </button>
+                              ) : (
+                                <button
+                                  className="button is-medium is-fullwidth is-success"
+                                  style={{ marginRight: `10px` }}
+                                  onClick={this.onReady}
+                                >
+                                  Ready
+                                </button>
+                              )}
+                            </div>
 
-                          <div className="level-item">
-                            <button
-                              className="button is-medium is-fullwidth is-danger"
-                              onClick={this.onExit}
-                            >
-                              Exit
-                            </button>
+                            <div className="level-item">
+                              <button
+                                className="button is-medium is-fullwidth is-danger"
+                                style={{ marginLeft: `10px` }}
+                                onClick={this.onExit}
+                              >
+                                Exit
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      </section>
-                    </div>
-                    <div className="column game-lobby-chat">
-                      <Chat
-                        socket={this.state.socket}
-                        api={GameLobbyAPI.postGameLobbyChat}
-                        channel={`game-lobby:${this.state.gameId}:chat`}
-                        roomId={this.state.gameId}
-                      />
-                    </div>
+                        </section>
+                      </div>
+                    </article>
                   </div>
-                </section>
-              </div>
+                  <div
+                    className="column game-lobby-chat"
+                    style={{ paddingTop: 0, paddingBottom: 0 }}
+                  >
+                    <Chat
+                      socket={this.state.socket}
+                      api={GameLobbyAPI.postGameLobbyChat}
+                      channel={`game-lobby:${this.state.gameId}:chat`}
+                      roomId={this.state.gameId}
+                      height={this.state.contentHeight}
+                    />
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
-        </>
+        </div>
       );
     }
     return <>Loading...</>;
