@@ -12,8 +12,8 @@ const checkPassword = function(user, password) {
   });
 };
 
-const verifyCallback = (username, password, done) =>
-  Auth.findUserByEmail(username)
+const verifyCallback = (identifier, password, done) =>
+  Auth.findUserByUsernameOrEmail(identifier)
     .then(user => {
       if (user) {
         return checkPassword(user, password)
@@ -36,7 +36,7 @@ passport.deserializeUser((id, done) =>
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'email',
+      usernameField: 'login',
       passwordField: 'password'
     },
     verifyCallback

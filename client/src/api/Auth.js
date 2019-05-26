@@ -7,8 +7,8 @@ module.exports = {
   getRegister: () => request('/register', {}, 'get'),
   getForgotPassword: () => request('/forgot-password', {}, 'get'),
   getNewPassword: sid => request(`/new-password/${sid}`, {}, 'get'),
-  postLogin: (email, password) =>
-    request('/login', { email, password }).then(jsonify),
+  postLogin: (identifier, password) =>
+    request('/login', { identifier, password }).then(jsonify),
   postRegister: (username, email, password) =>
     request('/register', { username, email, password }),
   postForgotPassword: email => request('/forgot-password', { email }),

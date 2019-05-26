@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import Banner from "../../../components/Banner";
-import { Auth } from "../../../api";
+import Banner from '../../../components/Banner';
+import { Auth } from '../../../api';
 
 class Login extends Component {
   state = {
-    email: "",
-    password: "",
-    error_message: ""
+    login: '',
+    password: '',
+    error_message: ''
   };
 
   onChange = event => {
@@ -16,13 +16,13 @@ class Login extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    Auth.postLogin(this.state.email, this.state.password).then(result => {
+    Auth.postLogin(this.state.login, this.state.password).then(result => {
       if (result.error) {
         this.setState({
-          error_message: "Invalid email & password combination"
+          error_message: 'Invalid login combination'
         });
       } else {
-        window.location = "/main-lobby";
+        window.location = '/main-lobby';
       }
     });
   };
@@ -30,13 +30,13 @@ class Login extends Component {
   componentWillMount() {
     Auth.getLogin().then(response => {
       if (!response.ok) {
-        window.location = "/main-lobby";
+        window.location = '/main-lobby';
       }
     });
   }
 
   render() {
-    const { email, password, error_message } = this.state;
+    const { login, password, error_message } = this.state;
     return (
       <div className="container is-fluid">
         <Banner />
@@ -53,11 +53,11 @@ class Login extends Component {
                     <div className="control">
                       <input
                         className="input"
-                        name="email"
-                        type="email"
+                        name="login"
+                        type="name"
                         onChange={this.onChange}
-                        value={email}
-                        placeholder="Email"
+                        value={login}
+                        placeholder="login"
                       />
                     </div>
                   </div>
@@ -77,7 +77,7 @@ class Login extends Component {
                     <button className="button is-fullwidth">Login</button>
                   </div>
                 </form>
-                <div className="has-text-right" style={{ marginTop: "20px" }}>
+                <div className="has-text-right" style={{ marginTop: '20px' }}>
                   <a href="/register">Register</a>
                   &nbsp;|&nbsp;
                   <a href="/forgot-password">Forgot Password?</a>

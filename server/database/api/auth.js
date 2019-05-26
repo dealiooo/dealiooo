@@ -10,6 +10,20 @@ const insertUser = db => (username, email, hash_me) =>
     })
   );
 
+const findUserByUsernameOrEmail = db => identifier =>
+  db.th_users.findOne({
+    where: {
+      [db.Sequelize.Op.or]: [
+        {
+          username: identifier
+        },
+        {
+          email: identifier
+        }
+      ]
+    }
+  });
+
 const findUserByEmail = db => email =>
   db.th_users.findOne({ where: { email } });
 
@@ -42,6 +56,7 @@ const findPlayer = db => (th_game_id, th_user_id) =>
 module.exports = db => ({
   insertUser: insertUser(db),
   findUserByEmail: findUserByEmail(db),
+  findUserByUsernameOrEmail: findUserByUsernameOrEmail(db),
   findUserById: findUserById(db),
   updatePassword: updatePassword(db),
   insertSession: insertSession(db),
