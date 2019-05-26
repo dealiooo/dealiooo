@@ -98,44 +98,48 @@ class DeckDiscardView extends Component {
                 >
                   <div className="dropdown-item">
                     <table
-                      class="table is-fullwidth"
+                      className="table is-fullwidth"
                       style={{
                         width: `${window.innerWidth / 1.8}px`
                       }}
                     >
                       <thead>
                         <tr>
-                          {Object.keys(frequencies).map(key => (
-                            <th className="has-text-centered">
-                              {cardTypeToDisplayName(key)}
-                            </th>
-                          ))}
+                          {Object.keys(frequencies).map(key => {
+                            return (
+                              <th className="has-text-centered" key={key}>
+                                {cardTypeToDisplayName(key)}
+                              </th>
+                            );
+                          })}
                         </tr>
                       </thead>
                       <tbody>
                         {Object.keys(frequencies).map((_, columnIndex) => {
                           return (
-                            <tr>
-                              {Object.keys(frequencies).map(cardTypeKey => {
-                                const cardName = Object.keys(
-                                  frequencies[cardTypeKey]
-                                )[columnIndex];
+                            <tr key={columnIndex}>
+                              {Object.keys(frequencies).map(
+                                (cardTypeKey, i) => {
+                                  const cardName = Object.keys(
+                                    frequencies[cardTypeKey]
+                                  )[columnIndex];
 
-                                if (cardName === undefined) {
-                                  return <td />;
+                                  if (cardName === undefined) {
+                                    return <td key={i} />;
+                                  }
+
+                                  const cardQuantity =
+                                    frequencies[cardTypeKey][cardName];
+
+                                  return (
+                                    <td className="has-text-centered" key={i}>
+                                      {`${cardNameToDisplayName(
+                                        cardName
+                                      )} (${cardQuantity})`}
+                                    </td>
+                                  );
                                 }
-
-                                const cardQuantity =
-                                  frequencies[cardTypeKey][cardName];
-
-                                return (
-                                  <td className="has-text-centered">
-                                    {`${cardNameToDisplayName(
-                                      cardName
-                                    )} (${cardQuantity})`}
-                                  </td>
-                                );
-                              })}
+                              )}
                             </tr>
                           );
                         })}

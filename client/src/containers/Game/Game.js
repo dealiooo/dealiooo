@@ -132,11 +132,6 @@ class Game extends Component {
 
   handlePromptOptionClicked = event => {
     event.preventDefault();
-    console.log('prompt: ', this.state.data.prompts_info.promptMessage);
-    console.log(
-      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
-    );
-    console.log(event.target);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
@@ -167,6 +162,7 @@ class Game extends Component {
   };
 
   handleForfeit = _ => {
+    console.log('CALLED');
     GameAPI.postGameForfeit(this.props.match.params.id);
     window.location = '/main-lobby';
   };
@@ -177,10 +173,6 @@ class Game extends Component {
 
   /// TODO:
   handleHandCardClicked = event => {
-    console.log(
-      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
-    );
-    console.log(event.target);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)

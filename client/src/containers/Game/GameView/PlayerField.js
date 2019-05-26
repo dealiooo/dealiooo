@@ -302,16 +302,16 @@ class BankColumn extends Component {
                   <tbody>
                     {Object.keys(frequencies).map(key => {
                       return (
-                        <tr>
+                        <tr key={key}>
                           <td
                             className="has-text-centered"
                             onClick={onBankCardClicked}
-                            moneyCardId={cardIds[key]}
+                            monkeycardid={cardIds[key]}
                           >
                             {`$${cardNameToDisplayName(key)}`}
                           </td>
                           <td className="has-text-centered">
-                            {frequencies[key]}
+                            {`${frequencies[key]}`}
                           </td>
                         </tr>
                       );
@@ -365,20 +365,20 @@ class BuildingColumn extends Component {
             <button
               className="button"
               onClick={onHouseCardClicked}
-              houseId={houseId}
+              houseid={houseId}
             >
               <span
                 className="icon"
                 onClick={onHouseCardClicked}
-                houseId={houseId}
+                houseid={houseId}
               >
                 <i
                   className="fa fa-home"
                   onClick={onHouseCardClicked}
-                  houseId={houseId}
+                  houseid={houseId}
                 />
               </span>
-              <span onClick={onHouseCardClicked} houseId={houseId}>
+              <span onClick={onHouseCardClicked} houseid={houseId}>
                 = {frequencies.house}
               </span>
             </button>
@@ -386,20 +386,20 @@ class BuildingColumn extends Component {
               className="button"
               style={{ marginTop: `8px` }}
               onClick={onHotelCardClicked}
-              hotelId={hotelId}
+              hotelid={hotelId}
             >
               <span
                 className="icon"
                 onClick={onHotelCardClicked}
-                hotelId={hotelId}
+                hotelid={hotelId}
               >
                 <i
                   className="fa fa-hotel"
                   onClick={onHotelCardClicked}
-                  hotelId={hotelId}
+                  hotelid={hotelId}
                 />
               </span>
-              <span onClick={onHotelCardClicked} hotelId={hotelId}>
+              <span onClick={onHotelCardClicked} hotelid={hotelId}>
                 = {frequencies.hotel}
               </span>
             </button>

@@ -16,6 +16,7 @@ class PlayerListNavigationBar extends Component {
         <ul className="menu-list">
           {playerInfos.map(playerInfo => (
             <li
+              key={playerInfo.id}
               className={`${
                 selectedPlayerId === playerInfo.id ? 'is-active' : ''
               }`}

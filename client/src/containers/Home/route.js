@@ -1,4 +1,5 @@
-import Index from './Index';
+// TODO: landing page
+// import Index from './Index';
 
 import MainLobby from '../Lobby/Main/MainLobby';
 
