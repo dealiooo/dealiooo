@@ -94,7 +94,6 @@ const pickValuableFieldCard = ({
             player,
             pileNames,
             forced,
-            forced,
             callback
           });
         } else {

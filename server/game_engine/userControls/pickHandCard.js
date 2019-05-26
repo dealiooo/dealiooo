@@ -1,10 +1,10 @@
 const userActions = require('./../userActions');
 
-const pickHandCard = ({ Game, player, forced, callback }) => {
+const pickHandCard = ({ Game, player, forced, message, callback }) => {
   userActions.pickCardId({
     Game,
     requiredPlayerId: player.id,
-    message: 'picking a hand card',
+    message: message || 'picking a hand card',
     forced,
     callback: ({ cardId, cancelled, forced }) => {
       if (cancelled) {

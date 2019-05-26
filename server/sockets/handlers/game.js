@@ -68,12 +68,9 @@ const join = (globalSockets, sockets) => (gameId, userId) => {
 
 const startGame = sockets => gameId => {
   Game.startGame(gameId)
-    .then(
-      Game.getUserIds(gameId).then(userIds => {
-        gameGlobals.set(
-          gameId,
-          gameEngine.start(userIds.map(userId => userId.id))
-        );
+    .then(_ =>
+      Game.getUserIdsAndUsernames(gameId).then(users => {
+        gameGlobals.set(gameId, gameEngine.start(users));
         sockets.get(gameId).forEach((socket, userId, _) => {
           socket.emit(`game:${gameId}:start-game`, 'game is started');
           setInterval(() => tick(socket, userId, gameId), 1000);

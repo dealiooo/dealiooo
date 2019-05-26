@@ -8,9 +8,13 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
         autoIncrement: true
       },
-      name: {
+      username: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: {
+          args: true,
+          msg: 'Username already in use!'
+        }
       },
       email: {
         type: Sequelize.STRING,

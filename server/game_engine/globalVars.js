@@ -1,22 +1,22 @@
 const cards = require('./cards');
 const rentValues = require('./rentValues');
 
-const initGlobalVars = playerIds => {
+const initGlobalVars = users => {
   const Game = {};
-  initGameVariables(Game, playerIds);
+  initGameVariables(Game, users);
   initGameUtility(Game);
   return Game;
 };
 
-const initGameVariables = (Game, playerIds) => {
+const initGameVariables = (Game, users) => {
   Game.turnCount = 0;
   Game.cardsPlayed = 0;
   Game.cardsPlayedList = [];
   Game.rentValues = rentValues;
   Game.discard = [];
-  Game.playerCount = playerIds.length || random(2, 5);
+  Game.playerCount = users.length || random(2, 5);
   initDeck(Game);
-  initPlayers(Game, playerIds);
+  initPlayers(Game, users);
 };
 
 const initDeck = Game => {
@@ -35,11 +35,12 @@ const initDeck = Game => {
   Game.deck = shuffle(Game.deck);
 };
 
-const initPlayers = (Game, playerIds) => {
+const initPlayers = (Game, users) => {
   const players = [];
-  for (let i = 0; i < playerIds.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     let player = {
-      id: playerIds[i],
+      id: users[i].id,
+      username: users[i].username,
       hand: [],
       field: {
         actionCards: [],
@@ -50,7 +51,7 @@ const initPlayers = (Game, playerIds) => {
     };
     players.push(player);
   }
-  Game.players = shuffle(players).splice(0, playerIds.length);
+  Game.players = shuffle(players).splice(0, users.length);
 };
 
 const initGameUtility = Game => {
@@ -72,4 +73,4 @@ const shuffle = a => {
   return copyA;
 };
 
-module.exports = playerIds => initGlobalVars(playerIds);
+module.exports = users => initGlobalVars(users);

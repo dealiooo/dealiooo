@@ -1,10 +1,10 @@
 const globalVars = require('../globalVars');
 const gameActions = require('../gameActions');
 
-module.exports = ({playerIds}) => {
-  let Game = globalVars(playerIds);
-  for (let i = 0; i < 5 * playerIds.length; i++) {
-    gameActions.drawCard({Game, player: Game.players[i % playerIds.length]});
+module.exports = ({ users }) => {
+  let Game = globalVars(users);
+  for (let i = 0; i < 5 * users.length; i++) {
+    gameActions.drawCard({ Game, player: Game.players[i % users.length] });
   }
   return Game;
 };

@@ -1,23 +1,23 @@
-const router = require("express").Router();
-const authenticateUser = require("./middlewares/authenticateUser");
-const authenticatePlayer = require("./middlewares/authenticatePlayer");
-const authenticateHost = require("./middlewares/authenticateHost");
-const sendUserIdAndUserName = require("./middlewares/sendUserIdAndUserName");
-const { GameLobby: GameLobbyDB } = require("../database/api");
+const router = require('express').Router();
+const authenticateUser = require('./middlewares/authenticateUser');
+const authenticatePlayer = require('./middlewares/authenticatePlayer');
+const authenticateHost = require('./middlewares/authenticateHost');
+const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
+const { GameLobby: GameLobbyDB } = require('../database/api');
 const {
   MainLobby: MainLobbySockets,
   GameLobby: GameLobbySockets
-} = require("./../sockets");
+} = require('./../sockets');
 
 router.get(
-  "/api/game-lobby/:gameId",
+  '/api/game-lobby/:gameId',
   authenticateUser,
   authenticatePlayer,
   sendUserIdAndUserName
 );
 
 router.get(
-  "/api/game-lobby/:gameId/info",
+  '/api/game-lobby/:gameId/info',
   authenticateUser,
   (request, response) =>
     GameLobbyDB.getPlayers(request.params.gameId)
@@ -26,7 +26,7 @@ router.get(
 );
 
 router.get(
-  "/api/game-lobby/:gameId/status",
+  '/api/game-lobby/:gameId/status',
   authenticateUser,
   authenticatePlayer,
   (request, response) =>
@@ -36,20 +36,20 @@ router.get(
 );
 
 router.post(
-  "/api/game-lobby/:gameId/chat",
+  '/api/game-lobby/:gameId/chat',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, name } = response.locals.user;
+    const { id, username } = response.locals.user;
     const { message } = request.body;
-    GameLobbySockets.chat(gameId, `[${id}]:${name}:${message}`);
+    GameLobbySockets.chat(gameId, `[${id}]:${username}:${message}`);
     return response.sendStatus(204);
   }
 );
 
 router.post(
-  "/api/game-lobby/:gameId/enter",
+  '/api/game-lobby/:gameId/enter',
   authenticateUser,
   (request, response) => {
     const { gameId } = request.params;
@@ -60,14 +60,14 @@ router.post(
 );
 
 router.post(
-  "/api/game-lobby/:gameId/join",
+  '/api/game-lobby/:gameId/join',
   authenticateUser,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, name } = response.locals.user;
+    const { id, username } = response.locals.user;
     return GameLobbyDB.joinGame(gameId, id)
       .then(result => {
-        MainLobbySockets.joinGame(gameId, id, name);
+        MainLobbySockets.joinGame(gameId, id, username);
         return response.json({ result });
       })
       .catch(error => response.json({ error }));
@@ -75,35 +75,35 @@ router.post(
 );
 
 router.post(
-  "/api/game-lobby/:gameId/leave",
+  '/api/game-lobby/:gameId/leave',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, name } = response.locals.user;
+    const { id, username } = response.locals.user;
     return GameLobbyDB.leaveGame(request.params.gameId, request.user.id)
       .then(result => {
-        MainLobbySockets.leaveGame(gameId, id, name);
-        GameLobbySockets.leaveGame(gameId, id, name);
+        MainLobbySockets.leaveGame(gameId, id, username);
+        GameLobbySockets.leaveGame(gameId, id, username);
         return response.json({ result });
       })
       .catch(error => response.json({ error }));
   }
 );
 router.post(
-  "/api/game-lobby/:gameId/start",
+  '/api/game-lobby/:gameId/start',
   authenticateUser,
   authenticatePlayer,
   authenticateHost,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, name } = response.locals.user;
+    const { id, username } = response.locals.user;
     return GameLobbyDB.getGameReady(gameId)
       .then(result => {
         if (result.ready) {
           return GameLobbyDB.startGame(gameId).then(result => {
-            MainLobbySockets.startGame(gameId, id, name);
-            GameLobbySockets.startGame(gameId, id, name);
+            MainLobbySockets.startGame(gameId, id, username);
+            GameLobbySockets.startGame(gameId, id, username);
             return response.json({ message: result.status });
           });
         } else {
@@ -115,18 +115,18 @@ router.post(
 );
 
 router.post(
-  "/api/game-lobby/:gameId/toggle-ready",
+  '/api/game-lobby/:gameId/toggle-ready',
   authenticateUser,
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, name } = response.locals.user;
+    const { id, username } = response.locals.user;
     return GameLobbyDB.togglePlayerReady(gameId, id)
       .then(result => {
         if (result[1].ready) {
-          GameLobbySockets.playerReady(gameId, id, name);
+          GameLobbySockets.playerReady(gameId, id, username);
         } else {
-          GameLobbySockets.playerUnready(gameId, id, name);
+          GameLobbySockets.playerUnready(gameId, id, username);
         }
         return response.json({ result });
       })

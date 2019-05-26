@@ -17,7 +17,6 @@ const pickFieldCardToSlyDeal = ({
       if (error) {
         callback({ error });
       } else if (cancelled) {
-        console.log('slydeal: cant cancel this one');
         pickFieldCardToSlyDeal({ Game, player, targetPlayer, callback });
       } else {
         processSlyDeal({

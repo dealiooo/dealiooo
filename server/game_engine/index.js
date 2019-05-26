@@ -2,13 +2,19 @@ const gameControls = require('./gameControls');
 const userControls = require('./userControls');
 
 const game_engine = {
-  start: playerIds => {
-    let Game = gameControls.startGame({ playerIds });
+  start: users => {
+    let Game = gameControls.startGame({ users });
     Game.ticks = {};
-    playerIds.map(playerId => (Game.ticks[playerId] = 60));
+    game_engine.resetPlayersTick(Game);
     setInterval(game_engine.tick, 1000, Game);
     game_engine.applyStartTurn(Game);
     return Game;
+  },
+  resetPlayerTick: (Game, playerId) => {
+    Game.ticks[playerId] = 60;
+  },
+  resetPlayersTick: Game => {
+    Game.players.map(player => game_engine.resetPlayerTick(Game, player.id));
   },
   tick: Game => {
     if (Game.pendingForUserInput) {
@@ -16,7 +22,7 @@ const game_engine = {
       Game.ticks[playerId]--;
       if (0 >= Game.ticks[playerId]) {
         game_engine.applyForceAction(Game, playerId);
-        Game.ticks[playerId] = 60;
+        game_engine.resetPlayerTick(Game, playerId);
       }
     }
   },
@@ -46,6 +52,8 @@ const game_engine = {
     data.general_info.turnCount = Game.turnCount;
     data.general_info.currentPlayerId =
       Game.players[Game.turnCount % Game.playerCount].id;
+    data.general_info.currentPlayerUsername =
+      Game.players[Game.turnCount % Game.playerCount].username;
     data.general_info.cardsPlayed = Game.cardsPlayed;
     data.general_info.deckCount = Game.deck.length;
     data.general_info.discard = Game.discard;
@@ -56,6 +64,7 @@ const game_engine = {
     return Game.players.map(player => {
       let tempPlayer = {};
       tempPlayer.id = player.id;
+      tempPlayer.username = player.username;
       if (player.id === playerId) {
         tempPlayer.hand_cards = player.hand;
       } else {
@@ -73,6 +82,9 @@ const game_engine = {
     let pending = Game.pendingForUserInput;
     if (pending) {
       data.prompts_info.promptPlayerId = pending.arguments.requiredPlayerId;
+      data.prompts_info.promptPlayerUsername = Game.players.filter(
+        player => player.id === pending.arguments.requiredPlayerId
+      )[0].username;
       data.prompts_info.promptMessage = pending.message;
       if (pending.arguments.options) {
         data.prompts_info.options = pending.arguments.options;
@@ -171,7 +183,7 @@ const game_engine = {
         } else if (forced) {
           game_engine.applyForced(Game);
         } else {
-          Game.players.map(player => (Game.ticks[player.id] = 60));
+          game_engine.resetPlayersTick(Game);
           if (gameControls.computeWinCondition({ Game, player })) {
             return game_engine.applyPlayerWon(Game);
           } else {
@@ -186,7 +198,7 @@ const game_engine = {
     });
   },
   applyStartTurn: Game => {
-    Game.players.map(player => (Game.ticks[player.id] = 60));
+    game_engine.resetPlayersTick(Game);
     let player = Game.players[Game.turnCount % Game.playerCount];
     gameControls.startTurn({ Game, player });
     game_engine.promptBasicOptions(Game);
@@ -196,8 +208,8 @@ const game_engine = {
       Game.winner.id
     }) won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
-  applyEndTurn: Game => {
-    if (null === Game.pendingForUserInput) {
+  applyEndTurn: (Game, force) => {
+    if (null === Game.pendingForUserInput || force) {
       gameControls.endTurn({
         Game,
         callback: _ => {
@@ -209,7 +221,7 @@ const game_engine = {
     return ``;
   },
   applyLeaveGame: (Game, playerId) => {
-    Game.players.map(player => (Game.ticks[player.id] = 60));
+    game_engine.resetPlayersTick(Game);
     let player = Game.players[Game.turnCount % Game.playerCount];
     if (player.id === playerId) {
       gameControls.forfeit({ Game, player });
@@ -217,9 +229,9 @@ const game_engine = {
   },
   applyForced: Game => {
     Game.cardsPlayed++;
-    Game.players.map(player => (Game.ticks[player.id] = 60));
+    game_engine.resetPlayersTick(Game);
     if (gameControls.forcePlayerEndTurn({ Game })) {
-      game_engine.applyEndTurn(Game);
+      game_engine.applyEndTurn(Game, true);
     } else {
       game_engine.promptBasicOptions(Game);
     }

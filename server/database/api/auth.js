@@ -1,10 +1,10 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 
-const insertUser = db => (name, email, hash_me) =>
+const insertUser = db => (username, email, hash_me) =>
   bcrypt.hash(hash_me, SALT_ROUNDS).then(password =>
     db.th_users.create({
-      name,
+      username,
       email,
       password
     })

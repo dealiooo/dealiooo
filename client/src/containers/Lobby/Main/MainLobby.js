@@ -60,7 +60,7 @@ class MainLobby extends Component {
                 baseState[i].status = gameInfo.status;
                 gameInfo.Players.filter(player => player.host).map(player => {
                   baseState[i].hostId = player.User.id;
-                  baseState[i].hostName = player.User.name;
+                  baseState[i].hostName = player.User.username;
                   return player;
                 });
                 // TODO: call setstate after all the data is loaded

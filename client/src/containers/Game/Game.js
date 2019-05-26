@@ -30,6 +30,7 @@ UserInputMap.set('play as money or action?', getOptionIndex);
 UserInputMap.set('play as money or property?', getOptionIndex);
 UserInputMap.set('play as money or action?', getOptionIndex);
 UserInputMap.set('picking a hand card', getCardId);
+UserInputMap.set('picking a hand card to discard', getCardId);
 UserInputMap.set('picking a field card', getCardId);
 UserInputMap.set('picking a field pile', getOptionIndex);
 UserInputMap.set('picking a property set to rent', getOptionIndex);
@@ -81,7 +82,7 @@ class Game extends Component {
                   GameAPI.postGameLoadGame(gameId).then(_ =>
                     this.setState({
                       userId: body.id,
-                      userName: body.name,
+                      userName: body.username,
                       host: body.host,
                       startGame: true,
                       load: false,
@@ -91,7 +92,7 @@ class Game extends Component {
                 } else {
                   this.setState({
                     userId: body.id,
-                    userName: body.name,
+                    userName: body.username,
                     host: body.host,
                     load: false,
                     log: log.map(e => e.message)
