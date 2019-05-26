@@ -8,7 +8,6 @@ import {
 import GameLobbyMessage from './GameLobbyMessage';
 import Chat from '../../../components/Chat';
 import NavigationBar from '../../../components/NavigationBar';
-import './MainLobby.css';
 
 class MainLobby extends Component {
   constructor(props) {
