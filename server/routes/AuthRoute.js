@@ -181,8 +181,8 @@ router.post(
 );
 
 router.post('/api/login', emptyStringsToNull, (request, response) => {
-  const { email, password } = request.body;
-  return Auth.findUserByEmail(email)
+  const { identifier, password } = request.body;
+  return Auth.findUserByUsernameOrEmail(identifier)
     .then(user => {
       bcrypt
         .compare(password, user.password)
