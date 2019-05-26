@@ -80,12 +80,16 @@ class GameView extends Component {
         players_info: playersInfo,
         game_log: gameLog
       },
+      onBankCardClicked,
+      onHouseCardClicked,
+      onHotelCardClicked,
       onPropertyCardClicked,
       onHandCardClicked,
       onCancelClicked,
       onEndTurn,
       onForfeit,
-      onPromptOptionClicked
+      onPromptOptionClicked,
+      log
     } = this.props;
 
     const userInfo = playersInfo.filter(player => player.id === userId)[0];
@@ -103,6 +107,10 @@ class GameView extends Component {
         <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
           <PlayerField
             playerInfo={selectedOpponentInfo}
+            onPropertyCardClicked={onPropertyCardClicked}
+            onBankCardClicked={onBankCardClicked}
+            onHouseCardClicked={onHouseCardClicked}
+            onHotelCardClicked={onHotelCardClicked}
             contentHeight={playerFieldContentHeight}
           />
         </div>
@@ -123,11 +131,15 @@ class GameView extends Component {
           <PlayerField
             playerInfo={userInfo}
             onPropertyCardClicked={onPropertyCardClicked}
+            onBankCardClicked={onBankCardClicked}
+            onHouseCardClicked={onHouseCardClicked}
+            onHotelCardClicked={onHotelCardClicked}
             contentHeight={playerFieldContentHeight}
           />
         </div>
         <div style={{ minHeight: '30vh', maxHeight: '30vh' }}>
           <PlayerPlayArea
+            log={log}
             gameId={gameId}
             userId={userInfo.id}
             promptsInfo={promptsInfo}
