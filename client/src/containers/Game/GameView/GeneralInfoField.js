@@ -8,7 +8,7 @@ import DeckDiscardView from './DeckDiscardView';
 class GeneralInfoField extends Component {
   render() {
     const {
-      generalInfo: { deckCount, discard, tick, cardsPlayed },
+      generalInfo: { deckCount, discard, tick, cardsPlayed, turnCount },
       promptPlayerId,
       currentPlayerId,
       selectedOpponentId,
@@ -43,6 +43,7 @@ class GeneralInfoField extends Component {
           <DeckDiscardView
             currentPlayerId={currentPlayerId}
             cardsPlayed={cardsPlayed}
+            turnCount={turnCount}
             deckCount={deckCount}
             discard={discard}
             contentHeight={contentHeight}

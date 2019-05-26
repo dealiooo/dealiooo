@@ -10,6 +10,7 @@ class DeckDiscardView extends Component {
       cardsPlayed,
       deckCount,
       discard,
+      turnCount,
       contentHeight
     } = this.props;
 
@@ -34,23 +35,29 @@ class DeckDiscardView extends Component {
         className="box has-text-centered"
         style={{
           minHeight: `${contentHeight - 12}px`,
-          maxHeight: `${contentHeight - 12}px`
+          maxHeight: `${contentHeight - 12}px`,
+          padding: `8px`
         }}
       >
         <div className="box" style={{ padding: `4px 0px` }}>
           <h1 className="has-text-weight-bold">
-            {`Current Turn: ${currentPlayerId}\n Cards Played: ${cardsPlayed}`}
+            {`Current Turn: ${currentPlayerId}`}
           </h1>
+          <h1 className="has-text-weight-bold">
+            {`Cards Played: ${cardsPlayed}`}
+          </h1>
+          <h1 className="has-text-weight-bold">{`Turn #${turnCount}`}</h1>
         </div>
         <div
           className="columns is-vcentered"
-          // 20: height of box padding
-          // 32: height of currentPlayer box
-          // 24: marginBottom of currentPlayer box
-          // 12: height of column padding
+          // 12: padding of vertical side of column
+          // 8: padding of vertical side of outer box
+          // 24: height of content inside inner box
+          // 4: padding of vertical side of inner box
+          // 24: marginBottom of box info
           style={{
-            minHeight: `${contentHeight - 20 - 32 - 24 - 12 * 2}px`,
-            maxHeight: `${contentHeight - 20 - 32 - 24 - 12 * 2}px`
+            minHeight: `${contentHeight - 12 - 8 - 24 * 3 - 4 - 24}px`,
+            maxHeight: `${contentHeight - 12 - 8 - 24 * 3 - 4 - 24}px`
           }}
         >
           <div className="column">

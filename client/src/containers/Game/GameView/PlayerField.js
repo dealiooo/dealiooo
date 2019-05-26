@@ -226,7 +226,7 @@ class PropertyColumn extends Component {
 
 class BankColumn extends Component {
   render() {
-    const { bankCards, contentHeight } = this.props;
+    const { bankCards, contentHeight, onBankCardClicked } = this.props;
     const totalValue = computerTotalCardValues(bankCards);
 
     const frequencies = {
@@ -238,11 +238,26 @@ class BankColumn extends Component {
       '10-dollar': 0
     };
 
+    const cardIds = {
+      '1-dollar': -1,
+      '2-dollar': -1,
+      '3-dollar': -1,
+      '4-dollar': -1,
+      '5-dollar': -1,
+      '10-dollar': -1
+    };
+
     bankCards.forEach(card => {
       if (card.type !== `money`) {
         frequencies[`${card.value}-dollar`]++;
+        if (cardIds[`${card.value}-dollar`] === -1) {
+          cardIds[`${card.value}-dollar`] = card.id;
+        }
       } else {
         frequencies[card.name]++;
+        if (cardIds[card.name] === -1) {
+          cardIds[card.name] = card.id;
+        }
       }
     });
 
@@ -282,7 +297,7 @@ class BankColumn extends Component {
           >
             <div className="dropdown-content">
               <div className="dropdown-item">
-                <table class="table is-fullwidth is-size-6">
+                <table class="table is-fullwidth is-bordered is-size-6">
                   <thead>
                     <tr>
                       <th className="has-text-centered">Card</th>
@@ -290,16 +305,22 @@ class BankColumn extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.keys(frequencies).map(key => (
-                      <tr>
-                        <td className="has-text-centered">
-                          {`$${cardNameToDisplayName(key)}`}
-                        </td>
-                        <td className="has-text-centered">
-                          {frequencies[key]}
-                        </td>
-                      </tr>
-                    ))}
+                    {Object.keys(frequencies).map(key => {
+                      return (
+                        <tr>
+                          <td
+                            className="has-text-centered"
+                            onClick={onBankCardClicked}
+                            moneyCardId={cardIds[key]}
+                          >
+                            {`$${cardNameToDisplayName(key)}`}
+                          </td>
+                          <td className="has-text-centered">
+                            {frequencies[key]}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -313,10 +334,26 @@ class BankColumn extends Component {
 
 class BuildingColumn extends Component {
   render() {
-    const { buildingCards, contentHeight } = this.props;
+    const {
+      buildingCards,
+      contentHeight,
+      onHouseCardClicked,
+      onHotelCardClicked
+    } = this.props;
     const frequencies = { house: 0, hotel: 0 };
 
     buildingCards.forEach(card => frequencies[card.name]++);
+
+    let houseId = -1;
+    let hotelId = -1;
+
+    for (let i = 0; i < buildingCards.length; i++) {
+      if (buildingCards[i].type === 'house') {
+        houseId = buildingCards[i].id;
+      } else if (buildingCards[i].type === 'hotel') {
+        hotelId = buildingCards[i].id;
+      }
+    }
 
     return (
       <div
@@ -330,18 +367,47 @@ class BuildingColumn extends Component {
         <h1 className="has-text-centered has-text-weight-bold">Building</h1>
         <div className="columns" id="building-column">
           <div className="column has-text-centered">
-            <div>
-              <span className="icon">
-                <i className="fa fa-home" />
+            <button
+              className="button"
+              onClick={onHouseCardClicked}
+              houseId={houseId}
+            >
+              <span
+                className="icon"
+                onClick={onHouseCardClicked}
+                houseId={houseId}
+              >
+                <i
+                  className="fa fa-home"
+                  onClick={onHouseCardClicked}
+                  houseId={houseId}
+                />
               </span>
-              <span>= {frequencies.house}</span>
-            </div>
-            <div>
-              <span className="icon">
-                <i className="fa fa-hotel" />
+              <span onClick={onHouseCardClicked} houseId={houseId}>
+                = {frequencies.house}
               </span>
-              <span>= {frequencies.hotel}</span>
-            </div>
+            </button>
+            <button
+              className="button"
+              style={{ marginTop: `8px` }}
+              onClick={onHotelCardClicked}
+              hotelId={hotelId}
+            >
+              <span
+                className="icon"
+                onClick={onHotelCardClicked}
+                hotelId={hotelId}
+              >
+                <i
+                  className="fa fa-hotel"
+                  onClick={onHotelCardClicked}
+                  hotelId={hotelId}
+                />
+              </span>
+              <span onClick={onHotelCardClicked} hotelId={hotelId}>
+                = {frequencies.hotel}
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -351,7 +417,14 @@ class BuildingColumn extends Component {
 
 class PlayerField extends Component {
   render() {
-    const { playerInfo, onPropertyCardClicked, contentHeight } = this.props;
+    const {
+      playerInfo,
+      onPropertyCardClicked,
+      onBankCardClicked,
+      onHouseCardClicked,
+      onHotelCardClicked,
+      contentHeight
+    } = this.props;
 
     const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
 
@@ -385,11 +458,17 @@ class PlayerField extends Component {
           />
         </div>
         <div className="column">
-          <BankColumn bankCards={bankCards} contentHeight={contentHeight} />
+          <BankColumn
+            bankCards={bankCards}
+            contentHeight={contentHeight}
+            onBankCardClicked={onBankCardClicked}
+          />
         </div>
         <div className="column">
           <BuildingColumn
             buildingCards={buildingCards}
+            onHouseCardClicked={onHouseCardClicked}
+            onHotelCardClicked={onHotelCardClicked}
             contentHeight={contentHeight}
           />
         </div>

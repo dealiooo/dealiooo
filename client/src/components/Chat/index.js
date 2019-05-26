@@ -18,10 +18,11 @@ class Chat extends Component {
   };
 
   render() {
-    const { gameId, socket, api, roomId, channel } = this.props;
+    const { gameId, socket, api, roomId, channel, log } = this.props;
     return (
       <>
         <ChatLog
+          log={log}
           gameId={gameId}
           socket={socket}
           channel={channel}

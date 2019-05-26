@@ -3,7 +3,7 @@ import React from 'react';
 import Chat from '../.../../../../components/Chat';
 import { socket, Game } from '../../../api';
 
-const GameChat = ({ gameId, contentHeight }) => (
+const GameChat = ({ gameId, contentHeight, log }) => (
   <Chat
     gameId={gameId}
     api={Game.postGameChat}
@@ -11,6 +11,7 @@ const GameChat = ({ gameId, contentHeight }) => (
     channel={`game:${gameId}:chat`}
     roomId={gameId}
     height={contentHeight}
+    log={log}
   />
 );
 
