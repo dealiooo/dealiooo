@@ -17,13 +17,16 @@ class ChatLog extends Component {
       // 15 = componentPaddings
       // 2 = smoother
       height: props.height - 36 - 15 - 52 - 2,
-      log: []
+      log: props.log || []
     };
   }
 
   componentDidMount() {
-    this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this));
-    if (this.props.gameId) {
+    this.ps = new PerfectScrollbar(ReactDOM.findDOMNode(this), {
+      suppressScrollX: true,
+      useBothWheelAxes: true
+    });
+    if (this.props.gameId && !this.props.log) {
       GameAPI.getGameChat(this.props.gameId).then(log => {
         this.setState({ log: log.map(e => e.message) });
       });
@@ -54,6 +57,7 @@ class ChatLog extends Component {
       <div
         className="box"
         style={{
+          position: 'relative',
           wordWrap: 'break-word',
           minHeight: `${this.state.height}px`,
           maxHeight: `${this.state.height}px`
