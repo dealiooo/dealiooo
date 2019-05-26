@@ -125,14 +125,14 @@ class DeckDiscardView extends Component {
                                   )[columnIndex];
 
                                   if (cardName === undefined) {
-                                    return <td />;
+                                    return <td key={i} />;
                                   }
 
                                   const cardQuantity =
                                     frequencies[cardTypeKey][cardName];
 
                                   return (
-                                    <td className="has-text-centered">
+                                    <td className="has-text-centered" key={i}>
                                       {`${cardNameToDisplayName(
                                         cardName
                                       )} (${cardQuantity})`}
