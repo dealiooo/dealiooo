@@ -12,11 +12,10 @@ class ChatLog extends Component {
     this.onMessageReceived = this.onMessageReceived.bind(this);
     this.props.socket.on(this.props.channel, this.onMessageReceived);
     this.state = {
-      // 36 = chatInput
-      // 52 = navBar
-      // 15 = componentPaddings
-      // 2 = smoother
-      height: props.height - 36 - 15 - 52 - 2,
+      // 12 vertical padding of side of column
+      // 36 chat input height
+      // 24 chat's margin bottom
+      height: props.height - 12 * 2 - 36 - 24,
       log: props.log || []
     };
   }
@@ -35,7 +34,7 @@ class ChatLog extends Component {
 
   componentWillReceiveProps = props => {
     this.setState({
-      height: props.height - 36 - 15 - 52 - 2
+      height: props.height - 12 * 2 - 36 - 24
     });
   };
 
@@ -55,7 +54,7 @@ class ChatLog extends Component {
   render() {
     return (
       <div
-        className="box"
+        className="box is-paddingless"
         style={{
           position: 'relative',
           wordWrap: 'break-word',
