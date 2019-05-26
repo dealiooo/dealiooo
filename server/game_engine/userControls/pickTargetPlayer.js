@@ -7,8 +7,8 @@ module.exports = ({ Game, player, forced, callback }) =>
     message: 'picking a target player',
     forced,
     options: Game.players.reduce((filtered, e) => {
-      if (e.id !== player.id) {
-        filtered.push(e.id);
+      if (e.username !== player.username) {
+        filtered.push(e.username);
       }
       return filtered;
     }, []),
@@ -20,8 +20,8 @@ module.exports = ({ Game, player, forced, callback }) =>
       } else if (forced) {
         callback({
           targetPlayer: Game.players.reduce((filtered, e) => {
-            if (e.id !== player.id) {
-              filtered.push(e.id);
+            if (e.username !== player.username) {
+              filtered.push(e.username);
             }
             return filtered;
           }, [])[0],
@@ -29,7 +29,9 @@ module.exports = ({ Game, player, forced, callback }) =>
         });
       } else {
         callback({
-          targetPlayer: Game.players.filter(player => player.id === option)[0]
+          targetPlayer: Game.players.filter(
+            player => player.username === option
+          )[0]
         });
       }
     }
