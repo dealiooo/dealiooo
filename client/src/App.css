@@ -1,3 +1,23 @@
 html {
   overflow-y: auto;
 }
+
+.global-light-hover {
+  transition: box-shadow 0.3s;
+  transition: background-color 0.3s;
+}
+.global-light-hover:hover {
+  color: initial;
+  background-color: whitesmoke !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.global-dark-hover {
+  transition: box-shadow 0.3s;
+  transition: background-color 0.3s;
+}
+.global-dark-hover:hover {
+  color: gold !important;
+  background-color: #363636 !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
