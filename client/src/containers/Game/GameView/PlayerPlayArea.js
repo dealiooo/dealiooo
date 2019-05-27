@@ -195,7 +195,7 @@ class PlayerPlayArea extends Component {
               />
               <button
                 className="button is-rounded is-danger has-text-right is-fullwidth"
-                onForfeit={onForfeit}
+                onClick={onForfeit}
               >
                 Forfeit
               </button>

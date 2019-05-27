@@ -89,7 +89,7 @@ class GameInfoView extends Component {
               >
                 <div className="dropdown-item">
                   <table
-                    class="table is-fullwidth"
+                    className="table is-fullwidth"
                     style={{
                       width: `${window.innerWidth / 1.5}px`
                     }}
@@ -97,36 +97,38 @@ class GameInfoView extends Component {
                     <thead>
                       <tr>
                         {Object.keys(frequencies).map(key => (
-                          <th className="has-text-centered">
+                          <th className="has-text-centered" key={key}>
                             {cardTypeToDisplayName(key)}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {Object.keys(frequencies).map((_, columnIndex) => {
+                      {Object.keys(frequencies).map((cardType, columnIndex) => {
                         return (
-                          <tr>
-                            {Object.keys(frequencies).map(cardTypeKey => {
-                              const cardName = Object.keys(
-                                frequencies[cardTypeKey]
-                              )[columnIndex];
+                          <tr key={cardType}>
+                            {Object.keys(frequencies).map(
+                              (cardTypeInner, i) => {
+                                const cardName = Object.keys(
+                                  frequencies[cardTypeInner]
+                                )[columnIndex];
 
-                              if (cardName === undefined) {
-                                return <td />;
+                                if (cardName === undefined) {
+                                  return <td key={i} />;
+                                }
+
+                                const cardQuantity =
+                                  frequencies[cardTypeInner][cardName];
+
+                                return (
+                                  <td className="has-text-centered" key={i}>
+                                    {`${cardNameToDisplayName(
+                                      cardName
+                                    )} (${cardQuantity})`}
+                                  </td>
+                                );
                               }
-
-                              const cardQuantity =
-                                frequencies[cardTypeKey][cardName];
-
-                              return (
-                                <td className="has-text-centered">
-                                  {`${cardNameToDisplayName(
-                                    cardName
-                                  )} (${cardQuantity})`}
-                                </td>
-                              );
-                            })}
+                            )}
                           </tr>
                         );
                       })}

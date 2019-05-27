@@ -299,6 +299,7 @@ class BankColumn extends Component {
                 {Object.keys(frequencies).map((key, i) => {
                   return (
                     <div
+                      key={key}
                       style={{
                         marginBottom: `${
                           i === frequencies.length - 1 ? '0px' : '8px'
@@ -372,18 +373,18 @@ class BuildingColumn extends Component {
               className="button is-fullwidth is-block subtitle global-light-hover"
               style={{ margin: `0 auto` }}
               onClick={onHouseCardClicked}
-              houseId={houseId}
+              houseid={houseId}
             >
               <div>
                 <span
                   className="icon"
                   onClick={onHouseCardClicked}
-                  houseId={houseId}
+                  houseid={houseId}
                 >
                   <i
                     className="fa fa-home"
                     onClick={onHouseCardClicked}
-                    houseId={houseId}
+                    houseid={houseId}
                   />
                 </span>
                 <span className="icon is-small">
@@ -392,7 +393,7 @@ class BuildingColumn extends Component {
                 <span
                   className="has-text-weight-bold"
                   onClick={onHouseCardClicked}
-                  houseId={houseId}
+                  houseid={houseId}
                 >
                   {` ${frequencies.house}`}
                 </span>
@@ -402,17 +403,17 @@ class BuildingColumn extends Component {
               className="button is-fullwidth is-block subtitle global-light-hover"
               style={{ margin: `0 auto`, marginTop: `8px` }}
               onClick={onHotelCardClicked}
-              hotelId={hotelId}
+              hotelid={hotelId}
             >
               <span
                 className="icon"
                 onClick={onHotelCardClicked}
-                hotelId={hotelId}
+                hotelid={hotelId}
               >
                 <i
                   className="fa fa-hotel"
                   onClick={onHotelCardClicked}
-                  hotelId={hotelId}
+                  hotelid={hotelId}
                 />
               </span>
               <span className="icon is-small">
@@ -421,7 +422,7 @@ class BuildingColumn extends Component {
               <span
                 className="has-text-weight-bold"
                 onClick={onHotelCardClicked}
-                hotelId={hotelId}
+                hotelid={hotelId}
               >
                 {` ${frequencies.hotel}`}
               </span>

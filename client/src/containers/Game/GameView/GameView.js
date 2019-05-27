@@ -104,7 +104,13 @@ class GameView extends Component {
 
     return (
       <div style={{ margin: '0 1.0vw' }}>
-        <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
+        <div
+          style={{
+            minHeight: '24vh',
+            maxHeight: '24vh'
+            // border: `1px solid red`
+          }}
+        >
           <PlayerField
             playerInfo={selectedOpponentInfo}
             onPropertyCardClicked={onPropertyCardClicked}
@@ -114,10 +120,16 @@ class GameView extends Component {
             contentHeight={playerFieldContentHeight}
           />
         </div>
-        <div style={{ minHeight: '22vh', maxHeight: '22vh' }}>
+        <div
+          style={{
+            minHeight: '22vh',
+            maxHeight: '22vh'
+            // border: `1px solid red`
+          }}
+        >
           <GeneralInfoField
-            currentPlayerId={generalInfo.currentPlayerId}
-            promptPlayerId={promptsInfo.promptPlayerId}
+            currentPlayerUsername={generalInfo.currentPlayerUsername}
+            promptPlayerUsername={promptsInfo.promptPlayerUsername}
             gameMessage={promptsInfo.promptMessage}
             generalInfo={generalInfo}
             opponentInfos={opponentInfos}
@@ -127,7 +139,13 @@ class GameView extends Component {
             contentHeight={(screenHeight * 22) / 100}
           />
         </div>
-        <div style={{ minHeight: '24vh', maxHeight: '24vh' }}>
+        <div
+          style={{
+            minHeight: '24vh',
+            maxHeight: '24vh'
+            // border: `1px solid red`
+          }}
+        >
           <PlayerField
             playerInfo={userInfo}
             onPropertyCardClicked={onPropertyCardClicked}
@@ -137,7 +155,13 @@ class GameView extends Component {
             contentHeight={playerFieldContentHeight}
           />
         </div>
-        <div style={{ minHeight: '30vh', maxHeight: '30vh' }}>
+        <div
+          style={{
+            minHeight: '30vh',
+            maxHeight: '30vh'
+            // border: `1px solid red`
+          }}
+        >
           <PlayerPlayArea
             log={log}
             gameId={gameId}
