@@ -144,7 +144,7 @@ class Game extends Component {
   };
 
   handleBankCardClicked = event => {
-    const moneyCardId = getAttributeValue(event, 'moneyCardId', -1);
+    const moneyCardId = getAttributeValue(event, 'moneycardid', -1);
     GameAPI.postGameClick(this.props.match.params.id, moneyCardId);
   };
 
@@ -219,8 +219,17 @@ class Game extends Component {
         );
       } else if (host) {
         return (
-          <div className="container">
-            <button className="button" onClick={this.onStartGame}>
+          <div
+            style={{
+              height: `100vh`,
+              padding: `0px`,
+              display: `flex`,
+              flexWrap: `nowrap`,
+              justifyContent: `center`,
+              alignItems: `center`
+            }}
+          >
+            <button className="button is-info" onClick={this.onStartGame}>
               Start Game
             </button>
           </div>
