@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 import PlayerListNavigationBar from './PlayerListNavigationBar';
 import TimerView from './TimerView';
 import GameMessageView from './GameMessageView';
-import DeckDiscardView from './DeckDiscardView';
+import GameInfoView from './GameInfoView';
 
 class GeneralInfoField extends Component {
   render() {
     const {
       generalInfo: { deckCount, discard, tick, cardsPlayed, turnCount },
-      promptPlayerId,
-      currentPlayerId,
+      promptPlayerUsername,
+      currentPlayerUsername,
       selectedOpponentId,
       opponentInfos,
       onOpponentClicked,
@@ -19,30 +19,43 @@ class GeneralInfoField extends Component {
       gameMessage
     } = this.props;
 
-    const messageViewHeight = (contentHeight - 18 * 2) / 2;
+    // 12: marginBottom of GameMessageView
+    const messageViewContentHeight = (contentHeight - 12 * 2) / 2;
+
+    const moreThanOneOpponent = opponentInfos.length > 1;
 
     return (
-      <div className="columns is-marginless">
-        <div className="column is-2">
-          <PlayerListNavigationBar
-            playerInfos={opponentInfos}
-            selectedPlayerId={selectedOpponentId}
-            onPlayerClick={onOpponentClicked}
-            onPlayerHover={onOpponentHover}
-          />
-        </div>
-        <div className="column is-8">
+      <div
+        className="columns is-marginless is-vcentered"
+        style={{ height: `${contentHeight}px` }}
+      >
+        {moreThanOneOpponent ? (
+          <div className="column is-2">
+            <PlayerListNavigationBar
+              playerInfos={opponentInfos}
+              selectedPlayerId={selectedOpponentId}
+              onPlayerClick={onOpponentClicked}
+              onPlayerHover={onOpponentHover}
+              contentHeight={contentHeight}
+            />
+          </div>
+        ) : null}
+        <div className={`column ${moreThanOneOpponent ? 'is-8' : 'is-10'}`}>
           <GameMessageView
-            promptPlayerId={promptPlayerId}
+            promptPlayerUsername={promptPlayerUsername}
             gameMessage={gameMessage}
-            contentHeight={messageViewHeight}
+            contentHeight={messageViewContentHeight}
+            moreThanOneOpponent={moreThanOneOpponent}
           />
-          <TimerView tick={tick} contentHeight={messageViewHeight} />
+          <TimerView
+            tick={tick}
+            contentHeight={messageViewContentHeight}
+            currentPlayerUsername={currentPlayerUsername}
+            cardsPlayed={cardsPlayed}
+          />
         </div>
         <div className="column is-2">
-          <DeckDiscardView
-            currentPlayerId={currentPlayerId}
-            cardsPlayed={cardsPlayed}
+          <GameInfoView
             turnCount={turnCount}
             deckCount={deckCount}
             discard={discard}
