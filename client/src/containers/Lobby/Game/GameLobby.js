@@ -191,7 +191,7 @@ class GameLobby extends Component {
                             <div className="level-item">
                               {this.state.host ? (
                                 <button
-                                  className="button is-medium is-fullwidth is-success"
+                                  className="button is-fullwidth is-success"
                                   style={{ marginRight: `10px` }}
                                   onClick={this.onStart}
                                 >
@@ -199,7 +199,7 @@ class GameLobby extends Component {
                                 </button>
                               ) : (
                                 <button
-                                  className="button is-medium is-fullwidth is-success"
+                                  className="button is-fullwidth is-success"
                                   style={{ marginRight: `10px` }}
                                   onClick={this.onReady}
                                 >
@@ -207,10 +207,9 @@ class GameLobby extends Component {
                                 </button>
                               )}
                             </div>
-
                             <div className="level-item">
                               <button
-                                className="button is-medium is-fullwidth is-danger"
+                                className="button is-fullwidth is-danger"
                                 style={{ marginLeft: `10px` }}
                                 onClick={this.onExit}
                               >

@@ -41,9 +41,9 @@ router.post(
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id, username } = response.locals.user;
+    const { username } = response.locals.user;
     const { message } = request.body;
-    GameLobbySockets.chat(gameId, `[${id}]:${username}:${message}`);
+    GameLobbySockets.chat(gameId, `${username}: ${message}`);
     return response.sendStatus(204);
   }
 );

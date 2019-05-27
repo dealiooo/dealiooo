@@ -21,9 +21,9 @@ router.post('/api/main-lobby', authenticateUser, (_, response) =>
 );
 
 router.post('/api/main-lobby/chat', authenticateUser, (request, response) => {
-  const { id, username } = response.locals.user;
+  const { username } = response.locals.user;
   const { message } = request.body;
-  MainLobbySockets.chat(`[${id}]:${username}:${message}`);
+  MainLobbySockets.chat(`${username}: ${message}`);
   response.sendStatus(204);
 });
 

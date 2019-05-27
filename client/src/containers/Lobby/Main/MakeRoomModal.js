@@ -30,7 +30,7 @@ class MakeRoomModal extends Component {
 
     return (
       <>
-        <button className="button is-primary" onClick={this.openModal}>
+        <button className="button is-info" onClick={this.openModal}>
           <strong>Make a Room</strong>
         </button>
         <Modal show={showModal} onClose={this.closeModal}>

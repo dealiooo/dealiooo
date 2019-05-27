@@ -54,7 +54,7 @@ class ChatLog extends Component {
   render() {
     return (
       <div
-        className="box is-paddingless"
+        className="box"
         style={{
           position: 'relative',
           wordWrap: 'break-word',
