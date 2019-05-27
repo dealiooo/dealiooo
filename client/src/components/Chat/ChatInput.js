@@ -37,7 +37,7 @@ class ChatInput extends Component {
             />
           </div>
           <div className="control">
-            <button className="button is-fullwidth">Send</button>
+            <button className="button is-fullwidth is-info">Send</button>
           </div>
         </div>
       </form>
