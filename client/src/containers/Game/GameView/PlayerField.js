@@ -123,7 +123,7 @@ class PropertyColumn extends Component {
     let currentSetInnerWidth = 0;
 
     return (
-      <div className="box" style={{ padding: `8px` }}>
+      <div className="box" style={{ padding: 8 }}>
         <h1 className="has-text-centered has-text-weight-bold">Property</h1>
         <div
           id={`${id}-property-column`}
@@ -148,6 +148,7 @@ class PropertyColumn extends Component {
             return (
               <div
                 className={`${this.getPropertySetCssColor(propertySet)}`}
+                key={i}
                 propertyIndex={i}
                 onClick={onPropertyCardClicked}
                 style={{
@@ -278,7 +279,10 @@ class BankColumn extends Component {
             className="dropdown-trigger"
             style={{ display: 'flex', width: '100%' }}
           >
-            <button className="button is-fullwidth" aria-haspopup="true">
+            <button
+              className="button is-fullwidth global-light-hover"
+              aria-haspopup="true"
+            >
               <span>{`$${totalValue}`}</span>
               <span className="icon is-small">
                 <i className="fas fa-angle-down" aria-hidden="true" />
@@ -292,32 +296,29 @@ class BankColumn extends Component {
           >
             <div className="dropdown-content">
               <div className="dropdown-item">
-                <table className="table is-fullwidth is-bordered is-size-6">
-                  <thead>
-                    <tr>
-                      <th className="has-text-centered">Card</th>
-                      <th className="has-text-centered">Quantity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.keys(frequencies).map(key => {
-                      return (
-                        <tr>
-                          <td
-                            className="has-text-centered"
-                            onClick={onBankCardClicked}
-                            moneyCardId={cardIds[key]}
-                          >
-                            {`$${cardNameToDisplayName(key)}`}
-                          </td>
-                          <td className="has-text-centered">
-                            {frequencies[key]}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                {Object.keys(frequencies).map((key, i) => {
+                  return (
+                    <div
+                      style={{
+                        marginBottom: `${
+                          i === frequencies.length - 1 ? '0px' : '8px'
+                        }`
+                      }}
+                    >
+                      <button
+                        className="money-btn button is-fullwidth global-light-hover"
+                        onClick={onBankCardClicked}
+                        moneycardid={cardIds[key]}
+                      >
+                        <h1 className="has-text-centered">
+                          {`$${cardNameToDisplayName(key)} | Qty: ${
+                            frequencies[key]
+                          }`}
+                        </h1>
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -355,36 +356,51 @@ class BuildingColumn extends Component {
         className="box"
         style={{
           paddingTop: 8,
-          minHeight: `${contentHeight - 16}px`,
-          maxHeight: `${contentHeight - 16}px`
+          height: `${contentHeight - 16}px`
         }}
       >
         <h1 className="has-text-centered has-text-weight-bold">Building</h1>
-        <div className="columns" id="building-column">
-          <div className="column has-text-centered">
+        <div
+          className="columns is-vcentered"
+          style={{
+            height: `100%`
+          }}
+          id="building-column"
+        >
+          <div className="column">
             <button
-              className="button"
+              className="button is-fullwidth is-block subtitle global-light-hover"
+              style={{ margin: `0 auto` }}
               onClick={onHouseCardClicked}
               houseId={houseId}
             >
-              <span
-                className="icon"
-                onClick={onHouseCardClicked}
-                houseId={houseId}
-              >
-                <i
-                  className="fa fa-home"
+              <div>
+                <span
+                  className="icon"
                   onClick={onHouseCardClicked}
                   houseId={houseId}
-                />
-              </span>
-              <span onClick={onHouseCardClicked} houseId={houseId}>
-                = {frequencies.house}
-              </span>
+                >
+                  <i
+                    className="fa fa-home"
+                    onClick={onHouseCardClicked}
+                    houseId={houseId}
+                  />
+                </span>
+                <span className="icon is-small">
+                  <i className="fa fa-grip-lines" />
+                </span>
+                <span
+                  className="has-text-weight-bold"
+                  onClick={onHouseCardClicked}
+                  houseId={houseId}
+                >
+                  {` ${frequencies.house}`}
+                </span>
+              </div>
             </button>
             <button
-              className="button"
-              style={{ marginTop: `8px` }}
+              className="button is-fullwidth is-block subtitle global-light-hover"
+              style={{ margin: `0 auto`, marginTop: `8px` }}
               onClick={onHotelCardClicked}
               hotelId={hotelId}
             >
@@ -399,8 +415,15 @@ class BuildingColumn extends Component {
                   hotelId={hotelId}
                 />
               </span>
-              <span onClick={onHotelCardClicked} hotelId={hotelId}>
-                = {frequencies.hotel}
+              <span className="icon is-small">
+                <i className="fa fa-grip-lines" />
+              </span>
+              <span
+                className="has-text-weight-bold"
+                onClick={onHotelCardClicked}
+                hotelId={hotelId}
+              >
+                {` ${frequencies.hotel}`}
               </span>
             </button>
           </div>
@@ -424,27 +447,21 @@ class PlayerField extends Component {
     const { actionCards, bankCards, buildingCards, propertyCards } = playerInfo;
 
     return (
-      <div className="columns is-marginless">
-        <div
-          className="column"
-          style={{
-            minHeight: `${contentHeight}px`,
-            maxHeight: `${contentHeight}px`
-          }}
-        >
+      <div
+        className="columns is-marginless is-vcentered"
+        style={{
+          minHeight: `${contentHeight}px`,
+          maxHeight: `${contentHeight}px`
+        }}
+      >
+        <div className="column">
           <ActionColumn
             id={playerInfo.id}
             actionCards={actionCards}
             contentHeight={contentHeight}
           />
         </div>
-        <div
-          className="column is-8"
-          style={{
-            minHeight: `${contentHeight}px`,
-            maxHeight: `${contentHeight}px`
-          }}
-        >
+        <div className="column is-8">
           <PropertyColumn
             id={playerInfo.id}
             propertyCards={propertyCards}
