@@ -115,47 +115,71 @@ class PlayerPlayArea extends Component {
       );
     }
 
+    // 12: column padding,
+    // 36: button height,
+    // 2: padding vertical of buttons,
+    // 6: container padding
+    const fillHeight = contentHeight - 12 * 2 - 36 * 4 - 2 * 2 - 6 * 2;
+
     return (
-      <div className="columns is-marginless">
+      <div
+        className="columns is-vcentered is-marginless"
+        style={{
+          height: `${contentHeight}px`,
+          minHeight: `${contentHeight}px`,
+          maxHeight: `${contentHeight}px`
+        }}
+      >
         <div className="column is-1">
           <aside className="menu">
-            <ul className="menu-list">
-              {[0, 1, 2].map(i => {
+            <ul className="menu-list box" style={{ padding: `6px` }}>
+              {[0, 1, 2].map(tabIndex => {
                 return (
                   <li
-                    key={i}
-                    className={activeSideMenuItemIndex === i ? 'is-active' : ''}
-                    style={{ paddingTop: `${i !== 0 ? '2px' : ''}` }}
+                    key={tabIndex}
+                    className={
+                      activeSideMenuItemIndex === tabIndex ? 'is-active' : ''
+                    }
+                    style={{ paddingTop: `${tabIndex !== 0 ? '2px' : '0px'}` }}
                   >
                     <Hoverable
-                      data={{ hoverSideMenuIndex: i }}
+                      data={{ hoverSideMenuIndex: tabIndex }}
                       onEnter={this.handleSideMenuItemHoverEnter}
                       onExit={this.handleSideMenuItemHoverExit}
                     >
                       <button
-                        className={`button is-fullwidth is-radiusless ${
-                          activeSideMenuItemIndex === i
-                            ? 'has-background-black'
-                            : ''
+                        className={`button is-fullwidth global-dark-hover ${
+                          activeSideMenuItemIndex === tabIndex
+                            ? 'is-dark'
+                            : 'has-background-light'
                         }`}
-                        value={i}
+                        style={{
+                          border: `none`
+                        }}
+                        value={tabIndex}
                         onClick={this.handleSideMenuItemClick}
                       >
-                        <span onClick={this.handleSideMenuItemClick} value={i}>
+                        <span
+                          onClick={this.handleSideMenuItemClick}
+                          value={tabIndex}
+                        >
                           <i
                             className={`is-fullwidth fa ${
                               {
                                 0: 'fa-layer-group',
                                 1: 'fa-comment-alt',
                                 2: 'fa-scroll'
-                              }[i]
-                            } ${
-                              activeSideMenuItemIndex === i
-                                ? 'has-text-primary'
-                                : ''
+                              }[tabIndex]
                             }`}
+                            style={{
+                              color: `${
+                                activeSideMenuItemIndex === tabIndex
+                                  ? `gold`
+                                  : ''
+                              }`
+                            }}
                             onClick={this.handleSideMenuItemClick}
-                            value={i}
+                            value={tabIndex}
                           />
                         </span>
                       </button>
@@ -163,12 +187,10 @@ class PlayerPlayArea extends Component {
                   </li>
                 );
               })}
-
               <div
                 style={{
-                  // 12: column padding, 36: button height, 2: padding vertical of buttons
-                  minHeight: contentHeight - 12 * 2 - 36 * 4 - 2 * 2,
-                  maxHeight: contentHeight - 12 * 2 - 36 * 4 - 2 * 2
+                  minHeight: fillHeight,
+                  maxHeight: fillHeight
                 }}
               />
               <button
