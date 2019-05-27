@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import PlayerListNavigationBar from './PlayerListNavigationBar';
-import TimerView from './TimerView';
+import PlayerActionInfoView from './PlayerActionInfoView';
 import GameMessageView from './GameMessageView';
 import GameInfoView from './GameInfoView';
 
@@ -47,7 +47,7 @@ class GeneralInfoField extends Component {
             contentHeight={messageViewContentHeight}
             moreThanOneOpponent={moreThanOneOpponent}
           />
-          <TimerView
+          <PlayerActionInfoView
             tick={tick}
             contentHeight={messageViewContentHeight}
             currentPlayerUsername={currentPlayerUsername}
