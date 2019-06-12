@@ -220,7 +220,7 @@ const game_engine = {
     }
     return ``;
   },
-  applyLeaveGame: (Game, playerId) => {
+  applyForfeit: (Game, playerId) => {
     game_engine.resetPlayersTick(Game);
     let player = Game.players[Game.turnCount % Game.playerCount];
     if (player.id === playerId) {
@@ -280,7 +280,7 @@ const game_engine = {
     if (0 !== nextPlayerIndex) {
       nextPlayerIndex--;
     }
-    game_engine.applyLeaveGame(Game, playerId);
+    game_engine.applyForfeit(Game, playerId);
     if (
       gameControls.computeWinCondition({
         Game,
