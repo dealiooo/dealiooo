@@ -5,6 +5,7 @@ import Hoverable from '../../../components/Hover/hoverable';
 import PlayerHandOrPromptView from './PlayerHandOrPromptView';
 import GameChat from './GameChat';
 import GameLog from './GameLog';
+import GameRules from '../../../components/GameRules';
 
 class PlayerPlayArea extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ class PlayerPlayArea extends Component {
       onPromptOptionClicked,
       log
     } = this.props;
-    const { activeSideMenuItemIndex } = this.state;
+    const { activeSideMenuItemIndex, hoverSideMenuIndex } = this.state;
 
     const isPendingUserInput =
       undefined !== promptsInfo.options &&
@@ -116,10 +117,13 @@ class PlayerPlayArea extends Component {
     }
 
     // 12: column padding,
-    // 36: button height,
+    // 36: self button height,
     // 2: padding vertical of buttons,
     // 6: container padding
-    const fillHeight = contentHeight - 12 * 2 - 36 * 4 - 2 * 2 - 6 * 2;
+    // 36: game rules button height
+    // 12: game rules margin
+    const fillHeight =
+      contentHeight - 12 * 2 - 36 * 4 - 2 * 2 - 6 * 2 - 36 - 12;
 
     return (
       <div
@@ -148,10 +152,14 @@ class PlayerPlayArea extends Component {
                       onExit={this.handleSideMenuItemHoverExit}
                     >
                       <button
-                        className={`button is-fullwidth global-dark-hover ${
+                        className={`button is-fullwidth ${
                           activeSideMenuItemIndex === tabIndex
                             ? 'is-dark'
                             : 'has-background-light'
+                        } ${
+                          hoverSideMenuIndex === tabIndex
+                            ? 'has-background-dark has-text-info'
+                            : ''
                         }`}
                         style={{
                           border: `none`
@@ -170,14 +178,11 @@ class PlayerPlayArea extends Component {
                                 1: 'fa-comment-alt',
                                 2: 'fa-scroll'
                               }[tabIndex]
+                            } ${
+                              activeSideMenuItemIndex === tabIndex
+                                ? `has-text-info`
+                                : ''
                             }`}
-                            style={{
-                              color: `${
-                                activeSideMenuItemIndex === tabIndex
-                                  ? `gold`
-                                  : ''
-                              }`
-                            }}
                             onClick={this.handleSideMenuItemClick}
                             value={tabIndex}
                           />
@@ -193,8 +198,10 @@ class PlayerPlayArea extends Component {
                   maxHeight: fillHeight
                 }}
               />
+              <GameRules />
               <button
                 className="button is-rounded is-danger has-text-right is-fullwidth"
+                style={{ marginTop: `12px` }}
                 onClick={onForfeit}
               >
                 Forfeit
