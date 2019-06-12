@@ -122,7 +122,7 @@ class MainLobby extends Component {
   onLeaveGame = event => {
     // todo: convert this array operation to a dictionary operation
     var length = this.state.lobbies.length;
-    var index = 0;
+    var index = -1;
     let id = parseInt(event.gameId);
     for (var i = 0; i < length; i++) {
       if (this.state.lobbies[i].id === id) {
@@ -130,16 +130,18 @@ class MainLobby extends Component {
         break;
       }
     }
-    var baseState = this.state.lobbies;
-    if (1 === baseState[index].playerNum) {
-      baseState.splice(index, 1);
-      this.setState({ lobbies: baseState });
-    } else {
-      GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
-        baseState[index].playerList = gameInfo.Players;
-        baseState[index].playerNum = gameInfo.Players.length;
+    if (-1 !== index) {
+      var baseState = this.state.lobbies;
+      if (1 === baseState[index].playerNum) {
+        baseState.splice(index, 1);
         this.setState({ lobbies: baseState });
-      });
+      } else {
+        GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
+          baseState[index].playerList = gameInfo.Players;
+          baseState[index].playerNum = gameInfo.Players.length;
+          this.setState({ lobbies: baseState });
+        });
+      }
     }
   };
 
