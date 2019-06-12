@@ -35,7 +35,6 @@ class PlayerListNavigationBar extends Component {
               className={`${
                 selectedPlayerId === playerInfo.id ? 'is-active' : ''
               }`}
-              key={playerInfo.id}
               style={{
                 display: `flex`,
                 flexGrow: `1`,
@@ -57,14 +56,18 @@ class PlayerListNavigationBar extends Component {
                 }}
               >
                 <button
-                  className={`button is-fullwidth has-text-centered global-dark-hover ${
+                  className={`button is-fullwidth has-text-centered global-light-hover ${
                     selectedPlayerId === playerInfo.id
-                      ? 'has-background-dark'
+                      ? 'has-background-light'
                       : ''
                   }`}
                   style={{
                     height: `100%`,
-                    color: `${selectedPlayerId === playerInfo.id ? 'gold' : ''}`
+                    borderLeft: `${
+                      selectedPlayerId === playerInfo.id
+                        ? '6px solid #209cee'
+                        : ''
+                    }`
                   }}
                   value={playerInfo.id}
                   onClick={onPlayerClick}

@@ -22,7 +22,7 @@ class PlayerHandView extends Component {
               key={handCard.id}
             >
               <div className="hover-container">
-                <figure className="image is-2by3">
+                <figure className="image is-2by3" style={{ cursor: `pointer` }}>
                   <img
                     src={
                       process.env.PUBLIC_URL +
