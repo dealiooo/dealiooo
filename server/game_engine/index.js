@@ -275,7 +275,7 @@ const game_engine = {
     }
     return `\nEnd Turn is not available`;
   },
-  onLeaveGame: (Game, playerId) => {
+  onForfeit: (Game, playerId) => {
     let nextPlayerIndex = (Game.turnCount + 1) % Game.playerCount;
     if (0 !== nextPlayerIndex) {
       nextPlayerIndex--;
