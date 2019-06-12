@@ -36,7 +36,7 @@ const endTurn = sockets => (gameId, userId) => {
 };
 
 const forfeit = sockets => (gameId, userId) => {
-  if (gameEngine.onLeaveGame(gameGlobals.get(gameId), userId)) {
+  if (gameEngine.onForfeit(gameGlobals.get(gameId), userId)) {
     Game.removePlayer(gameId, userId).then(_ => {
       sockets.get(gameId).forEach((value, key, map) => {
         let data = gameEngine.getVars(gameGlobals.get(gameId), key);

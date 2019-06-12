@@ -220,7 +220,7 @@ const game_engine = {
     }
     return ``;
   },
-  applyLeaveGame: (Game, playerId) => {
+  applyForfeit: (Game, playerId) => {
     game_engine.resetPlayersTick(Game);
     let player = Game.players[Game.turnCount % Game.playerCount];
     if (player.id === playerId) {
@@ -275,12 +275,12 @@ const game_engine = {
     }
     return `\nEnd Turn is not available`;
   },
-  onLeaveGame: (Game, playerId) => {
+  onForfeit: (Game, playerId) => {
     let nextPlayerIndex = (Game.turnCount + 1) % Game.playerCount;
     if (0 !== nextPlayerIndex) {
       nextPlayerIndex--;
     }
-    game_engine.applyLeaveGame(Game, playerId);
+    game_engine.applyForfeit(Game, playerId);
     if (
       gameControls.computeWinCondition({
         Game,
