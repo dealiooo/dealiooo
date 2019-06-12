@@ -50,7 +50,7 @@ const forfeit = sockets => (gameId, userId) => {
   }
 };
 
-const join = (globalSockets, sockets) => (gameId, userId) => {
+const join = (globalSockets, sockets) => (gameId, userId, username) => {
   if (undefined === sockets.get(gameId)) {
     sockets.set(gameId, new Map());
     gameGlobals.set(gameId, null);
@@ -61,7 +61,7 @@ const join = (globalSockets, sockets) => (gameId, userId) => {
     .forEach(client_socket =>
       client_socket.emit(
         `game:${gameId}:chat`,
-        `userId:${userId} has joined the room.`
+        `${username} has joined the room.`
       )
     );
 };
