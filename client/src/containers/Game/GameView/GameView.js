@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import GeneralInfoField from './GeneralInfoField';
 import PlayerPlayArea from './PlayerPlayArea';
 import PlayerField from './PlayerField';
+import GameWonView from './GameWonView';
+import PlayerForfeitModal from './PlayerForfeitModal';
 
 class GameView extends Component {
   constructor(props) {
@@ -89,8 +91,13 @@ class GameView extends Component {
       onEndTurn,
       onForfeit,
       onPromptOptionClicked,
-      log
+      log,
+      playerForfeitUsername
     } = this.props;
+
+    if (generalInfo.winner) {
+      return <GameWonView username={generalInfo.winner.username} />;
+    }
 
     const userInfo = playersInfo.filter(player => player.id === userId)[0];
 
@@ -104,6 +111,9 @@ class GameView extends Component {
 
     return (
       <div style={{ margin: '0 1.0vw' }}>
+        {playerForfeitUsername && (
+          <PlayerForfeitModal username={playerForfeitUsername} />
+        )}
         <div
           style={{
             minHeight: '24vh',
