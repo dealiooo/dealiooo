@@ -49,6 +49,7 @@ const forfeit = sockets => (gameId, userId) => {
           value.emit(`game:${gameId}:game-forfeit`, forfeitData);
           clearInterval(runningGames.get(gameId));
           runningGames.delete(gameId);
+          Game.endGame(gameId);
         }
       });
     });
