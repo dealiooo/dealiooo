@@ -223,6 +223,7 @@ class Game extends Component {
       } else if (host) {
         return (
           <div
+            className="has-background-info"
             style={{
               height: `100vh`,
               padding: `0px`,
@@ -232,7 +233,10 @@ class Game extends Component {
               alignItems: `center`
             }}
           >
-            <button className="button is-info" onClick={this.onStartGame}>
+            <button
+              className="button global-light-hover is-info is-inverted is-outlined is-medium"
+              onClick={this.onStartGame}
+            >
               Start Game
             </button>
           </div>

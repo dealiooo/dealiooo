@@ -69,7 +69,10 @@ class GameInfoView extends Component {
           </h1>
           <div className="dropdown is-right is-hoverable">
             <div className="dropdown-trigger">
-              <button className="button global-dark-hover" aria-haspopup="true">
+              <button
+                className="button global-light-hover"
+                aria-haspopup="true"
+              >
                 <span>{discard.length}</span>
                 <span className="icon is-small">
                   <i className="fas fa-angle-down" aria-hidden="true" />

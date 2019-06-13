@@ -24,7 +24,7 @@ class PlayerPromptView extends Component {
               {promptsInfo.options.map((option, i) => (
                 <div className="control column" key={i}>
                   <input
-                    className={`button is-fullwidth is-rounded ${
+                    className={`button is-fullwidth global-light-hover ${
                       promptsInfo.promptMessage === `picking a color`
                         ? `${option} has-text-white`
                         : ''

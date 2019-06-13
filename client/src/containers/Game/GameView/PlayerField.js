@@ -67,7 +67,15 @@ class ActionColumn extends Component {
         >
           <div className="column">
             {actionCards.map(actionCard => (
-              <div key={actionCard.id}>
+              <div
+                key={actionCard.id}
+                className="global-light-hover"
+                style={{
+                  border: `1px solid #dbdbdb`,
+                  borderRadius: `4px`,
+                  cursor: `default`
+                }}
+              >
                 {cardNameToDisplayName(actionCard.name)}
               </div>
             ))}
