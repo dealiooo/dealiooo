@@ -15,7 +15,10 @@ class ModalWithToggle extends React.Component {
     return (
       <div>
         <div className="has-text-centered">
-          <button className="button global-light-hover" onClick={this.toggle}>
+          <button
+            className="button global-light-hover is-fullwidth"
+            onClick={this.toggle}
+          >
             {this.props.toggleName}
           </button>
         </div>
