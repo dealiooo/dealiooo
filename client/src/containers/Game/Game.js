@@ -118,7 +118,9 @@ class Game extends Component {
     this.setState({ log: this.state.log.concat(message) });
   };
 
-  onGameForfeit = message => {};
+  onGameForfeit = data => {
+    console.log(`test: ${data.message}`);
+  };
 
   onStartGame = _ => {
     GameAPI.postGameStartGame(this.props.match.params.id).then(_ =>
@@ -167,8 +169,9 @@ class Game extends Component {
   };
 
   handleForfeit = _ => {
-    GameAPI.postGameForfeit(this.props.match.params.id);
-    window.location = '/main-lobby';
+    GameAPI.postGameForfeit(this.props.match.params.id).then(
+      _ => (window.location = '/main-lobby')
+    );
   };
 
   handleEndTurn = _ => {

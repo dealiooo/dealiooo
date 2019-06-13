@@ -2,6 +2,7 @@ const gameEngine = require('./../../game_engine');
 const { Game } = require('./../../database/api');
 
 const gameGlobals = new Map();
+const runningGames = new Map();
 
 const cancel = sockets => (gameId, userId) => {
   gameEngine.onCancelAction(gameGlobals.get(gameId), userId);
@@ -36,15 +37,19 @@ const endTurn = sockets => (gameId, userId) => {
 };
 
 const forfeit = sockets => (gameId, userId) => {
-  if (gameEngine.onForfeit(gameGlobals.get(gameId), userId)) {
+  const forfeitData = gameEngine.onForfeit(gameGlobals.get(gameId), userId);
+  if (forfeitData) {
     Game.removePlayer(gameId, userId).then(_ => {
-      sockets.get(gameId).forEach((value, key, map) => {
+      sockets.get(gameId).forEach((value, key, _) => {
         let data = gameEngine.getVars(gameGlobals.get(gameId), key);
-        value.emit(`game:${gameId}:game-update`, data);
-        value.emit(
-          `game:${gameId}:game-forfeit`,
-          `${userId} has left the game`
-        );
+        if (!forfeitData.gameWon) {
+          value.emit(`game:${gameId}:game-update`, data);
+          value.emit(`game:${gameId}:game-forfeit`, forfeitData);
+        } else {
+          value.emit(`game:${gameId}:game-forfeit`, forfeitData);
+          clearInterval(runningGames.get(gameId));
+          runningGames.delete(gameId);
+        }
       });
     });
   }
@@ -73,7 +78,10 @@ const startGame = sockets => gameId => {
         gameGlobals.set(gameId, gameEngine.start(users));
         sockets.get(gameId).forEach((socket, userId, _) => {
           socket.emit(`game:${gameId}:start-game`, 'game is started');
-          setInterval(() => tick(socket, userId, gameId), 1000);
+          runningGames.set(
+            gameId,
+            setInterval(() => tick(socket, userId, gameId), 1000)
+          );
         });
       })
     )
@@ -83,7 +91,10 @@ const startGame = sockets => gameId => {
 const loadGame = sockets => gameId => {
   sockets.get(gameId).forEach((socket, userId, _) => {
     socket.emit(`game:${gameId}:start-game`, 'game is started');
-    setInterval(() => tick(socket, userId, gameId), 1000);
+    runningGames.set(
+      gameId,
+      setInterval(() => tick(socket, userId, gameId), 1000)
+    );
   });
 };
 
