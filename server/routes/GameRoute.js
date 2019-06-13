@@ -110,8 +110,8 @@ router.post(
   authenticatePlayer,
   (request, response) => {
     const { gameId } = request.params;
-    const { id } = response.locals.user;
-    GameSockets.join(gameId, id);
+    const { id, username } = response.locals.user;
+    GameSockets.join(gameId, id, username);
     response.sendStatus(204);
   }
 );

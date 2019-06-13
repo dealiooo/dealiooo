@@ -52,6 +52,8 @@ const initPlayers = (Game, users) => {
     players.push(player);
   }
   Game.players = shuffle(players).splice(0, users.length);
+  Game.currentPlayerIndex = 0;
+  Game.currentPlayer = Game.players[Game.currentPlayerIndex];
 };
 
 const initGameUtility = Game => {

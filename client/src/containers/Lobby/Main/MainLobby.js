@@ -85,7 +85,9 @@ class MainLobby extends Component {
       id: event.gameId,
       roomName: event.roomName,
       playerCap: event.playerCap,
-      status: 'open'
+      status: 'open',
+      hostId: event.userId,
+      hostName: event.userName
     };
     GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
       newRoom.playerList = gameInfo.Players;
@@ -120,23 +122,27 @@ class MainLobby extends Component {
   onLeaveGame = event => {
     // todo: convert this array operation to a dictionary operation
     var length = this.state.lobbies.length;
-    var index = 0;
+    var index = -1;
+    let id = parseInt(event.gameId);
     for (var i = 0; i < length; i++) {
-      if (this.state.lobbies[i].id === parseInt(event.gameId)) {
+      if (this.state.lobbies[i].id === id) {
         index = i;
         break;
       }
     }
-    GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
+    if (-1 !== index) {
       var baseState = this.state.lobbies;
-      if (gameInfo.Players.length) {
-        baseState[index].playerList = gameInfo.Players;
-        baseState[index].playerNum = gameInfo.Players.length;
-      } else {
+      if (1 === baseState[index].playerNum) {
         baseState.splice(index, 1);
+        this.setState({ lobbies: baseState });
+      } else {
+        GameLobbyAPI.getGameLobbyInfo(event.gameId).then(gameInfo => {
+          baseState[index].playerList = gameInfo.Players;
+          baseState[index].playerNum = gameInfo.Players.length;
+          this.setState({ lobbies: baseState });
+        });
       }
-      this.setState({ lobbies: baseState });
-    });
+    }
   };
 
   onStartGame = event => {
@@ -160,7 +166,7 @@ class MainLobby extends Component {
       this.state.roomName,
       this.state.playerCapacity
     ).then(result => {
-      window.location = `/game-lobby/${result.th_game_id}`;
+      window.location = `/game-lobby/${result.id}`;
     });
   };
 

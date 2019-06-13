@@ -10,7 +10,7 @@ const endTurn = ({ Game, forced, callback }) => {
       destination: Game.discard
     })
   );
-  const player = Game.players[Game.turnCount % Game.playerCount];
+  const player = Game.currentPlayer;
   discardExcessHandCard({ Game, player, forced, callback });
 };
 

@@ -49,11 +49,12 @@ const game_engine = {
   },
   getGeneralInfo: (Game, data) => {
     data.general_info = {};
+    if (Game.winner) {
+      data.general_info.winner = Game.winner.username;
+    }
     data.general_info.turnCount = Game.turnCount;
-    data.general_info.currentPlayerId =
-      Game.players[Game.turnCount % Game.playerCount].id;
-    data.general_info.currentPlayerUsername =
-      Game.players[Game.turnCount % Game.playerCount].username;
+    data.general_info.currentPlayerId = Game.currentPlayer.id;
+    data.general_info.currentPlayerUsername = Game.currentPlayer.username;
     data.general_info.cardsPlayed = Game.cardsPlayed;
     data.general_info.deckCount = Game.deck.length;
     data.general_info.discard = Game.discard;
@@ -97,7 +98,7 @@ const game_engine = {
       'Move Card Around': game_engine.promptMoveCardAround,
       'End Turn': game_engine.applyEndTurn
     };
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     userControls.pickBasicOptions({
       Game,
       player,
@@ -117,7 +118,7 @@ const game_engine = {
       'Pick Source and Destination': game_engine.promptSourceAndDestination,
       'Go Back': game_engine.promptBasicOptions
     };
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     userControls.moveCardAround({
       Game,
       player,
@@ -136,7 +137,7 @@ const game_engine = {
     }
   },
   promptHandCardId: Game => {
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     userControls.pickHandCard({
       Game,
       player,
@@ -152,7 +153,7 @@ const game_engine = {
     });
   },
   promptSourceAndDestination: Game => {
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     gameControls.moveCardAround({
       Game,
       player,
@@ -170,7 +171,7 @@ const game_engine = {
     });
   },
   applyPlayCard: (Game, card) => {
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     gameControls.playCard({
       Game,
       player,
@@ -199,14 +200,14 @@ const game_engine = {
   },
   applyStartTurn: Game => {
     game_engine.resetPlayersTick(Game);
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     gameControls.startTurn({ Game, player });
     game_engine.promptBasicOptions(Game);
   },
   applyPlayerWon: Game => {
-    return `\nPlayer (id:${
-      Game.winner.id
-    }) won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
+    Game.return`\n${
+      Game.currentPlayer.username
+    } won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
   applyEndTurn: (Game, force) => {
     if (null === Game.pendingForUserInput || force) {
@@ -214,18 +215,19 @@ const game_engine = {
         Game,
         callback: _ => {
           Game.turnCount++;
+          Game.currentPlayerIndex =
+            (Game.currentPlayerIndex + 1) % Game.playerCount;
+          Game.currentPlayer = Game.players[Game.currentPlayerIndex];
           game_engine.applyStartTurn(Game);
         }
       });
     }
     return ``;
   },
-  applyLeaveGame: (Game, playerId) => {
+  applyForfeit: (Game, playerId) => {
     game_engine.resetPlayersTick(Game);
-    let player = Game.players[Game.turnCount % Game.playerCount];
-    if (player.id === playerId) {
-      gameControls.forfeit({ Game, player });
-    }
+    let player = Game.players.filter(player => player.id === playerId)[0];
+    gameControls.forfeit({ Game, player });
   },
   applyForced: Game => {
     Game.cardsPlayed++;
@@ -257,7 +259,7 @@ const game_engine = {
     return returnValue;
   },
   onEndTurn: (Game, playerId) => {
-    let player = Game.players[Game.turnCount % Game.playerCount];
+    let player = Game.currentPlayer;
     let pending = Game.pendingForUserInput;
     if (null !== pending) {
       if (pending.arguments.options) {
@@ -275,21 +277,25 @@ const game_engine = {
     }
     return `\nEnd Turn is not available`;
   },
-  onLeaveGame: (Game, playerId) => {
-    let nextPlayerIndex = (Game.turnCount + 1) % Game.playerCount;
-    if (0 !== nextPlayerIndex) {
-      nextPlayerIndex--;
-    }
-    game_engine.applyLeaveGame(Game, playerId);
+  onForfeit: (Game, playerId) => {
+    let playerUsername = Game.players.filter(
+      player => player.id === playerId
+    )[0].username;
+    game_engine.applyForfeit(Game, playerId);
     if (
       gameControls.computeWinCondition({
         Game,
-        player: Game.players[nextPlayerIndex]
+        player: Game.currentPlayer
       })
     ) {
-      return game_engine.applyPlayerWon(Game);
+      return {
+        playerWonUsername: Game.currentPlayer.username,
+        playerForfeitUsername: playerUsername
+      };
     }
-    return ``;
+    return {
+      playerForfeitUsername: playerUsername
+    };
   },
   onCancelAction: (Game, playerId) => {
     game_engine.applyCancelAction(Game, playerId);

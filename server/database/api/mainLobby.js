@@ -13,12 +13,16 @@ const findOpenLobbies = db => () =>
 
 const insertGame = db => (th_user_id, room_name, player_cap) =>
   db.th_games.create({ room_name, player_cap, status: 'open' }).then(game =>
-    db.th_players.create({
-      th_game_id: game.id,
-      th_user_id,
-      host: true,
-      ready: true
-    })
+    Promise.resolve(
+      db.th_players
+        .create({
+          th_game_id: game.id,
+          th_user_id,
+          host: true,
+          ready: true
+        })
+        .then(_ => Promise.resolve(game))
+    )
   );
 
 module.exports = db => ({

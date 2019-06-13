@@ -7,21 +7,32 @@ class ModalWithToggle extends React.Component {
     toggled: false
   };
 
-  toggle = () => this.setState({ toggled: !this.state.toggled });
+  toggle = () => {
+    this.setState({ toggled: !this.state.toggled });
+  };
 
   render() {
     return (
       <div>
-        <button className="button" onClick={this.toggle}>
-          {this.props.toggleName}
-        </button>
+        <div className="has-text-centered">
+          <button
+            className="button global-light-hover is-fullwidth"
+            onClick={this.toggle}
+          >
+            {this.props.toggleName}
+          </button>
+        </div>
         <div
-          className="modal"
-          show={this.state.toggled}
+          className={`modal ${this.state.toggled ? 'is-active' : ''}`}
           onClose={this.toggle}
-          {...this.props.modal}
         >
+          <div className="modal-background" onClick={this.toggle} />
           {this.props.children}
+          <button
+            className="modal-close is-large"
+            onClick={this.toggle}
+            aria-label="close"
+          />
         </div>
       </div>
     );
@@ -31,19 +42,18 @@ class ModalWithToggle extends React.Component {
 class GameRules extends Component {
   render() {
     return (
-      <ModalWithToggle
-        toggleName="Game Rules"
-        modal={{ closeOnBlur: true, showClose: false }}
-      >
-        <div className="modal-content" className="has-background-light">
+      <ModalWithToggle toggleName="Rules">
+        <div className="modal-content has-background-light">
           <section className="section">
-            <h1 className="title has-text-centered">Game Rules</h1>
+            <h1 className="title">Game Rules</h1>
             {Object.keys(rules).map(rule => (
-              <div>
-                <h2 className="subtitle">{rule}</h2>
-                <ul>
-                  {rules[rule].map(value => (
-                    <li>{value}</li>
+              <div key={rule} style={{ marginTop: `20px` }}>
+                <h2 className="subtitle has-text-weight-semibold">{rule}</h2>
+                <ul className="list">
+                  {rules[rule].map((value, i) => (
+                    <li key={i} className="list-item">
+                      {value}
+                    </li>
                   ))}
                 </ul>
               </div>
