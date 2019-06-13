@@ -289,13 +289,12 @@ const game_engine = {
       })
     ) {
       return {
-        gameWon: true,
-        message: game_engine.applyPlayerWon(Game)
+        playerWonUsername: Game.currentPlayer.username,
+        playerForfeitUsername: playerUsername
       };
     }
     return {
-      gameWon: false,
-      message: `${playerUsername} has left the game`
+      playerForfeitUsername: playerUsername
     };
   },
   onCancelAction: (Game, playerId) => {
