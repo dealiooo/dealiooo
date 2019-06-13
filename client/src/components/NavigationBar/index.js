@@ -43,7 +43,7 @@ const NavigationBar = ({ title, username }) => {
               <a
                 className="navbar-item has-text-white"
                 value="item"
-                href="/"
+                href="# "
                 onClick={logout}
               >
                 Logout
