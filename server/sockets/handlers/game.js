@@ -42,7 +42,7 @@ const forfeit = sockets => (gameId, userId) => {
     Game.removePlayer(gameId, userId).then(_ => {
       sockets.get(gameId).forEach((value, key, _) => {
         let data = gameEngine.getVars(gameGlobals.get(gameId), key);
-        if (forfeitData.gameWon) {
+        if (forfeitData.playerWonUsername) {
           value.emit(`game:${gameId}:game-forfeit`, forfeitData);
           endGame(gameId);
         } else {
