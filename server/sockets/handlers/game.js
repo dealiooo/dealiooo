@@ -42,14 +42,12 @@ const forfeit = sockets => (gameId, userId) => {
     Game.removePlayer(gameId, userId).then(_ => {
       sockets.get(gameId).forEach((value, key, _) => {
         let data = gameEngine.getVars(gameGlobals.get(gameId), key);
-        if (!forfeitData.gameWon) {
+        if (forfeitData.gameWon) {
+          value.emit(`game:${gameId}:game-forfeit`, forfeitData);
+          endGame(gameId);
+        } else {
           value.emit(`game:${gameId}:game-update`, data);
           value.emit(`game:${gameId}:game-forfeit`, forfeitData);
-        } else {
-          value.emit(`game:${gameId}:game-forfeit`, forfeitData);
-          clearInterval(runningGames.get(gameId));
-          runningGames.delete(gameId);
-          Game.endGame(gameId);
         }
       });
     });
@@ -101,6 +99,9 @@ const loadGame = sockets => gameId => {
 
 const tick = (socket, userId, gameId) => {
   let data = gameEngine.getVars(gameGlobals.get(gameId), userId);
+  if (data.general_info.winner) {
+    endGame(gameId);
+  }
   socket.emit(`game:${gameId}:game-update`, data);
 };
 
@@ -109,6 +110,12 @@ const update = sockets => (gameId, _) => {
     let data = gameEngine.getVars(gameGlobals.get(gameId), key);
     value.emit(`game:${gameId}:game-update`, data);
   });
+};
+
+const endGame = gameId => {
+  clearInterval(runningGames.get(gameId));
+  runningGames.delete(gameId);
+  Game.endGame(gameId);
 };
 
 module.exports = (globalSockets, sockets) => ({

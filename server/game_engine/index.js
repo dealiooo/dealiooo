@@ -49,6 +49,9 @@ const game_engine = {
   },
   getGeneralInfo: (Game, data) => {
     data.general_info = {};
+    if (Game.winner) {
+      data.general_info.winner = Game.winner.username;
+    }
     data.general_info.turnCount = Game.turnCount;
     data.general_info.currentPlayerId = Game.currentPlayer.id;
     data.general_info.currentPlayerUsername = Game.currentPlayer.username;
@@ -202,7 +205,7 @@ const game_engine = {
     game_engine.promptBasicOptions(Game);
   },
   applyPlayerWon: Game => {
-    return `\n${
+    Game.return`\n${
       Game.currentPlayer.username
     } won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
