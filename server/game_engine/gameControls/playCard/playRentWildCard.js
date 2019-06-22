@@ -152,7 +152,7 @@ const collectRent = ({
                   Game,
                   targetPlayer,
                   sourcePlayer: player,
-                  propertySet: destinations[parseInt(index)]
+                  propertySet: destinations[destinationIndexes.indexOf(index)]
                 }),
                 callback: ({ error }) => {
                   if (error) {

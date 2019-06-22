@@ -188,6 +188,8 @@ class Game extends Component {
 
   /// TODO:
   handleHandCardClicked = event => {
+    console.log(this.state.data.prompts_info.promptMessage);
+    console.log(UserInputMap.get(this.state.data.prompts_info.promptMessage));
     console.log(
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
     );
