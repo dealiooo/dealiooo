@@ -4,6 +4,7 @@ import './styles/cardColors.css';
 
 import GameView from './GameView/GameView';
 import { socket, Game as GameAPI, GameLobby as GameLobbyAPI } from '../../api';
+import GameWonView from './GameView/GameWonView';
 
 const getAttributeValue = (event, attributeName, defaultValue) => {
   let attributeValue = event.target.getAttribute(attributeName.toLowerCase());
@@ -52,7 +53,9 @@ class Game extends Component {
       startGame: false,
       load: true,
       data: null,
-      log: []
+      log: [],
+      playerWonUsername: undefined,
+      playerForfeitUsername: undefined
     };
 
     this.onStartGame = this.onStartGame.bind(this);
@@ -118,8 +121,13 @@ class Game extends Component {
     this.setState({ log: this.state.log.concat(message) });
   };
 
-  onGameForfeit = data => {
-    console.log(`test: ${data.message}`);
+  onGameForfeit = ({ playerWonUsername, playerForfeitUsername }) => {
+    if (playerWonUsername) {
+      this.setState({
+        playerWonUsername,
+        playerForfeitUsername
+      });
+    }
   };
 
   onStartGame = _ => {
@@ -197,12 +205,23 @@ class Game extends Component {
 
   render() {
     const { id: gameId } = this.props.match.params;
-    const { userId, startGame, load, host, data, log } = this.state;
+    const {
+      userId,
+      startGame,
+      load,
+      host,
+      data,
+      log,
+      playerWonUsername,
+      playerForfeitUsername
+    } = this.state;
 
     if (load) {
       return <div>Loading...</div>;
     } else {
-      if (startGame && data) {
+      if (playerWonUsername) {
+        return <GameWonView username={playerWonUsername} />;
+      } else if (startGame && data) {
         return (
           <GameView
             userId={userId}
@@ -218,6 +237,7 @@ class Game extends Component {
             onPromptOptionClicked={this.handlePromptOptionClicked}
             onEndTurn={this.handleEndTurn}
             onForfeit={this.handleForfeit}
+            playerForfeitUsername={playerForfeitUsername}
           />
         );
       } else if (host) {
