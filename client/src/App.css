@@ -1,5 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Mukta');
+
 html {
   overflow-y: auto;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: 'Mukta';
 }
 
 .global-light-hover {
