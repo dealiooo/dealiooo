@@ -142,11 +142,6 @@ class Game extends Component {
 
   handlePromptOptionClicked = event => {
     event.preventDefault();
-    console.log('prompt: ', this.state.data.prompts_info.promptMessage);
-    console.log(
-      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
-    );
-    console.log(event.target);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
@@ -169,7 +164,6 @@ class Game extends Component {
   };
 
   handlePropertyCardClicked = event => {
-    console.log('prompt: ', this.state.data.prompts_info.promptMessage);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
@@ -186,21 +180,13 @@ class Game extends Component {
     GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
-  /// TODO:
   handleHandCardClicked = event => {
-    console.log(this.state.data.prompts_info.promptMessage);
-    console.log(UserInputMap.get(this.state.data.prompts_info.promptMessage));
-    console.log(
-      UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
-    );
-    console.log(event.target);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
     );
   };
 
-  /// TODO:
   handleCancelClicked = _ => {
     GameAPI.postGameCancel(this.props.match.params.id);
   };
@@ -242,27 +228,6 @@ class Game extends Component {
             playerForfeitUsername={playerForfeitUsername}
           />
         );
-      } else if (host) {
-        return (
-          <div
-            className="has-background-info"
-            style={{
-              height: `100vh`,
-              padding: `0px`,
-              display: `flex`,
-              flexWrap: `nowrap`,
-              justifyContent: `center`,
-              alignItems: `center`
-            }}
-          >
-            <button
-              className="button global-light-hover is-info is-inverted is-outlined is-medium"
-              onClick={this.onStartGame}
-            >
-              Start Game
-            </button>
-          </div>
-        );
       } else {
         return (
           <div
@@ -276,12 +241,21 @@ class Game extends Component {
               alignItems: `center`
             }}
           >
-            <button
-              className="button global-light-hover is-info is-inverted is-outlined is-medium"
-              onClick={this.onStartGame}
-            >
-              Waiting for host to start game...
-            </button>
+            {host ? (
+              <button
+                className="button global-light-hover is-info is-inverted is-outlined is-medium"
+                onClick={this.onStartGame}
+              >
+                Start Game
+              </button>
+            ) : (
+              <button
+                className="button global-light-hover is-info is-inverted is-outlined is-medium"
+                onClick={this.onStartGame}
+              >
+                Waiting for host to start game...
+              </button>
+            )}
           </div>
         );
       }
