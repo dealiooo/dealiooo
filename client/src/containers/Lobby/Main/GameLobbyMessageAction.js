@@ -26,7 +26,10 @@ class GameLobbyMessageAction extends Component {
         <div className="column is-two-thirds">
           <div className="field has-addons">
             <div className="control">
-              <button className="button is-fullwidth">
+              <button
+                className="button is-fullwidth"
+                style={{ cursor: `auto` }}
+              >
                 <span className="icon">
                   <i className="fa fa-search" />
                 </span>

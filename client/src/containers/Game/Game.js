@@ -164,7 +164,6 @@ class Game extends Component {
   };
 
   handlePropertyCardClicked = event => {
-    console.log('prompt: ', this.state.data.prompts_info.promptMessage);
     GameAPI.postGameClick(
       this.props.match.params.id,
       UserInputMap.get(this.state.data.prompts_info.promptMessage)(event)
@@ -181,7 +180,6 @@ class Game extends Component {
     GameAPI.postGameEndTurn(this.props.match.params.id);
   };
 
-  /// TODO:
   handleHandCardClicked = event => {
     GameAPI.postGameClick(
       this.props.match.params.id,
@@ -189,7 +187,6 @@ class Game extends Component {
     );
   };
 
-  /// TODO:
   handleCancelClicked = _ => {
     GameAPI.postGameCancel(this.props.match.params.id);
   };
@@ -231,7 +228,7 @@ class Game extends Component {
             playerForfeitUsername={playerForfeitUsername}
           />
         );
-      } else if (host) {
+      } else {
         return (
           <div
             className="has-background-info"
@@ -244,24 +241,18 @@ class Game extends Component {
               alignItems: `center`
             }}
           >
-            <button
-              className="button global-light-hover is-info is-inverted is-outlined is-medium"
-              onClick={this.onStartGame}
-            >
-              Start Game
-            </button>
-          </div>
-        );
-      } else {
-        return (
-          <div className="container">
-            <div className="columns is-centered">
-              <div className="columns is-size-2">
-                <button className="button" onClick={this.onStartGame}>
-                  Waiting for host to start game...
-                </button>
+            {host ? (
+              <button
+                className="button global-light-hover is-info is-inverted is-outlined is-medium"
+                onClick={this.onStartGame}
+              >
+                Start Game
+              </button>
+            ) : (
+              <div className="has-text-white is-size-5">
+                Waiting for host to start game...
               </div>
-            </div>
+            )}
           </div>
         );
       }

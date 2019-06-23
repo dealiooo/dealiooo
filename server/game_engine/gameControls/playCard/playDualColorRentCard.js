@@ -99,7 +99,7 @@ const pickPropertySetToRent = ({
           player,
           card,
           destinations,
-          destinationIndex,
+          destinationIndex: destinationIndexes.indexOf(destinationIndex),
           forced,
           callback
         });

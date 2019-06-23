@@ -21,7 +21,7 @@ const discardExcessHandCard = ({ Game, player, forced, callback }) => {
     userControls.pickHandCard({
       Game,
       player,
-      message: 'Picking a hard card to discard',
+      message: 'picking a hand card to discard',
       forced,
       callback: ({ forced, card }) => {
         gameActions.moveCard({

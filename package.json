@@ -1,7 +1,7 @@
 {
-  "name": "term-project-team-h",
+  "name": "dealiooo",
   "version": "1.0.0",
-  "description": "term-project-team-h",
+  "description": "card game simulator",
   "main": "app.js",
   "scripts": {
     "start": "BLUEBIRD_WARNINGS=0 npm run start:server",
@@ -37,17 +37,17 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sfsu-csc-667-fall-2018/term-project-team-h.git"
+    "url": "git+https://github.com/dealiooo/dealiooo.git"
   },
   "keywords": [
-    "term-project-team-h"
+    "dealiooo"
   ],
   "author": "CSC 667 Students",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sfsu-csc-667-fall-2018/term-project-team-h/issues"
+    "url": "https://github.com/dealiooo/dealiooo/issues"
   },
-  "homepage": "https://github.com/sfsu-csc-667-fall-2018/term-project-team-h#readme",
+  "homepage": "hhttps://github.com/dealiooo/dealiooo#readme",
   "dependencies": {
     "bcrypt": "^3.0.3",
     "body-parser": "^1.18.3",

@@ -27,10 +27,10 @@ class MDCard extends Component {
             `/cards/basic/${card.type}/${card.name}.png`
           }
           cardid={card.id}
-          inPropertyArea={true}
+          inpropertyarea={1}
           optionindex={optionIndex}
           propertyindex={propertyIndex}
-          onCardClicked={onCardClicked}
+          onClick={onCardClicked}
           alt={`${card.name}`}
           style={imgStyle}
         />
@@ -157,7 +157,7 @@ class PropertyColumn extends Component {
               <div
                 className={`${this.getPropertySetCssColor(propertySet)}`}
                 key={i}
-                propertyIndex={i}
+                propertyindex={i}
                 onClick={onPropertyCardClicked}
                 style={{
                   position: `absolute`,
@@ -199,6 +199,7 @@ class PropertyColumn extends Component {
                       return (
                         <MDCard
                           card={propertyCard}
+                          key={propertyCard.id}
                           containerStyle={{
                             float: `left`,
                             position: `absolute`,
@@ -215,8 +216,8 @@ class PropertyColumn extends Component {
                             minWidth: imageWidth,
                             maxWidth: imageWidth
                           }}
-                          propertyIndex={i}
-                          inPropertyArea={1}
+                          propertyindex={i}
+                          inpropertyarea={1}
                           onClick={onPropertyCardClicked}
                         />
                       );
