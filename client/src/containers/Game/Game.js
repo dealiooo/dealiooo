@@ -265,14 +265,23 @@ class Game extends Component {
         );
       } else {
         return (
-          <div className="container">
-            <div className="columns is-centered">
-              <div className="columns is-size-2">
-                <button className="button" onClick={this.onStartGame}>
-                  Waiting for host to start game...
-                </button>
-              </div>
-            </div>
+          <div
+            className="has-background-info"
+            style={{
+              height: `100vh`,
+              padding: `0px`,
+              display: `flex`,
+              flexWrap: `nowrap`,
+              justifyContent: `center`,
+              alignItems: `center`
+            }}
+          >
+            <button
+              className="button global-light-hover is-info is-inverted is-outlined is-medium"
+              onClick={this.onStartGame}
+            >
+              Waiting for host to start game...
+            </button>
           </div>
         );
       }
