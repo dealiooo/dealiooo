@@ -1,5 +1,4 @@
-// TODO: landing page
-// import Index from './Index';
+import Index from './Index';
 
 const HomeRoute = [
   {
