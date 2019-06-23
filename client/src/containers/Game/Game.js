@@ -249,12 +249,9 @@ class Game extends Component {
                 Start Game
               </button>
             ) : (
-              <button
-                className="button global-light-hover is-info is-inverted is-outlined is-medium"
-                onClick={this.onStartGame}
-              >
+              <div className="has-text-white is-size-5">
                 Waiting for host to start game...
-              </button>
+              </div>
             )}
           </div>
         );
