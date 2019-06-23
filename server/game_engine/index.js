@@ -28,17 +28,11 @@ const game_engine = {
   },
   input: (Game, userInput, playerId) => {
     Game.userInput = userInput;
-    let returnValue = '';
     let pending = Game.pendingForUserInput;
     if (pending) {
       pending.arguments.playerId = playerId;
-      returnValue = pending.function(pending.arguments);
-    } else if (null !== Game.winner) {
-      returnValue = game_engine.applyPlayerWon(Game);
-    } else {
-      returnValue = '\ngame is not running :(';
+      pending.function(pending.arguments);
     }
-    return returnValue;
   },
   getVars: (Game, playerId) => {
     let data = {};
@@ -132,9 +126,7 @@ const game_engine = {
         }
       }
     });
-    if (gameControls.computeWinCondition({ Game, player })) {
-      return game_engine.applyPlayerWon(Game);
-    }
+    gameControls.computeWinCondition({ Game, player });
   },
   promptHandCardId: Game => {
     let player = Game.currentPlayer;
@@ -185,9 +177,7 @@ const game_engine = {
           game_engine.applyForced(Game);
         } else {
           game_engine.resetPlayersTick(Game);
-          if (gameControls.computeWinCondition({ Game, player })) {
-            return game_engine.applyPlayerWon(Game);
-          } else {
+          if (!gameControls.computeWinCondition({ Game, player })) {
             if (gameControls.forcePlayerEndTurn({ Game })) {
               game_engine.applyEndTurn(Game);
             } else {
@@ -203,11 +193,6 @@ const game_engine = {
     let player = Game.currentPlayer;
     gameControls.startTurn({ Game, player });
     game_engine.promptBasicOptions(Game);
-  },
-  applyPlayerWon: Game => {
-    Game.return`\n${
-      Game.currentPlayer.username
-    } won! 🎉🎉🎉 Woohoo! 🎉🎉🎉 Congrats!`;
   },
   applyEndTurn: (Game, force) => {
     if (null === Game.pendingForUserInput || force) {
@@ -279,7 +264,7 @@ const game_engine = {
   },
   onForfeit: (Game, playerId) => {
     let playerUsername = Game.players.filter(
-      player => player.id === playerId
+      player => player.id === playerIdplayerWonUsername
     )[0].username;
     game_engine.applyForfeit(Game, playerId);
     if (
