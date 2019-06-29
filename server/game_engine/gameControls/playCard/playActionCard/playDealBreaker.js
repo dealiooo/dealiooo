@@ -62,7 +62,7 @@ const selectPropertySet = ({
     requiredPlayerId: player.id,
     message: 'selecting a property set',
     options: destinationIndexes,
-    callback: ({ error, option, cancelled }) => {
+    callback: ({ error, option: destinationIndex, cancelled }) => {
       if (error) {
         callback({ error });
       } else if (cancelled) {
@@ -80,7 +80,8 @@ const selectPropertySet = ({
           player,
           card,
           destinations,
-          option,
+          destinationIndexes,
+          destinationIndex,
           callback
         });
       }
@@ -93,13 +94,14 @@ const processPropertySet = ({
   player,
   card,
   destinations,
-  indexString,
+  destinationIndexes,
+  destinationIndex,
   callback
 }) => {
   if (
     gameActions.getPropertySetStatus({
       Game,
-      propertySet: destinations[parseInt(indexString)]
+      propertySet: destinations[destinationIndexes.indexOf(destinationIndex)]
     })
   ) {
     player.field.propertyCards.push([]);

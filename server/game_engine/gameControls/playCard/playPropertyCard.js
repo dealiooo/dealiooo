@@ -11,7 +11,7 @@ module.exports = ({ Game, player, card, callback }) => {
     requiredPlayerId: player.id,
     message: 'picking a destination',
     options: destinationIndexes,
-    callback: ({ error, option, cancelled, forced }) => {
+    callback: ({ error, option: destinationIndex, cancelled, forced }) => {
       if (error) {
         callback({ error });
       } else if (cancelled) {
@@ -19,7 +19,8 @@ module.exports = ({ Game, player, card, callback }) => {
       } else {
         gameActions.moveCard({
           source: player.hand,
-          destination: destinations[parseInt(option)],
+          destination:
+            destinations[destinationIndexes.indexOf(destinationIndex)],
           card
         });
         gameActions.onNonCounterCardPlayed({ Game, card });

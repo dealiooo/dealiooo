@@ -54,7 +54,7 @@ const moveCard = ({ Game, player, card, source, callback }) => {
       requiredPlayerId: player.id,
       message: 'picking a destination',
       options: destinationIndexes,
-      callback: ({ error, cancelled, forced, option }) => {
+      callback: ({ error, cancelled, forced, option: destinationIndex }) => {
         if (error) {
           callback({ error });
         } else if (cancelled) {
@@ -68,7 +68,8 @@ const moveCard = ({ Game, player, card, source, callback }) => {
         } else {
           gameActions.moveCard({
             source: source.pile,
-            destination: destinations[parseInt(option)],
+            destination:
+              destinations[destinationIndexes.indexOf(destinationIndex)],
             card
           });
           gameActions.removeEmptyPropertySets({ player });

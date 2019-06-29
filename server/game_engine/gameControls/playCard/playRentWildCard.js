@@ -81,7 +81,7 @@ const pickPropertySetToRent = ({
     requiredPlayerId: player.id,
     message: 'picking a property set to rent',
     options: destinationIndexes,
-    callback: ({ error, option: index, cancelled, forced }) => {
+    callback: ({ error, option: destinationIndex, cancelled, forced }) => {
       if (error) {
         callback({ error });
       } else if (cancelled) {
@@ -95,7 +95,7 @@ const pickPropertySetToRent = ({
           card,
           destinations,
           destinationIndexes,
-          index,
+          destinationIndex,
           callback
         });
       }
@@ -109,7 +109,7 @@ const collectRent = ({
   card,
   destinations,
   destinationIndexes,
-  index,
+  destinationIndex,
   callback
 }) => {
   userControls.pickTargetPlayer({
@@ -152,7 +152,8 @@ const collectRent = ({
                   Game,
                   targetPlayer,
                   sourcePlayer: player,
-                  propertySet: destinations[destinationIndexes.indexOf(index)]
+                  propertySet:
+                    destinations[destinationIndexes.indexOf(destinationIndex)]
                 }),
                 callback: ({ error }) => {
                   if (error) {
