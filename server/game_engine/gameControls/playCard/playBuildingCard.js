@@ -44,7 +44,7 @@ const playAsProperty = ({ Game, player, card, forced, callback }) => {
       message: 'picking a destination',
       options: destinationIndexes,
       forced,
-      callback: ({ error, option, cancelled, forced }) => {
+      callback: ({ error, option: destinationIndex, cancelled, forced }) => {
         if (error) {
           callback({ error });
         } else if (cancelled) {
@@ -52,7 +52,8 @@ const playAsProperty = ({ Game, player, card, forced, callback }) => {
         } else {
           gameActions.moveCard({
             source: player.hand,
-            destination: destinations[parseInt(option)],
+            destination:
+              destinations[destinationIndexes.indexOf(destinationIndex)],
             card
           });
           gameActions.onNonCounterCardPlayed({ Game, card });
