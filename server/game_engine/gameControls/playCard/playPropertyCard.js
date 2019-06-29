@@ -2,7 +2,7 @@ const gameActions = require('../../gameActions');
 const userActions = require('../../userActions');
 
 module.exports = ({ Game, player, card, callback }) => {
-  player.field.propertyCards.push([]);
+  gameActions.addEmptyPropertySet({ player });
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
   ]({ Game, player, card, source: player.field.propertyCards });

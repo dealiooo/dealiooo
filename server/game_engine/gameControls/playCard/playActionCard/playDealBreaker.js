@@ -104,7 +104,7 @@ const processPropertySet = ({
       propertySet: destinations[destinationIndexes.indexOf(destinationIndex)]
     })
   ) {
-    player.field.propertyCards.push([]);
+    gameActions.addEmptyPropertySet({ player });
     gameActions.movePile({
       source: destinations[parseInt(indexString)],
       destination:

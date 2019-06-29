@@ -45,6 +45,7 @@ const pickCardColor = ({ Game, player, card, source, callback }) => {
 };
 
 const moveCard = ({ Game, player, card, source, callback }) => {
+  gameActions.addEmptyPropertySet({ player });
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
   ]({ Game, player, card, source: source.pile });

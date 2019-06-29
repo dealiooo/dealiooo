@@ -50,7 +50,7 @@ const processSlyDeal = ({
         pickFieldCardToSlyDeal({ Game, player, targetPlayer, callback });
       }
     } else {
-      player.field.propertyCards.push([]);
+      gameActions.addEmptyPropertySet({ player });
       gameActions.moveCard({
         source: source.pile,
         destination:

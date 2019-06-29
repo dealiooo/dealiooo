@@ -1,4 +1,3 @@
-const moveCardAround = require('./moveCardAround');
 const pickBasicOptions = require('./pickBasicOptions');
 const pickCardColor = require('./pickCardColor');
 const pickFieldCard = require('./pickFieldCard');
@@ -7,7 +6,6 @@ const pickTargetPlayer = require('./pickTargetPlayer');
 const pickYesOrNo = require('./pickYesOrNo');
 
 module.exports = {
-  moveCardAround,
   pickBasicOptions,
   pickCardColor,
   pickFieldCard,

@@ -1,3 +1,4 @@
+const addEmptyPropertySet = require('./addEmptyPropertySet');
 const getHotelStatus = require('./getHotelStatus');
 const getPropertyPileValue = require('./getPropertyPileValue');
 const getPileValue = require('./getPileValue');
@@ -168,7 +169,7 @@ const processCardPaymentOnFullSet = ({ Game, payee, player, card, source }) => {
           card
         })
       );
-    player.field.propertyCards.push([]);
+    addEmptyPropertySet({ player });
     moveCard({
       source: source.pile,
       destination:
@@ -180,7 +181,7 @@ const processCardPaymentOnFullSet = ({ Game, payee, player, card, source }) => {
 };
 
 const processCardPaymentOnNonFullSet = ({ payee, player, card, source }) => {
-  player.field.propertyCards.push([]);
+  addEmptyPropertySet({ player });
   moveCard({
     source: source.pile,
     destination:

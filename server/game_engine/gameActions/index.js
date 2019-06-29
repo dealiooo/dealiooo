@@ -1,3 +1,4 @@
+const addEmptyPropertySet = require('./addEmptyPropertySet');
 const avoidAction = require('./avoidAction');
 const drawCard = require('./drawCard');
 const getCanAddHotelToPropertySet = require('./getCanAddHotelToPropertySet');
@@ -31,6 +32,7 @@ const swapPropertyCards = require('./swapPropertyCards');
 const switchColor = require('./switchColor');
 
 module.exports = {
+  addEmptyPropertySet,
   avoidAction,
   drawCard,
   getCanAddHotelToPropertySet,
