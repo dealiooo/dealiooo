@@ -18,12 +18,14 @@ const getPropertyDestinations = ({ Game, player, card }) => {
       if (set[0].mainColor === card.mainColor) {
         if (!getPropertySetStatus({ Game, propertySet: set })) {
           destinationIndexes.push(`${i}`);
+          return true;
         }
       }
     } else {
       destinationIndexes.push(`${i}`);
+      return true;
     }
-    return set;
+    return false;
   });
   return { destinations, destinationIndexes };
 };

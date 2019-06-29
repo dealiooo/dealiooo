@@ -89,7 +89,7 @@ const game_engine = {
   promptBasicOptions: Game => {
     let applyBasicOptions = {
       'Play Hand Card': game_engine.promptHandCardId,
-      'Move Card Around': game_engine.promptMoveCardAround,
+      'Move Card Around': game_engine.promptSourceAndDestination,
       'End Turn': game_engine.applyEndTurn
     };
     let player = Game.currentPlayer;
@@ -106,27 +106,6 @@ const game_engine = {
         }
       }
     });
-  },
-  promptMoveCardAround: Game => {
-    let applyMoveCardAround = {
-      'Pick Source and Destination': game_engine.promptSourceAndDestination,
-      'Go Back': game_engine.promptBasicOptions
-    };
-    let player = Game.currentPlayer;
-    userControls.moveCardAround({
-      Game,
-      player,
-      callback: ({ error, option, cancelled, forced }) => {
-        if (error || cancelled) {
-          game_engine.promptBasicOptions(Game);
-        } else if (forced) {
-          game_engine.applyForced(Game);
-        } else {
-          applyMoveCardAround[option](Game);
-        }
-      }
-    });
-    gameControls.computeWinCondition({ Game, player });
   },
   promptHandCardId: Game => {
     let player = Game.currentPlayer;
@@ -153,7 +132,7 @@ const game_engine = {
         if (error) {
           game_engine.promptBasicOptions(Game);
         } else if (cancelled) {
-          game_engine.promptMoveCardAround(Game);
+          game_engine.promptBasicOptions(Game);
         } else if (forced) {
           game_engine.applyForced(Game);
         } else if (!gameControls.computeWinCondition({ Game, player })) {

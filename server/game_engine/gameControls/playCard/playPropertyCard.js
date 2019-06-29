@@ -2,7 +2,7 @@ const gameActions = require('../../gameActions');
 const userActions = require('../../userActions');
 
 module.exports = ({ Game, player, card, callback }) => {
-  player.field.propertyCards.push([]);
+  gameActions.addEmptyPropertySet({ player });
   let { destinations, destinationIndexes } = gameActions.getDestinations[
     card.type
   ]({ Game, player, card, source: player.field.propertyCards });
@@ -17,6 +17,13 @@ module.exports = ({ Game, player, card, callback }) => {
       } else if (cancelled) {
         callback({ cancelled });
       } else {
+        console.log('debug: ');
+        console.log('destinations: ');
+        console.log(destinations);
+        console.log('destinationIndexes: ');
+        console.log(destinationIndexes);
+        console.log('destinationIndex: ');
+        console.log(destinationIndex);
         gameActions.moveCard({
           source: player.hand,
           destination:
