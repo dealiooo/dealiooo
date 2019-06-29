@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Auth } from './../../api';
 
-import './NavigationBar.css';
-
 const NavigationBar = ({ title, username }) => {
+  const [isMenuActive, setMenuActive] = useState(false);
+
   const logout = () => {
     Auth.postLogout().then(result => {
       if (result.error) {
@@ -27,8 +27,16 @@ const NavigationBar = ({ title, username }) => {
             height="28"
           />
         </a>
+        <span
+          className="navbar-burger burger"
+          onClick={() => setMenuActive(!isMenuActive)}
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </span>
       </div>
-      <div className="navbar-menu is-active">
+      <div className={`navbar-menu ${isMenuActive ? `is-active` : ``}`}>
         {title != null ? (
           <div className="navbar-start">
             <div className="navbar-item">
@@ -38,10 +46,13 @@ const NavigationBar = ({ title, username }) => {
         ) : null}
         <div className="navbar-end">
           <div className="navbar-item has-dropdown is-hoverable">
-            <span className="navbar-link has-text-weight-bold">{username}</span>
-            <div className="logout-btn navbar-dropdown has-background-dark is-right">
+            {/* add is-arrowless if active */}
+            <span className="navbar-link has-text-weight-bold is-arrowless">
+              {username}
+            </span>
+            <div className="navbar-dropdown is-right">
               <a
-                className="navbar-item has-text-white"
+                className="navbar-item"
                 value="item"
                 href="# "
                 onClick={logout}
