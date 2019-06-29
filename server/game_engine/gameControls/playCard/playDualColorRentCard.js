@@ -99,7 +99,8 @@ const pickPropertySetToRent = ({
           player,
           card,
           destinations,
-          destinationIndex: destinationIndexes.indexOf(destinationIndex),
+          destinationIndexes,
+          destinationIndex,
           forced,
           callback
         });
@@ -113,6 +114,7 @@ const collectRent = ({
   player,
   card,
   destinations,
+  destinationIndexes,
   destinationIndex,
   forced,
   callback
@@ -136,7 +138,8 @@ const collectRent = ({
                 Game,
                 targetPlayer: Game.players[index],
                 sourcePlayer: player,
-                propertySet: destinations[parseInt(destinationIndex)]
+                propertySet:
+                  destinations[destinationIndexes.indexOf(destinationIndex)]
               }),
               callback: ({ error, forced }) => {
                 if (error) {
