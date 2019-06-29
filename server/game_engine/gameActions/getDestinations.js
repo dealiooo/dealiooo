@@ -6,7 +6,7 @@ const getAllDestinations = ({ player }) => {
   let destinationIndexes = [];
   let destinations = player.field.propertyCards.filter((set, i) => {
     destinationIndexes.push(`${i}`);
-    return set;
+    return true;
   });
   return { destinations, destinationIndexes };
 };
@@ -33,7 +33,7 @@ const getPropertyDestinations = ({ Game, player, card }) => {
 const getBuildingDestinations = ({ Game, player, card, source }) => {
   let destinations = [];
   let destinationIndexes = [];
-  if (player.field.buildingCards !== source) {
+  if (player.field.buildingCards !== source && player.hand !== source) {
     destinations = [];
   } else if ('house' === card.name) {
     destinations = player.field.propertyCards.filter((set, i) => {
