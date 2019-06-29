@@ -4,7 +4,13 @@ import '../styles/cardHover.css';
 
 class PlayerHandView extends Component {
   render() {
-    const { handCards, onHandCardClicked, contentHeight } = this.props;
+    const {
+      handCards,
+      onHandCardClicked,
+      contentHeight,
+      onCancelClicked,
+      isPendingHandInput
+    } = this.props;
 
     return (
       <div
@@ -48,6 +54,19 @@ class PlayerHandView extends Component {
             </div>
           ))}
         </div>
+        <>
+          {isPendingHandInput && (
+            <div className="control has-text-right">
+              <button
+                className="button is-danger is-rounded"
+                type="button"
+                onClick={onCancelClicked}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </>
       </div>
     );
   }

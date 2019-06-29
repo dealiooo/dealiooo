@@ -84,9 +84,14 @@ class PlayerPlayArea extends Component {
       log
     } = this.props;
     const { activeSideMenuItemIndex, hoverSideMenuIndex } = this.state;
+    console.log(promptsInfo);
 
-    const isPendingUserInput =
+    const isPendingPromptInput =
       undefined !== promptsInfo.options &&
+      userId === promptsInfo.promptPlayerId;
+
+    const isPendingHandInput =
+      undefined === promptsInfo.options &&
       userId === promptsInfo.promptPlayerId;
 
     let selectedBottomView;
@@ -95,7 +100,8 @@ class PlayerPlayArea extends Component {
     if (activeIndex === 0) {
       selectedBottomView = (
         <PlayerHandOrPromptView
-          isPendingUserInput={isPendingUserInput}
+          isPendingHandInput={isPendingHandInput}
+          isPendingPromptInput={isPendingPromptInput}
           handCards={handCards}
           promptsInfo={promptsInfo}
           onHandCardClicked={onHandCardClicked}

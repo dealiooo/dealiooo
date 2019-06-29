@@ -6,7 +6,8 @@ import PlayerPromptView from './PlayerPromptView';
 class PlayerHandOrPromptView extends Component {
   render() {
     const {
-      isPendingUserInput,
+      isPendingPromptInput,
+      isPendingHandInput,
       promptsInfo,
       handCards,
       onHandCardClicked,
@@ -17,7 +18,7 @@ class PlayerHandOrPromptView extends Component {
     return (
       <div className="columns">
         <div className="column is-12">
-          {isPendingUserInput ? (
+          {isPendingPromptInput ? (
             <PlayerPromptView
               promptsInfo={promptsInfo}
               onCancelClicked={onCancelClicked}
@@ -29,6 +30,8 @@ class PlayerHandOrPromptView extends Component {
               handCards={handCards}
               onHandCardClicked={onHandCardClicked}
               contentHeight={contentHeight}
+              isPendingHandInput={isPendingHandInput}
+              onCancelClicked={onCancelClicked}
             />
           )}
         </div>
