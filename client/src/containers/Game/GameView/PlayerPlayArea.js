@@ -84,7 +84,6 @@ class PlayerPlayArea extends Component {
       log
     } = this.props;
     const { activeSideMenuItemIndex, hoverSideMenuIndex } = this.state;
-    console.log(promptsInfo);
 
     const isPendingPromptInput =
       undefined !== promptsInfo.options &&

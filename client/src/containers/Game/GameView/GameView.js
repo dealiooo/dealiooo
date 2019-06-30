@@ -6,6 +6,8 @@ import PlayerField from './PlayerField';
 import GameWonView from './GameWonView';
 import PlayerForfeitModal from './PlayerForfeitModal';
 
+import '../styles/gameView.css';
+
 class GameView extends Component {
   constructor(props) {
     super(props);
