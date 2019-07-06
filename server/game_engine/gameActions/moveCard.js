@@ -1,8 +1,8 @@
-module.exports = ({source, destination, card}) => {
+module.exports = ({ source, destination, card }) => {
   destination.push(card);
   let stack = [];
   let offset = 0;
-  for (let i = 0; i < source.length; i++) {
+  for (let i = source.length - 1; i > -1; i--) {
     if (source[i].id === card.id) {
       offset = i;
       break;

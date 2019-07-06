@@ -5,6 +5,7 @@ const getCanAddHotelToPropertySet = require('./getCanAddHotelToPropertySet');
 const getCanAddHouseToPropertySet = require('./getCanAddHouseToPropertySet');
 const getDeckEmpty = require('./getDeckEmpty');
 const getDestinations = require('./getDestinations');
+const getDiscardEmpty = require('./getDiscardEmpty');
 const getDoubleTheRentStatus = require('./getDoubleTheRentStatus');
 const getHasPlayedThreeCards = require('./getHasPlayedThreeCards');
 const getHasSevenOrLessCards = require('./getHasSevenOrLessCards');
@@ -39,6 +40,7 @@ module.exports = {
   getCanAddHouseToPropertySet,
   getDeckEmpty,
   getDestinations,
+  getDiscardEmpty,
   getDoubleTheRentStatus,
   getHasPlayedThreeCards,
   getHasSevenOrLessCards,
