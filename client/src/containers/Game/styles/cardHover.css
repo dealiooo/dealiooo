@@ -1,6 +1,7 @@
 #player-hand-wrapper {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 #hand-card-container {
@@ -8,7 +9,7 @@
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: start;
   overflow-x: auto;
   overflow-y: hidden;
 }

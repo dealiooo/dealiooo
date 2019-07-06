@@ -65,7 +65,7 @@ class PlayerHandView extends Component {
           {handCards.map((handCard, i) => {
             return (
               <li
-                class="hand-card"
+                className="hand-card"
                 style={{
                   flex: `0 0 ${handCardWidth}px`,
                   height: handCardHeight
@@ -84,7 +84,7 @@ class PlayerHandView extends Component {
                     alt={`${handCard.name}`}
                   />
                 </figure>
-                <div class="image-popup-wrapper">
+                <div className="image-popup-wrapper">
                   <figure
                     className="image image-popup"
                     style={{
