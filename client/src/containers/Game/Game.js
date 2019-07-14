@@ -8,7 +8,7 @@ import GameWonView from './GameView/GameWonView';
 
 const getAttributeValue = (event, attributeName, defaultValue) => {
   let attributeValue = event.target.getAttribute(attributeName.toLowerCase());
-  if (undefined !== attributeValue) {
+  if (undefined !== attributeValue && null !== attributeValue) {
     return attributeValue;
   }
   return defaultValue;
