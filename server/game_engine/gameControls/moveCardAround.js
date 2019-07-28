@@ -7,6 +7,7 @@ const moveCardAround = ({ Game, player, callback }) => {
   userControls.pickFieldCard({
     Game,
     player,
+    targetPlayer: player,
     pileNames,
     callback: ({ error, cancelled, forced, card, source }) => {
       if (error) {

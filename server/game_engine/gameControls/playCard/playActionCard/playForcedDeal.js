@@ -5,6 +5,7 @@ const playForcedDeal = ({ Game, player, card, callback }) => {
   userControls.pickFieldCard({
     Game,
     player,
+    targetPlayer: player,
     pileNames: ['propertyCards', 'buildingCards'],
     callback: ({
       error,
@@ -69,6 +70,7 @@ const pickCardToForcedDeal = ({
   userControls.pickFieldCard({
     Game,
     player,
+    targetPlayer,
     pileNames: ['propertyCards', 'buildingCards'],
     callback: ({
       error,

@@ -91,7 +91,15 @@ const forceRetrieveFromPile = {
   buildingCards: forceRetrieveFromNonPropertyPile
 };
 
-const pickCard = ({ Game, player, pileNames, pileName, forced, callback }) =>
+const pickCard = ({
+  Game,
+  player,
+  targetPlayer,
+  pileNames,
+  pileName,
+  forced,
+  callback
+}) =>
   userActions.pickCardId({
     Game,
     requiredPlayerId: player.id,
@@ -99,33 +107,52 @@ const pickCard = ({ Game, player, pileNames, pileName, forced, callback }) =>
     forced,
     callback: ({ cardId, cancelled, forced }) => {
       if (cancelled) {
-        pickFieldCard({ Game, player, pileNames, callback });
+        pickFieldCard({ Game, player, targetPlayer, pileNames, callback });
       } else if (forced) {
-        let cardExist = forceRetrieveFromPile[pileName](player, pileName);
+        let cardExist = forceRetrieveFromPile[pileName](targetPlayer, pileName);
         if (cardExist) {
           callback({ card: cardExist.card, source: cardExist.source, forced });
         } else {
-          pickFieldCard({ Game, player, pileNames, forced, callback });
+          pickFieldCard({
+            Game,
+            player,
+            targetPlayer,
+            pileNames,
+            forced,
+            callback
+          });
         }
       } else {
-        let cardExist = retrieveFromPile[pileName](player, pileName, cardId);
+        let cardExist = retrieveFromPile[pileName](
+          targetPlayer,
+          pileName,
+          cardId
+        );
         if (cardExist) {
           callback({ card: cardExist.card, source: cardExist.source });
         } else {
-          pickFieldCard({ Game, player, pileNames, callback });
+          pickFieldCard({ Game, player, targetPlayer, pileNames, callback });
         }
       }
     }
   });
 
-const pickFieldCard = ({ Game, player, pileNames, forced, callback }) => {
+const pickFieldCard = ({
+  Game,
+  player,
+  targetPlayer,
+  pileNames,
+  forced,
+  callback
+}) => {
   if (forced) {
     let size = pileNames.length;
     for (let i = 0; i < size; i++) {
-      if (player.field[pileNames[i]].length) {
+      if (targetPlayer.field[pileNames[i]].length) {
         pickCard({
           Game,
           player,
+          targetPlayer,
           pileNames,
           pileName: pileNames[i],
           forced,
@@ -148,10 +175,11 @@ const pickFieldCard = ({ Game, player, pileNames, forced, callback }) => {
         } else if (forced) {
           let size = pileNames.length;
           for (let i = 0; i < size; i++) {
-            if (player.field[pileNames[i]].length) {
+            if (targetPlayer.field[pileNames[i]].length) {
               pickCard({
                 Game,
                 player,
+                targetPlayer,
                 pileNames,
                 pileName: pileNames[i],
                 callback,
@@ -160,8 +188,15 @@ const pickFieldCard = ({ Game, player, pileNames, forced, callback }) => {
               break;
             }
           }
-        } else if (player.field[pileName].length) {
-          pickCard({ Game, player, pileNames, pileName, callback });
+        } else if (targetPlayer.field[pileName].length) {
+          pickCard({
+            Game,
+            player,
+            targetPlayer,
+            pileNames,
+            pileName,
+            callback
+          });
         } else {
           callback({ error: 'pile is empty' });
         }

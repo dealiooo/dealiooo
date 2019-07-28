@@ -86,6 +86,7 @@ const pickValuableFieldCard = ({
     userControls.pickFieldCard({
       Game,
       player,
+      targetPlayer: player,
       pileNames,
       forced,
       callback: ({ error, card, source, forced }) => {

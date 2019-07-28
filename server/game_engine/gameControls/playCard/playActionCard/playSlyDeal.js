@@ -11,6 +11,7 @@ const pickFieldCardToSlyDeal = ({
   userControls.pickFieldCard({
     Game,
     player,
+    targetPlayer,
     pileNames: ['propertyCards', 'buildingCards'],
     forced,
     callback: ({ error, card, source, cancelled, forced }) => {
