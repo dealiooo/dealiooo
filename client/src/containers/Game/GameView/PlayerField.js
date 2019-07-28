@@ -20,7 +20,14 @@ class MDCard extends Component {
     } = this.props;
 
     return (
-      <figure className="image" style={containerStyle}>
+      <figure
+        className="image"
+        style={containerStyle}
+        cardid={card.id}
+        inpropertyarea={1}
+        optionindex={optionIndex}
+        propertyindex={propertyIndex}
+      >
         <img
           src={
             process.env.PUBLIC_URL +
@@ -314,13 +321,17 @@ class BankColumn extends Component {
                           i === frequencies.length - 1 ? '0px' : '8px'
                         }`
                       }}
+                      moneycardid={cardIds[key]}
                     >
                       <button
                         className="money-btn button is-fullwidth global-light-hover"
                         onClick={onBankCardClicked}
                         moneycardid={cardIds[key]}
                       >
-                        <h1 className="has-text-centered">
+                        <h1
+                          className="has-text-centered"
+                          moneycardid={cardIds[key]}
+                        >
                           {`$${cardNameToDisplayName(key)} | Qty: ${
                             frequencies[key]
                           }`}
@@ -384,7 +395,7 @@ class BuildingColumn extends Component {
               onClick={onHouseCardClicked}
               houseid={houseId}
             >
-              <div>
+              <div houseid={houseId}>
                 <span
                   className="icon"
                   onClick={onHouseCardClicked}
@@ -396,8 +407,8 @@ class BuildingColumn extends Component {
                     houseid={houseId}
                   />
                 </span>
-                <span className="icon is-small">
-                  <i className="fa fa-grip-lines" />
+                <span className="icon is-small" houseid={houseId}>
+                  <i className="fa fa-grip-lines" houseid={houseId} />
                 </span>
                 <span
                   className="has-text-weight-bold"
@@ -425,8 +436,8 @@ class BuildingColumn extends Component {
                   hotelid={hotelId}
                 />
               </span>
-              <span className="icon is-small">
-                <i className="fa fa-grip-lines" />
+              <span className="icon is-small" hotelid={hotelId}>
+                <i className="fa fa-grip-lines" hotelid={hotelId} />
               </span>
               <span
                 className="has-text-weight-bold"
