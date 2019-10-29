@@ -1,4 +1,3 @@
-const cors = require('cors');
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -15,7 +14,6 @@ const sockets = require('./server/sockets');
 const { passport } = require('./server/authentication/passport');
 
 const app = express();
-app.use(cors());
 app.sockets = sockets;
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
