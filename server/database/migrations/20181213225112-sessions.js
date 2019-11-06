@@ -6,19 +6,19 @@ module.exports = {
       sid: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       sess: {
         type: Sequelize.JSON,
-        allowNull: false
+        allowNull: false,
       },
       expire: {
         type: Sequelize.DATE,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('sessions');
-  }
+  },
 };

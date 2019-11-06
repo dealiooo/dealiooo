@@ -6,43 +6,43 @@ module.exports = (sequelize, Sequelize) => {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       status: {
         type: Sequelize.ENUM,
         values: ['open', 'started', 'running', 'ended'],
-        allowNull: false
+        allowNull: false,
       },
       room_name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       player_cap: {
         type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
           min: 2,
-          max: 5
-        }
-      }
+          max: 5,
+        },
+      },
     },
     {
-      timestamps: false
-    }
+      timestamps: false,
+    },
   );
   games.associate = db => {
     games.hasMany(db.th_players, {
       as: 'Players',
-      foreignKey: 'th_game_id'
+      foreignKey: 'th_game_id',
     });
     games.hasMany(db.th_logs, {
       as: 'Logs',
-      foreignKey: 'th_game_id'
+      foreignKey: 'th_game_id',
     });
     games.belongsToMany(db.th_users, {
       as: 'Users',
       through: db.th_players,
-      foreignKey: 'th_game_id'
+      foreignKey: 'th_game_id',
     });
   };
   return games;

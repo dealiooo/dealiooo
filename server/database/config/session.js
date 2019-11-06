@@ -6,7 +6,7 @@ const session = express_session({
   secret: 'me is a secret',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24 }
+  cookie: { maxAge: 1000 * 60 * 60 * 24 },
 });
 
 module.exports = session;

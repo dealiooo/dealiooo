@@ -10,5 +10,5 @@ module.exports = {
   Game: gameInit(db),
   GameLobby: gameLobbyInit(db),
   MainLobby: mainLobbyInit(db),
-  Log: logInit(db)
+  Log: logInit(db),
 };

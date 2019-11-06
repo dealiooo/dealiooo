@@ -5,5 +5,5 @@ const MainLobbyHandler = require('./mainLobby');
 module.exports = {
   GameHandler,
   GameLobbyHandler,
-  MainLobbyHandler
+  MainLobbyHandler,
 };

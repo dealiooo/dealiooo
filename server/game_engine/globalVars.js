@@ -28,7 +28,7 @@ const initDeck = Game => {
       value: cards[i].value,
       type: cards[i].type,
       mainColor: cards[i].mainColor,
-      colors: cards[i].colors.map(color => color)
+      colors: cards[i].colors.map(color => color),
     };
     Game.deck.push(card);
   }
@@ -46,8 +46,8 @@ const initPlayers = (Game, users) => {
         actionCards: [],
         propertyCards: [],
         bankCards: [],
-        buildingCards: []
-      }
+        buildingCards: [],
+      },
     };
     players.push(player);
   }

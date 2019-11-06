@@ -6,24 +6,24 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       status: {
         type: Sequelize.ENUM,
         values: ['open', 'started', 'running', 'ended'],
-        allowNull: false
+        allowNull: false,
       },
       room_name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       player_cap: {
         type: Sequelize.INTEGER,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('th_games');
-  }
+  },
 };

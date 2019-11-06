@@ -6,8 +6,8 @@ const insertUser = db => (username, email, hash_me) =>
     db.th_users.create({
       username,
       email,
-      password
-    })
+      password,
+    }),
   );
 
 const findUserByUsernameOrEmail = db => identifier =>
@@ -15,30 +15,27 @@ const findUserByUsernameOrEmail = db => identifier =>
     where: {
       [db.Sequelize.Op.or]: [
         {
-          username: identifier
+          username: identifier,
         },
         {
-          email: identifier
-        }
-      ]
-    }
+          email: identifier,
+        },
+      ],
+    },
   });
 
-const findUserByEmail = db => email =>
-  db.th_users.findOne({ where: { email } });
+const findUserByEmail = db => email => db.th_users.findOne({ where: { email } });
 
 const findUserById = db => id => db.th_users.findOne({ where: { id } });
 
 const updatePassword = db => (email, new_password) =>
-  bcrypt
-    .hash(new_password, SALT_ROUNDS)
-    .then(hash => db.th_users.update({ password: hash }, { where: { email } }));
+  bcrypt.hash(new_password, SALT_ROUNDS).then(hash => db.th_users.update({ password: hash }, { where: { email } }));
 
 const insertSession = db => (sid, sess, expire) =>
   db.sessions.create({
     sid,
     sess,
-    expire
+    expire,
   });
 
 const deleteSession = db => sid => db.sessions.destroy({ where: { sid } });
@@ -49,8 +46,8 @@ const findPlayer = db => (th_game_id, th_user_id) =>
   db.th_players.findOne({
     where: {
       th_game_id,
-      th_user_id
-    }
+      th_user_id,
+    },
   });
 
 module.exports = db => ({
@@ -62,5 +59,5 @@ module.exports = db => ({
   insertSession: insertSession(db),
   deleteSession: deleteSession(db),
   findSessionById: findSessionBySid(db),
-  findPlayer: findPlayer(db)
+  findPlayer: findPlayer(db),
 });

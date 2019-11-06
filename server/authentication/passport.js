@@ -30,25 +30,25 @@ passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((id, done) =>
   Auth.findUserById(id)
     .then(user => done(null, user))
-    .catch(error => done(error, {}))
+    .catch(error => done(error, {})),
 );
 
 passport.use(
   new LocalStrategy(
     {
       usernameField: 'login',
-      passwordField: 'password'
+      passwordField: 'password',
     },
-    verifyCallback
-  )
+    verifyCallback,
+  ),
 );
 
 const authSettings = {
   successRedirect: '/main-lobby',
-  failureRedirect: '/'
+  failureRedirect: '/',
 };
 
 module.exports = {
   passport,
-  authenticate: passport.authenticate('local', authSettings)
+  authenticate: passport.authenticate('local', authSettings),
 };

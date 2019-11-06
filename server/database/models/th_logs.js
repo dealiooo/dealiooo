@@ -6,29 +6,29 @@ module.exports = (sequelize, Sequelize) => {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       th_game_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'th_games', key: 'id' }
+        references: { model: 'th_games', key: 'id' },
       },
       game_flow: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
+        allowNull: false,
       },
       message: {
         type: Sequelize.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
-      timestamps: false
-    }
+      timestamps: false,
+    },
   );
   logs.associate = db => {
     logs.belongsTo(db.th_games, {
       as: 'Game',
-      foreignKey: 'th_game_id'
+      foreignKey: 'th_game_id',
     });
   };
   return logs;

@@ -6,19 +6,19 @@ module.exports = (sequelize, Sequelize) => {
       sid: {
         type: Sequelize.STRING,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       sess: {
         type: Sequelize.JSON,
-        allowNull: false
+        allowNull: false,
       },
       expire: {
         type: Sequelize.DATE,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
-      timestamps: false
-    }
+      timestamps: false,
+    },
   );
 };

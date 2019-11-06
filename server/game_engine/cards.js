@@ -5,7 +5,7 @@ const propertyCards = [
     value: 1,
     type: 'property',
     mainColor: 'brown',
-    colors: []
+    colors: [],
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ const propertyCards = [
     value: 1,
     type: 'property',
     mainColor: 'brown',
-    colors: []
+    colors: [],
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ const propertyCards = [
     value: 4,
     type: 'property',
     mainColor: 'dark-blue',
-    colors: []
+    colors: [],
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ const propertyCards = [
     value: 4,
     type: 'property',
     mainColor: 'dark-blue',
-    colors: []
+    colors: [],
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const propertyCards = [
     value: 4,
     type: 'property',
     mainColor: 'green',
-    colors: []
+    colors: [],
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ const propertyCards = [
     value: 4,
     type: 'property',
     mainColor: 'green',
-    colors: []
+    colors: [],
   },
   {
     id: 7,
@@ -53,7 +53,7 @@ const propertyCards = [
     value: 4,
     type: 'property',
     mainColor: 'green',
-    colors: []
+    colors: [],
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ const propertyCards = [
     value: 1,
     type: 'property',
     mainColor: 'light-blue',
-    colors: []
+    colors: [],
   },
   {
     id: 9,
@@ -69,7 +69,7 @@ const propertyCards = [
     value: 1,
     type: 'property',
     mainColor: 'light-blue',
-    colors: []
+    colors: [],
   },
   {
     id: 10,
@@ -77,7 +77,7 @@ const propertyCards = [
     value: 1,
     type: 'property',
     mainColor: 'light-blue',
-    colors: []
+    colors: [],
   },
   {
     id: 11,
@@ -85,7 +85,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'orange',
-    colors: []
+    colors: [],
   },
   {
     id: 12,
@@ -93,7 +93,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'orange',
-    colors: []
+    colors: [],
   },
   {
     id: 13,
@@ -101,7 +101,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'orange',
-    colors: []
+    colors: [],
   },
   {
     id: 14,
@@ -109,7 +109,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'purple',
-    colors: []
+    colors: [],
   },
   {
     id: 15,
@@ -117,7 +117,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'purple',
-    colors: []
+    colors: [],
   },
   {
     id: 16,
@@ -125,7 +125,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'purple',
-    colors: []
+    colors: [],
   },
   {
     id: 17,
@@ -133,7 +133,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'railroad',
-    colors: []
+    colors: [],
   },
   {
     id: 18,
@@ -141,7 +141,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'railroad',
-    colors: []
+    colors: [],
   },
   {
     id: 19,
@@ -149,7 +149,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'railroad',
-    colors: []
+    colors: [],
   },
   {
     id: 20,
@@ -157,7 +157,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'railroad',
-    colors: []
+    colors: [],
   },
   {
     id: 21,
@@ -165,7 +165,7 @@ const propertyCards = [
     value: 3,
     type: 'property',
     mainColor: 'red',
-    colors: []
+    colors: [],
   },
   {
     id: 22,
@@ -173,7 +173,7 @@ const propertyCards = [
     value: 3,
     type: 'property',
     mainColor: 'red',
-    colors: []
+    colors: [],
   },
   {
     id: 23,
@@ -181,7 +181,7 @@ const propertyCards = [
     value: 3,
     type: 'property',
     mainColor: 'red',
-    colors: []
+    colors: [],
   },
   {
     id: 24,
@@ -189,7 +189,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'utility',
-    colors: []
+    colors: [],
   },
   {
     id: 25,
@@ -197,7 +197,7 @@ const propertyCards = [
     value: 2,
     type: 'property',
     mainColor: 'utility',
-    colors: []
+    colors: [],
   },
   {
     id: 26,
@@ -205,7 +205,7 @@ const propertyCards = [
     value: 3,
     type: 'property',
     mainColor: 'yellow',
-    colors: []
+    colors: [],
   },
   {
     id: 27,
@@ -213,7 +213,7 @@ const propertyCards = [
     value: 3,
     type: 'property',
     mainColor: 'yellow',
-    colors: []
+    colors: [],
   },
   {
     id: 28,
@@ -221,8 +221,8 @@ const propertyCards = [
     value: 3,
     type: 'property',
     mainColor: 'yellow',
-    colors: []
-  }
+    colors: [],
+  },
 ];
 
 const actionCards = [
@@ -232,7 +232,7 @@ const actionCards = [
     value: 5,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 30,
@@ -240,7 +240,7 @@ const actionCards = [
     value: 5,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 31,
@@ -248,7 +248,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 32,
@@ -256,7 +256,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 33,
@@ -264,7 +264,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 34,
@@ -272,7 +272,7 @@ const actionCards = [
     value: 0,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 35,
@@ -280,7 +280,7 @@ const actionCards = [
     value: 0,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 36,
@@ -288,7 +288,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 37,
@@ -296,7 +296,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 38,
@@ -304,7 +304,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 39,
@@ -312,7 +312,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 40,
@@ -320,7 +320,7 @@ const actionCards = [
     value: 4,
     type: 'building',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 41,
@@ -328,7 +328,7 @@ const actionCards = [
     value: 4,
     type: 'building',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 42,
@@ -336,7 +336,7 @@ const actionCards = [
     value: 4,
     type: 'building',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 43,
@@ -344,7 +344,7 @@ const actionCards = [
     value: 3,
     type: 'building',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 44,
@@ -352,7 +352,7 @@ const actionCards = [
     value: 3,
     type: 'building',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 45,
@@ -360,7 +360,7 @@ const actionCards = [
     value: 3,
     type: 'building',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 46,
@@ -368,7 +368,7 @@ const actionCards = [
     value: 2,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 47,
@@ -376,7 +376,7 @@ const actionCards = [
     value: 2,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 48,
@@ -384,7 +384,7 @@ const actionCards = [
     value: 2,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 49,
@@ -392,7 +392,7 @@ const actionCards = [
     value: 4,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 50,
@@ -400,7 +400,7 @@ const actionCards = [
     value: 4,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 51,
@@ -408,7 +408,7 @@ const actionCards = [
     value: 4,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 52,
@@ -416,7 +416,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 53,
@@ -424,7 +424,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 54,
@@ -432,7 +432,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 55,
@@ -440,7 +440,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 56,
@@ -448,7 +448,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 57,
@@ -456,7 +456,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 58,
@@ -464,7 +464,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 59,
@@ -472,7 +472,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 60,
@@ -480,7 +480,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 61,
@@ -488,7 +488,7 @@ const actionCards = [
     value: 1,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 62,
@@ -496,7 +496,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 63,
@@ -504,7 +504,7 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 64,
@@ -512,8 +512,8 @@ const actionCards = [
     value: 3,
     type: 'action',
     mainColor: '',
-    colors: []
-  }
+    colors: [],
+  },
 ];
 
 const propertyWildcards = [
@@ -523,7 +523,7 @@ const propertyWildcards = [
     value: 4,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['dark-blue', 'green']
+    colors: ['dark-blue', 'green'],
   },
   {
     id: 66,
@@ -531,7 +531,7 @@ const propertyWildcards = [
     value: 1,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['light-blue', 'brown']
+    colors: ['light-blue', 'brown'],
   },
   {
     id: 67,
@@ -539,7 +539,7 @@ const propertyWildcards = [
     value: 2,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['orange', 'purple']
+    colors: ['orange', 'purple'],
   },
   {
     id: 68,
@@ -547,7 +547,7 @@ const propertyWildcards = [
     value: 2,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['orange', 'purple']
+    colors: ['orange', 'purple'],
   },
   {
     id: 69,
@@ -555,7 +555,7 @@ const propertyWildcards = [
     value: 4,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['green', 'railroad']
+    colors: ['green', 'railroad'],
   },
   {
     id: 70,
@@ -563,7 +563,7 @@ const propertyWildcards = [
     value: 4,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['light-blue', 'railroad']
+    colors: ['light-blue', 'railroad'],
   },
   {
     id: 71,
@@ -571,7 +571,7 @@ const propertyWildcards = [
     value: 2,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['utility', 'railroad']
+    colors: ['utility', 'railroad'],
   },
   {
     id: 72,
@@ -579,7 +579,7 @@ const propertyWildcards = [
     value: 3,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['yellow', 'red']
+    colors: ['yellow', 'red'],
   },
   {
     id: 73,
@@ -587,7 +587,7 @@ const propertyWildcards = [
     value: 3,
     type: 'property_wildcard',
     mainColor: '',
-    colors: ['yellow', 'red']
+    colors: ['yellow', 'red'],
   },
   {
     id: 74,
@@ -595,18 +595,7 @@ const propertyWildcards = [
     value: 0,
     type: 'property_wildcard',
     mainColor: '',
-    colors: [
-      'red',
-      'green',
-      'dark-blue',
-      'light-blue',
-      'utility',
-      'yellow',
-      'orange',
-      'brown',
-      'purple',
-      'railroad'
-    ]
+    colors: ['red', 'green', 'dark-blue', 'light-blue', 'utility', 'yellow', 'orange', 'brown', 'purple', 'railroad'],
   },
   {
     id: 75,
@@ -614,19 +603,8 @@ const propertyWildcards = [
     value: 0,
     type: 'property_wildcard',
     mainColor: '',
-    colors: [
-      'red',
-      'green',
-      'dark-blue',
-      'light-blue',
-      'utility',
-      'yellow',
-      'orange',
-      'brown',
-      'purple',
-      'railroad'
-    ]
-  }
+    colors: ['red', 'green', 'dark-blue', 'light-blue', 'utility', 'yellow', 'orange', 'brown', 'purple', 'railroad'],
+  },
 ];
 
 const rentCards = [
@@ -636,7 +614,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['green', 'dark-blue']
+    colors: ['green', 'dark-blue'],
   },
   {
     id: 77,
@@ -644,7 +622,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['green', 'dark-blue']
+    colors: ['green', 'dark-blue'],
   },
   {
     id: 78,
@@ -652,7 +630,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['brown', 'light-blue']
+    colors: ['brown', 'light-blue'],
   },
   {
     id: 79,
@@ -660,7 +638,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['brown', 'light-blue']
+    colors: ['brown', 'light-blue'],
   },
   {
     id: 80,
@@ -668,7 +646,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['purple', 'orange']
+    colors: ['purple', 'orange'],
   },
   {
     id: 81,
@@ -676,7 +654,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['purple', 'orange']
+    colors: ['purple', 'orange'],
   },
   {
     id: 82,
@@ -684,7 +662,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['railroad', 'utility']
+    colors: ['railroad', 'utility'],
   },
   {
     id: 83,
@@ -692,7 +670,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['railroad', 'utility']
+    colors: ['railroad', 'utility'],
   },
   {
     id: 84,
@@ -700,7 +678,7 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['red', 'yellow']
+    colors: ['red', 'yellow'],
   },
   {
     id: 85,
@@ -708,8 +686,8 @@ const rentCards = [
     value: 1,
     type: 'rent',
     mainColor: '',
-    colors: ['red', 'yellow']
-  }
+    colors: ['red', 'yellow'],
+  },
 ];
 
 const rentWildCards = [
@@ -719,18 +697,7 @@ const rentWildCards = [
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
-    colors: [
-      'red',
-      'green',
-      'dark-blue',
-      'light-blue',
-      'utility',
-      'yellow',
-      'orange',
-      'brown',
-      'purple',
-      'railroad'
-    ]
+    colors: ['red', 'green', 'dark-blue', 'light-blue', 'utility', 'yellow', 'orange', 'brown', 'purple', 'railroad'],
   },
   {
     id: 87,
@@ -738,18 +705,7 @@ const rentWildCards = [
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
-    colors: [
-      'red',
-      'green',
-      'dark-blue',
-      'light-blue',
-      'utility',
-      'yellow',
-      'orange',
-      'brown',
-      'purple',
-      'railroad'
-    ]
+    colors: ['red', 'green', 'dark-blue', 'light-blue', 'utility', 'yellow', 'orange', 'brown', 'purple', 'railroad'],
   },
   {
     id: 88,
@@ -757,19 +713,8 @@ const rentWildCards = [
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
-    colors: [
-      'red',
-      'green',
-      'dark-blue',
-      'light-blue',
-      'utility',
-      'yellow',
-      'orange',
-      'brown',
-      'purple',
-      'railroad'
-    ]
-  }
+    colors: ['red', 'green', 'dark-blue', 'light-blue', 'utility', 'yellow', 'orange', 'brown', 'purple', 'railroad'],
+  },
 ];
 
 const moneyCards = [
@@ -779,7 +724,7 @@ const moneyCards = [
     value: 1,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 90,
@@ -787,7 +732,7 @@ const moneyCards = [
     value: 1,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 91,
@@ -795,7 +740,7 @@ const moneyCards = [
     value: 1,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 92,
@@ -803,7 +748,7 @@ const moneyCards = [
     value: 1,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 93,
@@ -811,7 +756,7 @@ const moneyCards = [
     value: 1,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 94,
@@ -819,7 +764,7 @@ const moneyCards = [
     value: 1,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 95,
@@ -827,7 +772,7 @@ const moneyCards = [
     value: 2,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 96,
@@ -835,7 +780,7 @@ const moneyCards = [
     value: 2,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 97,
@@ -843,7 +788,7 @@ const moneyCards = [
     value: 2,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 98,
@@ -851,7 +796,7 @@ const moneyCards = [
     value: 2,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 99,
@@ -859,7 +804,7 @@ const moneyCards = [
     value: 2,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 100,
@@ -867,7 +812,7 @@ const moneyCards = [
     value: 3,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 101,
@@ -875,7 +820,7 @@ const moneyCards = [
     value: 3,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 102,
@@ -883,7 +828,7 @@ const moneyCards = [
     value: 3,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 103,
@@ -891,7 +836,7 @@ const moneyCards = [
     value: 4,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 104,
@@ -899,7 +844,7 @@ const moneyCards = [
     value: 4,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 105,
@@ -907,7 +852,7 @@ const moneyCards = [
     value: 4,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 106,
@@ -915,7 +860,7 @@ const moneyCards = [
     value: 5,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 107,
@@ -923,7 +868,7 @@ const moneyCards = [
     value: 5,
     type: 'money',
     mainColor: '',
-    colors: []
+    colors: [],
   },
   {
     id: 108,
@@ -931,8 +876,8 @@ const moneyCards = [
     value: 10,
     type: 'money',
     mainColor: '',
-    colors: []
-  }
+    colors: [],
+  },
 ];
 
 module.exports = [
@@ -941,5 +886,5 @@ module.exports = [
   ...actionCards,
   ...rentCards,
   ...rentWildCards,
-  ...moneyCards
+  ...moneyCards,
 ];
