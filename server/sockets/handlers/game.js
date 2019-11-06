@@ -12,12 +12,8 @@ const cancel = sockets => (gameId, userId) => {
   });
 };
 
-const chat = sockets => (gameId, message) =>
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game:${gameId}:chat`, message)
-    );
+const chat = sockets => (gameId, messageData) =>
+  sockets.get(gameId).forEach(client_socket => client_socket.emit(`game:${gameId}:chat`, messageData));
 
 const click = sockets => (gameId, userId, clickInput) => {
   gameEngine.input(gameGlobals.get(gameId), clickInput, userId);
@@ -60,14 +56,12 @@ const join = (globalSockets, sockets) => (gameId, userId, username) => {
     gameGlobals.set(gameId, null);
   }
   sockets.get(gameId).set(userId, globalSockets.get(userId));
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(
-        `game:${gameId}:chat`,
-        `${username} has joined the room.`
-      )
-    );
+  sockets.get(gameId).forEach(client_socket =>
+    client_socket.emit(`game:${gameId}:chat`, {
+      username,
+      message: 'has joined the room',
+    }),
+  );
 };
 
 const startGame = sockets => gameId => {
@@ -77,12 +71,9 @@ const startGame = sockets => gameId => {
         gameGlobals.set(gameId, gameEngine.start(users));
         sockets.get(gameId).forEach((socket, userId, _) => {
           socket.emit(`game:${gameId}:start-game`, 'game is started');
-          runningGames.set(
-            gameId,
-            setInterval(() => tick(socket, userId, gameId), 1000)
-          );
+          runningGames.set(gameId, setInterval(() => tick(socket, userId, gameId), 1000));
         });
-      })
+      }),
     )
     .catch(error => console.log(error));
 };
@@ -90,10 +81,7 @@ const startGame = sockets => gameId => {
 const loadGame = sockets => gameId => {
   sockets.get(gameId).forEach((socket, userId, _) => {
     socket.emit(`game:${gameId}:start-game`, 'game is started');
-    runningGames.set(
-      gameId,
-      setInterval(() => tick(socket, userId, gameId), 1000)
-    );
+    runningGames.set(gameId, setInterval(() => tick(socket, userId, gameId), 1000));
   });
 };
 
@@ -127,5 +115,5 @@ module.exports = (globalSockets, sockets) => ({
   join: join(globalSockets, sockets),
   startGame: startGame(sockets),
   loadGame: loadGame(sockets),
-  update: update(sockets)
+  update: update(sockets),
 });

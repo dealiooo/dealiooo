@@ -9,11 +9,11 @@ const getPlayers = db => id =>
           {
             model: db.th_users,
             as: 'User',
-            attributes: ['id', 'username']
-          }
-        ]
-      }
-    ]
+            attributes: ['id', 'username'],
+          },
+        ],
+      },
+    ],
   });
 
 const getPlayersStatus = db => th_game_id =>
@@ -24,9 +24,9 @@ const getPlayersStatus = db => th_game_id =>
         model: db.th_players,
         as: 'Players',
         attributes: ['ready', 'host'],
-        where: { th_game_id }
-      }
-    ]
+        where: { th_game_id },
+      },
+    ],
   });
 
 const joinGame = db => (th_game_id, th_user_id) =>
@@ -35,12 +35,12 @@ const joinGame = db => (th_game_id, th_user_id) =>
       if (game.player_cap > players.length) {
         return db.th_players.create({
           th_game_id,
-          th_user_id
+          th_user_id,
         });
       } else {
         return Promise.reject(new Error('Game lobby is full'));
       }
-    })
+    }),
   );
 
 const leaveGame = db => (th_game_id, th_user_id) =>
@@ -48,8 +48,8 @@ const leaveGame = db => (th_game_id, th_user_id) =>
     .findOne({
       where: {
         th_game_id,
-        th_user_id
-      }
+        th_user_id,
+      },
     })
     .then(player => {
       if (player.host) {
@@ -61,8 +61,7 @@ const leaveGame = db => (th_game_id, th_user_id) =>
       }
     });
 
-const startGame = db => id =>
-  db.th_games.update({ status: 'started' }, { where: { id } });
+const startGame = db => id => db.th_games.update({ status: 'started' }, { where: { id } });
 
 const getGameReady = db => id =>
   db.th_games.findOne({ where: { id } }).then(game =>
@@ -70,7 +69,7 @@ const getGameReady = db => id =>
       if (players.length < game.player_cap) {
         return {
           ready: false,
-          status: 'there are not enough players'
+          status: 'there are not enough players',
         };
       }
       let ready = 0;
@@ -82,15 +81,15 @@ const getGameReady = db => id =>
       if (game.player_cap === ready) {
         return {
           ready: true,
-          status: 'game is ready to start'
+          status: 'game is ready to start',
         };
       } else {
         return {
           ready: false,
-          status: 'not all players are ready'
+          status: 'not all players are ready',
         };
       }
-    })
+    }),
   );
 
 const getPlayerReady = db => (th_game_id, th_user_id) =>
@@ -98,8 +97,8 @@ const getPlayerReady = db => (th_game_id, th_user_id) =>
     attributes: ['ready'],
     where: {
       th_game_id,
-      th_user_id
-    }
+      th_user_id,
+    },
   });
 
 const togglePlayerReady = db => (th_game_id, th_user_id) =>
@@ -109,12 +108,12 @@ const togglePlayerReady = db => (th_game_id, th_user_id) =>
       {
         where: {
           th_game_id,
-          th_user_id
+          th_user_id,
         },
         returning: true,
-        plain: true
-      }
-    )
+        plain: true,
+      },
+    ),
   );
 
 module.exports = db => ({
@@ -125,5 +124,5 @@ module.exports = db => ({
   startGame: startGame(db),
   getGameReady: getGameReady(db),
   getPlayerReady: getPlayerReady(db),
-  togglePlayerReady: togglePlayerReady(db)
+  togglePlayerReady: togglePlayerReady(db),
 });

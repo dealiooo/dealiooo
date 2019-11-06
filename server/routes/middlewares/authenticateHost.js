@@ -3,7 +3,7 @@ module.exports = (_, response, next) => {
     if ('closed' !== game.status && response.locals.player.host) {
       return next();
     } else {
-      return response.sendStatus(404);
+      return response.sendStatus(401);
     }
   });
 };

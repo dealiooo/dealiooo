@@ -3,7 +3,7 @@ module.exports = (request, response, next) => {
     response.locals.user = request.user;
     next();
   } else {
-    response.sendStatus(404);
+    response.sendStatus(401);
   }
   return null;
 };

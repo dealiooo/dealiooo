@@ -3,38 +3,23 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
 const emptyStringsToNull = require('./middlewares/emptyStringsToNull');
+const notAuthenticatedUser = require('./middlewares/notAuthenticatedUser');
 const authenticateUser = require('./middlewares/authenticateUser');
-const notAuthenticated = require('./middlewares/notAuthenticated');
-const sendUserIdAndUserName = require('./middlewares/sendUserIdAndUserName');
+const authenticatePlayer = require('./middlewares/authenticatePlayer');
+const sendAuth = require('./middlewares/sendAuth');
+const sendAuthAndHostStatus = require('./middlewares/sendAuthAndHostStatus');
 const { Auth } = require('../database/api');
 
-router.get('/api/register', notAuthenticated, (request, response) =>
-  response.sendStatus(200)
-);
+router.get('/api/authenticate', authenticateUser, sendAuth);
 
-router.get('/api/login', notAuthenticated, (request, response) =>
-  response.sendStatus(200)
-);
+// TODO: deprecated use /api/authenticated instead
+// router.get('/api/sign-up', notAuthenticatedUser, (request, response) => response.sendStatus(200));
+// router.get('/api/sign-in', notAuthenticatedUser, (request, response) => response.sendStatus(200));
+// router.get('/api/forgot-password', notAuthenticatedUser, (request, response) => response.sendStatus(200));
+// router.get('/api/reset-password', authenticateUser, sendAuth);
+// router.get('/api/sign-out', authenticateUser, sendAuth);
 
-router.get('/api/forgot-password', notAuthenticated, (request, response) =>
-  response.sendStatus(200)
-);
-
-router.get(
-  '/api/new-password',
-  authenticateUser,
-  sendUserIdAndUserName,
-  (request, response) => response.sendStatus(200)
-);
-
-router.get(
-  '/api/logout',
-  authenticateUser,
-  sendUserIdAndUserName,
-  (request, response) => response.sendStatus(200)
-);
-
-router.post('/api/register', emptyStringsToNull, (request, response) => {
+router.post('/api/sign-up', emptyStringsToNull, (request, response) => {
   const { username, email, password } = request.body;
   return Auth.insertUser(username, email, password)
     .then(user =>
@@ -42,143 +27,125 @@ router.post('/api/register', emptyStringsToNull, (request, response) => {
         if (error) {
           return response.json({ error });
         }
-        return response.json({ user });
-      })
+        const { password, ...auth } = user.dataValues;
+        return response.json({ auth });
+      }),
     )
     .catch(error => response.json({ error }));
 });
 
-router.post(
-  '/api/forgot-password',
-  notAuthenticated,
-  emptyStringsToNull,
-  (request, response) => {
-    const { email } = request.body;
-    const SALT_FACTOR = 10;
+router.post('/api/forgot-password', notAuthenticatedUser, emptyStringsToNull, (request, response) => {
+  const { email } = request.body;
+  const SALT_FACTOR = 10;
 
-    return Auth.findUserByEmail(email)
-      .then(user => {
-        if (!user) {
-          return response.sendStatus(400);
+  return Auth.findUserByEmail(email)
+    .then(user => {
+      if (!user) {
+        return response.sendStatus(400);
+      }
+
+      const { email, password } = user.dataValues;
+
+      var today = new Date();
+      var expire = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+
+      return bcrypt.hash(email + password + today, SALT_FACTOR, (error, hash) => {
+        if (error) {
+          return response.json({ error });
         }
 
-        const { email, password } = user.dataValues;
+        const sid = hash.replace('/', '-');
+        const sess = { sid: sid, email: email };
 
-        var today = new Date();
-        var expire = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-
-        return bcrypt.hash(
-          email + password + today,
-          SALT_FACTOR,
-          (error, hash) => {
-            if (error) {
-              return response.json({ error });
+        return Auth.insertSession(sid, sess, expire)
+          .then(session => {
+            if (!session) {
+              return response.sendStatus(400);
             }
 
-            const sid = hash.replace('/', '-');
-            const sess = { sid: sid, email: email };
+            let resetPasswordUrl;
+            if (process.env.NODE_ENV === 'development') {
+              resetPasswordUrl = `http://localhost:3000/new-password/${sid}`;
+            } else {
+              resetPasswordUrl = `http://${request.headers.host}/new-password/${sid}`;
+            }
 
-            return Auth.insertSession(sid, sess, expire)
-              .then(session => {
-                if (!session) {
-                  return response.sendStatus(400);
-                }
+            const transporter = nodemailer.createTransport({
+              service: 'Gmail',
+              auth: {
+                user: process.env.MAILER_EMAIL,
+                pass: process.env.MAILER_PASSWORD,
+              },
+            });
 
-                let resetPasswordUrl;
-                if (process.env.NODE_ENV === 'development') {
-                  resetPasswordUrl = `http://localhost:3000/new-password/${sid}`;
-                } else {
-                  resetPasswordUrl = `http://${request.headers.host}/new-password/${sid}`;
-                }
+            const mailData = {
+              from: process.env.MAILER_EMAIL,
+              to: email,
+              subject: 'Forgot Password',
+              html: `Click <a href="${resetPasswordUrl}">here</a> to reset your password`,
+            };
 
-                const transporter = nodemailer.createTransport({
-                  service: 'Gmail',
-                  auth: {
-                    user: process.env.MAILER_EMAIL,
-                    pass: process.env.MAILER_PASSWORD
-                  }
-                });
-
-                const mailData = {
-                  from: process.env.MAILER_EMAIL,
-                  to: email,
-                  subject: 'Forgot Password',
-                  html: `Click <a href="${resetPasswordUrl}">here</a> to reset your password`
-                };
-
-                transporter.sendMail(mailData, (error, _) => {
-                  if (error) {
-                    return response.json({ error });
-                  }
-                  return response.sendStatus(200);
-                });
-              })
-              .catch(error => {
+            transporter.sendMail(mailData, (error, _) => {
+              if (error) {
                 return response.json({ error });
-              });
-          }
-        );
-      })
-      .catch(error => response.json({ error }));
-  }
-);
+              }
+              return response.sendStatus(200);
+            });
+          })
+          .catch(error => {
+            return response.json({ error });
+          });
+      });
+    })
+    .catch(error => response.json({ error }));
+});
 
-router.get(
-  '/api/new-password/:sessionId',
-  notAuthenticated,
-  emptyStringsToNull,
-  (request, response) => {
-    const { sessionId } = request.params;
+router.get('/api/reset-password/:sessionId', notAuthenticatedUser, emptyStringsToNull, (request, response) => {
+  const { sessionId } = request.params;
 
-    return Auth.findSessionById(sessionId).then(session => {
+  return Auth.findSessionById(sessionId).then(session => {
+    if (!session) {
+      return response.sendStatus(401);
+    }
+
+    return response.sendStatus(200);
+  });
+});
+
+router.post('/api/reset-password/:sessionId', notAuthenticatedUser, emptyStringsToNull, (request, response) => {
+  const { password } = request.body;
+  const { sessionId } = request.params;
+
+  return Auth.findSessionById(sessionId)
+    .then(session => {
       if (!session) {
         return response.sendStatus(401);
       }
 
-      return response.sendStatus(200);
-    });
-  }
-);
+      const { sid, sess, expire } = session.dataValues;
+      const { email } = sess;
+      const today = new Date();
 
-router.post(
-  '/api/new-password/:sessionId',
-  notAuthenticated,
-  emptyStringsToNull,
-  (request, response) => {
-    const { password } = request.body;
-    const { sessionId } = request.params;
+      if (sid === sessionId && today < expire) {
+        return Auth.deleteSession(sid)
+          .then(_ =>
+            Auth.updatePassword(email, password)
+              .then(user => {
+                if (!user) {
+                  return response.sendStatus(400);
+                }
+                return response.sendStatus(201);
+              })
+              .catch(error => response.json({ error })),
+          )
+          .catch(error => response.json({ error }));
+      }
+      return session;
+    })
+    .catch(error => response.json({ error }));
+});
 
-    return Auth.findSessionById(sessionId)
-      .then(session => {
-        if (!session) {
-          return response.sendStatus(401);
-        }
-
-        const { sid, sess, expire } = session.dataValues;
-        const { email } = sess;
-        const today = new Date();
-
-        if (sid === sessionId && today < expire) {
-          return Auth.deleteSession(sid)
-            .then(_ =>
-              Auth.updatePassword(email, password)
-                .then(user => {
-                  if (!user) {
-                    return response.sendStatus(400);
-                  }
-                  return response.sendStatus(201);
-                })
-                .catch(error => response.json({ error }))
-            )
-            .catch(error => response.json({ error }));
-        }
-        return session;
-      })
-      .catch(error => response.json({ error }));
-  }
-);
-
-router.post('/api/login', emptyStringsToNull, (request, response) => {
+router.post('/api/sign-in', emptyStringsToNull, (request, response) => {
   const { identifier, password } = request.body;
   return Auth.findUserByUsernameOrEmail(identifier)
     .then(user => {
@@ -195,15 +162,16 @@ router.post('/api/login', emptyStringsToNull, (request, response) => {
             if (error) {
               return response.json({ error });
             }
-            return response.json({ user });
-          })
+            const { password, ...auth } = user.dataValues;
+            return response.json({ auth });
+          }),
         )
         .catch(error => response.json({ error }));
     })
     .catch(error => response.json({ error }));
 });
 
-router.post('/api/logout', (request, response) => {
+router.post('/api/sign-out', (request, response) => {
   request.logout();
   response.sendStatus(200);
   return null;

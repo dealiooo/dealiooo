@@ -61,9 +61,9 @@ const game_engine = {
       tempPlayer.id = player.id;
       tempPlayer.username = player.username;
       if (player.id === playerId) {
-        tempPlayer.hand_cards = player.hand;
+        tempPlayer.handCards = player.hand;
       } else {
-        tempPlayer.hand_cards = player.hand.length;
+        tempPlayer.handCards = player.hand.length;
       }
       tempPlayer.actionCards = player.field.actionCards;
       tempPlayer.bankCards = player.field.bankCards;
@@ -78,7 +78,7 @@ const game_engine = {
     if (pending) {
       data.prompts_info.promptPlayerId = pending.arguments.requiredPlayerId;
       data.prompts_info.promptPlayerUsername = Game.players.filter(
-        player => player.id === pending.arguments.requiredPlayerId
+        player => player.id === pending.arguments.requiredPlayerId,
       )[0].username;
       data.prompts_info.promptMessage = pending.message;
       if (pending.arguments.options) {
@@ -90,7 +90,7 @@ const game_engine = {
     let applyBasicOptions = {
       'Play Hand Card': game_engine.promptHandCardId,
       'Move Card Around': game_engine.promptSourceAndDestination,
-      'End Turn': game_engine.applyEndTurn
+      'End Turn': game_engine.applyEndTurn,
     };
     let player = Game.currentPlayer;
     userControls.pickBasicOptions({
@@ -104,7 +104,7 @@ const game_engine = {
         } else {
           applyBasicOptions[option](Game);
         }
-      }
+      },
     });
   },
   promptHandCardId: Game => {
@@ -120,7 +120,7 @@ const game_engine = {
         } else {
           game_engine.applyPlayCard(Game, card);
         }
-      }
+      },
     });
   },
   promptSourceAndDestination: Game => {
@@ -138,7 +138,7 @@ const game_engine = {
         } else if (!gameControls.computeWinCondition({ Game, player })) {
           game_engine.promptBasicOptions(Game);
         }
-      }
+      },
     });
   },
   applyPlayCard: (Game, card) => {
@@ -164,7 +164,7 @@ const game_engine = {
             }
           }
         }
-      }
+      },
     });
   },
   applyStartTurn: Game => {
@@ -179,11 +179,10 @@ const game_engine = {
         Game,
         callback: _ => {
           Game.turnCount++;
-          Game.currentPlayerIndex =
-            (Game.currentPlayerIndex + 1) % Game.playerCount;
+          Game.currentPlayerIndex = (Game.currentPlayerIndex + 1) % Game.playerCount;
           Game.currentPlayer = Game.players[Game.currentPlayerIndex];
           game_engine.applyStartTurn(Game);
-        }
+        },
       });
     }
     return ``;
@@ -227,10 +226,7 @@ const game_engine = {
     let pending = Game.pendingForUserInput;
     if (null !== pending) {
       if (pending.arguments.options) {
-        if (
-          pending.arguments.options.filter(option => 'End Turn' === option)
-            .length
-        ) {
+        if (pending.arguments.options.filter(option => 'End Turn' === option).length) {
           if (player.id === playerId) {
             Game.pendingForUserInput = null;
             game_engine.applyEndTurn(Game);
@@ -242,23 +238,21 @@ const game_engine = {
     return `\nEnd Turn is not available`;
   },
   onForfeit: (Game, playerId) => {
-    let playerUsername = Game.players.filter(
-      player => player.id === playerIdplayerWonUsername
-    )[0].username;
+    let playerUsername = Game.players.filter(player => player.id === playerIdplayerWonUsername)[0].username;
     game_engine.applyForfeit(Game, playerId);
     if (
       gameControls.computeWinCondition({
         Game,
-        player: Game.currentPlayer
+        player: Game.currentPlayer,
       })
     ) {
       return {
         playerWonUsername: Game.currentPlayer.username,
-        playerForfeitUsername: playerUsername
+        playerForfeitUsername: playerUsername,
       };
     }
     return {
-      playerForfeitUsername: playerUsername
+      playerForfeitUsername: playerUsername,
     };
   },
   onCancelAction: (Game, playerId) => {
@@ -266,7 +260,7 @@ const game_engine = {
   },
   onForceAction: (Game, playerId) => {
     game_engine.applyForceAction(Game, playerId);
-  }
+  },
 };
 
 module.exports = game_engine;

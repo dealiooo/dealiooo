@@ -1,10 +1,7 @@
 const io = require('socket.io')();
 const session = require('../database/config/session');
-const {
-  GameHandler,
-  GameLobbyHandler,
-  MainLobbyHandler
-} = require('./handlers');
+const { GameHandler, GameLobbyHandler, MainLobbyHandler } = require('./handlers');
+
 const init = server => {
   io.use(({ request }, next) => {
     session(request, request.res, next);
@@ -24,12 +21,8 @@ io.on('connection', socket => {
       mainLobbySockets.set(userId, socket);
       socket.on('disconnect', () => {
         mainLobbySockets.delete(userId);
-        Object.keys(gameSockets).map(gameId =>
-          gameSockets.get(gameId).delete(userId)
-        );
-        Object.keys(gameLobbySockets).map(roomId =>
-          gameLobbySockets.get(roomId).delete(userId)
-        );
+        Object.keys(gameSockets).map(gameId => gameSockets.get(gameId).delete(userId));
+        Object.keys(gameLobbySockets).map(roomId => gameLobbySockets.get(roomId).delete(userId));
       });
     }
   } catch (error) {
@@ -41,5 +34,5 @@ module.exports = {
   init,
   Game: GameHandler(mainLobbySockets, gameSockets),
   GameLobby: GameLobbyHandler(mainLobbySockets, gameLobbySockets),
-  MainLobby: MainLobbyHandler(mainLobbySockets)
+  MainLobby: MainLobbyHandler(mainLobbySockets),
 };

@@ -1,56 +1,48 @@
 const chat = sockets => (gameId, message) =>
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game-lobby:${gameId}:chat`, message)
-    );
+  sockets.get(gameId).forEach(client_socket => client_socket.emit(`game-lobby:${gameId}:chat`, message));
 
 const enterGame = (globalSockets, sockets) => (gameId, userId) => {
   if (undefined === sockets.get(gameId)) {
     sockets.set(gameId, new Map());
   }
   sockets.get(gameId).set(userId, globalSockets.get(userId));
-  sockets
-    .get(gameId)
-    .forEach(client_socket =>
-      client_socket.emit(`game-lobby:${gameId}:enter-game`, gameId)
-    );
+  sockets.get(gameId).forEach(client_socket => client_socket.emit(`game-lobby:${gameId}:enter-game`, gameId));
 };
 
-const leaveGame = sockets => (gameId, userId, userName) =>
+const leaveGame = sockets => (gameId, userId, username) =>
   sockets.get(gameId).forEach(client_socket =>
     client_socket.emit(`game-lobby:${gameId}:leave-game`, {
       gameId,
       userId,
-      userName
-    })
+      username,
+    }),
   );
 
-const playerReady = sockets => (gameId, userId, userName) =>
+const playerReady = sockets => (gameId, userId, username) =>
   sockets.get(gameId).forEach(client_socket =>
     client_socket.emit(`game-lobby:${gameId}:player-ready`, {
       gameId,
       userId,
-      userName
-    })
+      username,
+    }),
   );
 
-const playerUnready = sockets => (gameId, userId, userName) =>
+const playerUnready = sockets => (gameId, userId, username) =>
   sockets.get(gameId).forEach(client_socket =>
     client_socket.emit(`game-lobby:${gameId}:player-unready`, {
       gameId,
       userId,
-      userName
-    })
+      username,
+    }),
   );
 
-const startGame = sockets => (gameId, userId, userName) =>
+const startGame = sockets => (gameId, userId, username) =>
   sockets.get(gameId).forEach(client_socket =>
     client_socket.emit(`game-lobby:${gameId}:start-game`, {
       gameId,
       userId,
-      userName
-    })
+      username,
+    }),
   );
 
 module.exports = (globalSockets, sockets) => ({
@@ -59,5 +51,5 @@ module.exports = (globalSockets, sockets) => ({
   leaveGame: leaveGame(sockets),
   playerReady: playerReady(sockets),
   playerUnready: playerUnready(sockets),
-  startGame: startGame(sockets)
+  startGame: startGame(sockets),
 });
