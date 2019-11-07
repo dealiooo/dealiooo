@@ -5,33 +5,28 @@ const nodemailer = require('nodemailer');
 const emptyStringsToNull = require('./middlewares/emptyStringsToNull');
 const notAuthenticatedUser = require('./middlewares/notAuthenticatedUser');
 const authenticateUser = require('./middlewares/authenticateUser');
-const authenticatePlayer = require('./middlewares/authenticatePlayer');
 const sendAuth = require('./middlewares/sendAuth');
-const sendAuthAndHostStatus = require('./middlewares/sendAuthAndHostStatus');
 const { Auth } = require('../database/api');
+
+// TODO: input validation
 
 router.get('/api/authenticate', authenticateUser, sendAuth);
 
-// TODO: deprecated use /api/authenticated instead
-// router.get('/api/sign-up', notAuthenticatedUser, (request, response) => response.sendStatus(200));
-// router.get('/api/sign-in', notAuthenticatedUser, (request, response) => response.sendStatus(200));
-// router.get('/api/forgot-password', notAuthenticatedUser, (request, response) => response.sendStatus(200));
-// router.get('/api/reset-password', authenticateUser, sendAuth);
-// router.get('/api/sign-out', authenticateUser, sendAuth);
-
 router.post('/api/sign-up', emptyStringsToNull, (request, response) => {
   const { username, email, password } = request.body;
+
   return Auth.insertUser(username, email, password)
     .then(user =>
       request.login(user, error => {
         if (error) {
-          return response.json({ error });
+          throw error;
         }
+
         const { password, ...auth } = user.dataValues;
         return response.json({ auth });
       }),
     )
-    .catch(error => response.json({ error }));
+    .catch(error => response.status(500).send({ error }));
 });
 
 router.post('/api/forgot-password', notAuthenticatedUser, emptyStringsToNull, (request, response) => {
@@ -41,7 +36,7 @@ router.post('/api/forgot-password', notAuthenticatedUser, emptyStringsToNull, (r
   return Auth.findUserByEmail(email)
     .then(user => {
       if (!user) {
-        return response.sendStatus(400);
+        return response.sendStatus(401);
       }
 
       const { email, password } = user.dataValues;
@@ -51,7 +46,7 @@ router.post('/api/forgot-password', notAuthenticatedUser, emptyStringsToNull, (r
 
       return bcrypt.hash(email + password + today, SALT_FACTOR, (error, hash) => {
         if (error) {
-          return response.json({ error });
+          throw error;
         }
 
         const sid = hash.replace('/', '-');
@@ -60,14 +55,14 @@ router.post('/api/forgot-password', notAuthenticatedUser, emptyStringsToNull, (r
         return Auth.insertSession(sid, sess, expire)
           .then(session => {
             if (!session) {
-              return response.sendStatus(400);
+              return response.sendStatus(401);
             }
 
             let resetPasswordUrl;
             if (process.env.NODE_ENV === 'development') {
-              resetPasswordUrl = `http://localhost:3000/new-password/${sid}`;
+              resetPasswordUrl = `http://localhost:3000/reset-password/${sid}`;
             } else {
-              resetPasswordUrl = `http://${request.headers.host}/new-password/${sid}`;
+              resetPasswordUrl = `http://${request.headers.host}/reset-password/${sid}`;
             }
 
             const transporter = nodemailer.createTransport({
@@ -87,29 +82,32 @@ router.post('/api/forgot-password', notAuthenticatedUser, emptyStringsToNull, (r
 
             transporter.sendMail(mailData, (error, _) => {
               if (error) {
-                return response.json({ error });
+                throw error;
               }
-              return response.sendStatus(200);
+
+              return response.sendStatus(204);
             });
           })
           .catch(error => {
-            return response.json({ error });
+            throw error;
           });
       });
     })
-    .catch(error => response.json({ error }));
+    .catch(error => response.status(500).send({ error }));
 });
 
 router.get('/api/reset-password/:sessionId', notAuthenticatedUser, emptyStringsToNull, (request, response) => {
   const { sessionId } = request.params;
 
-  return Auth.findSessionById(sessionId).then(session => {
-    if (!session) {
-      return response.sendStatus(401);
-    }
+  return Auth.findSessionById(sessionId)
+    .then(session => {
+      if (!session) {
+        return response.sendStatus(401);
+      }
 
-    return response.sendStatus(200);
-  });
+      return response.sendStatus(200);
+    })
+    .catch(error => response.status(500).send({ error }));
 });
 
 router.post('/api/reset-password/:sessionId', notAuthenticatedUser, emptyStringsToNull, (request, response) => {
@@ -132,21 +130,28 @@ router.post('/api/reset-password/:sessionId', notAuthenticatedUser, emptyStrings
             Auth.updatePassword(email, password)
               .then(user => {
                 if (!user) {
-                  return response.sendStatus(400);
+                  return response.sendStatus(401);
                 }
+
                 return response.sendStatus(201);
               })
-              .catch(error => response.json({ error })),
+              .catch(error => {
+                throw error;
+              }),
           )
-          .catch(error => response.json({ error }));
+          .catch(error => {
+            throw error;
+          });
       }
+
       return session;
     })
-    .catch(error => response.json({ error }));
+    .catch(error => response.status(500).send({ error }));
 });
 
 router.post('/api/sign-in', emptyStringsToNull, (request, response) => {
   const { identifier, password } = request.body;
+
   return Auth.findUserByUsernameOrEmail(identifier)
     .then(user => {
       bcrypt
@@ -155,20 +160,24 @@ router.post('/api/sign-in', emptyStringsToNull, (request, response) => {
           if (isEqual) {
             return user;
           }
-          return Promise.reject(new Error('Invalid credentials.'));
+
+          return response.status(401).send({ error: new Error('invalid credentials') });
         })
         .then(user =>
           request.login(user, error => {
             if (error) {
-              return response.json({ error });
+              throw error;
             }
+
             const { password, ...auth } = user.dataValues;
             return response.json({ auth });
           }),
         )
-        .catch(error => response.json({ error }));
+        .catch(error => {
+          throw error;
+        });
     })
-    .catch(error => response.json({ error }));
+    .catch(error => response.status(500).send({ error }));
 });
 
 router.post('/api/sign-out', (request, response) => {
@@ -176,5 +185,12 @@ router.post('/api/sign-out', (request, response) => {
   response.sendStatus(200);
   return null;
 });
+
+// TODO: deprecated use /api/authenticated instead
+// router.get('/api/sign-up', notAuthenticatedUser, (request, response) => response.sendStatus(200));
+// router.get('/api/sign-in', notAuthenticatedUser, (request, response) => response.sendStatus(200));
+// router.get('/api/forgot-password', notAuthenticatedUser, (request, response) => response.sendStatus(200));
+// router.get('/api/reset-password', authenticateUser, sendAuth);
+// router.get('/api/sign-out', authenticateUser, sendAuth);
 
 module.exports = router;
