@@ -1,7 +1,8 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, delay } from 'redux-saga/effects';
 
-import { signUpAsync, setAuth } from '../actions';
+import { signUpAsync, setAuth, signOutAsync } from '../actions';
 import { api } from '../../../services';
+import { RESPONSE_DELAY } from '../config';
 
 function* signUpSaga(action: ReturnType<typeof signUpAsync.request>) {
   const { username, email, password, passwordConfirm } = action.payload;
@@ -13,8 +14,10 @@ function* signUpSaga(action: ReturnType<typeof signUpAsync.request>) {
 
     const response = yield call(api.post, '/sign-up', { username, email, password });
     const { auth } = response.data;
-    yield put(signUpAsync.success(true));
 
+    yield delay(RESPONSE_DELAY);
+    yield put(signOutAsync.success(false));
+    yield put(signUpAsync.success(true));
     yield put(setAuth(auth));
   } catch (error) {
     yield put(signUpAsync.failure(error));
