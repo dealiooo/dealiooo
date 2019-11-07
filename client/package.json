@@ -1,22 +1,60 @@
 {
   "name": "client",
-  "version": "2.0.0",
+  "version": "1.5.0",
   "private": true,
+  "scripts": {
+    "start": "echo 'REACT_APP_ENV=development\nTSC_COMPILE_ON_ERROR=true' > .env && react-scripts start",
+    "build": "echo 'REACT_APP_ENV=production\nTSC_COMPILE_ON_ERROR=true' > .env && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -s ./public -p 6006 .storybook",
+    "build-storybook": "build-storybook"
+  },
   "dependencies": {
+    "axios": "^0.19.0",
+    "history": "^4.9.0",
+    "lodash": "^4.17.15",
+    "polished": "^3.4.1",
+    "raw-loader": "^3.1.0",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-perfect-scrollbar": "^1.5.3",
+    "react-popper-tooltip": "^2.9.1",
+    "react-redux": "7.1.0",
+    "react-router": "^5.1.2",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-router-hash-link": "^1.2.2",
+    "react-scripts": "3.2.0",
+    "redux": "4.0.4",
+    "redux-saga": "^1.0.5",
+    "reselect": "^4.0.0",
+    "socket.io-client": "^2.2.0",
+    "styled-components": "^4.4.0",
+    "styled-icons": "^8.4.2",
+    "typesafe-actions": "^4.4.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@storybook/react": "^5.1.11",
     "@types/jest": "24.0.17",
+    "@types/lodash": "^4.14.138",
     "@types/node": "12.7.1",
     "@types/react": "16.9.1",
     "@types/react-dom": "16.8.5",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-scripts": "3.1.0",
+    "@types/react-redux": "7.1.1",
+    "@types/react-router": "^5.1.2",
+    "@types/react-router-dom": "^5.1.2",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/storybook__react": "^4.0.2",
+    "@types/styled-components": "^4.1.18",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "husky": "^3.0.9",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^2.0.0",
+    "redux-devtools-extension": "2.13.8",
     "typescript": "3.5.3"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,6 +69,12 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write --single-quote",
+      "git add"
     ]
   }
 }
