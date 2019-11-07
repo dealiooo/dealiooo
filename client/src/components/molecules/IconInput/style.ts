@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Icon } from '../../atoms/Icon/style';
+import { IconWrapper } from '../../atoms/Icon';
 import { Input } from '../../atoms/Input/style';
 import { IconButton } from '../../molecules';
 import { Props } from '.';
@@ -14,7 +14,7 @@ export const IconInput = styled.div<Props>`
   }
 
   & > svg,
-  & > ${Icon}, & > ${IconButton} {
+  & > ${IconWrapper}, & > ${IconButton} {
     position: absolute;
     top: 10px;
     ${({ hasIconRight }) => {

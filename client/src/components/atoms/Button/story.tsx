@@ -14,4 +14,9 @@ storiesOf('Button', module)
     <Center>
       <Button outline>Button</Button>
     </Center>
+  ))
+  .add('button loading', () => (
+    <Center>
+      <Button loading>Button</Button>
+    </Center>
   ));
