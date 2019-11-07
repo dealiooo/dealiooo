@@ -125,18 +125,19 @@ export interface Pending {
   };
 }
 
-export interface GameData {
-  turnCount: number;
-  cardsPlayed: number;
-  cardsPlayedList: Card[];
-  deck: Card[];
-  discard: Card[];
-  playerCount: number;
-  players: Player[];
-  currentPlayerIndex: number;
-  currentPlayer: Player;
-  pendingForUserInput?: Pending;
-  userInput?: number;
-  winner?: Player;
-  ticks: number[];
-}
+// @v2 typings
+// export interface GameData {
+//   turnCount: number;
+//   cardsPlayed: number;
+//   cardsPlayedList: Card[];
+//   deck: Card[];
+//   discard: Card[];
+//   playerCount: number;
+//   players: Player[];
+//   currentPlayerIndex: number;
+//   currentPlayer: Player;
+//   pendingForUserInput?: Pending;
+//   userInput?: number;
+//   winner?: Player;
+//   ticks: number[];
+// }
