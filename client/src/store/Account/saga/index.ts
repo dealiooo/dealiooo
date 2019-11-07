@@ -1,4 +1,5 @@
 import { all, takeLatest } from 'redux-saga/effects';
+import { getType } from 'typesafe-actions';
 
 import { authenticate } from './authenticate';
 import { signIn } from './sign-in';
@@ -6,7 +7,8 @@ import { signUp } from './sign-up';
 import { signOut } from './sign-out';
 import { forgotPassword } from './forgot-password';
 import { resetPassword } from './reset-password';
-import { getType } from 'typesafe-actions';
+import { verifyResetPassword } from './verify-reset-password';
+
 import * as actions from '../actions';
 
 export default function* accountSaga() {
@@ -17,5 +19,6 @@ export default function* accountSaga() {
     takeLatest(getType(actions.signOutAsync.request), signOut),
     takeLatest(getType(actions.forgotPasswordAsync.request), forgotPassword),
     takeLatest(getType(actions.resetPasswordAsync.request), resetPassword),
+    takeLatest(getType(actions.verifyResetPasswordAsync.request), verifyResetPassword),
   ]);
 }

@@ -9,6 +9,11 @@ export const selectAuth = createSelector(
   account => account.auth,
 );
 
+export const selectAuthenticate = createSelector(
+  selectAccount,
+  account => account.authenticate,
+);
+
 export const selectResetPassword = createSelector(
   selectAccount,
   account => account.resetPassword,
