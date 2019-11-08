@@ -125,6 +125,24 @@ export interface Pending {
   };
 }
 
+export enum EventMessage {
+  'do you want to move a card around?' = 'do you want to move a card around?',
+  'do you want to play a hand card?' = 'do you want to play a hand card?',
+  'do you want to play just say no?' = 'do you want to play just say no?',
+  'picking a color' = 'picking a color',
+  'picking a destination' = 'picking a destination',
+  'picking a hand card' = 'picking a hand card',
+  'picking a hand card to discard' = 'picking a hand card to discard',
+  'picking a field card' = 'picking a field card',
+  'picking a field pile' = 'picking a field pile',
+  'picking a property set to rent' = 'picking a property set to rent',
+  'picking a target player' = 'picking a target player',
+  'play as money or action?' = 'play as money or action?',
+  'play as money or property?' = 'play as money or property?',
+  'selecting a property set' = 'selecting a property set',
+  'waiting for player action' = 'waiting for player action',
+}
+
 // @v2 typings
 // export interface GameData {
 //   turnCount: number;

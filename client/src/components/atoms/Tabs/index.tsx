@@ -67,6 +67,6 @@ const Tabs = styled.div<TabsProps>`
 `;
 
 export default {
-  Root: Tabs,
-  Tab: Tab,
+  Tabs,
+  Tab,
 };

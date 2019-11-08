@@ -1,6 +1,6 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
-import { Auth } from '../../types';
+import { Auth } from '../../types/dealiooo';
 
 export const setAuth = createAction('@account/SET_AUTH', action => (auth: Auth) => action(auth));
 export const clearAuth = createAction('@account/CLEAR_AUTH', action => () => action());

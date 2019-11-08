@@ -4,9 +4,9 @@ import { Close as CloseIcon } from 'styled-icons/evil/Close';
 import noop from 'lodash/noop';
 
 import { BackDrop, Modal, ModalBody, ModalHeader, ModalContent, CloseButton } from './style';
-import { ClickEvent, ClickHandler } from '../../../types';
+import { ClickEvent, ClickHandler } from '../../../types/html-events';
 
-export type Props = {
+export type ModalProps = {
   open?: boolean;
   onClose?: VoidFunction;
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export type BackDropProps = {
   onClick: ClickHandler;
 };
 
-export default function({ open = false, onClose = noop, children }: Props) {
+export default function({ open = false, onClose = noop, children }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const container = document.body;
 

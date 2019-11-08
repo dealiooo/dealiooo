@@ -1,7 +1,7 @@
 import { lighten, darken } from 'polished';
 
 import { AppColors, BaseColors, StatusColors, ThemeColor } from './types';
-import { CardColor } from '../types';
+import { CardColor } from '../types/dealiooo';
 
 export const baseColors: BaseColors = {
   white: '#fff',

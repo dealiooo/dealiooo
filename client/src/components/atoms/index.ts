@@ -7,6 +7,7 @@ export { default as Tabs } from './Tabs';
 export { default as Strong } from './Strong';
 export { default as Attribute } from './Attribute';
 export { default as HorizontalLine } from './HorizontalLine';
+export { default as Modal } from './Modal';
 
 export * from './Button';
 export { default as Button } from './Button';
