@@ -591,7 +591,7 @@ const propertyWildcards = [
   },
   {
     id: 74,
-    name: 'property_wildcard',
+    name: 'property-wildcard',
     value: 0,
     type: 'property_wildcard',
     mainColor: '',
@@ -599,7 +599,7 @@ const propertyWildcards = [
   },
   {
     id: 75,
-    name: 'property_wildcard',
+    name: 'property-wildcard',
     value: 0,
     type: 'property_wildcard',
     mainColor: '',
@@ -693,7 +693,7 @@ const rentCards = [
 const rentWildCards = [
   {
     id: 86,
-    name: 'rent_wildcard',
+    name: 'rent-wildcard',
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
@@ -701,7 +701,7 @@ const rentWildCards = [
   },
   {
     id: 87,
-    name: 'rent_wildcard',
+    name: 'rent-wildcard',
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
@@ -709,7 +709,7 @@ const rentWildCards = [
   },
   {
     id: 88,
-    name: 'rent_wildcard',
+    name: 'rent-wildcard',
     value: 3,
     type: 'rent_wildcard',
     mainColor: '',
@@ -720,7 +720,7 @@ const rentWildCards = [
 const moneyCards = [
   {
     id: 89,
-    name: '1-dollar',
+    name: '$1',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -728,7 +728,7 @@ const moneyCards = [
   },
   {
     id: 90,
-    name: '1-dollar',
+    name: '$1',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -736,7 +736,7 @@ const moneyCards = [
   },
   {
     id: 91,
-    name: '1-dollar',
+    name: '$1',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -744,7 +744,7 @@ const moneyCards = [
   },
   {
     id: 92,
-    name: '1-dollar',
+    name: '$1',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -752,7 +752,7 @@ const moneyCards = [
   },
   {
     id: 93,
-    name: '1-dollar',
+    name: '$1',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -760,7 +760,7 @@ const moneyCards = [
   },
   {
     id: 94,
-    name: '1-dollar',
+    name: '$1',
     value: 1,
     type: 'money',
     mainColor: '',
@@ -768,7 +768,7 @@ const moneyCards = [
   },
   {
     id: 95,
-    name: '2-dollar',
+    name: '$2',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -776,7 +776,7 @@ const moneyCards = [
   },
   {
     id: 96,
-    name: '2-dollar',
+    name: '$2',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -784,7 +784,7 @@ const moneyCards = [
   },
   {
     id: 97,
-    name: '2-dollar',
+    name: '$2',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -792,7 +792,7 @@ const moneyCards = [
   },
   {
     id: 98,
-    name: '2-dollar',
+    name: '$2',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -800,7 +800,7 @@ const moneyCards = [
   },
   {
     id: 99,
-    name: '2-dollar',
+    name: '$2',
     value: 2,
     type: 'money',
     mainColor: '',
@@ -808,7 +808,7 @@ const moneyCards = [
   },
   {
     id: 100,
-    name: '3-dollar',
+    name: '$3',
     value: 3,
     type: 'money',
     mainColor: '',
@@ -816,7 +816,7 @@ const moneyCards = [
   },
   {
     id: 101,
-    name: '3-dollar',
+    name: '$3',
     value: 3,
     type: 'money',
     mainColor: '',
@@ -824,7 +824,7 @@ const moneyCards = [
   },
   {
     id: 102,
-    name: '3-dollar',
+    name: '$3',
     value: 3,
     type: 'money',
     mainColor: '',
@@ -832,7 +832,7 @@ const moneyCards = [
   },
   {
     id: 103,
-    name: '4-dollar',
+    name: '$4',
     value: 4,
     type: 'money',
     mainColor: '',
@@ -840,7 +840,7 @@ const moneyCards = [
   },
   {
     id: 104,
-    name: '4-dollar',
+    name: '$4',
     value: 4,
     type: 'money',
     mainColor: '',
@@ -848,7 +848,7 @@ const moneyCards = [
   },
   {
     id: 105,
-    name: '4-dollar',
+    name: '$4',
     value: 4,
     type: 'money',
     mainColor: '',
@@ -856,7 +856,7 @@ const moneyCards = [
   },
   {
     id: 106,
-    name: '5-dollar',
+    name: '$5',
     value: 5,
     type: 'money',
     mainColor: '',
@@ -864,7 +864,7 @@ const moneyCards = [
   },
   {
     id: 107,
-    name: '5-dollar',
+    name: '$5',
     value: 5,
     type: 'money',
     mainColor: '',
@@ -872,7 +872,7 @@ const moneyCards = [
   },
   {
     id: 108,
-    name: '10-dollar',
+    name: '$10',
     value: 10,
     type: 'money',
     mainColor: '',

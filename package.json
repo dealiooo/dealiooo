@@ -4,7 +4,7 @@
   "description": "card game simulator",
   "main": "app.js",
   "scripts": {
-    "generate_env_file": "echo 'DATABASE_URL=postgres://USERNAME@localhost:5432/DATABASE_NAME\nMAILER_EMAIL=EMAIL\nMAILER_PASSWORD=PASSWORD' > .env",
+    "generate_env_file": "echo 'DATABASE_URL=postgres://USERNAME@localhost:5432/DATABASE_NAME\nMAILER_EMAIL=EMAIL\nMAILER_PASSWORD=PASSWORD\nSESSION_SECRET=SESSION_SECRET' > .env",
     "start": "BLUEBIRD_WARNINGS=0 npm run start:server",
     "start:dev": "BLUEBIRD_WARNINGS=0 NODE_ENV=development npm run heroku-postbuild && npm run start:dev:server",
     "start:dev:windows": "SET BLUEBIRD_WARNINGS=0& SET NODE_ENV=development& npm run heroku-postbuild & npm run start:dev:server:windows",
