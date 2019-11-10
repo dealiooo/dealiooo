@@ -1,5 +1,5 @@
 import React from 'react';
 
-export const TEMP = props => {
+export default props => {
   return <div>Temp</div>;
 };

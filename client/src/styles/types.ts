@@ -21,6 +21,8 @@ export interface StatusColors {
   error: string;
 }
 
+export type StatusType = 'success' | 'info' | 'disabled' | 'warning' | 'error';
+
 export interface AppColors {
   primary: string;
   primaryLight: string;

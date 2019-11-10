@@ -16,6 +16,13 @@ import serverAddress from './server-address';
 // for now, its better to:
 // 1. do not close the socket
 // 2. remove listeners on will unmount
-const socket = io(serverAddress, { autoConnect: true });
+export let socket = io(serverAddress, { autoConnect: true, forceNew: true });
 
-export default socket;
+// When a user logs in the socket will not update
+// which means socket.request.session.passport.user will always be {}
+// to solve this we have to force a new connection
+// so when user signs in this will be called
+export const refreshSocketConnection = () => {
+  socket.close();
+  socket = io.connect(serverAddress, { forceNew: true });
+};

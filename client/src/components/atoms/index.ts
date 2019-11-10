@@ -8,6 +8,8 @@ export { default as Strong } from './Strong';
 export { default as Attribute } from './Attribute';
 export { default as HorizontalLine } from './HorizontalLine';
 export { default as Modal } from './Modal';
+export { default as StatusText } from './StatusText';
+export { default as FormError } from './FormError';
 
 export * from './Button';
 export { default as Button } from './Button';

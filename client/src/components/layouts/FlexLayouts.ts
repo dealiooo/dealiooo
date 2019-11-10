@@ -5,8 +5,6 @@ export const FlexRowCenter = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
-  height: ${({ fullHeight }) => (fullHeight ? '100%' : 'auto')};
 `;
 
 export const FlexColumnCenter = styled.div`

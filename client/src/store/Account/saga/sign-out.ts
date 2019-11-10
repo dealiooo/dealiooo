@@ -8,6 +8,7 @@ function* signOutSaga(action: ReturnType<typeof signOutAsync.request>) {
     yield call(api.post, '/sign-out');
     yield put(signInAsync.success(false));
     yield put(signOutAsync.success(true));
+
     yield put(clearAuth());
   } catch (error) {
     yield put(signOutAsync.failure(error));
