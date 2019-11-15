@@ -1,0 +1,14 @@
+/*
+ Not possible to nest things like this:
+ const CustomButton = styled(Button)`...`
+ <CustomButton as={Link} to="..." />
+ CustomButton styles will not be inherited
+*/
+
+.room_button > svg {
+  display: none;
+}
+
+.room_button:hover > svg {
+  display: block;
+}

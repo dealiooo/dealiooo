@@ -4,10 +4,14 @@ import * as actions from './actions';
 import { ThemeColor } from '../../styles';
 
 const initialState = {
-  themeColor: ThemeColor.DARK,
+  themeColor: localStorage.getItem('ThemeColor') || ThemeColor.DARK,
 };
 
-export const settingsReducer = createReducer(initialState).handleAction(actions.setThemeColor, (state, action) => ({
-  ...state,
-  themeColor: action.payload,
-}));
+export const settingsReducer = createReducer(initialState).handleAction(actions.setThemeColor, (state, action) => {
+  localStorage.setItem('ThemeColor', action.payload);
+
+  return {
+    ...state,
+    themeColor: action.payload,
+  };
+});

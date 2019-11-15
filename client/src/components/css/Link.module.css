@@ -1,0 +1,7 @@
+.underline {
+  border-bottom: 1.5px solid transparent;
+}
+
+.underline:hover {
+  border-bottom: 1.5px solid currentColor;
+}

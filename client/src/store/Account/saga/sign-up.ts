@@ -1,7 +1,7 @@
 import { call, put, delay } from 'redux-saga/effects';
 
 import { signUpAsync, setAuth, signOutAsync } from '../actions';
-import { api } from '../../../services';
+import { api, restartSocketConnection } from '../../../services';
 import { RESPONSE_DELAY } from '../config';
 import { isEmailValid } from '../../../utils';
 
@@ -23,6 +23,8 @@ function* signUpSaga(action: ReturnType<typeof signUpAsync.request>) {
     yield delay(RESPONSE_DELAY);
     yield put(signOutAsync.success(false));
     yield put(signUpAsync.success(true));
+
+    restartSocketConnection();
     yield put(setAuth(auth));
   } catch (error) {
     yield put(signUpAsync.failure(error));

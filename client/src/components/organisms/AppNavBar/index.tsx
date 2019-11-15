@@ -1,31 +1,21 @@
 import React, { Fragment, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import TooltipTrigger from 'react-popper-tooltip';
 import { Redirect } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { DotsHorizontalRounded as MoreIcon } from 'styled-icons/boxicons-regular/DotsHorizontalRounded';
 
-import { Button, Link, Icon, NavLink } from '../../atoms';
+import { Button, Link, Icon, NavLink, SpanLink, Tooltip } from '../../atoms';
+import { Menu, MenuItem } from './style';
 import { Navbar, IconButton, Loader } from '../../molecules';
-import { borderRadius, space, borderSize } from '../../../styles';
-import { withTooltip, withTrigger, FlexColumnCenter } from '../../layouts';
+import { space, borderSize } from '../../../styles';
+import { FlexColumnCenter } from '../../layouts';
 import { selectAuth, selectAuthenticate, signOutAsync, selectSignOut, authenticateAsync } from '../../../store/Account';
-import { LinkStyle } from '../../BaseStyles';
-
-const MoreMenuTrigger = props => (
-  <IconButton>
-    <MoreIcon size={30} />
-  </IconButton>
-);
 
 const Toggler = styled(IconButton)`
   border-radius: 0;
-  height: 100%;
   padding-left: ${space.large};
   padding-right: ${space.large};
 `;
-
-const UserMenuTrigger = ({ username }) => <Toggler>{username}</Toggler>;
 
 const TriggerWrapper = styled(FlexColumnCenter)`
   height: 100%;
@@ -49,17 +39,17 @@ export default function() {
       </NavLink>
       <Navbar.Menu>
         <Navbar.End>
-          <TooltipTrigger placement="bottom" trigger="click" tooltip={withTooltip(MoreMenu)}>
-            {withTrigger(TriggerWrapper, MoreMenuTrigger)}
-          </TooltipTrigger>
+          <Tooltip placement="bottom" trigger="click" tooltip={MoreMenu} triggerWrapperAs={TriggerWrapper}>
+            <IconButton>
+              <MoreIcon size={30} />
+            </IconButton>
+          </Tooltip>
           {authenticate.loading ? (
             <Loader size={30} />
           ) : auth ? (
-            <TooltipTrigger placement="bottom" trigger="click" tooltip={withTooltip(UserMenu)}>
-              {withTrigger(TriggerWrapper, props => (
-                <UserMenuTrigger username={auth.username} />
-              ))}
-            </TooltipTrigger>
+            <Tooltip placement="bottom" trigger="click" tooltip={<UserMenu />} triggerWrapperAs={TriggerWrapper}>
+              <Toggler>{auth.username}</Toggler>
+            </Tooltip>
           ) : (
             <Fragment>
               <Button outline as={Link} to="/sign-in">
@@ -81,25 +71,7 @@ const NavbarRoot = styled(Navbar.Root)`
   border-bottom: ${borderSize.normal} solid ${({ theme }) => theme.outline};
 `;
 
-// TODO: organize this stuff better
-
-const Menu = styled.ul`
-  background-color: ${({ theme }) => theme.backgroundLightest};
-  border: ${borderSize.normal} solid ${({ theme }) => theme.outline};
-  padding: ${space.large} 0;
-  border-radius: ${borderRadius.round};
-`;
-
-const MenuItem = styled.li`
-  padding: ${space.medium};
-
-  text-align: start;
-  &:hover {
-    background-color: ${({ theme }) => theme.background};
-  }
-`;
-
-const MoreMenu = props => (
+const MoreMenu = (
   <Menu>
     <MenuItem>
       <Link to="/game-rules">Game Rules</Link>
@@ -126,7 +98,3 @@ const UserMenu = props => {
     </Menu>
   );
 };
-
-const SpanLink = styled.span`
-  ${LinkStyle}
-`;

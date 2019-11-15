@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useLayoutEffect } from 'react';
+import { debounce } from 'lodash';
 
 export function useToggle(initialState: boolean = false) {
   const [toggled, setToggled] = useState(initialState);
@@ -43,4 +44,18 @@ export function useInputValue(initialValue) {
     value,
     onChange,
   };
+}
+
+export function useWindowSize(delay = 400) {
+  const [size, setSize] = useState([0, 0]);
+
+  useLayoutEffect(() => {
+    const updateSize = debounce(() => setSize([window.innerWidth, window.innerHeight]), delay);
+    window.addEventListener('resize', updateSize);
+
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  return size;
 }

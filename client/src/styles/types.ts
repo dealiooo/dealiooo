@@ -21,6 +21,14 @@ export interface StatusColors {
   error: string;
 }
 
+export interface StatusAccentColors {
+  successAccent: string;
+  warningAccent: string;
+  infoAccent: string;
+  disabledAccent: string;
+  errorAccent: string;
+}
+
 export type StatusType = 'success' | 'info' | 'disabled' | 'warning' | 'error';
 
 export interface AppColors {
@@ -51,5 +59,5 @@ export interface AppColors {
   backgroundLightest: string;
 }
 
-export interface Palette extends BaseColors, StatusColors, AppColors {}
+export interface Palette extends BaseColors, StatusColors, StatusAccentColors, AppColors {}
 export interface Theme extends Palette {}

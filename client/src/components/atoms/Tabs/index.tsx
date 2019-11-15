@@ -32,10 +32,10 @@ const Tabs = styled.div<TabsProps>`
   flex: 1;
   display: flex;
 
-  height: ${({ autoHeight }) => (autoHeight ? 'auto' : TABS_HEIGHT)};
-
   border: ${borderSize.normal} solid ${({ theme }) => theme.outline};
   border-radius: ${BORDER_RADIUS};
+
+  height: ${TABS_HEIGHT};
 
   > ${Tab} {
     padding: ${borderSize.normal};

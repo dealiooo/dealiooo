@@ -7,7 +7,7 @@ export default styled(Container)`
   display: flex;
 
   > {
-    // Main Content
+    /* Main Content */
     &:nth-child(1) {
       flex: 7;
       height: 100%;
@@ -21,13 +21,13 @@ export default styled(Container)`
       }
     }
 
-    // Chat
+    /* Chat */
     &:nth-child(2) {
       flex: 4;
       height: 100%;
 
-      // TODO: have another method of opening chat
-      // display: none;
+      /* TODO: have another method of opening chat */
+      display: none;
 
       @media screen and (min-width: ${breakpoints.laptop}) {
         display: block;

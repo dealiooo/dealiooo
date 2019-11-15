@@ -5,9 +5,9 @@ import { User as UserIcon } from 'styled-icons/feather/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Root, Container, SignForm } from '../components/layouts';
+import { Root, Container, SignForm, FlexRowCenter } from '../components/layouts';
 import { AppNavBar } from '../components/organisms';
-import { Input, Button, FormError } from '../components/atoms';
+import { Input, Button, FormError, Title } from '../components/atoms';
 import { FormGroup, IconInput } from '../components/molecules';
 import { signUpAsync, selectSignUp, selectAuth } from '../store/Account';
 import { useInputValue, isBlank } from '../utils';

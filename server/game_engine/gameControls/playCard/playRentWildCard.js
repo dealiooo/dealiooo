@@ -7,7 +7,7 @@ const playRentWildCard = ({ Game, player, card, callback }) => {
     Game,
     requiredPlayerId: player.id,
     message: 'play as money or action?',
-    options: ['bank', 'action'],
+    options: ['action', 'bank'],
     callback: ({ error, option, cancelled, forced }) => {
       if (error) {
         callback({ error });
@@ -18,7 +18,7 @@ const playRentWildCard = ({ Game, player, card, callback }) => {
       } else {
         playAsAction({ Game, player, card, callback });
       }
-    }
+    },
   });
 };
 
@@ -26,7 +26,7 @@ const playAsMoney = ({ Game, player, card, callback }) => {
   gameActions.moveCard({
     source: player.hand,
     destination: player.field.bankCards,
-    card
+    card,
   });
   gameActions.onNonCounterCardPlayed({ Game, card });
   callback({ card });
@@ -46,9 +46,12 @@ const playAsAction = ({ Game, player, card, callback }) => {
         callback({ forced });
       } else {
         gameActions.switchColor({ card, newColor });
-        let { destinations, destinationIndexes } = gameActions.getDestinations[
-          card.type
-        ]({ Game, player, card, source: player.hand });
+        let { destinations, destinationIndexes } = gameActions.getDestinations[card.type]({
+          Game,
+          player,
+          card,
+          source: player.hand,
+        });
         if (destinations.length) {
           pickPropertySetToRent({
             Game,
@@ -56,26 +59,19 @@ const playAsAction = ({ Game, player, card, callback }) => {
             card,
             destinations,
             destinationIndexes,
-            callback
+            callback,
           });
         } else {
           callback({
-            error: 'cannot play rent card: no property set with matching color'
+            error: 'cannot play rent card: no property set with matching color',
           });
         }
       }
-    }
+    },
   });
 };
 
-const pickPropertySetToRent = ({
-  Game,
-  player,
-  card,
-  destinations,
-  destinationIndexes,
-  callback
-}) => {
+const pickPropertySetToRent = ({ Game, player, card, destinations, destinationIndexes, callback }) => {
   userActions.pickOption({
     Game,
     requiredPlayerId: player.id,
@@ -96,22 +92,14 @@ const pickPropertySetToRent = ({
           destinations,
           destinationIndexes,
           destinationIndex,
-          callback
+          callback,
         });
       }
-    }
+    },
   });
 };
 
-const collectRent = ({
-  Game,
-  player,
-  card,
-  destinations,
-  destinationIndexes,
-  destinationIndex,
-  callback
-}) => {
+const collectRent = ({ Game, player, card, destinations, destinationIndexes, destinationIndex, callback }) => {
   userControls.pickTargetPlayer({
     Game,
     player,
@@ -125,7 +113,7 @@ const collectRent = ({
           card,
           destinations,
           destinationIndexes,
-          callback
+          callback,
         });
       } else if (forced) {
         callback({ forced });
@@ -133,7 +121,7 @@ const collectRent = ({
         gameActions.moveCard({
           source: player.hand,
           destination: player.field.actionCards,
-          card
+          card,
         });
         gameActions.onNonCounterCardPlayed({ Game, card });
         gameActions.avoidAction({
@@ -152,8 +140,7 @@ const collectRent = ({
                   Game,
                   targetPlayer,
                   sourcePlayer: player,
-                  propertySet:
-                    destinations[destinationIndexes.indexOf(destinationIndex)]
+                  propertySet: destinations[destinationIndexes.indexOf(destinationIndex)],
                 }),
                 callback: ({ error }) => {
                   if (error) {
@@ -161,13 +148,13 @@ const collectRent = ({
                   } else {
                     callback({ card, forced });
                   }
-                }
+                },
               });
             }
-          }
+          },
         });
       }
-    }
+    },
   });
 };
 

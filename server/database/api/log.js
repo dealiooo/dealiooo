@@ -1,7 +1,8 @@
-const insertChatLog = db => (th_game_id, message) =>
+const insertChatLog = db => (th_game_id, username, message) =>
   db.th_logs.create({
     th_game_id,
     game_flow: false,
+    username,
     message,
   });
 

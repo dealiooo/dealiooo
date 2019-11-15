@@ -19,7 +19,10 @@ const GuestLayout = styled.div`
 
   > a {
     margin-left: ${space.mini};
-    border-bottom: ${borderSize.thick} solid ${({ theme }) => theme.primary};
+
+    &:hover {
+      border-color: ${({ theme }) => theme.primary};
+    }
   }
 `;
 
@@ -67,7 +70,9 @@ export default function() {
           </Button>
           <GuestLayout>
             Don't have an account?
-            <Link to="/sign-up"> Join Now!</Link>
+            <Link to="/sign-up" underlineOnHover>
+              Join Now!
+            </Link>
           </GuestLayout>
           <Link to="/forgot-password">Forgot Password?</Link>
           {signIn.error && <FormError error={signIn.error} />}

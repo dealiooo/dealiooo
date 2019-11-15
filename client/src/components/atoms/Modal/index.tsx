@@ -8,7 +8,7 @@ import { ClickEvent, ClickHandler } from '../../../types/html-events';
 
 export type ModalProps = {
   open?: boolean;
-  onClose?: VoidFunction;
+  onClose?: (event: ClickEvent) => void;
   children: React.ReactNode;
 };
 
@@ -30,9 +30,9 @@ export default function({ open = false, onClose = noop, children }: ModalProps) 
 
   const handleBackDropClick = (event: ClickEvent) => {
     if (modalRef.current && modalRef.current.contains(event.target as Node)) return;
-    onClose();
+    onClose(event);
   };
-  const handleCloseClick = (event: ClickEvent) => onClose();
+  const handleCloseClick = (event: ClickEvent) => onClose(event);
 
   return createPortal(
     <BackDrop open={open} onClick={handleBackDropClick}>

@@ -22,7 +22,7 @@ export let socket = io(serverAddress, { autoConnect: true, forceNew: true });
 // which means socket.request.session.passport.user will always be {}
 // to solve this we have to force a new connection
 // so when user signs in this will be called
-export const refreshSocketConnection = () => {
+export const restartSocketConnection = () => {
   socket.close();
   socket = io.connect(serverAddress, { forceNew: true });
 };

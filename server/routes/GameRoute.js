@@ -28,7 +28,7 @@ router.post('/api/game/:gameId/chat', authenticateUser, authenticatePlayer, (req
   const { gameId } = request.params;
   const { username } = response.locals.user;
   const { message } = request.body;
-  LogDB.insertChatLog(gameId, formattedMessage).then(_ => {
+  LogDB.insertChatLog(gameId, username, message).then(_ => {
     GameSockets.chat(gameId, {
       username,
       message,

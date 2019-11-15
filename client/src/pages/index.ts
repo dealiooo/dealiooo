@@ -1,4 +1,7 @@
-export { default as TEMP } from './TEMP';
+export { default as Game } from './Game';
+export { default as GameLobby } from './GameLobby';
+export { default as GameRules } from './GameRules';
+export { default as MainLobby } from './MainLobby';
 export { default as SignIn } from './SignIn';
 export { default as SignUp } from './SignUp';
 export { default as ForgotPassword } from './ForgotPassword';

@@ -238,7 +238,7 @@ const game_engine = {
     return `\nEnd Turn is not available`;
   },
   onForfeit: (Game, playerId) => {
-    let playerUsername = Game.players.filter(player => player.id === playerIdplayerWonUsername)[0].username;
+    let playerUsername = Game.players.filter(player => player.id === playerId)[0].username;
     game_engine.applyForfeit(Game, playerId);
     if (
       gameControls.computeWinCondition({

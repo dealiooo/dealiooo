@@ -16,7 +16,7 @@ export const FlexColumnCenter = styled.div`
 
 type FlexProps = {
   column?: boolean;
-  wrap?: boolean;
+  flexWrap?: boolean;
   justifyCenter?: boolean;
   justifyAround?: boolean;
   justifyBetween?: boolean;
@@ -40,7 +40,7 @@ export const Flex = styled.div<FlexProps>`
     return 'row';
   }};
   flex-wrap: ${props => {
-    if (props.wrap) return 'wrap';
+    if (props.flexWrap) return 'wrap';
     return 'nowrap';
   }};
   justify-content: ${props => {

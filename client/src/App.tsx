@@ -13,6 +13,15 @@ import { GlobalStyle, fromThemeColor } from './styles';
 import { selectThemeColor } from './store/Settings';
 import { devEnv } from './utils';
 
+// TODO: v1.6/7
+//
+// (feat) optimize all ui components for responsive screen sizes
+// (feat) implement game history
+// (feat) design card detail ui for property_wildcard (10color) / rent_wildcard
+// (feat) design some ui around the turn player
+// (feat) chat messages should be limited to 15 seconds
+// (feat) card names should be normalized as words and reflected in the ui
+
 type AppProps = {
   story?: RenderFunction;
 };

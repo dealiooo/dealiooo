@@ -6,7 +6,7 @@ const playBuildingCard = ({ Game, player, card, callback }) => {
     Game,
     requiredPlayerId: player.id,
     message: 'play as money or property?',
-    options: ['bank', 'properties'],
+    options: ['properties', 'bank'],
     callback: ({ error, option, cancelled, forced }) => {
       if (error) {
         callback({ error });
@@ -19,7 +19,7 @@ const playBuildingCard = ({ Game, player, card, callback }) => {
           playAsProperty({ Game, player, card, forced, callback });
         }
       }
-    }
+    },
   });
 };
 
@@ -27,16 +27,19 @@ const playAsMoney = ({ Game, player, card, forced, callback }) => {
   gameActions.moveCard({
     source: player.hand,
     destination: player.field.bankCards,
-    card
+    card,
   });
   gameActions.onNonCounterCardPlayed({ Game, card });
   callback({ card, forced });
 };
 
 const playAsProperty = ({ Game, player, card, forced, callback }) => {
-  let { destinations, destinationIndexes } = gameActions.getDestinations[
-    card.type
-  ]({ Game, player, card, source: player.hand });
+  let { destinations, destinationIndexes } = gameActions.getDestinations[card.type]({
+    Game,
+    player,
+    card,
+    source: player.hand,
+  });
   if (destinations.length) {
     userActions.pickOption({
       Game,
@@ -52,14 +55,13 @@ const playAsProperty = ({ Game, player, card, forced, callback }) => {
         } else {
           gameActions.moveCard({
             source: player.hand,
-            destination:
-              destinations[destinationIndexes.indexOf(destinationIndex)],
-            card
+            destination: destinations[destinationIndexes.indexOf(destinationIndex)],
+            card,
           });
           gameActions.onNonCounterCardPlayed({ Game, card });
           callback({ card, forced });
         }
-      }
+      },
     });
   } else {
     callback({ error: 'cannot play that building card: no destination' });

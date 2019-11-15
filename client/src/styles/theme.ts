@@ -11,6 +11,7 @@ import { ThemeColor, Theme } from './types';
 export const fromThemeColor = (themeColor: ThemeColor): Theme => ({
   ...palette.baseColors,
   ...palette.statusColors,
+  ...palette.statusColorsAccentFromThemeColor(themeColor),
   ...palette.appColorsFromThemeColor(themeColor),
 });
 

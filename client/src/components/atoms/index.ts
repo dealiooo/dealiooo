@@ -19,3 +19,7 @@ export { default as Icon } from './Icon';
 
 export * from './Input';
 export { default as Input } from './Input';
+
+export * from './SpanLink';
+
+export { default as Tooltip } from './Tooltip';

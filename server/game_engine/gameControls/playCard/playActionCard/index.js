@@ -19,7 +19,7 @@ module.exports = ({ Game, player, card, callback }) => {
     'its-my-birthday': playItsMyBirthday,
     'just-say-no': playJustSayNo,
     'sly-deal': playSlyDeal,
-    'pass-go': playPassGo
+    'pass-go': playPassGo,
   };
   if ('just-say-no' === card.name) {
     playJustSayNo({
@@ -28,14 +28,14 @@ module.exports = ({ Game, player, card, callback }) => {
       card,
       callback: ({ card }) => {
         callback({ card });
-      }
+      },
     });
   } else {
     userActions.pickOption({
       Game,
       requiredPlayerId: player.id,
       message: 'play as money or action?',
-      options: ['bank', 'action'],
+      options: ['action', 'bank'],
       callback: ({ error, option, cancelled, forced }) => {
         if (error || cancelled || forced) {
           callback({ error, cancelled, forced });
@@ -43,7 +43,7 @@ module.exports = ({ Game, player, card, callback }) => {
           gameActions.moveCard({
             source: player.hand,
             destination: player.field.bankCards,
-            card
+            card,
           });
           gameActions.onNonCounterCardPlayed({ Game, card });
           callback({ card });
@@ -54,10 +54,10 @@ module.exports = ({ Game, player, card, callback }) => {
             card,
             callback: ({ error, card, cancelled, forced }) => {
               callback({ error, card, cancelled, forced });
-            }
+            },
           });
         }
-      }
+      },
     });
   }
 };

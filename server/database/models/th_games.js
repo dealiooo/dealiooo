@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         validate: {
           min: 2,
-          max: 5,
+          max: 4,
         },
       },
     },

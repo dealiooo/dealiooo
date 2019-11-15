@@ -9,7 +9,7 @@ import { Center, FlexColumnCenter } from '../../layouts';
 storiesOf('Modal', module).add('modal', () => {
   const [showModal, setShowModal] = useState(false);
   const openModal = useCallback(event => setShowModal(true), []);
-  const closeModal = useCallback(() => setShowModal(false), []);
+  const closeModal = useCallback(event => setShowModal(false), []);
 
   return (
     <div>

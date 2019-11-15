@@ -6,7 +6,7 @@ import { rem } from '../../../styles';
 
 export const BUTTON_HEIGHT = '42px';
 
-const outlineStyles = ({ outline }) =>
+export const outlineStyles = ({ outline }) =>
   outline &&
   css`
     color: currentColor;
@@ -56,6 +56,10 @@ export const Button = styled.button<ButtonProps>`
     background-color: ${({ theme }) => theme.disabled};
     border-color: transparent;
     opacity: 0.6;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.disabled};
+    }
   }
 
   // TODO: customize at the property level

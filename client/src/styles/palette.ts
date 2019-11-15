@@ -1,6 +1,6 @@
 import { lighten, darken } from 'polished';
 
-import { AppColors, BaseColors, StatusColors, ThemeColor } from './types';
+import { AppColors, BaseColors, StatusColors, StatusAccentColors, ThemeColor } from './types';
 import { CardColor } from '../types/dealiooo';
 
 export const baseColors: BaseColors = {
@@ -28,6 +28,28 @@ const mainColors = {
 
   lightOutline: '#d3d3d3',
   darkOutline: '#3d5a79',
+};
+
+export const statusColorsAccentFromThemeColor = (themeColor: ThemeColor): StatusAccentColors => {
+  const isLightThemeColor = themeColor === ThemeColor.LIGHT;
+
+  if (isLightThemeColor) {
+    return {
+      successAccent: lighten(0.3, statusColors.success),
+      infoAccent: lighten(0.4, statusColors.info),
+      warningAccent: lighten(0.4, statusColors.warning),
+      errorAccent: lighten(0.3, statusColors.error),
+      disabledAccent: lighten(0.4, statusColors.disabled),
+    };
+  }
+
+  return {
+    successAccent: darken(0.4, statusColors.success),
+    infoAccent: darken(0.35, statusColors.info),
+    warningAccent: darken(0.4, statusColors.warning),
+    errorAccent: darken(0.4, statusColors.error),
+    disabledAccent: darken(0.4, statusColors.disabled),
+  };
 };
 
 export const appColorsFromThemeColor = (themeColor: ThemeColor): AppColors => {
@@ -68,7 +90,7 @@ export const appColorsFromThemeColor = (themeColor: ThemeColor): AppColors => {
 export const CardColorsMap: { [key in CardColor]: string } = {
   [CardColor.red]: '#f32407',
   [CardColor.green]: '#70c45c',
-  [CardColor.yellow]: '#fffa7e',
+  [CardColor.yellow]: '#dbc300',
   [CardColor.orange]: '#f87618',
   [CardColor.purple]: '#814bf3',
   [CardColor.brown]: '#603a40',
