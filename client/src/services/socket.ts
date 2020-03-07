@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-import serverAddress from './server-address';
+import { serverAddress } from '../config';
 
 // Global Socket IO Client
 //

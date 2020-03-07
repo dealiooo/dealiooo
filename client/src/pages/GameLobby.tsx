@@ -1,20 +1,22 @@
 import React from 'react';
-
-import { Root } from '../components/layouts';
-import { AppNavBar, GameLobby } from '../components/organisms';
 import { match } from 'react-router';
 
-type Props = {
+import { Root } from '../layouts';
+import { MainNavbar, GameLobby } from '../sections';
+
+type GameLobbyPageProps = {
   match: match<{ gameId: string }>;
 };
 
-export default function({ match }: Props) {
+const GameLobbyPage: React.FC<GameLobbyPageProps> = ({ match }) => {
   const gameId = parseInt(match.params.gameId, 10);
 
   return (
     <Root>
-      <AppNavBar />
+      <MainNavbar />
       <GameLobby gameId={gameId} />
     </Root>
   );
-}
+};
+
+export default GameLobbyPage;

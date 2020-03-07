@@ -1,0 +1,26 @@
+const colors = {
+  white: '#fff',
+  black: '#000',
+  gold: '#ffbf00',
+  orange: '#ffa500',
+  purple: '#9370db',
+  green: '#70c45c',
+  greenDark: '#54ae3f',
+  greenLight: '#c3d9b2',
+  brown: '#603a40',
+  brownLight: '#9c786c',
+  blue: '#17a8e5',
+  blueLight: '#407088',
+  blueDark: '#3d5a79',
+  redLight: '#e44242',
+  red: '#da3d3d',
+  redDark: '#BF2525',
+  yellow: '#dbc300',
+  yellowDark: '#ffe50f',
+  gray: '#999',
+  grayLight: '#eaeaea',
+  grayLighter: '#d3d3d3',
+  navy: '#1a2631',
+};
+
+export default colors;

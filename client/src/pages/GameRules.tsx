@@ -1,19 +1,20 @@
 import React from 'react';
 
-import { AppNavBar } from '../components/organisms';
-import { Root, Container } from '../components/layouts';
-import RuleBook from '../components/organisms/RuleBook';
-import ScrollBar from 'react-perfect-scrollbar';
+import { MainNavbar, RuleBook } from '../sections';
+import { Root, Container } from '../layouts';
+import { ScrollBar } from '../components';
 
-export default function() {
+const GameRulesPage: React.FC = props => {
   return (
     <Root>
-      <AppNavBar />
+      <MainNavbar />
       <ScrollBar>
-        <Container paddingOnTablets>
+        <Container>
           <RuleBook />
         </Container>
       </ScrollBar>
     </Root>
   );
-}
+};
+
+export default GameRulesPage;

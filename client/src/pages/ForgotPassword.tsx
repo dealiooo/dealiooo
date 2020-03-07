@@ -2,14 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
 
-import { Root, SignForm, Container, Center } from '../components/layouts';
-import { Input, Button, Title, FormError, StatusText } from '../components/atoms';
-import { FormGroup, IconInput } from '../components/molecules';
-import { AppNavBar } from '../components/organisms';
+import { Root, SignForm, Container, Center } from '../layouts';
+import { Input, Button, Title, FormError, FormGroup, IconInput } from '../components';
+import { MainNavbar } from '../sections';
 import { useInputValue, isBlank } from '../utils';
 import { selectForgotPassword, forgotPasswordAsync } from '../store/Account';
 
-export default function() {
+const ForgotPasswordPage: React.FC = props => {
   const dispatch = useDispatch();
   const forgotPassword = useSelector(selectForgotPassword);
   const email = useInputValue('');
@@ -26,15 +25,15 @@ export default function() {
 
   return (
     <Root>
-      <AppNavBar />
+      <MainNavbar />
       <Container>
         {forgotPassword.data ? (
           <Center>
-            <StatusText status="success">Successfully sent. Check your email and spam for the reset link.</StatusText>
+            <div>Successfully sent. Check your email and spam for the reset link.</div>
           </Center>
         ) : (
           <SignForm>
-            <Title marginBottom>Forgot Password</Title>
+            <Title marginless>Forgot Password</Title>
             <FormGroup label="Email">
               <IconInput>
                 <EmailIcon size={20} />
@@ -56,4 +55,6 @@ export default function() {
       </Container>
     </Root>
   );
-}
+};
+
+export default ForgotPasswordPage;

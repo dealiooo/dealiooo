@@ -1,32 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Lock as LockIcon } from 'styled-icons/feather/Lock';
-import { User as UserIcon } from 'styled-icons/feather/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Root, Container, SignForm } from '../components/layouts';
-import { AppNavBar } from '../components/organisms';
-import { Input, Button, Link, FormError } from '../components/atoms';
-import { FormGroup, IconInput } from '../components/molecules';
-import { space, borderSize } from '../styles';
+import { Lock as LockIcon } from 'styled-icons/feather/Lock';
+import { User as UserIcon } from 'styled-icons/feather/User';
+
+import { Root, Container, SignForm } from '../layouts';
+import { MainNavbar } from '../sections';
+import { Input, Button, Link, FormError, FormGroup, IconInput } from '../components';
+import { constants } from '../styles';
 import { signInAsync, selectSignIn, selectAuth } from '../store/Account';
 import { useInputValue, isBlank } from '../utils';
 
+const { spaces } = constants;
+
 const GuestLayout = styled.div`
-  margin-top: ${space.xxxLarge};
-  margin-bottom: ${space.medium};
+  margin-top: ${spaces.xxxl};
+  margin-bottom: ${spaces.md};
 
-  > a {
-    margin-left: ${space.mini};
-
-    &:hover {
-      border-color: ${({ theme }) => theme.primary};
-    }
+  & > ${Link} {
+    margin-left: ${spaces.xxs};
   }
 `;
 
-export default function() {
+const SignInPage: React.FC = props => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
   const signIn = useSelector(selectSignIn);
@@ -50,7 +48,7 @@ export default function() {
 
   return (
     <Root>
-      <AppNavBar />
+      <MainNavbar />
       <Container>
         <SignForm onSubmit={handleSignIn}>
           <FormGroup label="Username or Email">
@@ -65,19 +63,30 @@ export default function() {
               <Input type="password" {...password} />
             </IconInput>
           </FormGroup>
-          <Button fullWidth type="submit" loading={signIn.loading} disabled={blank} onClick={handleSignIn}>
+          <Button
+            fullWidth
+            color="primary"
+            type="submit"
+            loading={signIn.loading}
+            disabled={blank}
+            onClick={handleSignIn}
+          >
             Login
           </Button>
           <GuestLayout>
             Don't have an account?
-            <Link to="/sign-up" underlineOnHover>
+            <Link to="/sign-up" underline>
               Join Now!
             </Link>
           </GuestLayout>
-          <Link to="/forgot-password">Forgot Password?</Link>
+          <Link to="/forgot-password" underline>
+            Forgot Password?
+          </Link>
           {signIn.error && <FormError error={signIn.error} />}
         </SignForm>
       </Container>
     </Root>
   );
-}
+};
+
+export default SignInPage;

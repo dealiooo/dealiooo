@@ -1,8 +1,6 @@
-export * from './space';
-export * from './typography';
-export * from './palette';
-export * from './border';
+export { default as mixins } from './mixins';
+export { default as media } from './media';
+export { default as constants } from './constants';
+export { default as GlobalStyle } from './GlobalStyle';
 export * from './theme';
 export * from './utils';
-export * from './types';
-export { default as GlobalStyle } from './GlobalStyle';

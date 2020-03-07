@@ -3,7 +3,9 @@ import { combineReducers } from 'redux';
 import { accountReducer } from './Account/reducer';
 import { settingsReducer } from './Settings/reducer';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   account: accountReducer,
   settings: settingsReducer,
 });
+
+export default rootReducer;

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
+
 import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
 
-import { Root, Container, SignForm, Center } from '../components/layouts';
-import { Input, Button, Title, FormError, StatusText } from '../components/atoms';
-import { FormGroup, IconInput, Loader } from '../components/molecules';
-import { AppNavBar } from '../components/organisms';
+import { Root, Container, SignForm, Center } from '../layouts';
+import { Input, Button, Title, FormError, FormGroup, IconInput, Loader } from '../components';
+import { MainNavbar } from '../sections';
 import { useInputValue, isBlank } from '../utils';
 import {
   verifyResetPasswordAsync,
@@ -13,9 +14,12 @@ import {
   selectResetPassword,
   selectVerifyResetPassword,
 } from '../store/Account';
-import { Redirect } from 'react-router';
 
-export default function({ match }) {
+type ResetPasswordPageProps = {
+  match;
+};
+
+const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ match }) => {
   const { token } = match.params;
   const dispatch = useDispatch();
   const verifyResetPassword = useSelector(selectVerifyResetPassword);
@@ -43,22 +47,22 @@ export default function({ match }) {
 
   return (
     <Root>
-      <AppNavBar />
+      <MainNavbar />
       <Container>
-        <Center relativeToParent>
-          <Loader size={30} />
+        <Center relative>
+          <Loader size={20} />
         </Center>
         {verifyResetPassword.loading ? (
-          <Center relativeToParent>
-            <Loader size={30} />
+          <Center relative>
+            <Loader size={20} />
           </Center>
         ) : resetPassword.data ? (
           <Center>
-            <StatusText status="success">We've successfully resetted your password!</StatusText>
+            <div>We've successfully resetted your password!</div>
           </Center>
         ) : (
           <SignForm>
-            <Title marginBottom>Reset Password</Title>
+            <Title marginless>Reset Password</Title>
             <FormGroup label="Set your new password">
               <IconInput>
                 <EmailIcon size={20} />
@@ -80,4 +84,6 @@ export default function({ match }) {
       </Container>
     </Root>
   );
-}
+};
+
+export default ResetPasswordPage;

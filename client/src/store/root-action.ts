@@ -1,7 +1,9 @@
 import * as accountActions from './Account/actions';
 import * as settingsAction from './Settings/actions';
 
-export default {
+const rootAction = {
   account: accountActions,
   settings: settingsAction,
 };
+
+export default rootAction;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import serverAddress from './server-address';
+import { serverAddress } from '../config';
 
 const api = axios.create({
   baseURL: `${serverAddress}/api`,

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Root } from '../components/layouts';
-import { AppNavBar, MainLobby } from '../components/organisms';
+import { Root } from '../layouts';
+import { MainNavbar, MainLobby } from '../sections';
 
-export default function() {
-  return (
-    <Root>
-      <AppNavBar />
-      <MainLobby />
-    </Root>
-  );
-}
+const MainLobbyPage: React.FC = props => (
+  <Root>
+    <MainNavbar />
+    <MainLobby />
+  </Root>
+);
+
+export default MainLobbyPage;
