@@ -1,3 +1,11 @@
+export type Auth = {
+  id: number;
+  username: string;
+  email: string;
+  // Only exists in Game/GameLobby pages
+  host?: boolean;
+};
+
 export type RentValue = {
   rentValues: number[];
   maxSetSize: number;
@@ -6,7 +14,6 @@ export type RentValue = {
 export enum GameStatus {
   'open' = 'open',
   'running' = 'running',
-  // TODO: remove redundancy on the backend: there should just be 'running' state
   'started' = 'started',
   'ended' = 'ended',
 }
@@ -16,19 +23,11 @@ export enum RoomStatus {
   'join' = 'join',
   // user can rejoin a game in progress
   'enter' = 'enter',
-  // room is full
+  // use cannot enter a full room
   'full' = 'full',
   // user is not logged in
   'unauthorized' = 'unauthorized',
 }
-
-export type Auth = {
-  id: number;
-  username: string;
-  email: string;
-  // Only exists in Game/GameLobby pages
-  host?: boolean;
-};
 
 export type MessageData = {
   username: string;
@@ -44,18 +43,17 @@ export interface Room {
   players: Player[];
 }
 
-export enum CardColor {
-  'red' = 'red',
-  'green' = 'green',
-  'dark-blue' = 'dark-blue',
-  'light-blue' = 'light-blue',
-  'yellow' = 'yellow',
-  'orange' = 'orange',
-  'brown' = 'brown',
-  'purple' = 'purple',
-  'utility' = 'utility', // lightGreen
-  'railroad' = 'railroad', // black
-}
+type CardColors =
+  | 'red'
+  | 'green'
+  | 'dark-blue'
+  | 'light-blue'
+  | 'yellow'
+  | 'orange'
+  | 'brown'
+  | 'purple'
+  | 'utility'
+  | 'railroad';
 
 export type CardType = 'money' | 'property' | 'action' | 'building' | 'rent' | 'rent_wildcard' | 'property_wildcard';
 
@@ -64,8 +62,8 @@ export interface Card {
   name: string;
   value: number;
   type: CardType;
-  mainColor: CardColor;
-  colors: CardColor[];
+  mainColor: CardColors | '';
+  colors: CardColors[];
 }
 
 export interface PlayerStatus {
@@ -101,11 +99,11 @@ export interface PromptsInfo {
   promptPlayerId?: number;
   promptPlayerUsername?: string;
   promptMessage?: string;
-  options: number[] | string[];
+  options: number[] | string[] | undefined;
 }
 
 export interface GameData {
-  gameGlobals: GameGlobals;
+  globals: GameGlobals | undefined;
   players: Player[];
   promptsInfo: PromptsInfo;
 }
@@ -142,20 +140,3 @@ export enum EventMessage {
   'selecting a property set' = 'selecting a property set',
   'waiting for player action' = 'waiting for player action',
 }
-
-// @v2 typings
-// export interface GameData {
-//   turnCount: number;
-//   cardsPlayed: number;
-//   cardsPlayedList: Card[];
-//   deck: Card[];
-//   discard: Card[];
-//   playerCount: number;
-//   players: Player[];
-//   currentPlayerIndex: number;
-//   currentPlayer: Player;
-//   pendingForUserInput?: Pending;
-//   userInput?: number;
-//   winner?: Player;
-//   ticks: number[];
-// }

@@ -1,16 +1,11 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'polished';
 
-import { lineHeight, letterSpace, fontSize, fontWeight } from './typography';
-
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Mukta:300,400,500,600,700&display=swap');
-
+  @import url('https://fonts.googleapis.com/css?family=Mukta:200,300,400,500,600&display=swap');
   ${normalize()}
 
   html {
-    font-family: 'Mukta';
-    word-wrap: break-word;
     box-sizing: border-box;
   }
 
@@ -19,15 +14,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    color: ${({ theme }) => theme.text};
-    background-color: ${({ theme }) => theme.backgroundLightest};
-    font-size: ${fontSize.primary};
-    line-height: ${lineHeight.normal};
-    letter-spacing: ${letterSpace.normal};
+    color: ${({ theme }) => theme.palette.text};
+    background-color: ${({ theme }) => theme.palette.backgroundLightest};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    font-family: ${({ theme }) => theme.fontFamilies.primary};
+    font-weight: ${({ theme }) => theme.fontWeights.normal};
+    line-height: ${({ theme }) => theme.lineHeights.sm};
+    letter-spacing: ${({ theme }) => theme.letterSpaces.sm};
   }
 
   th {
-    font-weight: ${fontWeight.bold};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
   }
 
   input, textarea, select {
@@ -48,14 +45,6 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
   }
-
-  // customize react-perfect-scrollbar
-  .scrollbar-container {
-    width: 100%;
-  }
 `;
-
-/* eslint-disable import/first */
-import 'react-perfect-scrollbar/dist/css/styles.css';
 
 export default GlobalStyle;

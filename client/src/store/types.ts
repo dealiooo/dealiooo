@@ -10,5 +10,4 @@ export interface AsyncState<T> {
 }
 
 export type RootState = StateType<typeof rootReducer>;
-
 export type RootAction = ActionType<typeof rootAction>;

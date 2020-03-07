@@ -1,20 +1,18 @@
 import React from 'react';
-import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
-import { Lock as LockIcon } from 'styled-icons/feather/Lock';
-import { User as UserIcon } from 'styled-icons/feather/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Root, Container, SignForm, FlexRowCenter } from '../components/layouts';
-import { AppNavBar } from '../components/organisms';
-import { Input, Button, FormError, Title } from '../components/atoms';
-import { FormGroup, IconInput } from '../components/molecules';
+import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
+import { Lock as LockIcon } from 'styled-icons/feather/Lock';
+import { User as UserIcon } from 'styled-icons/feather/User';
+
+import { Root, Container, SignForm } from '../layouts';
+import { MainNavbar } from '../sections';
+import { Input, Button, FormError, FormGroup, IconInput } from '../components';
 import { signUpAsync, selectSignUp, selectAuth } from '../store/Account';
 import { useInputValue, isBlank } from '../utils';
 
-// TODO: proper errors for inputs?
-
-export default function() {
+const SignUpProps: React.FC = props => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
   const signUp = useSelector(selectSignUp);
@@ -44,7 +42,7 @@ export default function() {
 
   return (
     <Root>
-      <AppNavBar />
+      <MainNavbar />
       <Container>
         <SignForm onSubmit={handleSignUp}>
           <FormGroup label="Email">
@@ -79,4 +77,6 @@ export default function() {
       </Container>
     </Root>
   );
-}
+};
+
+export default SignUpProps;

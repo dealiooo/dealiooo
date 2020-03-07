@@ -1,0 +1,12 @@
+.tooltip-container {
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.3s;
+  z-index: 2147483647;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+}
