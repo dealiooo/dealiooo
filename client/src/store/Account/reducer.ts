@@ -8,8 +8,8 @@ const authReducer = createReducer(null)
   .handleAction(actions.setAuth, (state, action) => action.payload)
   .handleAction(actions.clearAuth, (state, action) => null);
 
-const asyncActionReducerCreator = (asyncAction: AsyncActionCreatorBuilder<any, any, any>) => {
-  return createReducer({
+const asyncActionReducerCreator = (asyncAction: AsyncActionCreatorBuilder<any, any, any>) =>
+  createReducer({
     loading: false,
     data: null,
     error: null,
@@ -17,7 +17,6 @@ const asyncActionReducerCreator = (asyncAction: AsyncActionCreatorBuilder<any, a
     .handleAction(asyncAction.request, (state, action) => ({ ...state, loading: true, error: null }))
     .handleAction(asyncAction.success, (state, action) => ({ ...state, loading: false, data: action.payload }))
     .handleAction(asyncAction.failure, (state, action) => ({ ...state, loading: false, error: action.payload }));
-};
 
 export const accountReducer = combineReducers({
   auth: authReducer,

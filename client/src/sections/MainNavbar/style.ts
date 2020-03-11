@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { Navbar as NavbarBase, IconButton } from '../../components';
 import { constants, mixins } from '../../styles';
+import { NavbarComponent } from '../../components/Navbar';
 
 const { borderSizes, spaces } = constants;
 
@@ -18,4 +19,4 @@ export const TriggerWrapper = styled.div`
 export const Navbar = styled(NavbarBase)`
   background-color: ${({ theme }) => theme.palette.backgroundLightest};
   border-bottom: ${borderSizes.normal} solid ${({ theme }) => theme.palette.outline};
-`;
+` as NavbarComponent;

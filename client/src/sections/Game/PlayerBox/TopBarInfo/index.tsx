@@ -51,7 +51,7 @@ const TopBarInfo: React.FC<TopBarInfoProps> = ({ player, height }) => {
       <Strong>{player.username}</Strong>
       <S.StatCircles size={circleSize}>
         {hideHandCards && (
-          <Tooltip placement="bottom" trigger="hover" tooltip={<Detail>number of hand cards</Detail>}>
+          <Tooltip placement="bottom" tooltip={<Detail>number of hand cards</Detail>}>
             <BorderCircle size={circleSize} strokeWidth={STROKE_WIDTH}>
               <div>
                 <HandIcon size={iconSize} />
@@ -60,12 +60,12 @@ const TopBarInfo: React.FC<TopBarInfoProps> = ({ player, height }) => {
             </BorderCircle>
           </Tooltip>
         )}
-        <Tooltip placement="bottom" trigger="hover" tooltip={<Detail>amount of cash</Detail>}>
+        <Tooltip placement="bottom" tooltip={<Detail>amount of cash</Detail>}>
           <BorderCircle size={circleSize} strokeWidth={STROKE_WIDTH} color="gold">
             <S.Money>{`$${totalMoney}`}</S.Money>
           </BorderCircle>
         </Tooltip>
-        <Tooltip placement="bottom" trigger="hover" tooltip={<Detail>amount of house cards</Detail>}>
+        <Tooltip placement="bottom" tooltip={<Detail>amount of house cards</Detail>}>
           <BorderCircle size={circleSize} strokeWidth={STROKE_WIDTH}>
             <div>
               <HomeIcon size={iconSize} />
@@ -73,7 +73,7 @@ const TopBarInfo: React.FC<TopBarInfoProps> = ({ player, height }) => {
             </div>
           </BorderCircle>
         </Tooltip>
-        <Tooltip placement="bottom" trigger="hover" tooltip={<Detail>amount of hotel cards</Detail>}>
+        <Tooltip placement="bottom" tooltip={<Detail>amount of hotel cards</Detail>}>
           <BorderCircle size={circleSize} strokeWidth={STROKE_WIDTH}>
             <div>
               <BuildingIcon size={iconSize} />
