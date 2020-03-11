@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withTheme } from 'styled-components';
-import { VipCrown as CrownIcon } from 'styled-icons/remix-line/VipCrown';
-import { ArrowLeft as ArrowLeftIcon } from 'styled-icons/feather/ArrowLeft';
-import { CheckboxBlankCircle as CheckBlankIcon } from 'styled-icons/remix-line/CheckboxBlankCircle';
-import { CheckboxCircle as CheckIcon } from 'styled-icons/remix-line/CheckboxCircle';
+import { VipCrown as CrownIcon } from '@styled-icons/remix-line/VipCrown';
+import { ArrowLeft as ArrowLeftIcon } from '@styled-icons/feather/ArrowLeft';
+import { CheckboxBlankCircle as CheckBlankIcon } from '@styled-icons/remix-line/CheckboxBlankCircle';
+import { CheckboxCircle as CheckIcon } from '@styled-icons/remix-line/CheckboxCircle';
 
 import * as S from './style';
 import { Lobby, Center } from '../../layouts';

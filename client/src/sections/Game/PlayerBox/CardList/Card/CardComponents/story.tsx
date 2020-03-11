@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { Home as HomeIcon } from 'styled-icons/octicons/Home';
-import { Building as BuildingIcon } from 'styled-icons/boxicons-regular/Building';
+import { Home as HomeIcon } from '@styled-icons/octicons/Home';
+import { Building as BuildingIcon } from '@styled-icons/boxicons-regular/Building';
 
 import IconCard from './IconCard';
 import CircleCard from './CircleCard';

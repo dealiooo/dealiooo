@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
-import { Lock as LockIcon } from 'styled-icons/feather/Lock';
-import { User as UserIcon } from 'styled-icons/feather/User';
+import { Mail as EmailIcon } from '@styled-icons/feather/Mail';
+import { Lock as LockIcon } from '@styled-icons/feather/Lock';
+import { User as UserIcon } from '@styled-icons/feather/User';
 
 import { Root, Container, SignForm } from '../layouts';
 import { MainNavbar } from '../sections';

@@ -1,9 +1,9 @@
 import React from 'react';
 import sumBy from 'lodash/sumBy';
 
-import { Home as HomeIcon } from 'styled-icons/octicons/Home';
-import { Building as BuildingIcon } from 'styled-icons/boxicons-regular/Building';
-import { HandPaper as HandIcon } from 'styled-icons/fa-solid/HandPaper';
+import { Home as HomeIcon } from '@styled-icons/octicons/Home';
+import { Building as BuildingIcon } from '@styled-icons/boxicons-regular/Building';
+import { HandPaper as HandIcon } from '@styled-icons/fa-solid/HandPaper';
 
 import * as S from './style';
 import { BorderCircle } from '../style';

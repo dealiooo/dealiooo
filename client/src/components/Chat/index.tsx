@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Send as SendIcon } from 'styled-icons/boxicons-solid/Send';
+import { Send as SendIcon } from '@styled-icons/boxicons-solid/Send';
 import styled from 'styled-components';
 
 import * as S from './style';

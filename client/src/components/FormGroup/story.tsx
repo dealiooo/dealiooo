@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Earth as EarthIcon } from 'styled-icons/icomoon/Earth';
+import { Earth as EarthIcon } from '@styled-icons/icomoon/Earth';
 
 import FormGroup from '.';
 import { Input, IconButton, IconInput } from '..';

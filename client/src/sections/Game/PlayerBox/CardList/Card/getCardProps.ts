@@ -1,7 +1,7 @@
 import startCase from 'lodash/startCase';
 
-import { Home as HouseIcon } from 'styled-icons/octicons/Home';
-import { Hotel as HotelIcon } from 'styled-icons/remix-fill/Hotel';
+import { Home as HouseIcon } from '@styled-icons/octicons/Home';
+import { Hotel as HotelIcon } from '@styled-icons/remix-fill/Hotel';
 
 import { Card, RentValue } from '../../../../../types';
 import { deriveDescriptionFromCard, RentValuesMap, CardColorsMap } from '../../../utils';

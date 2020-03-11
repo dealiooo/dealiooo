@@ -1,6 +1,6 @@
 import React from 'react';
-import { VipCrown as CrownIcon } from 'styled-icons/remix-line/VipCrown';
-import { ArrowRight as ArrowRightIcon } from 'styled-icons/feather/ArrowRight';
+import { VipCrown as CrownIcon } from '@styled-icons/remix-line/VipCrown';
+import { ArrowRight as ArrowRightIcon } from '@styled-icons/feather/ArrowRight';
 
 import * as S from './style';
 import { CenterInline } from '../../../components';

@@ -1,18 +1,14 @@
 import { combineReducers } from 'redux';
 import { createReducer } from 'typesafe-actions';
-import { AsyncActionCreator } from 'typesafe-actions/dist/create-async-action';
+import { AsyncActionCreatorBuilder } from 'typesafe-actions';
 
 import * as actions from './actions';
 
 const authReducer = createReducer(null)
-  .handleAction(actions.setAuth, (state, action) => {
-    return action.payload;
-  })
-  .handleAction(actions.clearAuth, (state, action) => {
-    return null;
-  });
+  .handleAction(actions.setAuth, (state, action) => action.payload)
+  .handleAction(actions.clearAuth, (state, action) => null);
 
-const asyncActionReducerCreator = (asyncAction: AsyncActionCreator<any, any, any>) => {
+const asyncActionReducerCreator = (asyncAction: AsyncActionCreatorBuilder<any, any, any>) => {
   return createReducer({
     loading: false,
     data: null,

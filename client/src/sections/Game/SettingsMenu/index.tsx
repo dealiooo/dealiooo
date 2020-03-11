@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight as ArrowRightIcon } from 'styled-icons/feather/ArrowRight';
+import { ArrowRight as ArrowRightIcon } from '@styled-icons/feather/ArrowRight';
 
 import * as S from './style';
 import { CenterInline, Menu } from '../../../components';

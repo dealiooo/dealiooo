@@ -12,7 +12,7 @@ export const Container = styled.div<ContainerProps>`
   justify-content: space-between;
 
   height: ${({ height }) => height}px;
-  padding: ${spaces.sm} 0;
+  padding: ${spaces.sm} 0 ${spaces.sm} ${spaces.sm};
   border-bottom: ${borderSizes.normal} solid ${({ theme }) => theme.palette.outline};
 `;
 

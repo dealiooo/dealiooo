@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { User as UserIcon } from 'styled-icons/feather/User';
+import { User as UserIcon } from '@styled-icons/feather/User';
 
 import { Input, Icon, IconButton } from '..';
 import { Center } from '../../layouts';

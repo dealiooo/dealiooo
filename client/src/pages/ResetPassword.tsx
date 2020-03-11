@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
+import { Mail as EmailIcon } from '@styled-icons/feather/Mail';
 
 import { Root, Container, SignForm, Center } from '../layouts';
 import { Input, Button, Title, FormError, FormGroup, IconInput, Loader } from '../components';

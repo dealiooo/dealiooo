@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Lock as LockIcon } from 'styled-icons/feather/Lock';
-import { User as UserIcon } from 'styled-icons/feather/User';
+import { Lock as LockIcon } from '@styled-icons/feather/Lock';
+import { User as UserIcon } from '@styled-icons/feather/User';
 
 import { Root, Container, SignForm } from '../layouts';
 import { MainNavbar } from '../sections';

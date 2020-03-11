@@ -1,6 +1,6 @@
 import React from 'react';
-import { Stack as DeckIcon } from 'styled-icons/remix-fill/Stack';
-import { Refresh as TurnsIcon } from 'styled-icons/remix-line/Refresh';
+import { Stack as DeckIcon } from '@styled-icons/remix-fill/Stack';
+import { Refresh as TurnsIcon } from '@styled-icons/remix-line/Refresh';
 
 import { CenterInline, Strong, Tooltip } from '../../../components';
 import { Container, TurnTime, RightContent, Deck, Discard, TurnCount } from './style';

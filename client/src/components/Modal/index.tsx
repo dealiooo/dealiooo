@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Close as CloseIcon } from 'styled-icons/evil/Close';
+import { Close as CloseIcon } from '@styled-icons/evil/Close';
 
 import * as S from './style';
 import { Title, IconButton } from '..';

@@ -2,14 +2,14 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 
 import { Auth } from '../../types/dealiooo';
 
-export const setAuth = createAction('@account/SET_AUTH', action => (auth: Auth) => action(auth));
-export const clearAuth = createAction('@account/CLEAR_AUTH', action => () => action());
+export const setAuth = createAction('@account/SET_AUTH', (auth: Auth) => auth)();
+export const clearAuth = createAction('@account/CLEAR_AUTH', () => undefined)();
 
 export const authenticateAsync = createAsyncAction(
   '@account/AUTHENTICATE_REQUEST',
   '@account/AUTHENTICATE_SUCCESS',
   '@account/AUTHENTICATE_FAILURE',
-)<undefined, boolean, Error>();
+)<{}, boolean, Error>();
 
 export const signInAsync = createAsyncAction(
   '@account/SIGN_IN_REQUEST',
@@ -27,7 +27,7 @@ export const signOutAsync = createAsyncAction(
   '@account/SIGN_OUT_REQUEST',
   '@account/SIGN_OUT_SUCCESS',
   '@account/SIGN_OUT_FAILURE',
-)<undefined, boolean, Error>();
+)<{}, boolean, Error>();
 
 export const forgotPasswordAsync = createAsyncAction(
   '@account/FORGOT_PASSWORD_REQUEST',
