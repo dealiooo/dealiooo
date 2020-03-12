@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
-import { media, constants } from '../styles';
+import { media, constants, remcalc } from '../styles';
 
 const { spaces } = constants;
 
 const SignForm = styled.form`
-  margin: ${spaces.xxxl} auto;
+  margin: ${spaces.md} auto;
   width: 100%;
 
   ${media.tablet} {
-    width: 300px;
+    width: ${remcalc('300px')};
   }
 `;
 
