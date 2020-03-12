@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { StyledComponent, DefaultTheme } from 'styled-components';
 
 import { constants, mixins } from '../../styles';
 
@@ -17,6 +17,8 @@ const MenuItem = styled.li`
   }
 `;
 
+type MenuComponent = StyledComponent<'ul', DefaultTheme> & { Item: typeof MenuItem };
+
 const Menu = styled.ul`
   ${mixins.roundBox};
   ${mixins.flexColCenter};
@@ -26,7 +28,7 @@ const Menu = styled.ul`
   & > ${MenuItem}:nth-child(even) {
     margin-top: ${spaces.sm};
   }
-`;
+` as MenuComponent;
 
 Menu.Item = MenuItem;
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ArrowLeft as ArrowLeftIcon } from 'styled-icons/feather/ArrowLeft';
+
+import { ArrowLeft as ArrowLeftIcon } from '@styled-icons/feather/ArrowLeft';
 
 import { Link, Button, Title } from '../components';
 import { Center } from '../layouts';

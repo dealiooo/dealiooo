@@ -1,12 +1,24 @@
 import React from 'react';
 import TooltipTrigger from 'react-popper-tooltip';
+import { TooltipTriggerProps } from 'react-popper-tooltip/dist/types';
 
 import { TooltipContainer, TooltipArrow, TriggerWrapper } from './style';
+import { Overwrite } from '../../types';
 
-const Tooltip: React.FC = ({ children, tooltip, triggerWrapper, delay = 100, ...props }) => (
+type TooltipProps = Overwrite<
+  Partial<TooltipTriggerProps>,
+  {
+    tooltip: JSX.Element;
+    children: React.ReactNode;
+  }
+> & {
+  triggerWrapper?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
+};
+
+const Tooltip: React.FC<TooltipProps> = ({ children, tooltip, triggerWrapper, delayShow = 100, ...props }) => (
   <TooltipTrigger
     {...props}
-    delayShow={delay}
+    delayShow={delayShow}
     tooltip={({ arrowRef, tooltipRef, getArrowProps, getTooltipProps, placement }) => (
       <TooltipContainer
         {...getTooltipProps({

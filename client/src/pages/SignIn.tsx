@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Lock as LockIcon } from 'styled-icons/feather/Lock';
-import { User as UserIcon } from 'styled-icons/feather/User';
+import { Lock as LockIcon } from '@styled-icons/feather/Lock';
+import { User as UserIcon } from '@styled-icons/feather/User';
 
 import { Root, Container, SignForm } from '../layouts';
 import { MainNavbar } from '../sections';
-import { Input, Button, Link, FormError, FormGroup, IconInput } from '../components';
+import { Input, Button, Link, FormError, FormGroup, IconInput, Strong } from '../components';
 import { constants } from '../styles';
 import { signInAsync, selectSignIn, selectAuth } from '../store/Account';
 import { useInputValue, isBlank } from '../utils';
@@ -75,9 +75,9 @@ const SignInPage: React.FC = props => {
           </Button>
           <GuestLayout>
             Don't have an account?
-            <Link to="/sign-up" underline>
+            <Strong as={Link} to="/sign-up" underline>
               Join Now!
-            </Link>
+            </Strong>
           </GuestLayout>
           <Link to="/forgot-password" underline>
             Forgot Password?

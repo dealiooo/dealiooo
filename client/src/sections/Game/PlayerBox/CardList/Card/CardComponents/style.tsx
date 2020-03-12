@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import { mixins } from '../../../../../../styles';
-import { scalefontSizes, scaleStrokeWidth, ColorProps, borderColorFromPalette, SizeProps } from '../../../style';
+import { mixins, Color } from '../../../../../../styles';
+import { scalefontSizes, scaleStrokeWidth, borderColorFromPalette, SizeProps } from '../../../style';
 
-export type CardBaseProps = SizeProps & (ColorProps | ColorProps[]);
+export type CardBaseProps = SizeProps & ({ color: Color } | { colors: Color[] });
 
 export const CardBase = styled.div<CardBaseProps>`
   ${mixins.flexColCenter};

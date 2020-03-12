@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DotsHorizontalRounded as MoreIcon } from 'styled-icons/boxicons-regular/DotsHorizontalRounded';
+
+import { DotsHorizontalRounded as MoreIcon } from '@styled-icons/boxicons-regular/DotsHorizontalRounded';
 
 import UserMenu from './UserMenu';
 import moreMenu from './moreMenu';
@@ -8,7 +9,7 @@ import { Button, Link, Icon, NavLink, Tooltip, IconButton, Loader } from '../../
 import { selectAuth, selectAuthenticate, authenticateAsync } from '../../store/Account';
 import { Navbar, Toggler, TriggerWrapper } from './style';
 
-const MainNavbar = () => {
+const MainNavbar: React.FC = props => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
   const authenticate = useSelector(selectAuthenticate);

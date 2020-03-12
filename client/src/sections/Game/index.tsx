@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router';
-import { RightArrowSquare as CollapseRightIcon } from 'styled-icons/boxicons-solid/RightArrowSquare';
-import { LeftArrowSquare as CollapseLeftIcon } from 'styled-icons/boxicons-solid/LeftArrowSquare';
-import { Settings2 as SettingsIcon } from 'styled-icons/remix-line/Settings2';
+import { RightArrowSquare as CollapseRightIcon } from '@styled-icons/boxicons-solid/RightArrowSquare';
+import { LeftArrowSquare as CollapseLeftIcon } from '@styled-icons/boxicons-solid/LeftArrowSquare';
+import { Settings2 as SettingsIcon } from '@styled-icons/remix-line/Settings2';
 
 import * as S from './style';
 import PlayerBox from './PlayerBox';
@@ -177,7 +177,7 @@ const Game: React.FC<GameProps> = ({ gameId }) => {
   }
 
   if (playerWonUsername) {
-    return <Results winner={playerWonUsername} />;
+    return <Results winner={playerWonUsername} isWinner={auth.username === playerWonUsername} />;
   }
 
   if (started) {

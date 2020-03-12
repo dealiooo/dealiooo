@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { CloseO as CloseOIcon } from 'styled-icons/evil/CloseO';
+import { CloseO as CloseOIcon } from '@styled-icons/evil/CloseO';
 
 import IconButton from '.';
 import { Center } from '../../layouts';

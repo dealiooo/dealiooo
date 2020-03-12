@@ -1,8 +1,15 @@
-import styled from 'styled-components';
+import styled, { StyledComponent, DefaultTheme } from 'styled-components';
 
 import { constants, media, mixins } from '../../styles';
 
 const { navbarHeight, spaces } = constants;
+
+export type NavbarComponent = StyledComponent<'nav', DefaultTheme> & {
+  Menu: typeof NavMenu;
+  Begin: typeof NavBegin;
+  Middle: typeof NavMiddle;
+  End: typeof NavEnd;
+};
 
 export const Navbar = styled.nav`
   ${mixins.flexRowCenter};
@@ -12,7 +19,7 @@ export const Navbar = styled.nav`
   ${media.tablet} {
     padding: 0 ${spaces.lg};
   }
-`;
+` as NavbarComponent;
 
 const NavMenu = styled.div`
   display: flex;

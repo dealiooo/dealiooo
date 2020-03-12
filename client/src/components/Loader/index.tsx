@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { Loader as LoaderIcon } from 'styled-icons/feather/Loader';
+import { Loader as LoaderIcon } from '@styled-icons/feather/Loader';
 
 const rotate = keyframes`
   0% { transform: rotate(0deg); }

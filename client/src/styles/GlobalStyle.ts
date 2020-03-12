@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'polished';
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Mukta:200,300,400,500,600&display=swap');
   ${normalize()}
 
   html {

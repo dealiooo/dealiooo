@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
+import { Mail as EmailIcon } from '@styled-icons/feather/Mail';
 
 import { Root, SignForm, Container, Center } from '../layouts';
 import { Input, Button, Title, FormError, FormGroup, IconInput } from '../components';

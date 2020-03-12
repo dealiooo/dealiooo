@@ -36,7 +36,7 @@ export const Circle = styled.div<CircleProps>`
   border-radius: 50%;
 `;
 
-export type BorderCircleProps = CircleProps & (Color | Color[]) & { strokeWidth?: number };
+export type BorderCircleProps = CircleProps & ({ color: Color } | { color: Color[] }) & { strokeWidth?: number };
 
 export const BorderCircle = styled(Circle)<BorderCircleProps>`
   ${mixins.flexColCenter};

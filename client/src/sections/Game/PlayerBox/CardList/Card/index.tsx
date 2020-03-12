@@ -13,7 +13,7 @@ const PropertyWildcard = props => {
   return <CardComponent {...props} />;
 };
 
-const CardComponentMap: { [key in CardType]: React.FC } = {
+const CardComponentMap: { [key in CardType]: React.ComponentType<any> } = {
   money: CircleCard,
   action: BorderCard,
   building: IconCard,

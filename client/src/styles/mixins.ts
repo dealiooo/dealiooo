@@ -1,6 +1,7 @@
 import { css } from 'styled-components';
 
 import constants from './constants';
+import { Color } from '.';
 
 const { borderSizes, borderRadiuses, transition } = constants;
 
@@ -38,7 +39,7 @@ const mixins = {
       }
     }
   `,
-  border: css`
+  border: css<{ color: Color | string }>`
     border-width: ${borderSizes.normal};
     border-style: solid;
     border-color: ${({ theme, color }) => theme.palette[color] || color || theme.palette.outline};

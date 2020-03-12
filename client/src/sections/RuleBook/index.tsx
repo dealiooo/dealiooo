@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { HashLink } from 'react-router-hash-link';
-import { Link as AnchorLink } from 'styled-icons/boxicons-regular/Link';
+import { Link as AnchorLink } from '@styled-icons/boxicons-regular/Link';
 
 import rules from './rules';
 import * as S from './style';

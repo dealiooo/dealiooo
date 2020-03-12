@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withTheme } from 'styled-components';
-import { VipCrown as CrownIcon } from 'styled-icons/remix-line/VipCrown';
-import { ArrowLeft as ArrowLeftIcon } from 'styled-icons/feather/ArrowLeft';
-import { CheckboxBlankCircle as CheckBlankIcon } from 'styled-icons/remix-line/CheckboxBlankCircle';
-import { CheckboxCircle as CheckIcon } from 'styled-icons/remix-line/CheckboxCircle';
+import { VipCrown as CrownIcon } from '@styled-icons/remix-line/VipCrown';
+import { ArrowLeft as ArrowLeftIcon } from '@styled-icons/feather/ArrowLeft';
+import { CheckboxBlankCircle as CheckBlankIcon } from '@styled-icons/remix-line/CheckboxBlankCircle';
+import { CheckboxCircle as CheckIcon } from '@styled-icons/remix-line/CheckboxCircle';
 
 import * as S from './style';
 import { Lobby, Center } from '../../layouts';
@@ -139,7 +139,6 @@ class GameLobby extends Component<GameLobbyProps, GameLobbyState> {
 
   canStartGame = () => {
     const { playerStatuses, roomCapacity } = this.state;
-
     let playersReady = 0;
 
     playerStatuses.forEach(playerStatus => {
@@ -214,7 +213,6 @@ class GameLobby extends Component<GameLobbyProps, GameLobbyState> {
   render() {
     const { loading, showModal, roomName, playerStatuses, host, ready, messages } = this.state;
     const { theme, gameId } = this.props;
-    const canStartGame = this.canStartGame();
 
     return (
       <Lobby>
@@ -258,7 +256,7 @@ class GameLobby extends Component<GameLobbyProps, GameLobbyState> {
                   <CenterInline>Leave Lobby</CenterInline>
                 </S.LeaveLobbyButton>
                 {host ? (
-                  <Button onClick={this.handleStartGame} disabled={!canStartGame} color="primary">
+                  <Button onClick={this.handleStartGame} disabled={!this.canStartGame()} color="primary">
                     Start Game
                   </Button>
                 ) : ready ? (

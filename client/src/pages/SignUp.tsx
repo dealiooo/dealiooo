@@ -1,16 +1,28 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import { Mail as EmailIcon } from 'styled-icons/feather/Mail';
-import { Lock as LockIcon } from 'styled-icons/feather/Lock';
-import { User as UserIcon } from 'styled-icons/feather/User';
+import { Mail as EmailIcon } from '@styled-icons/feather/Mail';
+import { Lock as LockIcon } from '@styled-icons/feather/Lock';
+import { User as UserIcon } from '@styled-icons/feather/User';
 
 import { Root, Container, SignForm } from '../layouts';
 import { MainNavbar } from '../sections';
-import { Input, Button, FormError, FormGroup, IconInput } from '../components';
+import { Input, Button, FormError, FormGroup, IconInput, Link, Strong } from '../components';
 import { signUpAsync, selectSignUp, selectAuth } from '../store/Account';
 import { useInputValue, isBlank } from '../utils';
+import { constants } from '../styles';
+
+const { spaces } = constants;
+
+const UserLayout = styled.div`
+  margin-bottom: ${spaces.xl};
+
+  & > ${Link} {
+    margin-left: ${spaces.xxs};
+  }
+`;
 
 const SignUpProps: React.FC = props => {
   const dispatch = useDispatch();
@@ -45,6 +57,12 @@ const SignUpProps: React.FC = props => {
       <MainNavbar />
       <Container>
         <SignForm onSubmit={handleSignUp}>
+          <UserLayout>
+            Already have an account?
+            <Strong as={Link} to="/sign-in" underline>
+              Log In!
+            </Strong>
+          </UserLayout>
           <FormGroup label="Email">
             <IconInput>
               <EmailIcon size={20} />

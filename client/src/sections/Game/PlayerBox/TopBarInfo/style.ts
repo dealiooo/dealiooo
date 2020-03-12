@@ -21,7 +21,8 @@ export const TopBar = styled.div<TopBarProps>`
   }
 `;
 
-export const StatCircles = styled.div`
+type StatCirclesProps = { size: number };
+export const StatCircles = styled.div<StatCirclesProps>`
   display: flex;
   font-size: ${({ size }) => scalefontSizes(size)}px;
 
