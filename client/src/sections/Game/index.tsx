@@ -177,7 +177,7 @@ const Game: React.FC<GameProps> = ({ gameId }) => {
   }
 
   if (playerWonUsername) {
-    return <Results winner={playerWonUsername} />;
+    return <Results winner={playerWonUsername} isWinner={auth.username === playerWonUsername} />;
   }
 
   if (started) {
