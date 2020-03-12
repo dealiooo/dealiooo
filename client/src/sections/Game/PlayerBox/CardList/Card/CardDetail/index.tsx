@@ -1,10 +1,10 @@
 import React from 'react';
 import { startCase, capitalize } from 'lodash';
 
+import * as S from './style';
 import RentValueDetail from './RentValueDetail';
 import { Circle, BorderCircle } from '../../../style';
 import { CenterInline, Strong } from '../../../../../../components';
-import * as S from './style';
 import { CardType } from '../../../../../../types';
 
 const renderByType = ({ type, rentValues, color, colors }) => {
@@ -38,7 +38,7 @@ type CardDetailProps = {
   money: number;
   type: CardType;
   description?: string;
-  Icon?;
+  Icon?: React.ComponentType<any>;
   hideValue?: boolean;
 };
 

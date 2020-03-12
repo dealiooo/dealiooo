@@ -9,7 +9,7 @@ import { Button, Link, Icon, NavLink, Tooltip, IconButton, Loader } from '../../
 import { selectAuth, selectAuthenticate, authenticateAsync } from '../../store/Account';
 import { Navbar, Toggler, TriggerWrapper } from './style';
 
-const MainNavbar = () => {
+const MainNavbar: React.FC = props => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
   const authenticate = useSelector(selectAuthenticate);

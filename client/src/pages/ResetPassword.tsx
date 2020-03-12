@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
+import { match } from 'react-router-dom';
 
 import { Mail as EmailIcon } from '@styled-icons/feather/Mail';
 
@@ -16,7 +17,7 @@ import {
 } from '../store/Account';
 
 type ResetPasswordPageProps = {
-  match;
+  match: match<{ token: string }>;
 };
 
 const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ match }) => {

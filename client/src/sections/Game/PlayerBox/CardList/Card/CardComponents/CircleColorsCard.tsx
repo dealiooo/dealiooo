@@ -18,7 +18,7 @@ const CircleSvg = styled.svg.attrs(({ width, height }) => ({
   border-image-slice: 1;
 `;
 
-type CircleColorsCardProps = SizeProps & Color[] & { name: string };
+type CircleColorsCardProps = SizeProps & { colors: Color[] } & { name: string };
 
 // TODO:
 // currently there are a few problems with this component:
