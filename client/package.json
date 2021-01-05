@@ -11,7 +11,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "history": "^4.9.0",
     "lodash": "^4.17.15",
     "polished": "^3.4.4",
